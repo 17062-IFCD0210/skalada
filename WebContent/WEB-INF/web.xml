@@ -14,4 +14,14 @@
     <servlet-name>LoginController</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Controlador para cerrar la sesion del usuario</description>
+    <display-name>LogOutController</display-name>
+    <servlet-name>LogOutController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.LogOutController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogOutController</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
 </web-app>

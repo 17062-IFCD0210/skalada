@@ -53,13 +53,19 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
+		System.out.println("Login entrando...");
+
 		session = request.getSession();
 		String usuario = (String) session.getAttribute(KEY_SESSION_USER);
 
 		// Usuario ya logeado
 		if (usuario != null && !"".equals(usuario)) {
-			dispatcher = request.getRequestDispatcher("backoffice/indexb.jsp");
+			System.out.println("    Usuario YA logeado");
+			dispatcher = request
+					.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 		} else { // Usuario no logeado o sesion caducada
+			System.out.println("    Usuario NO logeado");
+
 			// email y pass
 			email = request.getParameter("email");
 			pass = request.getParameter("password");
@@ -68,13 +74,14 @@ public class LoginController extends HttpServlet {
 				// Salvar sesion
 				session.setAttribute(KEY_SESSION_USER, email);
 				dispatcher = request
-						.getRequestDispatcher("backoffice/indexb.jsp");
+						.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			} else {
 				request.setAttribute("msg", "Email y/o contraseña no validos");
 				dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
 		}
+		System.out.println("Login forward o saliendo");
 		dispatcher.forward(request, response);
 
 	}
