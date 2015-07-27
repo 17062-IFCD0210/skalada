@@ -1,8 +1,9 @@
+<%@page import="com.ipartek.formacion.skalada.controladores.LoginController"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
 <%
 	//Comprobar que se ha pasado por login
-	String user = (String)session.getAttribute("user");
+	String user = (String)session.getAttribute(LoginController.KEY_SESSION_USER);
 	//TODO comprobar contra BBDD
 	if(user == null) {
 		request.setAttribute("msg", "No seas listillo y logeate");

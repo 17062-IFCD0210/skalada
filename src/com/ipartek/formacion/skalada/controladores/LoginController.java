@@ -19,10 +19,13 @@ public class LoginController extends HttpServlet {
 	private final String USER = "admin@admin.com";
 	private final String PASS = "admin";
 
+	// Key para guardar el usuario en session
+	public final static String KEY_SESSION_USER = "ss_user";
+
 	private RequestDispatcher dispatcher = null;
-	String email;
-	String pass;
-	HttpSession session;
+	private String email;
+	private String pass;
+	private HttpSession session;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -51,38 +54,29 @@ public class LoginController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		session = request.getSession();
-		String usuario = (String) session.getAttribute("user");
+		String usuario = (String) session.getAttribute(KEY_SESSION_USER);
 
 		// Usuario ya logeado
-		if (usuario == null && !"".equals(usuario)) {
-			dispatcher = request
-					.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+		if (usuario != null && !"".equals(usuario)) {
+			dispatcher = request.getRequestDispatcher("backoffice/indexb.jsp");
 		} else { // Usuario no logeado o sesion caducada
 			// email y pass
 			email = request.getParameter("email");
 			pass = request.getParameter("password");
 
-			if (!email.equalsIgnoreCase(USER)) {
-				request.setAttribute("msg", "Email no valido");
-				dispatcher = request
-						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-			} else if (!pass.equalsIgnoreCase(PASS)) {
-				request.setAttribute("msg", "Password no valido");
-				dispatcher = request
-						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-			} else {
-				saveSession(request);
+			if (email.equalsIgnoreCase(USER) && pass.equalsIgnoreCase(PASS)) {
+				// Salvar sesion
+				session.setAttribute(KEY_SESSION_USER, email);
 				dispatcher = request
 						.getRequestDispatcher("backoffice/indexb.jsp");
+			} else {
+				request.setAttribute("msg", "Email y/o contraseña no validos");
+				dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
 		}
-
 		dispatcher.forward(request, response);
 
-	}
-
-	private void saveSession(HttpServletRequest request) {
-		session.setAttribute("user", email);
 	}
 
 }
