@@ -108,8 +108,24 @@ public class ModeloVia implements Persistable {
 	@Override
 	public ArrayList<Object> getAll() {
 		ArrayList<Object> resul = new ArrayList<Object>();
+		ObjectInputStream out = null;
+		Via v = null;
 		for (int i = 0; i < resul.size(); i++) {
-
+			String file = PATH_DATA + (i + 1) + FILE_EXTENSION;
+			try {
+				out = new ObjectInputStream(new FileInputStream(file));
+				v = (Via) out.readObject();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		}
 		return resul;
 	}
