@@ -1,16 +1,10 @@
 package com.ipartek.formacion.skalada.modelo;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -25,9 +19,10 @@ import com.ipartek.formacion.skalada.bean.Via;
  */
 public class ModeloVia implements Persistable {
 	
-	private static final String PATH_DATA      = "data/via/";
-	private static final String PATH_INDEX      = "data/via/index.dat";
-	private static final String FILE_EXTENSION = ".dat";
+	private static final String PATH_DATA_FOLDER = "data/";
+	private static final String PATH_DATA_VIA    = PATH_DATA_FOLDER + "via/";
+	private static final String PATH_INDEX       = PATH_DATA_VIA + "index.dat";
+	private static final String FILE_EXTENSION   = ".dat";
 	
 	/**
 	 * Identificador del ultimo objeto creado, valor inicial 0
@@ -41,15 +36,27 @@ public class ModeloVia implements Persistable {
 	public ModeloVia() {
 		super();
 		
+		//Crea la estructura de carpetas si no existe
+		File fDtaFolder = new File(PATH_DATA_FOLDER);
+		if ( !fDtaFolder.exists()){
+			fDtaFolder.mkdir();
+		}
+		
+		File fDataFolderVia = new File(PATH_DATA_VIA);
+		if ( !fDataFolderVia.exists()){
+			fDataFolderVia.mkdir();
+		}
+		
 		File findex = new File(PATH_INDEX);
 		if ( !findex.exists()){
 			createIndex();
-		}		
+		}	
+		
+		//obtiene el indice actual
 		getIndex();
 	}
 	
 
-	@Override
 	public int save(Object o) {
 		
 		ObjectOutputStream oos = null;
@@ -57,7 +64,7 @@ public class ModeloVia implements Persistable {
 		
 		try{
 			Via v  = (Via)o;		
-			String file = PATH_DATA + (indice+1) + FILE_EXTENSION;			
+			String file = PATH_DATA_VIA + (indice+1) + FILE_EXTENSION;			
 			oos = new ObjectOutputStream(new FileOutputStream( file ));
 			//guardar objeto
 			oos.writeObject(v);
@@ -78,26 +85,26 @@ public class ModeloVia implements Persistable {
 		return resul;
 	}
 
-	@Override
+
 	public Object getById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public ArrayList<Object> getAll() {
 		ArrayList<Object> resul = new ArrayList<Object>();
 		//TODO implementar
 		return resul;
 	}
 
-	@Override
+	
 	public boolean update(Object o) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	
 	public boolean delete(int id) {
 		// TODO Auto-generated method stub
 		return false;
