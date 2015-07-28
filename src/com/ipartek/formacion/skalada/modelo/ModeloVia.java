@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,120 +14,169 @@ import java.util.ArrayList;
 import com.ipartek.formacion.skalada.bean.Via;
 
 /**
- * Clase encargada de persistir los objetos de tipo {@code via} en ficheros
+ * Clase encargada de persistir los objetos de tipo {@code Via} en ficheros
  * serializando y des-serializando
- *
+ * 
  * @author Raul
  *
  */
 public class ModeloVia implements Persistable {
-	/**************
-	 * CONSTANTES *
-	 **************/
-	private static final String PATH_DATA = "data/via/";
-	private static final String PATH_INDEX = "data/via/index.dat";
+
+	private static final String PATH_DATA_FOLDER = "data/";
+	private static final String PATH_DATA_VIA = PATH_DATA_FOLDER + "via/";
+	private static final String PATH_INDEX = PATH_DATA_VIA + "index.dat";
 	private static final String FILE_EXTENSION = ".dat";
 
-	/*************
-	 * ATRIBUTOS *
-	 *************/
-
 	/**
-	 * Identificador del ultimo objeto creado, valor inicial = 0
+	 * Identificador del ultimo objeto creado, valor inicial 0
 	 */
 	private static int indice;
-
-	/***************
-	 * CONSTRUCTOR *
-	 ***************/
 
 	/**
 	 * Actualiza el indice
 	 */
 	public ModeloVia() {
 		super();
+
+		// Crea la estructura de carpetas si no existe
+		File fDtaFolder = new File(PATH_DATA_FOLDER);
+		if (!fDtaFolder.exists()) {
+			fDtaFolder.mkdir();
+		}
+
+		File fDataFolderVia = new File(PATH_DATA_VIA);
+		if (!fDataFolderVia.exists()) {
+			fDataFolderVia.mkdir();
+		}
+
 		File findex = new File(PATH_INDEX);
 		if (!findex.exists()) {
 			createIndex();
 		}
+
+		// obtiene el indice actual
 		getIndex();
 	}
 
-	/***********
-	 * METODOS *
-	 ***********/
-
 	@Override
 	public int save(Object o) {
-		ObjectOutputStream oos = null;
+
+		FileOutputStream outputStream = null;
+		ObjectOutputStream out = null;
+
+		String file = PATH_DATA_VIA + (indice + 1) + FILE_EXTENSION;
+
 		int resul = -1;
 
 		try {
-			Via v = (Via) o;
-			String file = PATH_DATA + (indice + 1) + FILE_EXTENSION;
-			oos = new ObjectOutputStream(new FileOutputStream(file));
 
-			// Guardar objeto
-			oos.writeObject(v);
+			Via v = (Via) o;
+
+			v.setId(indice + 1);
+
+			outputStream = new FileOutputStream(file);
+			out = new ObjectOutputStream(outputStream);
+
+			// guardar objeto
+			out.writeObject(v);
+
+			// actualizar indice
 			resul = updateIndex();
-		} catch (Exception e) {
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (oos != null) {
-					oos.close();
-				}
-			} catch (Exception e) {
+				if (out != null)
+					out.close();
+				if (outputStream != null)
+					outputStream.close();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+
 		return resul;
 	}
 
 	@Override
 	public Object getById(int id) {
-		ObjectInputStream out = null;
-		Via v = null;
-		String file = PATH_DATA + id + FILE_EXTENSION;
+
+		FileInputStream inputStream = null;
+		ObjectInputStream in = null;
+
+		String file = PATH_DATA_VIA + id + FILE_EXTENSION;
+
+		Via resul = null;
+
 		try {
-			out = new ObjectInputStream(new FileInputStream(file));
-			v = (Via) out.readObject();
-		} catch (Exception e) {
+			inputStream = new FileInputStream(file);
+			in = new ObjectInputStream(inputStream);
+
+			resul = (Via) in.readObject();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			try {
+				if (in != null)
+					in.close();
+				if (inputStream != null)
+					inputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
-		return v;
+
+		return resul;
 	}
 
 	@Override
 	public ArrayList<Object> getAll() {
 		ArrayList<Object> resul = new ArrayList<Object>();
-		ObjectInputStream out = null;
-		Via v = null;
-		for (int i = 0; i < resul.size(); i++) {
-			String file = PATH_DATA + (i + 1) + FILE_EXTENSION;
-			try {
-				out = new ObjectInputStream(new FileInputStream(file));
-				v = (Via) out.readObject();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (out != null) {
+
+		FileInputStream inputStream = null;
+		ObjectInputStream in = null;
+
+		File vias = new File(PATH_DATA_VIA);
+		if (vias.exists()) {
+
+			File[] ficheros = vias.listFiles();
+
+			for (int i = 0; i < (ficheros.length - 1); i++) {
+
+				try {
+					inputStream = new FileInputStream(PATH_DATA_VIA
+							+ ficheros[i].getName());
+					in = new ObjectInputStream(inputStream);
+
+					resul.add(in.readObject());
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} finally {
 					try {
-						out.close();
+						if (in != null)
+							in.close();
+						if (inputStream != null)
+							inputStream.close();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		}
+
 		return resul;
 	}
 
@@ -138,19 +188,27 @@ public class ModeloVia implements Persistable {
 
 	@Override
 	public boolean delete(int id) {
-		String file = PATH_DATA + id + FILE_EXTENSION;
+
+		File fBorrar = null;
+
+		String file = PATH_DATA_VIA + id + FILE_EXTENSION;
+
 		boolean resul = false;
-		File f = new File(file);
-		if (f.delete()) {
+
+		fBorrar = new File(file);
+
+		if (fBorrar.exists()) {
+			fBorrar.delete();
 			resul = true;
 		}
+
 		return resul;
 	}
 
 	/**
 	 * Recupera el indice actual del fichero de texto {@code PATH_INDEX}
-	 *
-	 * @return indice actual, valor inicial = 0
+	 * 
+	 * @return indice actual, valor inicial 0
 	 */
 	private int getIndex() {
 		DataInputStream fr = null;
@@ -174,7 +232,7 @@ public class ModeloVia implements Persistable {
 
 	/**
 	 * Incrementa en 1 el indice actual del fichero de texto {@code PATH_INDEX}
-	 *
+	 * 
 	 * @return indice incrementado
 	 */
 	private int updateIndex() {
@@ -188,6 +246,7 @@ public class ModeloVia implements Persistable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+
 			if (fr != null) {
 				try {
 					fr.close();
@@ -225,4 +284,5 @@ public class ModeloVia implements Persistable {
 		}
 
 	}
+
 }

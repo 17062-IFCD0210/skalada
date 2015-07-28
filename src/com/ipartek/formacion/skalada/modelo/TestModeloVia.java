@@ -38,7 +38,7 @@ public class TestModeloVia {
 
 	@Test
 	public void test() {
-		ArrayList<Via> v = new ArrayList<Via>();
+		ArrayList<Object> v = modelo.getAll();
 
 		Via v1 = new Via("agarra lo que puedas");
 		v1.setLongitud(30);
@@ -55,16 +55,11 @@ public class TestModeloVia {
 		assertEquals(Grado.DIFICIL, v2.getGrado());
 		assertEquals(LOREM_IPSUM_1, v2.getDescripcion());
 
+		// GetAll
+		System.out.println(v);
+
 		// Eliminar
 		assertTrue("No se ha podido eliminar", modelo.delete(id));
-
-		// GetAll
-		for (int i = 0; i < v.size(); i++) {
-			assertEquals("agarra lo que puedas", v2.getNombre());
-			assertEquals(30, v2.getLongitud());
-			assertEquals(Grado.DIFICIL, v2.getGrado());
-			assertEquals(LOREM_IPSUM_1, v2.getDescripcion());
-		}
 
 	}
 }

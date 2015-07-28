@@ -24,4 +24,14 @@
     <servlet-name>LogOutController</servlet-name>
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViasController</display-name>
+    <servlet-name>ViasController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.ViasController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViasController</servlet-name>
+    <url-pattern>/vias</url-pattern>
+  </servlet-mapping>
 </web-app>

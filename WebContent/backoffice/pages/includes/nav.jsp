@@ -60,7 +60,7 @@
                         </li>
                         
                         <li>
-                            <a href="<%=Constantes.CONTROLLER_VIAS %>"><i class="fa fa-bar-chart-o fa-fw"></i> Vias</a>
+                            <a href="<%=Constantes.CONTROLLER_VIAS%>"><i class="fa fa-bar-chart-o fa-fw"></i> Vias</a>
                         </li>
                     </ul>
                 </div>
