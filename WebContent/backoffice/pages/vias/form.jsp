@@ -14,7 +14,7 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Edici&oacute;n Via</h1>
+                    <h1 class="page-header"><%=request.getAttribute("titulo") %></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -47,10 +47,16 @@
 	               
 	               <!-- Botonera -->
 	               <div class="form-group">
+	               	<%
+	               		
+	               	
+	               	
+	               	%>
 	                   <input type="submit" value="Modificar" class="btn btn-outline btn-primary">
-	                   <input type="button" value="Eliminar" class="btn btn-outline btn-danger">
+	                   <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=via.getId()%>">
+	                   		<input type="button" value="Eliminar" class="btn btn-outline btn-danger">
+	                   </a>
 	               </div>
-	           			
 	           </form>
             </div>
             

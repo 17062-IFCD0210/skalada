@@ -12,10 +12,18 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">Vias
                     	<!-- TODO llamar al Servlet, no al JSP -->
-	                    <a href="<%=Constantes.CONTROLLER_VIAS%>?id=-1" type="button" class="btn btn-outline btn-success">
+	                    <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_NUEVO%>" type="button" class="btn btn-outline btn-success">
 	                    	<i class="fa fa-plus"></i> Nueva
 	                    </a>
                     </h1>
+                    <%
+                    	String msg = (String)request.getAttribute("msg_elim"); 
+                    	
+                    	if(msg != null) {
+                    		out.print("<label>" + msg + "</label>");
+                    	}
+                    
+                    %>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -43,7 +51,7 @@
 			%>
 				<tr>
 					<td><%=v.getId()%></td>
-					<td><a href="<%=Constantes.CONTROLLER_VIAS%>?id=<%=v.getId()%>"><%=v.getNombre() %></a></td>
+					<td><a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=v.getId()%>"><%=v.getNombre() %></a></td>
 					<td><%=v.getGrado()%></td>
 					<td><%=v.getLongitud()%></td>
 				</tr>
