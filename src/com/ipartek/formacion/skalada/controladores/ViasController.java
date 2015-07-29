@@ -24,9 +24,15 @@ public class ViasController extends HttpServlet {
 	private ModeloVia modelo = null;
 	private Via via = null;
 	
-	//Parametros
+	//Parametros Get
 	private int pAccion = Constantes.ACCION_LISTAR; //Accion por defecto
 	private int pID     = -1; //ID no valido
+	
+	//Parametros Post
+	private String pNombre = "Nueva"; // Nombre por defecto
+	private Grado pGrado = Grado.NORMAL; // Grado por defecto
+	private int pLong = 0; // Longitud por defecto
+	private String pDesc = ""; //Descripcion por defecto
 
     /**
      * Este metodo se ejecuta solo la primera vez que se llama al Servlet
@@ -96,34 +102,6 @@ public class ViasController extends HttpServlet {
 		
 		
 		dispatcher.forward(request, response);
-		
-		
-//		//recoger parametro id de la Via
-//		String pID = request.getParameter("id");
-//		
-//		//detalle o nueva
-//		if ( pID != null && !"".equals(pID)){
-//			int id = Integer.parseInt(pID);
-//			// nueva via
-//			if ( id == -1 ){
-//				via = new Via("Nueva");
-//			//detalle via	
-//			}else{
-//				//Llamar al modelo para recuperarla por ID
-//				via = (Via)modelo.getById(id);
-//			}
-//			//enviar atributo con la via
-//			request.setAttribute("via", via);
-//			//cargarmos el dispatcher
-//			dispatcher = request.getRequestDispatcher( Constantes.VIEW_BACK_VIAS_FORM);
-//		
-//		//Listar todas las vias	
-//		}else{
-//			request.setAttribute("vias", modelo.getAll() );
-//			dispatcher = request.getRequestDispatcher( Constantes.VIEW_BACK_VIAS_INDEX);	
-//		}
-//		
-//		dispatcher.forward(request, response);
 	}
 
 	/**
@@ -131,24 +109,59 @@ public class ViasController extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String pNombre = request.getParameter("nombre");
-		String pGrado = request.getParameter("grado");
-		String pLong = request.getParameter("long");
-		String pDesc = request.getParameter("desc");
-			
-		Via via = new Via(pNombre);
-		via.setNombre(pNombre);
-		via.setGrado(Grado.EXTREMO);
-		via.setLongitud(Integer.parseInt(pLong));
-		via.setDescripcion(pDesc);
-		modelo.save(via);
 		
-		request.setAttribute("vias", modelo.getAll() );
-		dispatcher = request.getRequestDispatcher( Constantes.VIEW_BACK_VIAS_INDEX);
+		getParametersPost(request, response);
+		
+		crearObjetoVia();
+		
+		if(via.getId() != -1) { //Via modificable
+			if(modelo.update(via)) {
+				request.setAttribute("msg_mod", "Objeto Modificado");
+			} else {
+				request.setAttribute("msg_mod", "Objeto no modificado");
+			}	
+		} else { //Via nueva
+			modelo.save(via);
+			request.setAttribute("msg_new", "Objeto Creado");
+		}
+		listar(request, response);
 		dispatcher.forward(request, response);
 		
 	}
 	
+	/**
+	 * Crea un objeto {@code Via} con los parametros recibidos
+	 */
+	private void crearObjetoVia() {
+		via = new Via(pNombre);
+		
+		via.setId(pID);
+		via.setGrado(pGrado);
+		via.setLongitud(pLong);
+		via.setDescripcion(pDesc);
+	}
+
+	/**
+	 * Recoger los parametros enviados desde el formulario:
+	 * @see backoffice\pages\vias\form.jsp
+	 * @param request
+	 * @param response
+	 */
+	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) {
+		String sLong = request.getParameter("long");
+		
+		pID = Integer.parseInt(request.getParameter("id"));
+		pNombre = request.getParameter("nombre");
+		pGrado = Grado.valueOf(request.getParameter("grado"));
+		if(sLong!= null && !"".equals(sLong)) {
+			pLong = Integer.parseInt(sLong);
+		} else {
+			pLong = 0;
+		}
+		pDesc = request.getParameter("desc");
+		
+	}
+
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			//Recoger accion a realizar

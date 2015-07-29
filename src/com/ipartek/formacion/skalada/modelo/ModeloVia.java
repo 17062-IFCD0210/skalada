@@ -182,8 +182,39 @@ public class ModeloVia implements Persistable {
 
 	@Override
 	public boolean update(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean resul = false;
+		FileOutputStream outputStream = null;
+		ObjectOutputStream out = null;
+		
+		Via v = (Via) o;
+
+		String file = PATH_DATA_VIA + v.getId() + FILE_EXTENSION;
+
+		try {
+
+			outputStream = new FileOutputStream(file);
+			out = new ObjectOutputStream(outputStream);
+
+			// guardar objeto
+			out.writeObject(v);
+			resul = true;
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (out != null)
+					out.close();
+				if (outputStream != null)
+					outputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resul;
 	}
 
 	@Override

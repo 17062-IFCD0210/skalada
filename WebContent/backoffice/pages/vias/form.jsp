@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.Grado"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <jsp:include page="../includes/head.jsp"></jsp:include>
@@ -30,36 +31,53 @@
 	               </div>
 	               <div class="form-group">
 	                   <label for="nombre">Nombre</label>
-	                   <input class="form-control" name="nombre" value="<%=via.getNombre()%>">
+	                   <input class="form-control" name="nombre" value="<%=via.getNombre()%>" required>
 	               </div>
 	               <div class="form-group">
 	                   <label for="grad">Grado</label>
-	                   <input class="form-control" name="grado" value="<%=via.getGrado()%>">
+	                   <select class="form-control" name="grado">
+	                   		<% 
+	                   		Grado[] grados = Grado.values();
+	                   		for(int i=0; i<grados.length; i++) {
+	                   			//Comprobamos el grado seleccionado mediante operador ternario
+	                   			String selected = (grados[i] == via.getGrado())?"selected":""; 	
+	                   		%>
+	                   			<option value="<%=grados[i]%>" <%=selected%>><%=grados[i]%></option>		
+							<% } %>
+	                   </select>
+	                   
+	                   
+<!-- 	                   <select class="form-control" name="grado"> -->
+<%-- 	                   		<option hidden="true"><%=via.getGrado()%></option> --%>
+<%-- 	                   		<option><%=Grado.FACIL%></option> --%>
+<%-- 	                   		<option><%=Grado.DIFICIL%></option> --%>
+<%-- 	                   		<option><%=Grado.EXTREMO%></option> --%>
+<%-- 	                   		<option><%=Grado.NORMAL%></option> --%>
+<!-- 	                   </select> -->
 	               </div>
 	               <div class="form-group">
 	                   <label for="long">Longitud</label>
-	                   <input class="form-control" name="long" value="<%=via.getLongitud()%>">
+	                   <input class="form-control" type="number" name="long" value="<%=via.getLongitud()%>" required>
 	               </div>
 	               <div class="form-group">
 	                   <label for="desc">Descripcion</label>
-	                   <input class="form-control" name="desc" value="<%=via.getDescripcion()%>">
+	                   <textarea class="form-control" name="desc" required><%=via.getDescripcion()%></textarea>
 	               </div>
 	               
 	               <!-- Botonera -->
 	               <div class="form-group">
-	               	<%
-	               		
-	               	
-	               	
-	               	%>
-	                   <input type="submit" value="Modificar" class="btn btn-outline btn-primary">
-	                   <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=via.getId()%>">
-	                   		<input type="button" value="Eliminar" class="btn btn-outline btn-danger">
-	                   </a>
+	               		<% if(via.getId() != -1) { %>
+		               		<input type="submit" value="Modificar" class="btn btn-outline btn-primary">
+		                  	<a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=via.getId()%>">
+		                   		<input type="button" value="Eliminar" class="btn btn-outline btn-danger">
+		                   	</a>
+	               		<%} else { %>
+	                   		<input type="submit" value="Crear" class="btn btn-outline btn-primary">
+		                   	<input type="reset" value="Limpiar" class="btn btn-outline btn-danger">
+		                <%} %>
 	               </div>
 	           </form>
             </div>
-            
-        </div>
+</div>
         
 <jsp:include page="../includes/foot.jsp"></jsp:include>
