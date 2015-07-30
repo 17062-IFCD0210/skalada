@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <%@page import="java.util.ArrayList"%>
 <html lang="en">
@@ -44,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+                <a class="navbar-brand" href="<%=Constantes.ROOT_APP%>">Skalada</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -214,7 +215,7 @@
         <!-- Portfolio Section -->
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="page-header">Ultimas 6 Vias</h2>
+                <h2 class="page-header">Ultimas Vias</h2>
             </div>
             <%
             	ArrayList<Via> vias = (ArrayList<Via>)request.getAttribute("ultimas_vias");
@@ -228,8 +229,10 @@
             %>
             <div class="col-md-4 col-sm-6">
             	<figure>
-            		<img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-            		<figcaption><a href="#"><%=v.getNombre()%></a></figcaption>
+            		<a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>">
+            			<img class="img-responsive img-portfolio img-hover" src="<%=v.getUrl()%>" alt="">
+            		</a>
+            		<figcaption><a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>"><%=v.getNombre()%></a></figcaption>
             	</figure>
             </div>
 			<%	} //Cerramos el For  %>	

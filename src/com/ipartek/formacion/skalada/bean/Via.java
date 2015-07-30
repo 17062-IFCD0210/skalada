@@ -39,6 +39,11 @@ public class Via implements Serializable {
 	 * Descripcion
 	 */
 	private String descripcion;
+	
+	/**
+	 * URL de la imagen
+	 */
+	private String url;
 
 	/***********************
 	 ***** CONSTRUCTORES*****
@@ -50,6 +55,7 @@ public class Via implements Serializable {
 		this.grado = Grado.NORMAL;
 		this.longitud = 0;
 		this.descripcion = "";
+		this.url = "";
 	}
 
 	/***********************
@@ -95,6 +101,14 @@ public class Via implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	/***********************
 	 * METODOS *
@@ -103,6 +117,6 @@ public class Via implements Serializable {
 	public String toString() {
 		return "Via [id=" + id + ", nombre=" + nombre + ", grado=" + grado
 				+ ", longitud=" + longitud + ", descripcion=" + descripcion
-				+ "]";
+				+ ", url=" + url + "]";
 	}
 }

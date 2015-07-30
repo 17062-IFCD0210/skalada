@@ -48,7 +48,7 @@ public class HomeController extends HttpServlet {
 		
 		//Recuperar las ultimas 6 vias del modelo
 		if(vias.size() > 6) {
-			vias = (ArrayList<Object>) vias.subList(0, 6);
+			vias = new ArrayList<Object>(vias.subList(0, 6));
 		}
 		
 		//Enviarlas como atributo en la request

@@ -55,7 +55,10 @@
 	                   <label for="desc">Descripcion</label>
 	                   <textarea class="form-control" name="desc" required><%=via.getDescripcion()%></textarea>
 	               </div>
-	               
+	               <div class="form-group">
+	                   <label for="nombre">URL Imagen</label>
+	                   <input class="form-control" name="url" value="<%=via.getUrl()%>" required>
+	               </div>
 	               <!-- Botonera -->
 	               <div class="form-group">
 	               		<% if(via.getId() != -1) { %>
@@ -95,6 +98,12 @@
 									<div class="form-group col-md-6">
 										<label for="longitud">Longitud</label> 
 										<input type="text" name="longitud" class="form-control" value="<%=via.getLongitud()%>" disabled>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-grouo col-md-12">
+										<label for="url">URL Imagen</label>
+										<input type="text" name="url" class="form-control" value="<%=via.getUrl()%>" disabled>
 									</div>
 								</div>
 								<div class="row">
