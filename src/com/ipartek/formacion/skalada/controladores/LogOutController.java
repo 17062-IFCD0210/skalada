@@ -39,7 +39,7 @@ public class LogOutController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Logout...");
 		request.getSession().invalidate();
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		request.getRequestDispatcher("/home").forward(request, response);
 	}
 
 }

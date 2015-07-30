@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@page import="com.ipartek.formacion.skalada.bean.Via"%>
+<%@page import="java.util.ArrayList"%>
 <html lang="en">
 
 <head>
@@ -212,38 +214,25 @@
         <!-- Portfolio Section -->
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="page-header">Portfolio Heading</h2>
+                <h2 class="page-header">Ultimas 6 Vias</h2>
             </div>
+            <%
+            	ArrayList<Via> vias = (ArrayList<Via>)request.getAttribute("ultimas_vias");
+            	if(vias == null) {
+            		vias = new ArrayList<Via>();
+            	}
+            	Via v = null;
+            	
+            	for(int i=0; i<vias.size();i++) {
+            		v = vias.get(i);
+            %>
             <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
+            	<figure>
+            		<img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
+            		<figcaption><a href="#"><%=v.getNombre()%></a></figcaption>
+            	</figure>
             </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <a href="portfolio-item.html">
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/700x450" alt="">
-                </a>
-            </div>
+			<%	} //Cerramos el For  %>	
         </div>
         <!-- /.row -->
 
