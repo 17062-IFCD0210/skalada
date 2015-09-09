@@ -19,29 +19,30 @@ USE `eskalada`;
 CREATE TABLE IF NOT EXISTS `grado` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(10) NOT NULL COMMENT 'Grado de dificultad de la via de escalada, p.e. (A, B y C) -> 4A, 5B',
+  `desc` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.grado: ~17 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada.grado: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `grado` DISABLE KEYS */;
-INSERT INTO `grado` (`id`, `nombre`) VALUES
-	(1, 'Ab'),
-	(2, 'Ae'),
-	(3, 'A0'),
-	(4, 'A1 o C1'),
-	(5, 'A2 o C2'),
-	(6, 'A3 o C3'),
-	(7, 'A4 o C4'),
-	(8, 'A5 o C5'),
-	(9, 'A6'),
-	(10, '6a'),
-	(11, '6b'),
-	(12, 'V'),
-	(13, 'V+'),
-	(14, '6b+'),
-	(15, '7b+'),
-	(16, '9a'),
-	(17, '7c+');
+INSERT INTO `grado` (`id`, `nombre`, `desc`) VALUES
+	(1, 'Ab', 'Artificial con buriles. El largo de artificial está equipado con buriles, rivets o chinchetas.'),
+	(2, 'Ae', 'Artificial equipado. El largo está equipado con clavos, spits, parabolts o material abandonado (fisureros, plomos, etc.)'),
+	(3, 'A0', 'Nos agarramos al seguro y nos superamos para poder progresar. No utilzamos estribos.'),
+	(4, 'A1 o C1', 'Artificial fácil. Los emplazamientos suelen ser sencillos y sólidos. Si el escalador se cae el seguro anterior debiera de pararle sin problemas. Imaginémonos el mayor techo del mundo. Si está asegurado mediante parabolts, clavos, fisureros o sistemas de expansión (friends) a prueba de bombas, lo graduaremos con ésta dificultad. Nuestros riñones se quejaran por estar colgados en el vacio, pero las posibilidades de hacerse daño si nos caemos son minimas. El largo nos puede llevar una o dos horas el finalizarlo.'),
+	(5, 'A2 o C2', 'Artificial moderado. Los emplazamientos suelen ser sólidos, pero pueden resultar delicados y arduos de colocar. Normalmente hay uno o dos emplazamientos que solo aguantan el peso de nuestro cuerpo entre otros que si aguantarian una buena caida. De 5 a 10 metros de caida potencial pero sin peligro. El largo no puede llevar entre una y tres horas el finalizarlo.'),
+	(6, 'A3 o C3', 'Artificial duro. Necesitamos comprobar metodicamente los seguros mediante la utilización del probador. Normalmente se tratará de un largo compuesto de varios seguros débiles, cinco o seis aproximadamente, y los cuales solo aguantan el peso de nuestro cuerpo y no una caida. No obstante en el largo contaremos con buenos seguros que si que aguantarian una posible caida. Unos 20 metros de caida potencial pero sin peligro. El largo nos puede llevar de dos a tres horas el finalizarlo.'),
+	(7, 'A4 o C4', 'Artificial serio. Muchos emplazamientos seguidos que solo aguantan el peso de nuestro cuerpo (de seis a ocho). De 20 a 30 metros de caida potencial con peligro de chocar contra repisas y salientes. Finalizar el largo nos puede llevar mas de tres horas'),
+	(8, 'A5 o C5', 'Artificial extremo. Mas de diez emplazamientos seguidos que solo aguantan el peso de nuestro cuerpo y no una caida. Practicamente podriamos descoser todo el largo en caso de caida. Es preciso comprobar cada seguro con mucha precisión. Finalizar un largo nos puede llevar mas de cuatro horas.'),
+	(9, 'A6', 'Artificial extremo. Igual que el de A5 pero con la posibilidad de que la reunión no aguante el impacto de una caida. El riesgo de caida mortal es real.'),
+	(10, '6a', NULL),
+	(11, '6b', NULL),
+	(12, 'V', NULL),
+	(13, 'V+', NULL),
+	(14, '6b+', NULL),
+	(15, '7b+', NULL),
+	(16, '9a', NULL),
+	(17, '7c+', NULL);
 /*!40000 ALTER TABLE `grado` ENABLE KEYS */;
 
 
@@ -49,15 +50,15 @@ INSERT INTO `grado` (`id`, `nombre`) VALUES
 CREATE TABLE IF NOT EXISTS `sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
-  `zona_id1` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`zona_id1`),
-  KEY `fk_sector_zona1_idx` (`zona_id1`),
-  CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`zona_id1`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+  `id_zona` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`id_zona`),
+  KEY `fk_sector_zona1_idx` (`id_zona`),
+  CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`id_zona`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.sector: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada.sector: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `sector` DISABLE KEYS */;
-INSERT INTO `sector` (`id`, `nombre`, `zona_id1`) VALUES
+INSERT INTO `sector` (`id`, `nombre`, `id_zona`) VALUES
 	(1, 'Cara Oeste', 1),
 	(2, 'Cara Sur', 1),
 	(3, 'Ogoño', 2),
@@ -75,23 +76,24 @@ INSERT INTO `sector` (`id`, `nombre`, `zona_id1`) VALUES
 CREATE TABLE IF NOT EXISTS `tipo_escalada` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
+  `desc` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.tipo_escalada: ~11 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada.tipo_escalada: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_escalada` DISABLE KEYS */;
-INSERT INTO `tipo_escalada` (`id`, `nombre`) VALUES
-	(1, 'Libre'),
-	(2, 'Clásica'),
-	(3, 'Alpina'),
-	(4, 'Artificial'),
-	(5, 'Dry-tooling'),
-	(6, 'Big Wall'),
-	(7, 'Solitaria'),
-	(8, 'Deportiva'),
-	(9, 'Bloque'),
-	(10, 'Psicobloc'),
-	(11, 'Urbana');
+INSERT INTO `tipo_escalada` (`id`, `nombre`, `desc`) VALUES
+	(1, 'Libre', 'En este tipo de escalada sólo se utilizan los pies y las manos para progresar, sin fijar ningún medio de seguridad para evitar accidentes. Se suelen usar pies de gato para una mayor fijación.'),
+	(2, 'Clásica', 'Aquí el escalador va metiendo sus propios seguros en la pared para hacer una escalada más segura. Se pueden introducir los seguro en anclajes naturales (árboles, puentes de roca, puntas de roca, etc.) o en anclajes artificiales recuperables (fisureros, friends, clavos, nudos empotrados, etc.).'),
+	(3, 'Alpina', 'Se trata de una variante de la escalada clásica en la que se emplean los mismos elementos de seguridad pero en la que se emplean tanto para asegurarse como para progresar en la ascensión.'),
+	(4, 'Artificial', 'Es aquella escalada en la que la ascensión, debido a su longitud, precisa de varios días, debiendo de dormir y comer en la pared. Se puede realizar tanto en clásica como en artificial.'),
+	(5, 'Dry-tooling', 'En esta escalada se asciende autoasegurado con una cuerda pero sin compañero.'),
+	(6, 'Big Wall', 'Este tipo de escalada se caracteriza por que en la pared podemos encontrar anclajes fijos colocados estratégicamente para asegurar nuestros pasos. Podemos encontrar anclajes basados en sistemas mecánicos -de expansión- o químicos -resinas-. Por lo general, estas vías al equiparse, se limpian de maleza y de piedras sueltas o susceptibles de romperse, para ganar en la seguridad del escalador deportivo.'),
+	(7, 'Solitaria', 'En esta escalada se asciende autoasegurado con una cuerda pero sin compañero.'),
+	(8, 'Deportiva', 'Este tipo de escalada se caracteriza por que en la pared podemos encontrar anclajes fijos colocados estratégicamente para asegurar nuestros pasos. Podemos encontrar anclajes basados en sistemas mecánicos -de expansión- o químicos -resinas-. Por lo general, estas vías al equiparse, se limpian de maleza y de piedras sueltas o susceptibles de romperse, para ganar en la seguridad del escalador deportivo.'),
+	(9, 'Bloque', 'Es una escalada de solo integral en la que el escalador nunca sube suficientemente lejos como para que una caída pueda suponerle una caida grave, estando ésta asegurada con una colchoneta (crash pad) que evite golpes o un compañero atento a la caída.'),
+	(10, 'Psicobloc', 'Es como la escalada en bloque, pero cuando la pared es un acantilado y la caída se hace directamente en el agua. No se utiliza cuerda.'),
+	(11, 'Urbana', 'Se realiza en cualquier estructura que se encuentre en la ciudad. Mucha afición en Holanda.');
 /*!40000 ALTER TABLE `tipo_escalada` ENABLE KEYS */;
 
 
@@ -101,21 +103,21 @@ CREATE TABLE IF NOT EXISTS `via` (
   `nombre` varchar(200) NOT NULL,
   `longitud` int(11) NOT NULL DEFAULT '0' COMMENT 'Longitud de la via de escalada en metros.',
   `descripcion` text,
-  `grado_id` int(11) NOT NULL,
-  `tipo_escalada_id` int(11) NOT NULL,
-  `sector_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`grado_id`,`tipo_escalada_id`,`sector_id`),
-  KEY `fk_via_grado1_idx` (`grado_id`),
-  KEY `fk_via_tipo_escalada1_idx` (`tipo_escalada_id`),
-  KEY `fk_via_sector1_idx` (`sector_id`),
-  CONSTRAINT `fk_via_grado1` FOREIGN KEY (`grado_id`) REFERENCES `grado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_via_tipo_escalada1` FOREIGN KEY (`tipo_escalada_id`) REFERENCES `tipo_escalada` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_via_sector1` FOREIGN KEY (`sector_id`) REFERENCES `sector` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `id_grado` int(11) NOT NULL,
+  `id_tipo_escalada` int(11) NOT NULL,
+  `id_sector` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`id_grado`,`id_tipo_escalada`,`id_sector`),
+  KEY `fk_via_grado1_idx` (`id_grado`),
+  KEY `fk_via_tipo_escalada1_idx` (`id_tipo_escalada`),
+  KEY `fk_via_sector1_idx` (`id_sector`),
+  CONSTRAINT `fk_via_grado1` FOREIGN KEY (`id_grado`) REFERENCES `grado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_via_tipo_escalada1` FOREIGN KEY (`id_tipo_escalada`) REFERENCES `tipo_escalada` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_via_sector1` FOREIGN KEY (`id_sector`) REFERENCES `sector` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.via: ~14 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada.via: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `via` DISABLE KEYS */;
-INSERT INTO `via` (`id`, `nombre`, `longitud`, `descripcion`, `grado_id`, `tipo_escalada_id`, `sector_id`) VALUES
+INSERT INTO `via` (`id`, `nombre`, `longitud`, `descripcion`, `id_grado`, `id_tipo_escalada`, `id_sector`) VALUES
 	(3, 'Irentxo', 30, 'Mantenida', 10, 8, 10),
 	(4, 'Bosque de los Inurios', 18, 'Vía con 5 movimientos muy duros', 11, 8, 10),
 	(6, 'Normal', 120, 'Larga y bonita vía con pasos de todo tipo. Reequipada con químicos en su totalidad', 12, 8, 9),
@@ -141,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `zona` (
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.zona: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada.zona: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `zona` DISABLE KEYS */;
 INSERT INTO `zona` (`id`, `nombre`) VALUES
 	(4, 'Atxarte'),
