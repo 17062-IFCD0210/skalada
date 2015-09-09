@@ -50,7 +50,7 @@ public class ViasPublicController extends HttpServlet {
 		request.setAttribute("nivel", String.valueOf(v.getGrado()));
 		request.setAttribute("long", v.getLongitud());
 		request.setAttribute("desc", v.getDescripcion());
-		request.setAttribute("url", v.getUrl());
+		//request.setAttribute("url", v.getUrl());
 		request.setAttribute("id", v.getId());
 		
 		

@@ -2,8 +2,6 @@ package com.ipartek.formacion.skalada.bean;
 
 import java.io.Serializable;
 
-import com.ipartek.formacion.skalada.Grado;
-
 /**
  * Ruta para escalada en una pared
  *
@@ -41,82 +39,117 @@ public class Via implements Serializable {
 	private String descripcion;
 	
 	/**
-	 * URL de la imagen
+	 * Tipo de escalada
 	 */
-	private String url;
+	private TipoEscalada tipoEscalada;
+	
+	/**
+	 * Sector
+	 */
+	private Sector sector;
 
-	/***********************
-	 ***** CONSTRUCTORES*****
-	 ***********************/
+	
+	/*******************
+	 *** CONSTRUCTOR ***
+	 *******************/
+	public Via(String nombre, Grado grado, int longitud,
+			TipoEscalada tipoEscalada, Sector sector) {
+		super();
+		this.nombre = nombre;
+		this.grado = grado;
+		this.longitud = longitud;
+		this.tipoEscalada = tipoEscalada;
+		this.sector = sector;
+	}
+	
 	public Via(String nombre) {
 		super();
-		this.id = -1;
 		this.nombre = nombre;
-		this.grado = Grado.NORMAL;
-		this.longitud = 0;
-		this.descripcion = "";
-		this.url = "";
+		this.grado = null;
+		this.tipoEscalada = null;
+		this.sector = null;
 	}
 
-	/***********************
-	 * GETTERS Y SETTERS *
-	 ***********************/
+	/*************************
+	 *** GETTERS Y SETTERS ***
+	 *************************/
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 	public String getNombre() {
 		return nombre;
 	}
 
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 
 	public Grado getGrado() {
 		return grado;
 	}
 
+
 	public void setGrado(Grado grado) {
 		this.grado = grado;
 	}
+
 
 	public int getLongitud() {
 		return longitud;
 	}
 
+
 	public void setLongitud(int longitud) {
 		this.longitud = longitud;
 	}
+
 
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public String getUrl() {
-		return url;
+
+	public TipoEscalada getTipoEscalada() {
+		return tipoEscalada;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+
+	public void setTipoEscalada(TipoEscalada tipoEscalada) {
+		this.tipoEscalada = tipoEscalada;
 	}
 
-	/***********************
-	 * METODOS *
-	 ***********************/
+
+	public Sector getSector() {
+		return sector;
+	}
+
+
+	public void setSector(Sector sector) {
+		this.sector = sector;
+	}
+
+	/*****************
+	 *** TOSTRING ***
+	 *****************/
 	@Override
 	public String toString() {
 		return "Via [id=" + id + ", nombre=" + nombre + ", grado=" + grado
 				+ ", longitud=" + longitud + ", descripcion=" + descripcion
-				+ ", url=" + url + "]";
+				+ ", tipoEscalada=" + tipoEscalada + ", sector=" + sector + "]";
 	}
+	
 }
