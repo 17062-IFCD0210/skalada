@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.ipartek.formacion.skalada.bean.Grado;
+import com.ipartek.formacion.skalada.bean.TipoEscalada;
 
-public class ModeloGrado implements Persistable{
+public class ModeloTipoEscalada implements Persistable{
 	
-	private static final String TABLA = "grado";
+	private static final String TABLA = "tipo_escalada";
 	private static final String COL_ID = "id";
 	private static final String COL_NOMBRE = "nombre";
 	private static final String COL_DESCRIPCION = "descripcion";
@@ -29,18 +29,18 @@ public class ModeloGrado implements Persistable{
 		ResultSet rsKeys = null;
 		if(o != null) {
 			try{
-				Grado grado = (Grado) o;
+				TipoEscalada tipoEsc = (TipoEscalada) o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				
-				pst.setString(1, grado.getNombre());
-				pst.setString(2, grado.getDescripcion());
+				pst.setString(1, tipoEsc.getNombre());
+				pst.setString(2, tipoEsc.getDescripcion());
 		    	
 		    	if(pst.executeUpdate() == 1) {
 		    		rsKeys = pst.getGeneratedKeys();
 		    		if(rsKeys.next()) {
 		    			resul = rsKeys.getInt(1);
-		    			grado.setId(resul);
+		    			tipoEsc.setId(resul);
 		    		} else {
 		    			throw new Exception("No se ha realizado insercion " + SQL_INSERT);
 		    		}
@@ -67,7 +67,7 @@ public class ModeloGrado implements Persistable{
 
 	@Override
 	public Object getById(int id) {
-		Grado g = null;
+		TipoEscalada tipoEsc = null;
 		PreparedStatement pst = null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
@@ -79,7 +79,7 @@ public class ModeloGrado implements Persistable{
 	    	
 	    	//mapeo resultSet => ArrayList<Persona>	    	
 	    	while(rs.next()) {
-	    		g = mapeo(rs);
+	    		tipoEsc = mapeo(rs);
 	    	}	
 	    	
 	    	
@@ -96,7 +96,7 @@ public class ModeloGrado implements Persistable{
 			DataBaseHelper.closeConnection();
 		}
 		
-		return g;
+		return tipoEsc;
 	}
 
 	@Override
@@ -133,13 +133,13 @@ public class ModeloGrado implements Persistable{
 		PreparedStatement pst = null;
 		boolean resul = false;
 		try{
-			Grado g = (Grado) o;
+			TipoEscalada tipoEsc = (TipoEscalada) o;
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_UPDATE);
 			
-			pst.setString(1, g.getNombre());
-			pst.setString(2, g.getDescripcion());
-			pst.setInt(3, g.getId());
+			pst.setString(1, tipoEsc.getNombre());
+			pst.setString(2, tipoEsc.getDescripcion());
+			pst.setInt(3, tipoEsc.getId());
 			
 	    	if(pst.executeUpdate() == 1) {
 	    		resul = true;
@@ -190,13 +190,13 @@ public class ModeloGrado implements Persistable{
 		return resul;
 	}
 	
-	private Grado mapeo(ResultSet rs) throws SQLException{
+	private TipoEscalada mapeo(ResultSet rs) throws SQLException{
 		
-		Grado g = new Grado( rs.getString("nombre") );
-		g.setId( rs.getInt("id"));
-		g.setDescripcion(rs.getString("descripcion"));;
+		TipoEscalada tipoEsc = new TipoEscalada( rs.getString("nombre") );
+		tipoEsc.setId( rs.getInt("id"));
+		tipoEsc.setDescripcion(rs.getString("descripcion"));;
 		
-		return g;
+		return tipoEsc;
 	}
 	
 	

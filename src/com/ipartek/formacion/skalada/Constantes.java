@@ -13,8 +13,17 @@ public class Constantes {
 	public static final String VIEW_BACK_LOGIN = "backoffice/pages/login.jsp";
 	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
 
+	// vistas vias
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
 	public static final String VIEW_BACK_VIAS_FORM  = "backoffice/pages/vias/form.jsp";
+	
+	// vistas grados
+	public static final String VIEW_BACK_GRADOS_INDEX = "backoffice/pages/grados/index.jsp";
+	public static final String VIEW_BACK_GRADOS_FORM  = "backoffice/pages/grados/form.jsp";
+	
+	// vistas tipos de escalada
+	public static final String VIEW_BACK_TIPOS_INDEX = "backoffice/pages/tipos_escalada/index.jsp";
+	public static final String VIEW_BACK_TIPOS_FORM  = "backoffice/pages/tipos_escalada/form.jsp";
 	
 
 	// controladores
@@ -23,6 +32,8 @@ public class Constantes {
 	public static final String CONTROLLER_VIAS   = ROOT_APP + "vias";
 	public static final String CONTROLLER_HOME   = ROOT_APP + "home";
 	public static final String CONTROLLER_INFO_VIA   = "infoVia";
+	public static final String CONTROLLER_GRADOS   = ROOT_APP + "grados";
+	public static final String CONTROLLER_TIPOS   = ROOT_APP + "tipo-escalada";
 	
 	//Acciones
 	public static final int ACCION_NUEVO    = 1;

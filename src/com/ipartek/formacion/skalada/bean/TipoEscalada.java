@@ -14,6 +14,7 @@ public class TipoEscalada implements Serializable{
 	//Constructores
 	public TipoEscalada(String nombre) {
 		super();
+		this.id = -1;
 		this.nombre = nombre;
 	}
 

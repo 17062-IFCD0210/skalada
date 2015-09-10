@@ -20,6 +20,7 @@ public class Grado implements Serializable {
 	//Constructores
 	public Grado(String nombre) {
 		super();
+		this.id = -1;
 		this.nombre = nombre;
 	}
 

@@ -10,29 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.skalada.bean.Via;
-import com.ipartek.formacion.skalada.modelo.ModeloVia;
+import com.ipartek.formacion.skalada.bean.TipoEscalada;
+import com.ipartek.formacion.skalada.modelo.ModeloTipoEscalada;
 
 /**
- * Servlet implementation class ViasController
+ * Servlet implementation class TipoEscaladaController
  */
-public class ViasController extends HttpServlet {
+public class TipoEscaladaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private RequestDispatcher dispatcher = null;
-	private ModeloVia modelo = null;
-	private Via via = null;
+	private ModeloTipoEscalada modelo = null;
+	private TipoEscalada tipo = null;
 	
 	//Parametros Get
 	private int pAccion = Constantes.ACCION_LISTAR; //Accion por defecto
 	private int pID     = -1; //ID no valido
 	
 	//Parametros Post
-	private String pNombre = "Nueva"; // Nombre por defecto
-	//private Grado pGrado = Grado.NORMAL; // Grado por defecto
-	private int pLong = 0; // Longitud por defecto
+	private String pNombre = "Nuevo"; // Nombre por defecto
 	private String pDesc = ""; //Descripcion por defecto
-	private String pUrl = ""; //Url por defecto
 
     /**
      * Este metodo se ejecuta solo la primera vez que se llama al Servlet
@@ -41,13 +38,8 @@ public class ViasController extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {    	
     	super.init(config);
-    	modelo = new ModeloVia();  	
+    	modelo = new ModeloTipoEscalada();  	
     }
-    
-    /**
-     * Crea un juego de datos ficticio para las Vias
-     * @param modelo2
-     */
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -85,16 +77,16 @@ public class ViasController extends HttpServlet {
 		
 		getParametersPost(request, response);
 		
-		crearObjetoVia();
+		crearObjetoTipoEscalada();
 		
-		if(via.getId() != -1) { //Via modificable
-			if(modelo.update(via)) {
+		if(tipo.getId() != -1) { //Tipo de escalada modificable
+			if(modelo.update(tipo)) {
 				request.setAttribute("msg_mod", "Registro Modificado");
 			} else {
 				request.setAttribute("msg_mod", "Registro no modificado");
 			}	
 		} else { //Via nueva
-			modelo.save(via);
+			modelo.save(tipo);
 			request.setAttribute("msg_new", "Registro Creado");
 		}
 		listar(request, response);
@@ -103,36 +95,24 @@ public class ViasController extends HttpServlet {
 	}
 	
 	/**
-	 * Crea un objeto {@code Via} con los parametros recibidos
+	 * Crea un objeto {@code TipoEscalada} con los parametros recibidos
 	 */
-	private void crearObjetoVia() {
-		via = new Via(pNombre);
-		
-		via.setId(pID);
-		//via.setGrado(pGrado);
-		via.setLongitud(pLong);
-		via.setDescripcion(pDesc);
+	private void crearObjetoTipoEscalada() {
+		tipo = new TipoEscalada(pNombre);
+		tipo.setId(pID);
+		tipo.setDescripcion(pDesc);
 	}
 
 	/**
 	 * Recoger los parametros enviados desde el formulario:
-	 * @see backoffice\pages\vias\form.jsp
+	 * @see backoffice\pages\tipos_escalada\form.jsp
 	 * @param request
 	 * @param response
 	 */
-	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) {
-		String sLong = request.getParameter("long");
-		
+	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) {		
 		pID = Integer.parseInt(request.getParameter("id"));
 		pNombre = request.getParameter("nombre");
-		//pGrado = Grado.valueOf(request.getParameter("grado"));
-		if(sLong!= null && !"".equals(sLong)) {
-			pLong = Integer.parseInt(sLong);
-		} else {
-			pLong = 0;
-		}
 		pDesc = request.getParameter("desc");
-		pUrl = request.getParameter("url");
 		
 	}
 
@@ -142,7 +122,7 @@ public class ViasController extends HttpServlet {
 			String sAccion = request.getParameter("accion");
 			pAccion = Integer.parseInt(sAccion);
 			
-			//Recoger identificador de la via
+			//Recoger identificador del tipo de Escalada
 			String sID = request.getParameter("id");
 			if(sID != null && !"".equals(sID)) {
 				pID = Integer.parseInt(sID);
@@ -157,41 +137,41 @@ public class ViasController extends HttpServlet {
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("vias", modelo.getAll());
+		request.setAttribute("tipos", modelo.getAll());
 		
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_INDEX);
+		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_TIPOS_INDEX);
 		
 	}
 
 	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
 		
-		//Comprobamos si ha podido eliminar la via, y le damos un mensaje de informacion al index.jsp
+		//Comprobamos si ha podido eliminar el tipo, y le damos un mensaje de informacion al index.jsp
 		if(modelo.delete(pID)) {
-		 	request.setAttribute("msg_elim", "Registro Eliminado.");
+		 	request.setAttribute("msg_elim", "Tipo Escalada eliminado.");
 		} else {
-			request.setAttribute("msg_elim", "Registro NO Eliminado. " + pID);
+			request.setAttribute("msg_elim", "Tipo Escalada NO eliminado. " + pID);
 		}
 		
-		//listamos las vias actualizadas
+		//listamos los tipos de escalada actualizados
 		listar(request,response);
 		
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		via = new Via("Nueva");
-		request.setAttribute("via", via);
-		request.setAttribute("titulo", "Crear Nueva Via");
+		tipo = new TipoEscalada("Nuevo");
+		request.setAttribute("tipos", tipo);
+		request.setAttribute("titulo", "Crear Nuevo Tipo de Escalada");
 		
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
+		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_TIPOS_FORM);
 		
 	}
 
 	private void detalle(HttpServletRequest request, HttpServletResponse response) {
-		via = (Via) modelo.getById(pID);
-		request.setAttribute("via", via);
-		request.setAttribute("titulo", via.getNombre());
+		tipo = (TipoEscalada) modelo.getById(pID);
+		request.setAttribute("tipo", tipo);
+		request.setAttribute("titulo", tipo.getNombre());
 		
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
+		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_TIPOS_FORM);
 		
 	}
 

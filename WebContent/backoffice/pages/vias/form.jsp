@@ -1,4 +1,4 @@
-<%@page import="com.ipartek.formacion.skalada.Grado"%>
+<%-- <%@page import="com.ipartek.formacion.skalada.Grado"%> --%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <jsp:include page="../includes/head.jsp"></jsp:include>
@@ -38,13 +38,13 @@
 	                   <label for="grad">Grado</label>
 	                   <select class="form-control" name="grado">
 	                   		<% 
-	                   		Grado[] grados = Grado.values();
-	                   		for(int i=0; i<grados.length; i++) {
+// 	                   		Grado[] grados = Grado.values();
+// 	                   		for(int i=0; i<grados.length; i++) {
 	                   			//Comprobamos el grado seleccionado mediante operador ternario
-	                   			String selected = (grados[i] == via.getGrado())?"selected":""; 	
+// 	                   			String selected = (grados[i] == via.getGrado())?"selected":""; 	
 	                   		%>
-	                   			<option value="<%=grados[i]%>" <%=selected%>><%=grados[i]%></option>		
-							<% } %>
+<%-- 	                   			<option value="<%=grados[i]%>" <%=selected%>><%=grados[i]%></option>		 --%>
+<%-- 							<% } %> --%>
 	                   </select>
 	               </div>
 	               <div class="form-group">
@@ -57,7 +57,7 @@
 	               </div>
 	               <div class="form-group">
 	                   <label for="nombre">URL Imagen</label>
-	                   <input class="form-control" name="url" value="<%=via.getUrl()%>" required>
+<%-- 	                   <input class="form-control" name="url" value="<%=via.getUrl()%>" required> --%>
 	               </div>
 	               <!-- Botonera -->
 	               <div class="form-group">
@@ -103,7 +103,7 @@
 								<div class="row">
 									<div class="form-grouo col-md-12">
 										<label for="url">URL Imagen</label>
-										<input type="text" name="url" class="form-control" value="<%=via.getUrl()%>" disabled>
+<%-- 										<input type="text" name="url" class="form-control" value="<%=via.getUrl()%>" disabled> --%>
 									</div>
 								</div>
 								<div class="row">
@@ -127,7 +127,7 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=via.getId()%>&accion=eliminar" id="boton_eliminar" class="btn btn-danger disabled">Eliminar</a>
+								<a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=via.getId()%>" id="boton_eliminar" class="btn btn-danger disabled">Eliminar</a>
 								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 							</div>
 						</div>

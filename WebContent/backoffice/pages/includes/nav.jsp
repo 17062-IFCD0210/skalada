@@ -60,7 +60,13 @@
                         </li>
                         
                         <li>
-                            <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-bar-chart-o fa-fw"></i> Vias</a>
+                            <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-line-chart fa-fw"></i> Vias</a>
+                        </li>
+                        <li>
+                            <a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-bar-chart-o fa-fw"></i> Grados</a>
+                        </li>
+                        <li>
+                            <a href="<%=Constantes.CONTROLLER_TIPOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-bar-chart-o fa-fw"></i> Tipos de Escalada</a>
                         </li>
                     </ul>
                 </div>

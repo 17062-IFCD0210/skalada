@@ -64,6 +64,7 @@ public class Via implements Serializable {
 	
 	public Via(String nombre) {
 		super();
+		this.id = -1;
 		this.nombre = nombre;
 		this.grado = null;
 		this.tipoEscalada = null;

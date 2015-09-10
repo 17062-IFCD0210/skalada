@@ -153,7 +153,7 @@
              <div class="col-md-3 col-sm-3">
              	<figure> 
             		<a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>">
-            			<img class="img-responsive img-portfolio img-hover" src="<%=v.getUrl()%>" alt="">
+<%--             			<img class="img-responsive img-portfolio img-hover" src="<%=v.getUrl()%>" alt=""> --%>
             		</a>
             		<figcaption><a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>"><%=v.getNombre()%></a></figcaption>
              	</figure> 
