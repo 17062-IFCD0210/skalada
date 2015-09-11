@@ -16,6 +16,7 @@ public class Sector implements Serializable{
 		super();
 		this.nombre = nombre;
 		this.zona = zona;
+		this.id = -1;
 	}
 
 	//Getters y Setters

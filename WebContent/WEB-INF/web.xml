@@ -84,4 +84,14 @@
     <servlet-name>ZonasController</servlet-name>
     <url-pattern>/zona</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SectoresController</display-name>
+    <servlet-name>SectoresController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.SectoresController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SectoresController</servlet-name>
+    <url-pattern>/sector</url-pattern>
+  </servlet-mapping>
 </web-app>

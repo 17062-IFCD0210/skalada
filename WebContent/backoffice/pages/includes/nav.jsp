@@ -71,6 +71,9 @@
                         <li>
                             <a href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-tree fa-fw"></i> Zonas</a>
                         </li>
+                        <li>
+                            <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-tree fa-fw"></i> Sectores</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
