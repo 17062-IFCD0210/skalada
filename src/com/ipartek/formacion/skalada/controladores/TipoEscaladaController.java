@@ -159,7 +159,7 @@ public class TipoEscaladaController extends HttpServlet {
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
 		tipo = new TipoEscalada("Nuevo");
-		request.setAttribute("tipos", tipo);
+		request.setAttribute("tipo", tipo);
 		request.setAttribute("titulo", "Crear Nuevo Tipo de Escalada");
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_TIPOS_FORM);
