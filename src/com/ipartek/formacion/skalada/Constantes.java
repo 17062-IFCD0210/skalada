@@ -25,6 +25,10 @@ public class Constantes {
 	public static final String VIEW_BACK_TIPOS_INDEX = "backoffice/pages/tipos_escalada/index.jsp";
 	public static final String VIEW_BACK_TIPOS_FORM  = "backoffice/pages/tipos_escalada/form.jsp";
 	
+	// vistas tipos de escalada
+	public static final String VIEW_BACK_ZONAS_INDEX = "backoffice/pages/zonas/index.jsp";
+	public static final String VIEW_BACK_ZONAS_FORM  = "backoffice/pages/zonas/form.jsp";
+	
 
 	// controladores
 	public static final String CONTROLLER_LOGIN  = ROOT_APP + "login";
@@ -34,6 +38,7 @@ public class Constantes {
 	public static final String CONTROLLER_INFO_VIA   = "infoVia";
 	public static final String CONTROLLER_GRADOS   = ROOT_APP + "grados";
 	public static final String CONTROLLER_TIPOS   = ROOT_APP + "tipo-escalada";
+	public static final String CONTROLLER_ZONAS   = ROOT_APP + "zona";
 	
 	//Acciones
 	public static final int ACCION_NUEVO    = 1;

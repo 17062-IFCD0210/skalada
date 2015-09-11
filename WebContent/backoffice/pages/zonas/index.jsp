@@ -1,4 +1,4 @@
-<%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Zona"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page pageEncoding = "utf-8" %>
@@ -11,10 +11,10 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Grados
+                    <h1 class="page-header">Zonas
                     	<!-- TODO llamar al Servlet, no al JSP -->
-	                    <a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_NUEVO%>" type="button" class="btn btn-outline btn-success">
-	                    	<i class="fa fa-plus"></i> Nuevo
+	                    <a href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_NUEVO%>" type="button" class="btn btn-outline btn-success">
+	                    	<i class="fa fa-plus"></i> Nueva
 	                    </a>
                     </h1>
                     <%
@@ -61,27 +61,25 @@
 				<tr>
 					<th>ID</th>
 					<th>Nombre</th>
-					<th>Descripcion</th>
 				</tr>
 			</thead>
 
 			<tbody>
 			<%
-				//Recoger el atributo "grados" que llegara del servlet con una coleccion de vias
-				ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
+				//Recoger el atributo "grados" que llegara del servlet con una coleccion de zonas
+				ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
 				
-				Grado g = null;
-				for(int i=0; i<grados.size(); i++) {
-					g = grados.get(i);
+				Zona z = null;
+				for(int i=0; i<zonas.size(); i++) {
+					z = zonas.get(i);
 			%>
 				<tr>
-					<td><%=g.getId()%></td>
+					<td><%=z.getId()%></td>
 					<td>
-						<a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=g.getId()%>">
-							<%=g.getNombre() %>
+						<a href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=z.getId()%>">
+							<%=z.getNombre() %>
 						</a>
 					</td>
-					<td><%=g.getDescripcion()%></td>
 				</tr>
 			<%	} //Cerramos el For  %>	
 			</tbody>

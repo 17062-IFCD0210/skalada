@@ -74,4 +74,14 @@
     <servlet-name>TipoEscaladaController</servlet-name>
     <url-pattern>/tipo-escalada</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ZonasController</display-name>
+    <servlet-name>ZonasController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.ZonasController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ZonasController</servlet-name>
+    <url-pattern>/zona</url-pattern>
+  </servlet-mapping>
 </web-app>

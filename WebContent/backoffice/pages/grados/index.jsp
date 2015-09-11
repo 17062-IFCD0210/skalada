@@ -67,7 +67,7 @@
 
 			<tbody>
 			<%
-				//Recoger el atributo "grados" que llegara del servlet con una coleccion de vias
+				//Recoger el atributo "grados" que llegara del servlet con una coleccion de grados
 				ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
 				
 				Grado g = null;

@@ -67,7 +67,7 @@
 
 			<tbody>
 			<%
-				//Recoger el atributo "tipos" que llegara del servlet con una coleccion de vias
+				//Recoger el atributo "tipos" que llegara del servlet con una coleccion de tipos de escalada
 				ArrayList<TipoEscalada> tipos = (ArrayList<TipoEscalada>)request.getAttribute("tipos");
 				
 				TipoEscalada tipoEsc = null;

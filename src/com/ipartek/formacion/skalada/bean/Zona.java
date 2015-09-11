@@ -17,6 +17,7 @@ public class Zona implements Serializable{
 	public Zona(String nombre, List<Sector> sectores) {
 		super();
 		this.nombre = nombre;
+		this.id = -1;
 		if(sectores != null) {
 			this.sectores = sectores;
 		} else {
