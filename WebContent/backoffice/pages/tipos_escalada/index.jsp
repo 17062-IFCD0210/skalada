@@ -1,6 +1,7 @@
 <%@page import="com.ipartek.formacion.skalada.bean.TipoEscalada"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@page pageEncoding = "utf-8" %>
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
@@ -13,7 +14,7 @@
                     <h1 class="page-header">Tipos de Escalada
                     	<!-- TODO llamar al Servlet, no al JSP -->
 	                    <a href="<%=Constantes.CONTROLLER_TIPOS%>?accion=<%=Constantes.ACCION_NUEVO%>" type="button" class="btn btn-outline btn-success">
-	                    	<i class="fa fa-plus"></i> Nueva
+	                    	<i class="fa fa-plus"></i> Nuevo
 	                    </a>
                     </h1>
                     <%

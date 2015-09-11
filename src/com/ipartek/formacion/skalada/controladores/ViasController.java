@@ -32,7 +32,7 @@ public class ViasController extends HttpServlet {
 	//private Grado pGrado = Grado.NORMAL; // Grado por defecto
 	private int pLong = 0; // Longitud por defecto
 	private String pDesc = ""; //Descripcion por defecto
-	private String pUrl = ""; //Url por defecto
+	//private String pUrl = ""; //Url por defecto
 
     /**
      * Este metodo se ejecuta solo la primera vez que se llama al Servlet
@@ -132,7 +132,7 @@ public class ViasController extends HttpServlet {
 			pLong = 0;
 		}
 		pDesc = request.getParameter("desc");
-		pUrl = request.getParameter("url");
+		//pUrl = request.getParameter("url");
 		
 	}
 

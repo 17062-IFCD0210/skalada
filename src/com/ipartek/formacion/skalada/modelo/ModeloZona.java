@@ -7,20 +7,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.ipartek.formacion.skalada.bean.TipoEscalada;
+import com.ipartek.formacion.skalada.bean.Zona;
 
-public class ModeloTipoEscalada implements Persistable{
+public class ModeloZona implements Persistable{
 	
-	private static final String TABLA = "tipo_escalada";
+	private static final String TABLA = "zona";
 	private static final String COL_ID = "id";
 	private static final String COL_NOMBRE = "nombre";
-	private static final String COL_DESCRIPCION = "descripcion";
 	
-	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE  + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
+	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE  + "`) VALUES (?);";
 	private static final String SQL_DELETE = "DELETE FROM `"+ TABLA + "` WHERE  `" + COL_ID + "`=?;";
 	private static final String SQL_GETBYID = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?";
 	private static final String SQL_GETALL = "SELECT * FROM `" + TABLA + "` ";
-	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "` = ?, `" + COL_DESCRIPCION + "` = ? WHERE `" + COL_ID + "` = ?;";
+	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "` = ? WHERE `" + COL_ID + "` = ?;";
 	
 	@Override
 	public int save(Object o) {
@@ -29,18 +28,17 @@ public class ModeloTipoEscalada implements Persistable{
 		ResultSet rsKeys = null;
 		if(o != null) {
 			try{
-				TipoEscalada tipoEsc = (TipoEscalada) o;
+				Zona z = (Zona) o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				
-				pst.setString(1, tipoEsc.getNombre());
-				pst.setString(2, tipoEsc.getDescripcion());
+				pst.setString(1, z.getNombre());
 		    	
 		    	if(pst.executeUpdate() == 1) {
 		    		rsKeys = pst.getGeneratedKeys();
 		    		if(rsKeys.next()) {
 		    			resul = rsKeys.getInt(1);
-		    			tipoEsc.setId(resul);
+		    			z.setId(resul);
 		    		} else {
 		    			throw new Exception("No se ha realizado insercion " + SQL_INSERT);
 		    		}
@@ -67,7 +65,7 @@ public class ModeloTipoEscalada implements Persistable{
 
 	@Override
 	public Object getById(int id) {
-		TipoEscalada tipoEsc = null;
+		Zona z = null;
 		PreparedStatement pst = null;
 		try{
 			Connection con = DataBaseHelper.getConnection();
@@ -77,9 +75,9 @@ public class ModeloTipoEscalada implements Persistable{
 			
 	    	ResultSet rs = pst.executeQuery();
 	    	
-	    	//mapeo resultSet => ArrayList<TipoEscalada>	    	
+	    	//mapeo resultSet => ArrayList<Grado>	    	
 	    	while(rs.next()) {
-	    		tipoEsc = mapeo(rs);
+	    		z = mapeo(rs);
 	    	}	
 	    	
 	    	
@@ -96,7 +94,7 @@ public class ModeloTipoEscalada implements Persistable{
 			DataBaseHelper.closeConnection();
 		}
 		
-		return tipoEsc;
+		return z;
 	}
 
 	@Override
@@ -108,7 +106,7 @@ public class ModeloTipoEscalada implements Persistable{
 			pst = con.prepareStatement(SQL_GETALL); 
 	    	ResultSet rs = pst.executeQuery ();
 	    	
-	    	//mapeo resultSet => ArrayList<TipoEscalada>	    	
+	    	//mapeo resultSet => ArrayList<Grado>	    	
 	    	while(rs.next()) {
 	    		resul.add(mapeo(rs));
 	    	}	
@@ -133,13 +131,12 @@ public class ModeloTipoEscalada implements Persistable{
 		PreparedStatement pst = null;
 		boolean resul = false;
 		try{
-			TipoEscalada tipoEsc = (TipoEscalada) o;
+			Zona z = (Zona) o;
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_UPDATE);
 			
-			pst.setString(1, tipoEsc.getNombre());
-			pst.setString(2, tipoEsc.getDescripcion());
-			pst.setInt(3, tipoEsc.getId());
+			pst.setString(1, z.getNombre());
+			pst.setInt(2, z.getId());
 			
 	    	if(pst.executeUpdate() == 1) {
 	    		resul = true;
@@ -190,13 +187,12 @@ public class ModeloTipoEscalada implements Persistable{
 		return resul;
 	}
 	
-	private TipoEscalada mapeo(ResultSet rs) throws SQLException{
+	private Zona mapeo(ResultSet rs) throws SQLException{
 		
-		TipoEscalada tipoEsc = new TipoEscalada( rs.getString("nombre") );
-		tipoEsc.setId( rs.getInt("id"));
-		tipoEsc.setDescripcion(rs.getString("descripcion"));;
+		Zona z = new Zona( rs.getString("nombre"), null );
+		z.setId( rs.getInt("id"));
 		
-		return tipoEsc;
+		return z;
 	}
 	
 	

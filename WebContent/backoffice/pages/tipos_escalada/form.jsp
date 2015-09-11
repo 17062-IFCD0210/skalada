@@ -1,6 +1,6 @@
 <%@page import="com.ipartek.formacion.skalada.bean.TipoEscalada"%>
-<%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@page pageEncoding = "utf-8" %>
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
@@ -59,7 +59,7 @@
 										<%=tipoEsc.getNombre().toUpperCase() %></h2>
 								</div>
 								<div class="modal-body">
-									<p>Estas seguro de que desea eliminar el siguiente grado:</p>
+									<p>Estas seguro de que desea eliminar el siguiente tipo de escalada:</p>
 									<div class="row">
 										<div class="form-group col-md-6">
 											<label for="id">ID</label> 
@@ -79,7 +79,7 @@
 									<div class="row checkbox">
 										<div class="form-group col-md-12">
 											<label> <input type="checkbox" id="check_eliminar">S&iacute;,
-												estoy seguro. Deseo eliminar la Via seleccionada.
+												estoy seguro. Deseo eliminar el tipo de escalada seleccionado.
 											</label>
 											<!-- Habilitar eliminacion mediante checkbox -->
 											<script>

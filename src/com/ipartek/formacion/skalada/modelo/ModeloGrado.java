@@ -77,7 +77,7 @@ public class ModeloGrado implements Persistable{
 			
 	    	ResultSet rs = pst.executeQuery();
 	    	
-	    	//mapeo resultSet => ArrayList<Persona>	    	
+	    	//mapeo resultSet => ArrayList<Grado>	    	
 	    	while(rs.next()) {
 	    		g = mapeo(rs);
 	    	}	
