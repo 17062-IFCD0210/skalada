@@ -20,11 +20,11 @@ public class ModeloSector implements Persistable{
 	private static final String COL_ZONA_ID = "id_zona";
 	private static final String COL_ZONA_NOMBRE = "zona_nombre";
 	
-	private static final String SQL_INSERT = "INSERT INTO `" + TABLA_SECTOR + "` (`" + COL_NOMBRE  + "`, `" + COL_ZONA_ID + "`) VALUES (?,?);";
+	private static final String SQL_INSERT = "INSERT INTO " + TABLA_SECTOR + " (" + COL_NOMBRE  + ", " + COL_ZONA_ID + ") VALUES (?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `"+ TABLA_SECTOR + "` WHERE  `" + COL_ID + "`=?;";
 	private static final String SQL_GETBYID = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id) WHERE s." + COL_ID + "= ?";
 	private static final String SQL_GETALL = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id);";
-	private static final String SQL_UPDATE = "UPDATE " + TABLA_SECTOR + " s SET `" + COL_NOMBRE + "` = ?, `" + COL_ZONA_ID + "` = ? WHERE s." + COL_ID + " = ?;";
+	private static final String SQL_UPDATE = "UPDATE " + TABLA_SECTOR + "  SET " + COL_NOMBRE + " = ?, " + COL_ZONA_ID + " = ? WHERE " + COL_ID + " = ?;";
 	private static final String SQL_GETALLZONAS = "SELECT " + COL_NOMBRE + " FROM " + TABLA_ZONA + ";";
 	private static final String SQL_GETZONASBYID = "SELECT " + COL_NOMBRE + " FROM " + TABLA_ZONA + " WHERE " + COL_ID + "= ?;";
 	
@@ -198,12 +198,13 @@ public class ModeloSector implements Persistable{
 	}
 	
 	private Sector mapeo(ResultSet rs) throws SQLException{
-		Zona z = new Zona("",null);
+		Zona z = new Zona(rs.getString("zona_nombre"),null);
+		z.setId(rs.getInt("id_zona"));
+		z.setNombre(rs.getString("zona_nombre"));
 		Sector s = new Sector( rs.getString("nombre"), z );
 		s.setId( rs.getInt("id"));
 		s.setNombre(rs.getString("nombre"));
-		z.setId(rs.getInt("id_zona"));
-		z.setNombre(rs.getString("zona_nombre"));
+		
 		
 		return s;
 	}

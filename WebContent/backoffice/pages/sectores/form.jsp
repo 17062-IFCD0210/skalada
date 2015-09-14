@@ -9,6 +9,7 @@
 <%
 	//Recoger atributos "grado" de la Clase Grado
 	Sector s = (Sector)request.getAttribute("sector");
+	ArrayList<Zona> zonas = (ArrayList<Zona>) request.getAttribute("lista_zonas");
 	
 
 %>
@@ -38,20 +39,22 @@
 	                   <input class="form-control" name="nombre" value="<%=s.getNombre()%>" required>
 	               </div>
 	              <div class="form-group">
-	                   <label for="desc">Zona</label>
-						<select class="form-control" name="descripcion">
+	                   <label for="zona">Zona</label>
+						<select class="form-control" name="zona">
 							<%
-								ArrayList<Zona> zonas = (ArrayList<Zona>) request.getAttribute("lista_zonas");
-	                		   	Zona z = null;
 	                		   	for(int i = 0; i<zonas.size(); i++) {
-	                		   		z = zonas.get(i);
+	                		   		if(zonas.get(i).getId() == s.getZona().getId()) {
 	                		 %>
-	                		 <option><%=z.getNombre() %></option>
+	                		 <option selected value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre() %></option>
 	                		 <%
+	                		   		} else {
+	                		 %>
+	                		 <option value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre() %></option>  			
+	            	         <%
+	                		   		} //else	
 	                		   	} // For
 	                 	     %>					
 						</select>
-<%-- 	                   <textarea class="form-control" name="desc" required><%=s.getZona().getNombre()%></textarea> --%>
 	               </div>
 	               <!-- Botonera -->
 	               <div class="form-group">

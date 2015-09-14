@@ -25,6 +25,7 @@ public class SectoresController extends HttpServlet {
 	private ModeloSector modeloSector = null;
 	private ModeloZona modeloZona = null;
 	private Sector sector = null;
+	private Zona zona = null;
 	
 	//Parametros Get
 	private int pAccion = Constantes.ACCION_LISTAR; //Accion por defecto
@@ -32,7 +33,7 @@ public class SectoresController extends HttpServlet {
 	
 	//Parametros Post
 	private String pNombre = "Nuevo"; // Nombre por defecto
-	private String pZona = "";
+	private int pZona;
 
     /**
      * Este metodo se ejecuta solo la primera vez que se llama al Servlet
@@ -90,8 +91,11 @@ public class SectoresController extends HttpServlet {
 				request.setAttribute("msg_mod", "Registro no modificado");
 			}	
 		} else { //Via nueva
-			modeloSector.save(sector);
-			request.setAttribute("msg_new", "Registro Creado");
+			if(modeloSector.save(sector) != -1) {
+				request.setAttribute("msg_new", "Registro Creado");
+			} else {
+				request.setAttribute("msg_new", "Registro NO Creado");
+			}			
 		}
 		listar(request, response);
 		dispatcher.forward(request, response);
@@ -102,8 +106,18 @@ public class SectoresController extends HttpServlet {
 	 * Crea un objeto {@code sector} con los parametros recibidos
 	 */
 	private void crearObjetoSector() {
-		sector = new Sector(pNombre, null);
-		sector.setId(pID);
+		zona = (Zona)modeloZona.getById(pZona);
+		
+		//existe sector
+		if ( pID != -1 ){		
+			sector = (Sector)modeloSector.getById(pID);
+			sector.setZona(zona);
+			
+		//nuevo sector	
+		}else{
+			sector = new Sector(pNombre, zona);
+			sector.setId(pID);
+		}
 	}
 
 	/**
@@ -115,7 +129,7 @@ public class SectoresController extends HttpServlet {
 	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) {		
 		pID = Integer.parseInt(request.getParameter("id"));
 		pNombre = request.getParameter("nombre");
-		pZona = request.getParameter("zona");
+		pZona = Integer.parseInt(request.getParameter("zona"));
 		
 	}
 
@@ -161,11 +175,11 @@ public class SectoresController extends HttpServlet {
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		Zona z = new Zona("",null);
-		sector = new Sector("Nuevo", z);
+		zona = new Zona("",null);
+		sector = new Sector("Nuevo", zona);
 		request.setAttribute("sector", sector);
 		request.setAttribute("titulo", "Crear Nuevo Sector");
-		listarZonas(request,response);
+		request.setAttribute("lista_zonas", modeloZona.getAll());
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 		
@@ -175,14 +189,10 @@ public class SectoresController extends HttpServlet {
 		sector = (Sector) modeloSector.getById(pID);
 		request.setAttribute("sector", sector);
 		request.setAttribute("titulo", sector.getNombre());
-		listarZonas(request,response);
+		request.setAttribute("lista_zonas", modeloZona.getAll());
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 		
-	}
-	
-	private void listarZonas(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("lista_zonas", modeloZona.getAll());
 	}
 
 }
