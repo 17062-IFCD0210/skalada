@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
 import com.ipartek.formacion.skalada.modelo.ModeloTipoEscalada;
 
@@ -28,6 +29,8 @@ public class TipoEscaladaController extends HttpServlet {
 	private int pID	= -1;		//ID no valido	
 	private String pNombre;
 	private String pDescripcion;
+	
+	private Mensaje msg;
 	
     
     /**
@@ -91,10 +94,11 @@ public class TipoEscaladaController extends HttpServlet {
 
 	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
 		if(modelo.delete(pID)){
-			request.setAttribute("msg-danger", "Registro eliminado correctamente");
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Registro eliminado correctamente");			
 		} else {
-			request.setAttribute("msg-warning", "Error al eliminar el registro [id(" + pID + ")]");
+			msg = new Mensaje(Mensaje.MSG_WARNING, "Error al eliminar el registro [id(" + pID + ")]");
 		}
+		request.setAttribute("msg", msg);
 		listar(request, response);
 	}
 
@@ -125,23 +129,24 @@ public class TipoEscaladaController extends HttpServlet {
 		//Crear Objeto Grado
 		crearObjeto();
 		
-		//Guardar/Modificar Objeto Via
+		//Guardar/Modificar Objeto TipoEscalada
 		if (pID == -1){
 			if( modelo.save(tipoEscalada) != -1){	
-				request.setAttribute("msg-success", "Registro creado con exito");
+				msg = new Mensaje(Mensaje.MSG_SUCCESS, "Registro creado con exito");
 			} else {
-				request.setAttribute("msg-danger", "Error al guardar el nuevo registro");
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro");
 			}
 		} else {
 			if(modelo.update(tipoEscalada)){
-				request.setAttribute("msg-success", "Modificado correctamente el registro [id(" + pID + ")]");
+				msg = new Mensaje(Mensaje.MSG_SUCCESS, "Modificado correctamente el registro [id(" + pID + ")]");
 			} else {
-				request.setAttribute("msg-danger", "Error al modificar el registro [id(" + pID + ")]");
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar el registro [id(" + pID + ")]");
 			}
 		}
 		
 		listar(request,response);
 		
+		request.setAttribute("msg", msg);
 		dispatcher.forward(request, response);
 		
 	}

@@ -13,7 +13,7 @@ import com.ipartek.formacion.skalada.bean.Zona;
 public class ModeloSector implements Persistable{
 	
 	private static final String TABLA_SECTOR = "sector";
-	private static final String TABLA_ZONA = "zona";
+	
 	private static final String COL_ID = "id";
 	private static final String COL_NOMBRE = "nombre";
 	private static final String COL_ZONA_ID = "id_zona";
@@ -21,14 +21,10 @@ public class ModeloSector implements Persistable{
 	
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA_SECTOR + "` (`" + COL_NOMBRE + "`, `" + COL_ZONA_ID + "`) VALUES (?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_SECTOR + "` WHERE `" + COL_ID + "`= ?;";
-
-//	private static final String SQL_GETONE = "SELECT  s." + COL_ID + ", s." + COL_NOMBRE + ", " + COL_ZONA_ID + ", z." + COL_NOMBRE + " AS " + COL_ZONA_NOMBRE
-//											  + " FROM " + TABLA_SECTOR + " AS s INNER JOIN " + TABLA_ZONA + " AS z ON (s." + COL_ZONA_ID + " = z." + COL_ID 
-//											  + ") WHERE s." + COL_ID + " = ?";
-	private static final String SQL_GETONE = "SELECT  s.id, s.nombre, id_zona, z.nombre AS nombre_zona FROM sector AS s INNER JOIN zona AS z ON (s.id_zona = z.id) WHERE s.id = ?";
-
-	private static final String SQL_GETALL = "SELECT  s." + COL_ID + ", s." + COL_NOMBRE + ", " + COL_ZONA_ID + ", z." + COL_NOMBRE + " AS " + COL_ZONA_NOMBRE
-											  + " FROM " + TABLA_SECTOR + " AS s, " + TABLA_ZONA + " AS z WHERE s." + COL_ZONA_ID + "= z." + COL_ID; 
+	private static final String SQL_GETALL = "SELECT  s.id, s.nombre, id_zona, z.nombre AS nombre_zona "
+											+ "FROM sector AS s "
+											+ "INNER JOIN zona AS z ON (s.id_zona = z.id)";
+	private static final String SQL_GETONE = SQL_GETALL + "WHERE s.id = ?";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_ZONA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
@@ -203,7 +199,7 @@ public class ModeloSector implements Persistable{
 	 */
 	private Sector mapeo (ResultSet rs) throws SQLException{
 		Sector resul = null;    
-		
+
 		Zona zona = new Zona( rs.getString(COL_ZONA_NOMBRE) );
 		zona.setId(rs.getInt(COL_ZONA_ID));
 		

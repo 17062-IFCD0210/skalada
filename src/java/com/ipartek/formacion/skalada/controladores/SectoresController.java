@@ -1,7 +1,6 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
@@ -26,6 +26,7 @@ public class SectoresController extends HttpServlet {
 		private RequestDispatcher dispatcher = null;
 		private ModeloSector modeloSector = null;
 		private Sector sector = null;
+		
 		private ModeloZona modeloZona = null;
 		private Zona zona = null;
 		
@@ -34,7 +35,8 @@ public class SectoresController extends HttpServlet {
 		private int pID	= -1;		//ID no valido	
 		private String pNombre;
 		private int pIDZona;
-		
+
+		private Mensaje msg;
 	    
 	    /**
 	     * Este metodo se ejecuta solo la primera vez que se llama al servlet
@@ -97,11 +99,12 @@ public class SectoresController extends HttpServlet {
 		}
 
 		private void eliminar(HttpServletRequest request, HttpServletResponse response) {
-			if(modeloSector.delete(pID)){
-				request.setAttribute("msg-danger", "Registro eliminado correctamente");
+			if(modeloSector.delete(pID)){			
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Registro eliminado correctamente");			
 			} else {
-				request.setAttribute("msg-warning", "Error al eliminar el registro [id(" + pID + ")]");
+				msg = new Mensaje(Mensaje.MSG_WARNING, "Error al eliminar el registro [id(" + pID + ")]");
 			}
+			request.setAttribute("msg", msg);
 			listar(request, response);
 		}
 
@@ -139,20 +142,21 @@ public class SectoresController extends HttpServlet {
 			//Guardar/Modificar Objeto Via
 			if (pID == -1){
 				if( modeloSector.save(sector) != -1){	
-					request.setAttribute("msg-success", "Registro creado con exito");
+					msg = new Mensaje(Mensaje.MSG_SUCCESS, "Registro creado con exito");
 				} else {
-					request.setAttribute("msg-danger", "Error al guardar el nuevo registro");
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro");
 				}
 			} else {
 				if(modeloSector.update(sector)){
-					request.setAttribute("msg-success", "Modificado correctamente el registro [id(" + pID + ")]");
+					msg = new Mensaje(Mensaje.MSG_SUCCESS, "Modificado correctamente el registro [id(" + pID + ")]");
 				} else {
-					request.setAttribute("msg-danger", "Error al modificar el registro [id(" + pID + ")]");
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar el registro [id(" + pID + ")]");
 				}
 			}
 			
 			listar(request,response);
 			
+			request.setAttribute("msg", msg);
 			dispatcher.forward(request, response);
 			
 		}
@@ -161,10 +165,14 @@ public class SectoresController extends HttpServlet {
 		 * Crea un Objeto {@code Sector} Con los parametros recibidos
 		 */
 		private void crearObjeto() {
-			zona = new Zona("");
-			zona.setId(pIDZona);
-			sector = new Sector(pNombre, zona);
-			sector.setId(pID);
+			zona = (Zona)modeloZona.getById(pIDZona);
+			if (pID != -1) {
+				sector = (Sector)modeloSector.getById(pID);
+				sector.setZona(zona);
+			}else{			
+				sector = new Sector(pNombre, zona);
+				sector.setId(pID);
+			}
 		}
 
 
