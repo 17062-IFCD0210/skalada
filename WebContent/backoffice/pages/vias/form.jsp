@@ -31,17 +31,17 @@
             <div class="row">
 	           <!-- Formulario -->
 	           <form role="form" action ="<%=Constantes.CONTROLLER_VIAS%>" method="post">
-		           <div class="form-group">
+		           <div class="form-group col-lg-3">
 		           	<!-- Mostramos el input text, pero se submita el hidden -->
 	                   <label for="id">ID</label>
 	                   <input type="hidden" name="id" value="<%=via.getId()%>">
 	                   <input type="text" class="form-control" value="<%=via.getId()%>" disabled>
 	               </div>
-	               <div class="form-group">
+	               <div class="form-group col-lg-9">
 	                   <label for="nombre">Nombre</label>
 	                   <input class="form-control" name="nombre" value="<%=via.getNombre()%>" required>
 	               </div>
-	               <div class="form-group">
+	               <div class="form-group col-lg-4">
 	                   <label for="grado">Dificultad</label>
 						<select class="form-control" name="grado">
 							<%
@@ -59,15 +59,11 @@
 	                 	     %>					
 						</select>
 	               </div>
-	               <div class="form-group">
+	               <div class="form-group col-lg-4">
 	                   <label for="long">Longitud</label>
 	                   <input class="form-control" type="number" name="long" value="<%=via.getLongitud()%>" required>
 	               </div>
-	               <div class="form-group">
-	                   <label for="desc">Descripcion</label>
-	                   <textarea class="form-control" name="desc" required><%=via.getDescripcion()%></textarea>
-	               </div>
-	               <div class="form-group">
+	               <div class="form-group col-lg-4">
 	                   <label for="tipo_esc">Tipo Escalada</label>
 						<select class="form-control" name="tipo_esc">
 							<%
@@ -85,7 +81,7 @@
 	                 	     %>					
 						</select>
 	               </div>
-	               <div class="form-group">
+	               <div class="form-group col-lg-12">
 	                   <label for="sector">Sector</label>
 						<select class="form-control" name="sector">
 							<%
@@ -102,6 +98,10 @@
 	                		   	} // For
 	                 	     %>					
 						</select>
+	               </div>
+	               <div class="form-group col-lg-12">
+	                   <label for="desc">Descripcion</label>
+	                   <textarea class="form-control" name="desc" required><%=via.getDescripcion()%></textarea>
 	               </div>
 	               <!-- Botonera -->
 	               <div class="form-group">
