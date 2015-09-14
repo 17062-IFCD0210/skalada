@@ -1,3 +1,8 @@
+<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
+<%@page import="com.ipartek.formacion.skalada.bean.TipoEscalada"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Zona"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <jsp:include page="../includes/head.jsp"></jsp:include>
@@ -6,6 +11,10 @@
 <%
 	//recoger atributos (Objeto Via)"via" y (String)"titulo"
 	Via via = (Via)request.getAttribute("via");
+// 	ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
+// 	ArrayList<TipoEscalada> tipoEscaladas = (ArrayList<TipoEscalada>)request.getAttribute("tipoEscaladas");
+// 	ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
+// 	ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("sectores");
 	String titulo = request.getAttribute("titulo").toString();
 %>
 
@@ -45,12 +54,18 @@
 	          	
 				<div class="form-group">
 	           		<label for="grado">Dificultad</label>
-	           		<input type="text" class="form-control" name="grado" value="<%=via.getNombre()%>">
+	           		<input type="text" class="form-control" name="grado" value="<%=via.getGrado().getNombre()%>">	
 	          	</div>
 	          	
 				<div class="form-group">
-	           		<label for="nombre">Nombre</label>
-	           		<input type="text" class="form-control" name="nombre" value="<%=via.getNombre()%>">
+	           		<label for="tipo_escalada">Tipo Escalada</label>
+	           		<input type="text" class="form-control" name="tipo_escalada" value="<%=via.getTipoEscalada().getNombre()%>">
+	          	</div>
+	          	<div class="form-group">
+	           		<label for="zona">Zona</label>
+	           		<input type="text" class="form-control" name="zona" value="<%=via.getSector().getZona().getNombre()%>">
+	           		<label for="sector">Sector</label>
+	           		<input type="text" class="form-control" name="sector" value="<%=via.getSector().getNombre()%>">
 	          	</div>
 	          	
 	          	<div class="form-group">

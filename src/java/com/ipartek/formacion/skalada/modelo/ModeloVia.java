@@ -8,7 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.bean.Grado;
+import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.bean.TipoEscalada;
 import com.ipartek.formacion.skalada.bean.Via;
+import com.ipartek.formacion.skalada.bean.Zona;
 
 /**
  * Clase encargada de persistir los objetos de tipo {@code Via} 
@@ -19,40 +23,28 @@ import com.ipartek.formacion.skalada.bean.Via;
 public class ModeloVia implements Persistable {
 	
 	private static final String TABLA_VIA = "via";
-	private static final String TABLA_GRADO = "grado";
-	private static final String TABLA_TIPO_ESCALADA = "tipo_escalada";
-	private static final String TABLA_ZONA = "zona";
-	private static final String TABLA_SECTOR = "sector";
 	
 	private static final String COL_ID = "id";
 	private static final String COL_NOMBRE = "nombre";
 	private static final String COL_LONGITUD = "longitud";	
-	private static final String COL_GRADO_ID = "id_grado";
-	private static final String COL_GRADO_NOMBRE = "nombre_grado";	
+	private static final String COL_DESCRIPCION = "descripcion";	
+	private static final String COL_GRADO_ID = "id_grado";	
 	private static final String COL_TIPO_ESCALADA_ID = "id_tipo_escalada";
-	private static final String COL_TIPO_ESCALADA_NOMBRE = "nombre_tipo_escalada";	
-	private static final String COL_ZONA_ID = "id_zona";
-	private static final String COL_ZONA_NOMBRE = "nombre_zona";	
 	private static final String COL_SECTOR_ID = "id_sector";
-	private static final String COL_SECTOR_NOMBRE = "nombre_sector";
 	
-	/*
-	 * select v.id, v.nombre, v.longitud, v.descripcion, v.id_grado, g.nombre as nombre_grado, v.id_tipo_escalada, te.nombre as nombre_tipo_escalada,v.id_sector, s.nombre as nombre_sector, s.id_zona, z.nombre as nombre_zona
-	 * from via as v 
-	 * INNER JOIN grado g ON (v.id_grado = g.id) 
-	 * INNER JOIN tipo_escalada te ON (v.id_tipo_escalada = te.id)
-	 * INNER JOIN sector s ON (v.id_sector = s.id)
-	 * INNER JOIN zona z ON (s.id_zona = z.id)
-                                       
-	 */
-	
-	
-	
-	private static final String SQL_INSERT = "";
-	private static final String SQL_GETONE = "";
-	private static final String SQL_GETALL = "";
-	private static final String SQL_UPDATE = "";
-	private static final String SQL_DELETE = "";
+	private static final String SQL_INSERT = "INSERT INTO `" + TABLA_VIA + "` (`" + COL_NOMBRE + "`, `" + COL_LONGITUD + "`, `" + COL_DESCRIPCION + "`, `" + COL_GRADO_ID + "`, `" + COL_SECTOR_ID + "`, `" + COL_TIPO_ESCALADA_ID + "`) VALUES (?,?,?,?,?,?);";	
+	private static final String SQL_GETALL = "SELECT v.id, v.nombre, v.longitud, v.descripcion, v.id_grado, g.nombre AS nombre_grado, "
+											+ "v.id_tipo_escalada, te.nombre AS nombre_tipo_escalada, "
+											+ "v.id_sector, s.nombre AS nombre_sector, "
+											+ "s.id_zona, z.nombre AS nombre_zona "
+											+ "FROM via AS v "
+											+ "INNER JOIN grado AS g ON (v.id_grado = g.id) "
+											+ "INNER JOIN tipo_escalada AS te ON (v.id_tipo_escalada = te.id) "
+											+ "INNER JOIN sector AS s ON (v.id_sector = s.id) "
+											+ "INNER JOIN zona AS z ON (s.id_zona = z.id)";
+	private static final String SQL_GETONE = SQL_GETALL + "WHERE v.id = ?";
+	private static final String SQL_UPDATE = "UPDATE `" + TABLA_VIA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_LONGITUD + "`= ?, `" + COL_DESCRIPCION + "`= ?, `" + COL_SECTOR_ID + "`= ?, `" + COL_LONGITUD + "`= ?, `" + COL_TIPO_ESCALADA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
+	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_VIA + "` WHERE `" + COL_ID + "`= ?;";
 	
 
 	@Override
@@ -66,7 +58,12 @@ public class ModeloVia implements Persistable {
 				v = (Via)o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, v.getNombre());	
+				pst.setString(1, v.getNombre());
+				pst.setInt(2, v.getLongitud());
+				pst.setString(3, v.getDescripcion());
+				pst.setInt(4, v.getGrado().getId());
+				pst.setInt(5, v.getTipoEscalada().getId());
+				pst.setInt(6, v.getSector().getId());				
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
@@ -170,7 +167,12 @@ public class ModeloVia implements Persistable {
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
 				pst.setString(1, v.getNombre());
-				pst.setInt(2, v.getId());				
+				pst.setInt(2, v.getLongitud());
+				pst.setString(3, v.getDescripcion());
+				pst.setInt(4, v.getGrado().getId());
+				pst.setInt(5, v.getTipoEscalada().getId());
+				pst.setInt(6, v.getSector().getId());	
+				pst.setInt(7, v.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}
@@ -224,13 +226,23 @@ public class ModeloVia implements Persistable {
 	 * @throws SQLException 
 	 */
 	private Via mapeo (ResultSet rs) throws SQLException{
-		Via resul = null;    
-//		
-//		Zona zona = new Zona( rs.getString(COL_ZONA_NOMBRE) );
-//		zona.setId(rs.getInt(COL_ZONA_ID));
-//		
-//		resul = new Via( rs.getString(COL_NOMBRE), zona );
-//		resul.setId( rs.getInt(COL_ID));
+		Via resul = null; 
+		
+		Grado grado = new Grado(rs.getString("nombre_grado"));
+		grado.setId(rs.getInt(COL_GRADO_ID));
+		
+		TipoEscalada tipoEscalada = new TipoEscalada(rs.getString("nombre_tipo_escalada"));
+		tipoEscalada.setId(rs.getInt(COL_SECTOR_ID));
+		
+		Zona zona = new Zona( rs.getString("nombre_zona") );
+		zona.setId(rs.getInt("id_zona"));
+		
+		Sector sector = new Sector(rs.getString("nombre_sector"), zona);
+		sector.setId(rs.getInt(COL_SECTOR_ID));
+		
+		resul = new Via(rs.getString(COL_NOMBRE), rs.getInt(COL_LONGITUD), grado, tipoEscalada, sector);
+		resul.setId( rs.getInt(COL_ID));
+		resul.setDescripcion(rs.getString(COL_DESCRIPCION));		
 		
 		return resul;
 	}
