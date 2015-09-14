@@ -1,4 +1,5 @@
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
+<%@page pageEncoding="UTF-8"%> 
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <jsp:include page="../includes/head.jsp"></jsp:include>
