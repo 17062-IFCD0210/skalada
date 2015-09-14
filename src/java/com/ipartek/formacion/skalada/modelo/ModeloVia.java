@@ -32,7 +32,9 @@ public class ModeloVia implements Persistable {
 	private static final String COL_TIPO_ESCALADA_ID = "id_tipo_escalada";
 	private static final String COL_SECTOR_ID = "id_sector";
 	
-	private static final String SQL_INSERT = "INSERT INTO `" + TABLA_VIA + "` (`" + COL_NOMBRE + "`, `" + COL_LONGITUD + "`, `" + COL_DESCRIPCION + "`, `" + COL_GRADO_ID + "`, `" + COL_SECTOR_ID + "`, `" + COL_TIPO_ESCALADA_ID + "`) VALUES (?,?,?,?,?,?);";	
+	
+	
+	private static final String SQL_INSERT = "INSERT INTO `via` (`nombre`, `longitud`, `descripcion`, `id_grado`, `id_tipo_escalada`, `id_sector`) VALUES (?, ?, ?, ?, ?, ?);";	
 	private static final String SQL_GETALL = "SELECT v.id, v.nombre, v.longitud, v.descripcion, v.id_grado, g.nombre AS nombre_grado, "
 											+ "v.id_tipo_escalada, te.nombre AS nombre_tipo_escalada, "
 											+ "v.id_sector, s.nombre AS nombre_sector, "
@@ -43,7 +45,7 @@ public class ModeloVia implements Persistable {
 											+ "INNER JOIN sector AS s ON (v.id_sector = s.id) "
 											+ "INNER JOIN zona AS z ON (s.id_zona = z.id)";
 	private static final String SQL_GETONE = SQL_GETALL + "WHERE v.id = ?";
-	private static final String SQL_UPDATE = "UPDATE `" + TABLA_VIA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_LONGITUD + "`= ?, `" + COL_DESCRIPCION + "`= ?, `" + COL_SECTOR_ID + "`= ?, `" + COL_LONGITUD + "`= ?, `" + COL_TIPO_ESCALADA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
+	private static final String SQL_UPDATE = "UPDATE `via` SET `nombre`=?, `longitud`=?, `descripcion`=?, `id_grado`=?, `id_tipo_escalada`=?, `id_sector`=? WHERE  `id`=?;";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_VIA + "` WHERE `" + COL_ID + "`= ?;";
 	
 
@@ -240,9 +242,19 @@ public class ModeloVia implements Persistable {
 		Sector sector = new Sector(rs.getString("nombre_sector"), zona);
 		sector.setId(rs.getInt(COL_SECTOR_ID));
 		
-		resul = new Via(rs.getString(COL_NOMBRE), rs.getInt(COL_LONGITUD), grado, tipoEscalada, sector);
+		String nombre = rs.getString(COL_NOMBRE);
+		int longitud = rs.getInt(COL_LONGITUD);
+		
+		resul = new Via(nombre, longitud, grado, tipoEscalada, sector);
 		resul.setId( rs.getInt(COL_ID));
-		resul.setDescripcion(rs.getString(COL_DESCRIPCION));		
+		resul.setDescripcion(rs.getString(COL_DESCRIPCION));
+		
+		//inicializar a null
+		grado = null;
+		tipoEscalada = null;
+		zona = null;
+		sector = null;
+		nombre = null;
 		
 		return resul;
 	}

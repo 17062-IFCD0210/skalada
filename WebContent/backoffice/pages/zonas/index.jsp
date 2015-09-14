@@ -1,3 +1,6 @@
+<%@page contentType="text/html"%> 
+<%@page pageEncoding="UTF-8"%> 
+
 <%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Zona"%>
 <%@page import="java.util.ArrayList"%>
@@ -27,7 +30,7 @@
 					out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
 						out.print("<span aria-hidden='true'>&times;</span>");
 					out.print("</button>");
-					out.print("<strong>"+ msg.getMensaje() +"</strong>");
+					out.print("<strong>"+ msg.getTexto() +"</strong>");
 				out.print("</div>");
 			} 
 		%>

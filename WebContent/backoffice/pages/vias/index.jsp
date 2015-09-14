@@ -1,3 +1,6 @@
+<%@page contentType="text/html"%> 
+<%@page pageEncoding="UTF-8"%> 
+
 <%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <%@page import="java.util.ArrayList"%>
@@ -27,7 +30,7 @@
 					out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
 						out.print("<span aria-hidden='true'>&times;</span>");
 					out.print("</button>");
-					out.print("<strong>"+ msg.getMensaje() +"</strong>");
+					out.print("<strong>"+ msg.getTexto() +"</strong>");
 				out.print("</div>");
 			} 
 		%>
@@ -46,7 +49,6 @@
 	                <th>Dificultad</th>	                
 	                <th>Tipo escalada</th>
 	                <th>Sector</th>
-	                <th>Descripción</th>
 	            </tr>
 	        </thead> 
 	        	 
@@ -69,8 +71,7 @@
 		                <td><%=v.getLongitud()%></td>
 		                <td><%=v.getGrado().getNombre()%></td>
 		                <td><%=v.getTipoEscalada().getNombre()%></td>
-		                <td><%=v.getSector().getNombre()%> (<%=v.getSector().getZona().getNombre()%>)</td>		                
-		                <td><%=v.getDescripcion()%></td>
+		                <td><%=v.getSector().getNombre()%> (<%=v.getSector().getZona().getNombre()%>)</td>		                 
 		            </tr>	            
 	           <%
 	           		} //end for

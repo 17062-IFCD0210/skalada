@@ -131,6 +131,9 @@ public class ViasController extends HttpServlet {
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
 		via = new Via("");
+		via.setGrado(new Grado(""));
+		via.setTipoEscalada(new TipoEscalada(""));
+		via.setSector(new Sector("", new Zona("")));
 		request.setAttribute("via", via);
 		request.setAttribute("titulo", "Crear nueva Via");
 		request.setAttribute("metodo", "Guardar");
@@ -146,7 +149,9 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("via", via);
 		request.setAttribute("titulo", via.getNombre().toUpperCase());
 		request.setAttribute("metodo", "Modificar");
-		request.setAttribute("zonas", modeloZona.getAll());
+		request.setAttribute("grados", modeloGrado.getAll());
+		request.setAttribute("tipoEscaladas", modeloTipoEscalada.getAll());
+		request.setAttribute("sectores", modeloSector.getAll());
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);		
 	}
 
