@@ -67,6 +67,7 @@ public class Via implements Serializable {
 		this.longitud = longitud;
 		this.tipoEscalada = tipoEscalada;
 		this.sector = sector;
+		this.id = -1;
 	}
 	
 	public Via(String nombre) {

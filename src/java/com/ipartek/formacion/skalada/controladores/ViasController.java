@@ -135,6 +135,7 @@ public class ViasController extends HttpServlet {
 		} else { //Nueva via
 			via = new Via(pNombre,grado,pLong,tipoEsc,sector);
 			via.setId(pID);
+			via.setDescripcion(pDesc);
 		}
 	}
 
@@ -148,6 +149,10 @@ public class ViasController extends HttpServlet {
 		pID = Integer.parseInt(request.getParameter("id"));
 		pNombre = request.getParameter("nombre");
 		pIDGrado = Integer.parseInt(request.getParameter("grado"));
+		pLong = Integer.parseInt(request.getParameter("long"));
+		pDesc = request.getParameter("desc");
+		pIDTipoEsc = Integer.parseInt(request.getParameter("tipo_esc"));
+		pIDSector = Integer.parseInt(request.getParameter("sector"));
 	}
 
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {
@@ -171,7 +176,7 @@ public class ViasController extends HttpServlet {
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("vias", modelo.getAll());
+		request.setAttribute("vias", mv.getAll());
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_INDEX);
 		
@@ -180,7 +185,7 @@ public class ViasController extends HttpServlet {
 	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
 		
 		//Comprobamos si ha podido eliminar la via, y le damos un mensaje de informacion al index.jsp
-		if(modelo.delete(pID)) {
+		if(mv.delete(pID)) {
 		 	request.setAttribute("msg_elim", "Registro Eliminado.");
 		} else {
 			request.setAttribute("msg_elim", "Registro NO Eliminado. " + pID);
@@ -192,18 +197,27 @@ public class ViasController extends HttpServlet {
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		via = new Via("Nueva");
+		grado = new Grado("");
+		tipoEsc = new TipoEscalada("");
+		sector = new Sector("",null);
+		via = new Via("Nueva",grado,0,tipoEsc,sector);
 		request.setAttribute("via", via);
 		request.setAttribute("titulo", "Crear Nueva Via");
+		request.setAttribute("lista_grados", mg.getAll());
+		request.setAttribute("lista_tipos", mte.getAll());
+		request.setAttribute("lista_sectores", ms.getAll());
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 		
 	}
 
 	private void detalle(HttpServletRequest request, HttpServletResponse response) {
-		via = (Via) modelo.getById(pID);
+		via = (Via) mv.getById(pID);
 		request.setAttribute("via", via);
 		request.setAttribute("titulo", via.getNombre());
+		request.setAttribute("lista_grados", mg.getAll());
+		request.setAttribute("lista_tipos", mte.getAll());
+		request.setAttribute("lista_sectores", ms.getAll());
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 		

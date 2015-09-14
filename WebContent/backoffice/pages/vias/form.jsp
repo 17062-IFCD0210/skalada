@@ -42,7 +42,7 @@
 	                   <input class="form-control" name="nombre" value="<%=via.getNombre()%>" required>
 	               </div>
 	               <div class="form-group">
-	                   <label for="grado">Grado</label>
+	                   <label for="grado">Dificultad</label>
 						<select class="form-control" name="grado">
 							<%
 	                		   	for(int i = 0; i<grados.size(); i++) {
@@ -72,7 +72,7 @@
 						<select class="form-control" name="tipo_esc">
 							<%
 	                		   	for(int i = 0; i<tipos.size(); i++) {
-	                		   		if(tipos.get(i).getId() == via.getGrado().getId()) {
+	                		   		if(tipos.get(i).getId() == via.getTipoEscalada().getId()) {
 	                		 %>
 	                		 <option selected value="<%=tipos.get(i).getId()%>"><%=tipos.get(i).getNombre() %></option>
 	                		 <%
@@ -90,7 +90,7 @@
 						<select class="form-control" name="sector">
 							<%
 	                		   	for(int i = 0; i<sectores.size(); i++) {
-	                		   		if(sectores.get(i).getId() == via.getGrado().getId()) {
+	                		   		if(sectores.get(i).getId() == via.getSector().getId()) {
 	                		 %>
 	                		 <option selected value="<%=sectores.get(i).getId()%>"><%=sectores.get(i).getNombre() %></option>
 	                		 <%
@@ -137,17 +137,11 @@
 								<div class="row">
 									<div class="form-group col-md-6">
 										<label for="grado">Dificultad</label> 
-										<input type="text" name="grado" class="form-control" value="<%=via.getGrado()%>" disabled>
+										<input type="text" name="grado" class="form-control" value="<%=via.getGrado().getNombre()%>" disabled>
 									</div>
 									<div class="form-group col-md-6">
 										<label for="longitud">Longitud</label> 
 										<input type="text" name="longitud" class="form-control" value="<%=via.getLongitud()%>" disabled>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-grouo col-md-12">
-										<label for="url">URL Imagen</label>
-<%-- 										<input type="text" name="url" class="form-control" value="<%=via.getUrl()%>" disabled> --%>
 									</div>
 								</div>
 								<div class="row">
