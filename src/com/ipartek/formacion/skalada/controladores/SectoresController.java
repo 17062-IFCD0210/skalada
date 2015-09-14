@@ -16,7 +16,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
- * Servlet implementation class sectorsController
+ * Servlet implementation class SectoresController
  */
 public class SectoresController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -90,7 +90,7 @@ public class SectoresController extends HttpServlet {
 			} else {
 				request.setAttribute("msg_mod", "Registro no modificado");
 			}	
-		} else { //Via nueva
+		} else { //sector nuevo
 			if(modeloSector.save(sector) != -1) {
 				request.setAttribute("msg_new", "Registro Creado");
 			} else {
@@ -164,9 +164,9 @@ public class SectoresController extends HttpServlet {
 		
 		//Comprobamos si ha podido eliminar la sector, y le damos un mensaje de informacion al index.jsp
 		if(modeloSector.delete(pID)) {
-		 	request.setAttribute("msg_elim", "sector eliminada.");
+		 	request.setAttribute("msg_elim", "sector eliminado.");
 		} else {
-			request.setAttribute("msg_elim", "sector NO eliminada. " + pID);
+			request.setAttribute("msg_elim", "sector NO eliminado. " + pID);
 		}
 		
 		//listamos las sectors actualizadas

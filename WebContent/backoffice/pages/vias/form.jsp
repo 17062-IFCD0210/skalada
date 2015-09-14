@@ -1,12 +1,19 @@
-<%-- <%@page import="com.ipartek.formacion.skalada.Grado"%> --%>
+<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
+<%@page import="com.ipartek.formacion.skalada.bean.TipoEscalada"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
+<%@page pageEncoding = "utf-8" %>
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
 <%
 	//Recoger paramtero "via" de la Clase Via
 	Via via = (Via)request.getAttribute("via");
+	ArrayList<Grado> grados = (ArrayList<Grado>) request.getAttribute("lista_grados");
+	ArrayList<TipoEscalada> tipos = (ArrayList<TipoEscalada>) request.getAttribute("lista_tipos");
+	ArrayList<Sector> sectores = (ArrayList<Sector>) request.getAttribute("lista_sectores");
 
 %>
        
@@ -35,17 +42,22 @@
 	                   <input class="form-control" name="nombre" value="<%=via.getNombre()%>" required>
 	               </div>
 	               <div class="form-group">
-	                   <label for="grad">Grado</label>
-	                   <select class="form-control" name="grado">
-	                   		<% 
-// 	                   		Grado[] grados = Grado.values();
-// 	                   		for(int i=0; i<grados.length; i++) {
-	                   			//Comprobamos el grado seleccionado mediante operador ternario
-// 	                   			String selected = (grados[i] == via.getGrado())?"selected":""; 	
-	                   		%>
-<%-- 	                   			<option value="<%=grados[i]%>" <%=selected%>><%=grados[i]%></option>		 --%>
-<%-- 							<% } %> --%>
-	                   </select>
+	                   <label for="grado">Grado</label>
+						<select class="form-control" name="grado">
+							<%
+	                		   	for(int i = 0; i<grados.size(); i++) {
+	                		   		if(grados.get(i).getId() == via.getGrado().getId()) {
+	                		 %>
+	                		 <option selected value="<%=grados.get(i).getId()%>"><%=grados.get(i).getNombre() %></option>
+	                		 <%
+	                		   		} else {
+	                		 %>
+	                		 <option value="<%=grados.get(i).getId()%>"><%=grados.get(i).getNombre() %></option>  			
+	            	         <%
+	                		   		} //else	
+	                		   	} // For
+	                 	     %>					
+						</select>
 	               </div>
 	               <div class="form-group">
 	                   <label for="long">Longitud</label>
@@ -56,8 +68,40 @@
 	                   <textarea class="form-control" name="desc" required><%=via.getDescripcion()%></textarea>
 	               </div>
 	               <div class="form-group">
-	                   <label for="nombre">URL Imagen</label>
-<%-- 	                   <input class="form-control" name="url" value="<%=via.getUrl()%>" required> --%>
+	                   <label for="tipo_esc">Tipo Escalada</label>
+						<select class="form-control" name="tipo_esc">
+							<%
+	                		   	for(int i = 0; i<tipos.size(); i++) {
+	                		   		if(tipos.get(i).getId() == via.getGrado().getId()) {
+	                		 %>
+	                		 <option selected value="<%=tipos.get(i).getId()%>"><%=tipos.get(i).getNombre() %></option>
+	                		 <%
+	                		   		} else {
+	                		 %>
+	                		 <option value="<%=tipos.get(i).getId()%>"><%=tipos.get(i).getNombre() %></option>  			
+	            	         <%
+	                		   		} //else	
+	                		   	} // For
+	                 	     %>					
+						</select>
+	               </div>
+	               <div class="form-group">
+	                   <label for="sector">Sector</label>
+						<select class="form-control" name="sector">
+							<%
+	                		   	for(int i = 0; i<sectores.size(); i++) {
+	                		   		if(sectores.get(i).getId() == via.getGrado().getId()) {
+	                		 %>
+	                		 <option selected value="<%=sectores.get(i).getId()%>"><%=sectores.get(i).getNombre() %></option>
+	                		 <%
+	                		   		} else {
+	                		 %>
+	                		 <option value="<%=sectores.get(i).getId()%>"><%=sectores.get(i).getNombre() %></option>  			
+	            	         <%
+	                		   		} //else	
+	                		   	} // For
+	                 	     %>					
+						</select>
 	               </div>
 	               <!-- Botonera -->
 	               <div class="form-group">

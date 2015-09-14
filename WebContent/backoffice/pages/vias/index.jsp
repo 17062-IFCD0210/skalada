@@ -1,6 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
+<%@page pageEncoding = "utf-8" %>
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
@@ -62,6 +63,8 @@
 					<th>Nombre</th>
 					<th>Grado</th>
 					<th>Longitud</th>
+					<th>Tipo Escalada</th>
+					<th>Sector</th>
 				</tr>
 			</thead>
 
@@ -77,8 +80,10 @@
 				<tr>
 					<td><%=v.getId()%></td>
 					<td><a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=v.getId()%>"><%=v.getNombre() %></a></td>
-					<td><%=v.getGrado()%></td>
+					<td><%=v.getGrado().getNombre()%></td>
 					<td><%=v.getLongitud()%></td>
+					<td><%=v.getTipoEscalada().getNombre() %></td>
+					<td><%=v.getSector().getNombre() %></td>
 				</tr>
 			<%	} //Cerramos el For  %>	
 			</tbody>

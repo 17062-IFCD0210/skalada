@@ -10,7 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Grado;
+import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.bean.TipoEscalada;
 import com.ipartek.formacion.skalada.bean.Via;
+import com.ipartek.formacion.skalada.modelo.ModeloGrado;
+import com.ipartek.formacion.skalada.modelo.ModeloSector;
+import com.ipartek.formacion.skalada.modelo.ModeloTipoEscalada;
 import com.ipartek.formacion.skalada.modelo.ModeloVia;
 
 /**
@@ -20,8 +26,14 @@ public class ViasController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private RequestDispatcher dispatcher = null;
-	private ModeloVia modelo = null;
+	private ModeloVia mv = null;
+	private ModeloGrado mg = null;
+	private ModeloTipoEscalada mte = null;
+	private ModeloSector ms = null;
 	private Via via = null;
+	private Grado grado = null;
+	private TipoEscalada tipoEsc = null;
+	private Sector sector = null;
 	
 	//Parametros Get
 	private int pAccion = Constantes.ACCION_LISTAR; //Accion por defecto
@@ -29,10 +41,11 @@ public class ViasController extends HttpServlet {
 	
 	//Parametros Post
 	private String pNombre = "Nueva"; // Nombre por defecto
-	//private Grado pGrado = Grado.NORMAL; // Grado por defecto
+	private int pIDGrado;
 	private int pLong = 0; // Longitud por defecto
 	private String pDesc = ""; //Descripcion por defecto
-	//private String pUrl = ""; //Url por defecto
+	private int pIDTipoEsc;
+	private int pIDSector;
 
     /**
      * Este metodo se ejecuta solo la primera vez que se llama al Servlet
@@ -41,7 +54,10 @@ public class ViasController extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {    	
     	super.init(config);
-    	modelo = new ModeloVia();  	
+    	mv = new ModeloVia();
+    	mg = new ModeloGrado();
+    	mte = new ModeloTipoEscalada();
+    	ms = new ModeloSector();
     }
     
     /**
@@ -88,13 +104,13 @@ public class ViasController extends HttpServlet {
 		crearObjetoVia();
 		
 		if(via.getId() != -1) { //Via modificable
-			if(modelo.update(via)) {
+			if(mv.update(via)) {
 				request.setAttribute("msg_mod", "Registro Modificado");
 			} else {
 				request.setAttribute("msg_mod", "Registro no modificado");
 			}	
 		} else { //Via nueva
-			modelo.save(via);
+			mv.save(via);
 			request.setAttribute("msg_new", "Registro Creado");
 		}
 		listar(request, response);
@@ -106,12 +122,20 @@ public class ViasController extends HttpServlet {
 	 * Crea un objeto {@code Via} con los parametros recibidos
 	 */
 	private void crearObjetoVia() {
-		via = new Via(pNombre);
+		grado = (Grado)mg.getById(pIDGrado);
+		tipoEsc = (TipoEscalada)mte.getById(pIDTipoEsc);
+		sector = (Sector)ms.getById(pIDSector);
 		
-		via.setId(pID);
-		//via.setGrado(pGrado);
-		via.setLongitud(pLong);
-		via.setDescripcion(pDesc);
+		//Existe via
+		if(pID != -1) {
+			via = (Via)mv.getById(pID);
+			via.setGrado(grado);
+			via.setTipoEscalada(tipoEsc);
+			via.setSector(sector);
+		} else { //Nueva via
+			via = new Via(pNombre,grado,pLong,tipoEsc,sector);
+			via.setId(pID);
+		}
 	}
 
 	/**
@@ -121,19 +145,9 @@ public class ViasController extends HttpServlet {
 	 * @param response
 	 */
 	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) {
-		String sLong = request.getParameter("long");
-		
 		pID = Integer.parseInt(request.getParameter("id"));
 		pNombre = request.getParameter("nombre");
-		//pGrado = Grado.valueOf(request.getParameter("grado"));
-		if(sLong!= null && !"".equals(sLong)) {
-			pLong = Integer.parseInt(sLong);
-		} else {
-			pLong = 0;
-		}
-		pDesc = request.getParameter("desc");
-		//pUrl = request.getParameter("url");
-		
+		pIDGrado = Integer.parseInt(request.getParameter("grado"));
 	}
 
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {

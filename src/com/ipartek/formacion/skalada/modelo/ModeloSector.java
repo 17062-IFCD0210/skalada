@@ -25,8 +25,6 @@ public class ModeloSector implements Persistable{
 	private static final String SQL_GETBYID = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id) WHERE s." + COL_ID + "= ?";
 	private static final String SQL_GETALL = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id);";
 	private static final String SQL_UPDATE = "UPDATE " + TABLA_SECTOR + "  SET " + COL_NOMBRE + " = ?, " + COL_ZONA_ID + " = ? WHERE " + COL_ID + " = ?;";
-	private static final String SQL_GETALLZONAS = "SELECT " + COL_NOMBRE + " FROM " + TABLA_ZONA + ";";
-	private static final String SQL_GETZONASBYID = "SELECT " + COL_NOMBRE + " FROM " + TABLA_ZONA + " WHERE " + COL_ID + "= ?;";
 	
 	
 	@Override
@@ -240,67 +238,5 @@ public class ModeloSector implements Persistable{
 			DataBaseHelper.closeConnection();
 		}
 		return resul;
-	}
-
-	public ArrayList<Object> getAllZonas() {
-		PreparedStatement pst = null;
-		ArrayList<Object> resul = new ArrayList<Object>();
-		try{
-			Connection con = DataBaseHelper.getConnection();
-			pst = con.prepareStatement(SQL_GETALLZONAS); 
-	    	ResultSet rs = pst.executeQuery ();
-	    	
-	    	//mapeo resultSet => ArrayList<Sector>	    	
-	    	while(rs.next()) {
-	    		resul.add(rs.getString("nombre"));
-	    	}	
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try {
-				if(pst != null) {
-					pst.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DataBaseHelper.closeConnection();
-		}
-		
-		return resul;
-	}
-	
-	public Object getZonasById(int id) {
-		Zona s = null;
-		PreparedStatement pst = null;
-		try{
-			Connection con = DataBaseHelper.getConnection();
-			pst = con.prepareStatement(SQL_GETZONASBYID);
-			
-			pst.setInt(1, id);
-			
-	    	ResultSet rs = pst.executeQuery();
-	    	
-	    	//mapeo resultSet => ArrayList<Grado>	    	
-	    	while(rs.next()) {
-	    		s = new Zona(rs.getString("nombre"), null);
-	    	}	
-	    	
-	    	
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			try {
-				if(pst != null) {
-					pst.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DataBaseHelper.closeConnection();
-		}
-		
-		return s;
-	}
-	
+	}	
 }

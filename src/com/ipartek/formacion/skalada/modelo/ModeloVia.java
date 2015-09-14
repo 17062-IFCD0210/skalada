@@ -1,217 +1,194 @@
 package com.ipartek.formacion.skalada.modelo;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.bean.Grado;
+import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.bean.TipoEscalada;
 import com.ipartek.formacion.skalada.bean.Via;
 
-/**
- * Clase encargada de persistir los objetos de tipo {@code Via} en ficheros
- * serializando y des-serializando
- * 
- * @author Raul
- *
- */
-public class ModeloVia implements Persistable {
-
-	private static final String PATH_DATA_FOLDER = "data/";
-	private static final String PATH_DATA_VIA = PATH_DATA_FOLDER + "via/";
-	private static final String PATH_INDEX = PATH_DATA_VIA + "index.dat";
-	private static final String FILE_EXTENSION = ".dat";
-
-	/**
-	 * Identificador del ultimo objeto creado, valor inicial 0
-	 */
-	private static int indice;
-
-	/**
-	 * Actualiza el indice
-	 */
-	public ModeloVia() {
-		super();
-
-		// Crea la estructura de carpetas si no existe
-		File fDtaFolder = new File(PATH_DATA_FOLDER);
-		if (!fDtaFolder.exists()) {
-			fDtaFolder.mkdir();
-		}
-
-		File fDataFolderVia = new File(PATH_DATA_VIA);
-		if (!fDataFolderVia.exists()) {
-			fDataFolderVia.mkdir();
-		}
-
-		File findex = new File(PATH_INDEX);
-		if (!findex.exists()) {
-			createIndex();
-		}
-
-		// obtiene el indice actual
-		getIndex();
-	}
-
+public class ModeloVia implements Persistable{
+	
+	private static final String TABLA_VIA = "via";
+	private static final String TABLA_GRADO = "grado";
+	private static final String TABLA_SECTOR = "sector";
+	
+	private static final String COL_ID = "id";
+	private static final String COL_NOMBRE = "nombre";
+	private static final String COL_LONG = "longitud";
+	private static final String COL_DESC = "descripcion";
+	private static final String COL_ID_GRADO = "id_grado";
+	private static final String COL_ID_TIPO_ESC = "id_tipo_escalada";
+	private static final String COL_ID_SECTOR = "id_sector";
+	
+	private static final String SQL_INSERT = "INSERT INTO via (nombre, longitud, descripcion, id_grado, id_tipo_escalada, id_sector) VALUES (?,?,?,?,?,?);";
+	private static final String SQL_DELETE = "DELETE FROM `"+ TABLA_VIA + "` WHERE  `" + COL_ID + "`=?;";
+	private static final String SQL_GETBYID = "SELECT v.id, v.nombre, v.longitud, v.descripcion, g.nombre as nom_grado, t.nombre as nom_tipo_esc , s.nombre as nom_sector"
+			+ " FROM via v inner join grado g"
+			+ " on(v.id_grado = g.id)"
+			+ " inner join tipo_escalada t"
+			+ " on(v.id_tipo_escalada = t.id)"
+			+ " inner join sector s"
+			+ " on(v.id_sector = s.id)"
+			+ " where v.id = ?";
+	private static final String SQL_GETALL = "SELECT v.id, v.nombre, v.longitud, v.descripcion, g.nombre as nom_grado, t.nombre as nom_tipo_esc , s.nombre as nom_sector"
+			+ " FROM via v inner join grado g"
+			+ " on(v.id_grado = g.id)"
+			+ " inner join tipo_escalada t"
+			+ " on(v.id_tipo_escalada = t.id)"
+			+ " inner join sector s"
+			+ " on(v.id_sector = s.id);";
+	private static final String SQL_UPDATE = "UPDATE via SET nombre= ?, longitud= ?, descripcion= ?, id_grado= ?, id_tipo_escalada= ?, id_sector= ? WHERE id= ?";
+	
+	
 	@Override
 	public int save(Object o) {
-
-		FileOutputStream outputStream = null;
-		ObjectOutputStream out = null;
-
-		String file = PATH_DATA_VIA + (indice + 1) + FILE_EXTENSION;
-
 		int resul = -1;
-
-		try {
-
-			Via v = (Via) o;
-
-			v.setId(indice + 1);
-
-			outputStream = new FileOutputStream(file);
-			out = new ObjectOutputStream(outputStream);
-
-			// guardar objeto
-			out.writeObject(v);
-
-			// actualizar indice
-			resul = updateIndex();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (out != null)
-					out.close();
-				if (outputStream != null)
-					outputStream.close();
-			} catch (IOException e) {
+		PreparedStatement pst = null;
+		ResultSet rsKeys = null;
+		if(o != null) {
+			try{
+				Via v = (Via) o;
+				Connection con = DataBaseHelper.getConnection();
+				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+				
+				pst.setString(1, v.getNombre());
+				pst.setInt(2, v.getLongitud());
+				pst.setString(3, v.getDescripcion());
+				pst.setInt(4,v.getGrado().getId());
+				pst.setInt(5, v.getTipoEscalada().getId());
+				pst.setInt(6, v.getSector().getId());
+		    	
+		    	if(pst.executeUpdate() == 1) {
+		    		rsKeys = pst.getGeneratedKeys();
+		    		if(rsKeys.next()) {
+		    			resul = rsKeys.getInt(1);
+		    			v.setId(resul);
+		    		} else {
+		    			throw new Exception("No se ha realizado insercion " + SQL_INSERT);
+		    		}
+		    	}    	
+			}catch(Exception e){
 				e.printStackTrace();
+			}finally{
+				try {
+					if(rsKeys != null) {
+						rsKeys.close();
+					}
+					if(pst != null) {
+						pst.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				DataBaseHelper.closeConnection();
 			}
 		}
-
+		
 		return resul;
 	}
 
 	@Override
 	public Object getById(int id) {
-
-		FileInputStream inputStream = null;
-		ObjectInputStream in = null;
-
-		String file = PATH_DATA_VIA + id + FILE_EXTENSION;
-
-		Via resul = null;
-
-		try {
-			inputStream = new FileInputStream(file);
-			in = new ObjectInputStream(inputStream);
-
-			resul = (Via) in.readObject();
-
-		} catch (FileNotFoundException e) {
+		Via v = null;
+		PreparedStatement pst = null;
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETBYID);
+			
+			pst.setInt(1, id);
+			
+	    	ResultSet rs = pst.executeQuery();
+	    	
+	    	//mapeo resultSet => ArrayList<Via>	    	
+	    	while(rs.next()) {
+	    		v = mapeo(rs);
+	    	}	
+	    	
+	    	
+		}catch(Exception e){
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
+		}finally{
 			try {
-				if (in != null)
-					in.close();
-				if (inputStream != null)
-					inputStream.close();
-			} catch (IOException e) {
+				if(pst != null) {
+					pst.close();
+				}
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			DataBaseHelper.closeConnection();
 		}
-
-		return resul;
+		
+		return v;
 	}
 
 	@Override
 	public ArrayList<Object> getAll() {
+		PreparedStatement pst = null;
 		ArrayList<Object> resul = new ArrayList<Object>();
-
-		FileInputStream inputStream = null;
-		ObjectInputStream in = null;
-
-		File vias = new File(PATH_DATA_VIA);
-		if (vias.exists()) {
-
-			File[] ficheros = vias.listFiles();
-
-			for (int i = 0; i < (ficheros.length - 1); i++) {
-
-				try {
-					inputStream = new FileInputStream(PATH_DATA_VIA
-							+ ficheros[i].getName());
-					in = new ObjectInputStream(inputStream);
-
-					resul.add(in.readObject());
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if (in != null)
-							in.close();
-						if (inputStream != null)
-							inputStream.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETALL); 
+	    	ResultSet rs = pst.executeQuery ();
+	    	
+	    	//mapeo resultSet => ArrayList<Via>	    	
+	    	while(rs.next()) {
+	    		resul.add(mapeo(rs));
+	    	}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				if(pst != null) {
+					pst.close();
 				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
+			DataBaseHelper.closeConnection();
 		}
-
+		
 		return resul;
 	}
 
 	@Override
 	public boolean update(Object o) {
+		PreparedStatement pst = null;
 		boolean resul = false;
-		FileOutputStream outputStream = null;
-		ObjectOutputStream out = null;
-		
-		Via v = (Via) o;
-
-		String file = PATH_DATA_VIA + v.getId() + FILE_EXTENSION;
-
-		try {
-
-			outputStream = new FileOutputStream(file);
-			out = new ObjectOutputStream(outputStream);
-
-			// guardar objeto
-			out.writeObject(v);
-			resul = true;
-
-		} catch (FileNotFoundException e) {
+		try{
+			Via v = (Via) o;
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_UPDATE);
+			
+			pst.setString(1, v.getNombre());
+			pst.setInt(2, v.getLongitud());
+			pst.setString(3, v.getDescripcion());
+			pst.setInt(4,v.getGrado().getId());
+			pst.setInt(5, v.getTipoEscalada().getId());
+			pst.setInt(6, v.getSector().getId());
+			pst.setInt(7, v.getId());
+			
+			
+	    	if(pst.executeUpdate() == 1) {
+	    		resul = true;
+	    	}
+	    		    	
+		}catch(Exception e){
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+		}finally{
 			try {
-				if (out != null)
-					out.close();
-				if (outputStream != null)
-					outputStream.close();
-			} catch (IOException e) {
+				if(pst != null) {
+					pst.close();
+				}
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			DataBaseHelper.closeConnection();
 		}
 		
 		return resul;
@@ -219,101 +196,79 @@ public class ModeloVia implements Persistable {
 
 	@Override
 	public boolean delete(int id) {
-
-		File fBorrar = null;
-
-		String file = PATH_DATA_VIA + id + FILE_EXTENSION;
-
+		PreparedStatement pst = null;
 		boolean resul = false;
-
-		fBorrar = new File(file);
-
-		if (fBorrar.exists()) {
-			fBorrar.delete();
-			resul = true;
+		try {
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_DELETE);
+			pst.setInt(1, id);
+			
+			if(pst.executeUpdate() == 1) {
+	    		resul = true;
+	    	}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pst != null) {
+					pst.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DataBaseHelper.closeConnection();
 		}
-
+		
 		return resul;
 	}
-
-	/**
-	 * Recupera el indice actual del fichero de texto {@code PATH_INDEX}
-	 * 
-	 * @return indice actual, valor inicial 0
-	 */
-	private int getIndex() {
-		DataInputStream fr = null;
+	
+	private Via mapeo(ResultSet rs) throws SQLException{
+		Grado g = new Grado(rs.getString("nom_grado"));
+		TipoEscalada t = new TipoEscalada(rs.getString("nom_tipo_esc"));
+		Sector s = new Sector( rs.getString("nom_sector"), null );
+		Via v = new Via(rs.getString("nombre"),g,rs.getInt("longitud"),t,s);
+		v.setId( rs.getInt("id"));
+		v.setNombre(rs.getString("nombre"));
+		v.setDescripcion(rs.getString("descripcion"));
+		v.setGrado(g);
+		v.setTipoEscalada(t);
+		v.setLongitud(rs.getInt("longitud"));
+		v.setSector(s);
+		
+		return v;
+	}
+	
+	
+	public int getLastID() {
+		int resul = 0;
+		Statement st = null;
+		ResultSet rs = null;
 		try {
-			fr = new DataInputStream(new FileInputStream(PATH_INDEX));
-			indice = fr.readInt();
+			Connection con = DataBaseHelper.getConnection();
+			st = con.createStatement();
+			rs = st.executeQuery("SELECT MAX(id) as last_id FROM `" + TABLA_SECTOR
+					+ "`");
+
+			while (rs.next()) {
+				resul = rs.getInt("last_id");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (fr != null) {
-				try {
-					fr.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+			try {
+				if (rs != null) {
+					rs.close();
 				}
-			}
-		}
-		System.out.println("getIndex: " + indice);
-		return indice;
-	}
-
-	/**
-	 * Incrementa en 1 el indice actual del fichero de texto {@code PATH_INDEX}
-	 * 
-	 * @return indice incrementado
-	 */
-	private int updateIndex() {
-		System.out.println("updateIndex entrar: " + indice);
-		DataOutputStream fr = null;
-
-		indice++;
-		try {
-			fr = new DataOutputStream(new FileOutputStream(PATH_INDEX));
-			fr.writeInt(indice);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-
-			if (fr != null) {
-				try {
-					fr.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				if (st != null) {
+					st.close();
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			DataBaseHelper.closeConnection();
 		}
-		System.out.println("updateIndex salir: " + indice);
-		return indice;
-	}
-
-	/**
-	 * Crea fichero de indice
-	 */
-	private void createIndex() {
-
-		System.out.println("createIndex");
-		DataOutputStream fr = null;
-		indice = 0;
-		try {
-			fr = new DataOutputStream(new FileOutputStream(PATH_INDEX));
-			fr.writeInt(indice);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (fr != null) {
-				try {
-					fr.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-	}
-
+		return resul;
+	}	
 }
