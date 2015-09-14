@@ -1,3 +1,8 @@
+<%@page import="com.ipartek.formacion.skalada.bean.TipoEscalada"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
+<%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html"%> 
+<%@page pageEncoding="UTF-8"%> 
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <jsp:include page="../includes/head.jsp"></jsp:include>
@@ -7,6 +12,8 @@
 	//recoger atributos (Objeto Via)"via" y (String)"titulo"
 	Via via = (Via)request.getAttribute("via");
 	String titulo = request.getAttribute("titulo").toString();
+	ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
+	ArrayList<TipoEscalada> tiposEscalada = (ArrayList<TipoEscalada>)request.getAttribute("tipoEscalada");
 %>
 
 <div id="page-wrapper">
@@ -44,13 +51,41 @@
 	          	</div>
 	          	
 				<div class="form-group">
-	           		<label for="grado">Dificultad</label>
-	           		<input type="text" class="form-control" name="grado" value="<%=via.getNombre()%>">
+	           		<label for="nombre">Grado</label>
+					<select name="grado" class="form-control">
+					<%
+	        		Grado g = null;				
+	        		for ( int i=0; i < grados.size() ; i++ ){
+	        			g = grados.get(i);
+	        			if((via.getId()!=-1) && 
+	    	        			(g.getId()==via.getGrado().getId() )
+	    	        		   ){
+	        			out.print("<option selected value='"+g.getId()+"'>"+g.getNombre()+"</option>");
+	        			}else{
+		        			out.print("<option value='"+g.getId()+"'>"+g.getNombre()+"</option>");	        				
+	        			}
+		        	}
+					%>
+					</select>	           		
 	          	</div>
 	          	
-				<div class="form-group">
-	           		<label for="nombre">Nombre</label>
-	           		<input type="text" class="form-control" name="nombre" value="<%=via.getNombre()%>">
+	          	<div class="form-group">
+	           		<label for="nombre">Tipo de escalada</label>
+					<select name="tipoEscalada" class="form-control">
+					<%
+	        		TipoEscalada t = null;				
+	        		for ( int i=0; i < tiposEscalada.size() ; i++ ){
+	        			t = tiposEscalada.get(i);
+	        			if((via.getId()!=-1) && 
+	    	        			(t.getId()==via.getTipoEscalada().getId() )
+	    	        		   ){
+	        			out.print("<option selected value='"+t.getId()+"'>"+t.getNombre()+"</option>");
+	        			}else{
+		        			out.print("<option value='"+t.getId()+"'>"+t.getNombre()+"</option>");	        				
+	        			}
+		        	}
+					%>
+					</select>	           		
 	          	</div>
 	          	
 	          	<div class="form-group">

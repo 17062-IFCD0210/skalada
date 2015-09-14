@@ -1,0 +1,51 @@
+package com.ipartek.formacion.skalada.bean;
+
+/**
+ * Ban para contener la informacion de los mensajes a monstrar en el FronEnd
+ * @author Curso
+ *
+ */
+public class Mensaje {
+	
+	private String tipo;
+	private String texto;
+
+	//tipos de mensajes
+	public static final String MSG_SUCCESS = "success";
+	public static final String MSG_INFO = "info";
+	public static final String MSG_WARNING = "warning";
+	public static final String MSG_DANGER = "danger";
+
+	/**
+	 * @param tipo
+	 * @param texto
+	 */
+	public Mensaje(String tipo, String texto) {
+		super();
+		this.tipo = tipo;
+		this.texto = texto;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	public String getTexto() {
+		return texto;
+	}
+	
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+	
+	@Override
+	public String toString() {
+		return "Mensaje [tipo=" + tipo + ", texto=" + texto + "]";
+	}	
+	
+	
+}

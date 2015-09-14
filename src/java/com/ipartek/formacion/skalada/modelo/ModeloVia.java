@@ -8,7 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.bean.Grado;
+import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.bean.TipoEscalada;
 import com.ipartek.formacion.skalada.bean.Via;
+import com.ipartek.formacion.skalada.bean.Zona;
 
 /**
  * Clase encargada de persistir los objetos de tipo {@code Via} 
@@ -18,23 +22,6 @@ import com.ipartek.formacion.skalada.bean.Via;
  */
 public class ModeloVia implements Persistable {
 	
-	private static final String TABLA_VIA = "via";
-	private static final String TABLA_GRADO = "grado";
-	private static final String TABLA_TIPO_ESCALADA = "tipo_escalada";
-	private static final String TABLA_ZONA = "zona";
-	private static final String TABLA_SECTOR = "sector";
-	
-	private static final String COL_ID = "id";
-	private static final String COL_NOMBRE = "nombre";
-	private static final String COL_LONGITUD = "longitud";	
-	private static final String COL_GRADO_ID = "id_grado";
-	private static final String COL_GRADO_NOMBRE = "nombre_grado";	
-	private static final String COL_TIPO_ESCALADA_ID = "id_tipo_escalada";
-	private static final String COL_TIPO_ESCALADA_NOMBRE = "nombre_tipo_escalada";	
-	private static final String COL_ZONA_ID = "id_zona";
-	private static final String COL_ZONA_NOMBRE = "nombre_zona";	
-	private static final String COL_SECTOR_ID = "id_sector";
-	private static final String COL_SECTOR_NOMBRE = "nombre_sector";
 	
 	/*
 	 * select v.id, v.nombre, v.longitud, v.descripcion, v.id_grado, g.nombre as nombre_grado, v.id_tipo_escalada, te.nombre as nombre_tipo_escalada,v.id_sector, s.nombre as nombre_sector, s.id_zona, z.nombre as nombre_zona
@@ -46,11 +33,26 @@ public class ModeloVia implements Persistable {
                                        
 	 */
 	
-	
-	
 	private static final String SQL_INSERT = "";
-	private static final String SQL_GETONE = "";
-	private static final String SQL_GETALL = "";
+	private static final String SQL_GETALL = "select v.`id`, v.`nombre`,v.`longitud`,v.`descripcion`,`id_grado`, g.`nombre` as `nombre_grado`, `id_sector`, s.`nombre` as `nombre_sector`,`id_tipo_escalada`, t.`nombre` as `nombre_tipo_escalada`,s.`id_zona`, z.`nombre` as `nombre_zona`from `via` as v INNER JOIN `grado` as g ON `id_grado`=g.`id` INNER JOIN `sector`as s ON `id_sector`=s.`id` INNER JOIN `tipo_escalada`as t ON `id_tipo_escalada`=t.`id` INNER JOIN `zona` as z ON s.`id_zona`=z.`id`";
+	
+	/*
+	 select 
+	v.`id`, v.`nombre`,v.`longitud`,v.`descripcion`,
+	`id_grado`, g.`nombre` as `nombre_grado`, 
+	`id_sector`, s.`nombre` as `nombre_sector`,
+	`id_tipo_escalada`, t.`nombre` as `nombre_tipo_escalada`,
+	s.`id_zona`, z.`nombre` as `nombre_zona`
+		
+	from 
+	`via` as v INNER JOIN `grado` as g ON `id_grado`=g.`id`
+	INNER JOIN `sector`as s ON `id_sector`=s.`id`
+	INNER JOIN `tipo_escalada`as t ON `id_tipo_escalada`=t.`id`
+	INNER JOIN `zona` as z ON s.`id_zona`=z.`id`
+	  
+	 */
+	private static final String SQL_GETONE = SQL_GETALL + " where v.`id`=?";
+	
 	private static final String SQL_UPDATE = "";
 	private static final String SQL_DELETE = "";
 	
@@ -224,18 +226,40 @@ public class ModeloVia implements Persistable {
 	 * @throws SQLException 
 	 */
 	private Via mapeo (ResultSet rs) throws SQLException{
-		Via resul = null;    
-//		
-//		Zona zona = new Zona( rs.getString(COL_ZONA_NOMBRE) );
-//		zona.setId(rs.getInt(COL_ZONA_ID));
-//		
-//		resul = new Via( rs.getString(COL_NOMBRE), zona );
-//		resul.setId( rs.getInt(COL_ID));
+		Via resul = null;
+		
+		TipoEscalada tipoEscalada = new TipoEscalada(rs.getString("nombre_tipo_escalada"));
+		tipoEscalada.setId(rs.getInt("id_tipo_escalada"));
+		
+		Zona zona = new Zona(rs.getString("nombre_zona"));
+		zona.setId(rs.getInt("id_zona"));
+		
+		Sector sector = new Sector(rs.getString("nombre_sector"),zona);
+		sector.setId(rs.getInt("id_sector"));
+		
+		Grado grado = new Grado(rs.getString("nombre_grado"));
+		grado.setId(rs.getInt("id_grado"));
+		
+		String nombre = rs.getString("nombre");
+		int longitud= rs.getInt("longitud");
+		String descripcion= rs.getString("descripcion");
+		
+		
+		//Creamos la via
+		resul = new Via(nombre,longitud,grado,tipoEscalada,sector);
+		resul.setDescripcion(descripcion);
+		resul.setId(rs.getInt("id"));
+		
+		//inicializar a null
+		tipoEscalada = null;
+		zona = null;
+		sector = null;
+		grado = null;
+		nombre = null;
+		descripcion = null;
 		
 		return resul;
 	}
-	
-	
 	
 
 }

@@ -1,6 +1,7 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -12,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Grado;
 import com.ipartek.formacion.skalada.bean.Via;
+import com.ipartek.formacion.skalada.modelo.ModeloGrado;
+import com.ipartek.formacion.skalada.modelo.ModeloSector;
+import com.ipartek.formacion.skalada.modelo.ModeloTipoEscalada;
 import com.ipartek.formacion.skalada.modelo.ModeloVia;
+import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
  * Servlet implementation class ViasController
@@ -22,6 +27,10 @@ public class ViasController extends HttpServlet {
     
 	private RequestDispatcher dispatcher = null;
 	private ModeloVia modelo = null;
+	private ModeloGrado modeloGrado = null;
+	private ModeloZona modeloZona = null;
+	private ModeloTipoEscalada modeloTipoEscalada = null;
+	private ModeloSector modeloSector = null;
 	private Via via = null;
 	
 	//parametros
@@ -42,9 +51,10 @@ public class ViasController extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
     	modelo = new ModeloVia();
-    	
-    	// datos de prueba
-//    	generateViaMocks(modelo);
+    	modeloGrado= new ModeloGrado();
+    	modeloZona = new ModeloZona();
+    	modeloTipoEscalada = new ModeloTipoEscalada();
+    	modeloSector = new ModeloSector();
     	
     }
 
@@ -110,10 +120,13 @@ public class ViasController extends HttpServlet {
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-//		via = new Via("");
+		via = new Via("");
 		request.setAttribute("via", via);
 		request.setAttribute("titulo", "Crear nueva Via");
-		request.setAttribute("metodo", "Guardar");
+		
+		request.setAttribute("grados", modeloGrado.getAll());
+		request.setAttribute("tipoEscalada", modeloTipoEscalada.getAll());
+		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 		
 	}
@@ -121,8 +134,11 @@ public class ViasController extends HttpServlet {
 	private void detalle(HttpServletRequest request, HttpServletResponse response) {
 		via = (Via)modelo.getById(pID);
 		request.setAttribute("via", via);
-//		request.setAttribute("titulo", via.getNombre().toUpperCase());
-		request.setAttribute("metodo", "Modificar");
+		request.setAttribute("titulo", via.getNombre().toUpperCase());
+		
+		request.setAttribute("grados", modeloGrado.getAll());
+		request.setAttribute("tipoEscalada", modeloTipoEscalada.getAll());
+		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);		
 	}
 
@@ -188,7 +204,8 @@ public class ViasController extends HttpServlet {
 			pLongitud = 0;
 		}		
 		pDescripcion = request.getParameter("descripcion");
-		pImagen = request.getParameter("imagen");
+//		pImagen = request.getParameter("imagen");
+		
 	
 	}
 
