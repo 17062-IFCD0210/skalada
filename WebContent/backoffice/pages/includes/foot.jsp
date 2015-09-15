@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.Constantes"%>
 </div>
 <!-- /#wrapper -->
 
@@ -24,14 +25,56 @@
     
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-    
-    //Enganche para Datatables
     $(document).ready(function() {
+    	
+    	//Habilitar DataTable
         $('#tabla').DataTable({
                 responsive: true
         });
+    	
+    	//Llamada controlador AJAX Sectores
+    	console.info('llamada Controlador AJAX Sectores');
+    	
+    	$('#zona').change(function() {
+    		//Recoger id zona seleccionada
+    		console.info('zona cambiada');
+    		var id_zona = $(this).find("option:selected").val();
+    		console.debug('Zona seleccionada: ' + id_zona);
+    		
+    		//Llamada AJAX al controlador
+    		var url =  "<%=Constantes.CONTROLLER_ZONAS_JSON%>";
+    		
+    		$.ajax( url , {
+    			"type": "GET", // usualmente post o get
+    			"success": function(result) {
+    				rellenarSelectSector(result);
+    			},
+    			"error": function(result) {
+    				console.error("Error ajax", result);
+    			},
+    			"data": { id_zona: id_zona },
+    			"async": true,
+    		}); //End: Change zona
+    		
+    		/**
+    		* Limpiar y rellenar de nuevo el select-option con los datos
+    		* obtenidos del servicio AJAX para Sectores
+    		*/
+    		function rellenarSelectSector(result) {
+    			console.debug("Vaciar select Sectores");
+    			$("#sector").html("");
+    			console.debug("Inyectar options");
+    			$(result).each( function(i, v) {
+    				//console.debug("Index: " + v.id + " value: " + v.nombre);
+    				$("#sector").append('<option value="' + v.id + '">' + v.nombre + '</option>');
+    			});
+    		}
+    		
+    		
+    	}); //End: Document.ready()
+    	
     });
-    </script>
+    </script>   
 
 </body>
 

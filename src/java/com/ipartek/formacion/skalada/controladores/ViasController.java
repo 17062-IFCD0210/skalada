@@ -14,10 +14,12 @@ import com.ipartek.formacion.skalada.bean.Grado;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
 import com.ipartek.formacion.skalada.bean.Via;
+import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloGrado;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloTipoEscalada;
 import com.ipartek.formacion.skalada.modelo.ModeloVia;
+import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
  * Servlet implementation class ViasController
@@ -30,10 +32,12 @@ public class ViasController extends HttpServlet {
 	private ModeloGrado mg = null;
 	private ModeloTipoEscalada mte = null;
 	private ModeloSector ms = null;
+	private ModeloZona mz = null;
 	private Via via = null;
 	private Grado grado = null;
 	private TipoEscalada tipoEsc = null;
 	private Sector sector = null;
+	private Zona zona = null;
 	
 	//Parametros Get
 	private int pAccion = Constantes.ACCION_LISTAR; //Accion por defecto
@@ -46,6 +50,7 @@ public class ViasController extends HttpServlet {
 	private String pDesc = ""; //Descripcion por defecto
 	private int pIDTipoEsc;
 	private int pIDSector;
+	private int pIDZona;
 
     /**
      * Este metodo se ejecuta solo la primera vez que se llama al Servlet
@@ -58,6 +63,7 @@ public class ViasController extends HttpServlet {
     	mg = new ModeloGrado();
     	mte = new ModeloTipoEscalada();
     	ms = new ModeloSector();
+    	mz = new ModeloZona();
     }
     
     /**
@@ -125,14 +131,19 @@ public class ViasController extends HttpServlet {
 		grado = (Grado)mg.getById(pIDGrado);
 		tipoEsc = (TipoEscalada)mte.getById(pIDTipoEsc);
 		sector = (Sector)ms.getById(pIDSector);
+		zona = (Zona)mz.getById(pIDZona);
 		
 		//Existe via
 		if(pID != -1) {
+			sector.setZona(zona);
 			via = (Via)mv.getById(pID);
 			via.setGrado(grado);
 			via.setTipoEscalada(tipoEsc);
 			via.setSector(sector);
+			via.setId(pID);
+			via.setDescripcion(pDesc);
 		} else { //Nueva via
+			sector.setZona(zona);
 			via = new Via(pNombre,grado,pLong,tipoEsc,sector);
 			via.setId(pID);
 			via.setDescripcion(pDesc);
@@ -153,6 +164,7 @@ public class ViasController extends HttpServlet {
 		pDesc = request.getParameter("desc");
 		pIDTipoEsc = Integer.parseInt(request.getParameter("tipo_esc"));
 		pIDSector = Integer.parseInt(request.getParameter("sector"));
+		pIDZona = Integer.parseInt(request.getParameter("zona"));
 	}
 
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {
@@ -199,13 +211,15 @@ public class ViasController extends HttpServlet {
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
 		grado = new Grado("");
 		tipoEsc = new TipoEscalada("");
-		sector = new Sector("",null);
+		zona = new Zona("",null);
+		sector = new Sector("",zona);
 		via = new Via("Nueva",grado,0,tipoEsc,sector);
 		request.setAttribute("via", via);
 		request.setAttribute("titulo", "Crear Nueva Via");
 		request.setAttribute("lista_grados", mg.getAll());
 		request.setAttribute("lista_tipos", mte.getAll());
 		request.setAttribute("lista_sectores", ms.getAll());
+		request.setAttribute("lista_zonas", mz.getAll());
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 		
@@ -217,7 +231,9 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("titulo", via.getNombre());
 		request.setAttribute("lista_grados", mg.getAll());
 		request.setAttribute("lista_tipos", mte.getAll());
-		request.setAttribute("lista_sectores", ms.getAll());
+		request.setAttribute("lista_sectores", ms.getByZona(via.getSector().getZona().getId()));
+		request.setAttribute("lista_zonas", mz.getAll());
+		
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 		

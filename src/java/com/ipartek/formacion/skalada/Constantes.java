@@ -35,15 +35,16 @@ public class Constantes {
 	
 
 	// controladores
-	public static final String CONTROLLER_LOGIN  = ROOT_APP + "login";
-	public static final String CONTROLLER_LOGOUT = ROOT_APP + "logout";
-	public static final String CONTROLLER_VIAS   = ROOT_APP + "vias";
-	public static final String CONTROLLER_HOME   = ROOT_APP + "home";
+	public static final String CONTROLLER_LOGIN      = ROOT_APP + "login";
+	public static final String CONTROLLER_LOGOUT     = ROOT_APP + "logout";
+	public static final String CONTROLLER_VIAS       = ROOT_APP + "vias";
+	public static final String CONTROLLER_HOME       = ROOT_APP + "home";
 	public static final String CONTROLLER_INFO_VIA   = "infoVia";
-	public static final String CONTROLLER_GRADOS   = ROOT_APP + "grados";
-	public static final String CONTROLLER_TIPOS   = ROOT_APP + "tipo-escalada";
-	public static final String CONTROLLER_ZONAS   = ROOT_APP + "zona";
+	public static final String CONTROLLER_GRADOS     = ROOT_APP + "grados";
+	public static final String CONTROLLER_TIPOS      = ROOT_APP + "tipo-escalada";
+	public static final String CONTROLLER_ZONAS      = ROOT_APP + "zona";
 	public static final String CONTROLLER_SECTORES   = ROOT_APP + "sector";
+	public static final String CONTROLLER_ZONAS_JSON = ROOT_APP + "zonas-json";
 	
 	//Acciones
 	public static final int ACCION_NUEVO    = 1;

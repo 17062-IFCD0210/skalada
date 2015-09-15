@@ -11,6 +11,7 @@ import com.ipartek.formacion.skalada.bean.Grado;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
 import com.ipartek.formacion.skalada.bean.Via;
+import com.ipartek.formacion.skalada.bean.Zona;
 
 public class ModeloVia implements Persistable{
 	
@@ -28,21 +29,25 @@ public class ModeloVia implements Persistable{
 	
 	private static final String SQL_INSERT = "INSERT INTO via (nombre, longitud, descripcion, id_grado, id_tipo_escalada, id_sector) VALUES (?,?,?,?,?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `"+ TABLA_VIA + "` WHERE  `" + COL_ID + "`=?;";
-	private static final String SQL_GETBYID = "SELECT v.id, v.nombre, v.longitud, v.descripcion, v.id_grado as gr, v.id_tipo_escalada as te, v.id_sector as sec, g.nombre as nom_grado, t.nombre as nom_tipo_esc , s.nombre as nom_sector"
+	private static final String SQL_GETBYID = "SELECT v.id, v.nombre, v.longitud, v.descripcion, v.id_grado as gr, v.id_tipo_escalada as te, v.id_sector as sec, g.nombre as nom_grado, t.nombre as nom_tipo_esc , s.nombre as nom_sector, z.id as zo, z.nombre as nom_zona"
 			+ " FROM via v inner join grado g"
 			+ " on(v.id_grado = g.id)"
 			+ " inner join tipo_escalada t"
 			+ " on(v.id_tipo_escalada = t.id)"
 			+ " inner join sector s"
 			+ " on(v.id_sector = s.id)"
+			+ " inner join zona z"
+			+ " on(z.id = s.id_zona)"
 			+ " where v.id = ?";
-	private static final String SQL_GETALL = "SELECT v.id, v.nombre, v.longitud, v.descripcion, v.id_grado as gr, v.id_tipo_escalada as te, v.id_sector as sec, g.nombre as nom_grado, t.nombre as nom_tipo_esc , s.nombre as nom_sector"
+	private static final String SQL_GETALL = "SELECT v.id, v.nombre, v.longitud, v.descripcion, v.id_grado as gr, v.id_tipo_escalada as te, v.id_sector as sec, g.nombre as nom_grado, t.nombre as nom_tipo_esc , s.nombre as nom_sector, z.id as zo, z.nombre as nom_zona"
 			+ " FROM via v inner join grado g"
 			+ " on(v.id_grado = g.id)"
 			+ " inner join tipo_escalada t"
 			+ " on(v.id_tipo_escalada = t.id)"
 			+ " inner join sector s"
-			+ " on(v.id_sector = s.id);";
+			+ " on(v.id_sector = s.id)"
+			+ " inner join zona z"
+			+ " on(z.id = s.id_zona);";
 	private static final String SQL_UPDATE = "UPDATE via SET nombre= ?, longitud= ?, descripcion= ?, id_grado= ?, id_tipo_escalada= ?, id_sector= ? WHERE id= ?";
 	
 	
@@ -228,7 +233,9 @@ public class ModeloVia implements Persistable{
 		g.setId(rs.getInt("gr"));
 		TipoEscalada t = new TipoEscalada(rs.getString("nom_tipo_esc"));
 		t.setId(rs.getInt("te"));
-		Sector s = new Sector( rs.getString("nom_sector"), null );
+		Zona z = new Zona(rs.getString("nom_zona"),null);
+		z.setId(rs.getInt("zo"));
+		Sector s = new Sector( rs.getString("nom_sector"), z );
 		s.setId(rs.getInt("sec"));
 		Via v = new Via(rs.getString("nombre"),g,rs.getInt("longitud"),t,s);
 		v.setId( rs.getInt("id"));

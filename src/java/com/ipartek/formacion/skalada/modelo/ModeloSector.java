@@ -25,7 +25,7 @@ public class ModeloSector implements Persistable{
 	private static final String SQL_GETBYID = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id) WHERE s." + COL_ID + "= ?";
 	private static final String SQL_GETALL = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id);";
 	private static final String SQL_UPDATE = "UPDATE " + TABLA_SECTOR + "  SET " + COL_NOMBRE + " = ?, " + COL_ZONA_ID + " = ? WHERE " + COL_ID + " = ?;";
-	
+	private static final String SQL_GETALLBYZONA = "SELECT id, nombre from sector where id_zona =?";
 	
 	@Override
 	public int save(Object o) {
@@ -238,5 +238,45 @@ public class ModeloSector implements Persistable{
 			DataBaseHelper.closeConnection();
 		}
 		return resul;
-	}	
+	}
+	
+	/**
+	 * Obtiene todos los sectores de una {@code Zona}, <b>Cuidado: getZona() retorna <code>null</code>, se supone que ya la conocemos</b>
+	 * @param id_zona {@code int} identificador de la {@code Zona}
+	 * @return ArrayList<Sector> coleccion de sectores de la {@code Zona}, si no existe ninguna coleccion inicializada con new()
+	 */
+	public ArrayList<Sector> getByZona(int id_zona) {
+		PreparedStatement pst = null;
+		ArrayList<Sector> resul = new ArrayList<Sector>();
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETALLBYZONA); 
+			pst.setInt(1, id_zona);
+	    	ResultSet rs = pst.executeQuery ();
+	    	//mapeo resultSet => ArrayList<Sector>
+	    	Sector s = null;
+	    	while(rs.next()) {
+	    		
+	    		s = new Sector( rs.getString("nombre"), null );
+	    		s.setId( rs.getInt("id"));
+	    		
+	    		resul.add(s);
+	    		s = null;
+	    	}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				if(pst != null) {
+					pst.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DataBaseHelper.closeConnection();
+		}
+		
+		return resul;
+	}
+	
 }

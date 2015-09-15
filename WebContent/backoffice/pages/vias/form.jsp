@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.bean.Zona"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="com.ipartek.formacion.skalada.bean.TipoEscalada"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
@@ -14,6 +15,7 @@
 	ArrayList<Grado> grados = (ArrayList<Grado>) request.getAttribute("lista_grados");
 	ArrayList<TipoEscalada> tipos = (ArrayList<TipoEscalada>) request.getAttribute("lista_tipos");
 	ArrayList<Sector> sectores = (ArrayList<Sector>) request.getAttribute("lista_sectores");
+	ArrayList<Zona> zonas = (ArrayList<Zona>) request.getAttribute("lista_zonas");
 
 %>
        
@@ -31,13 +33,13 @@
             <div class="row">
 	           <!-- Formulario -->
 	           <form role="form" action ="<%=Constantes.CONTROLLER_VIAS%>" method="post">
-		           <div class="form-group col-lg-3">
+		           <div class="form-group col-lg-1">
 		           	<!-- Mostramos el input text, pero se submita el hidden -->
 	                   <label for="id">ID</label>
 	                   <input type="hidden" name="id" value="<%=via.getId()%>">
 	                   <input type="text" class="form-control" value="<%=via.getId()%>" disabled>
 	               </div>
-	               <div class="form-group col-lg-9">
+	               <div class="form-group col-lg-11">
 	                   <label for="nombre">Nombre</label>
 	                   <input class="form-control" name="nombre" value="<%=via.getNombre()%>" required>
 	               </div>
@@ -81,9 +83,27 @@
 	                 	     %>					
 						</select>
 	               </div>
-	               <div class="form-group col-lg-12">
+	               <div class="form-group col-lg-6">
+	                   <label for="zona">Zona</label>
+						<select class="form-control" name="zona" id="zona">
+							<%
+	                		   	for(int i = 0; i<zonas.size(); i++) {
+	                		   		if(zonas.get(i).getId() == via.getSector().getZona().getId()) {
+	                		 %>
+	                		 <option selected value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre() %></option>
+	                		 <%
+	                		   		} else {
+	                		 %>
+	                		 <option value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre() %></option>  			
+	            	         <%
+	                		   		} //else	
+	                		   	} // For
+	                 	     %>					
+						</select>
+	               </div>
+	               <div class="form-group col-lg-6">
 	                   <label for="sector">Sector</label>
-						<select class="form-control" name="sector">
+						<select class="form-control" name="sector" id="sector">
 							<%
 	                		   	for(int i = 0; i<sectores.size(); i++) {
 	                		   		if(sectores.get(i).getId() == via.getSector().getId()) {
@@ -104,73 +124,72 @@
 	                   <textarea class="form-control" name="desc" required><%=via.getDescripcion()%></textarea>
 	               </div>
 	               <!-- Botonera -->
-	               <div class="form-group">
+	               <div class="form-group col-lg-12">
 	               		<% if(via.getId() != -1) { %>
 		               		<input type="submit" value="Modificar" class="btn btn-outline btn-primary">
 		                   	<input type="button" value="Eliminar" class="btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">
-
-				<!-- Ventana Modal -->
-				<div class="modal fade col-md-6 col-md-offset-3" id="myModal"
-					role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h2 class="modal-title text-center text-danger">
-									<i class="fa fa-exclamation-triangle"></i> ELIMINAR VIA:
-									<%=via.getNombre().toUpperCase() %></h2>
+					<!-- Ventana Modal -->
+					<div class="modal fade col-md-6 col-md-offset-3" id="myModal"
+						role="dialog">
+						<div class="modal-dialog">
+	
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h2 class="modal-title text-center text-danger">
+										<i class="fa fa-exclamation-triangle"></i> ELIMINAR VIA:
+										<%=via.getNombre().toUpperCase() %></h2>
+								</div>
+								<div class="modal-body">
+									<p>Estas seguro de que desea eliminar la siguiente via:</p>
+									<div class="row">
+										<div class="form-group col-md-6">
+											<label for="id">ID</label> 
+											<input type="text" name="id" class="form-control" value="<%=via.getId()%>" disabled>
+										</div>
+										<div class="form-group col-md-6">
+											<label for="nombre">Nombre</label> 
+											<input type="text" name="nombre" class="form-control" value="<%=via.getNombre()%>" disabled>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6">
+											<label for="grado">Dificultad</label> 
+											<input type="text" name="grado" class="form-control" value="<%=via.getGrado().getNombre()%>" disabled>
+										</div>
+										<div class="form-group col-md-6">
+											<label for="longitud">Longitud</label> 
+											<input type="text" name="longitud" class="form-control" value="<%=via.getLongitud()%>" disabled>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-12">
+											<label for="descripcion">Descripcion</label>
+											<textarea class="form-control" rows="3" name="descripcion" disabled><%=via.getDescripcion()%></textarea>
+										</div>
+									</div>
+									<div class="row checkbox">
+										<div class="form-group col-md-12">
+											<label> <input type="checkbox" id="check_eliminar">S&iacute;,
+												estoy seguro. Deseo eliminar la Via seleccionada.
+											</label>
+											<!-- Habilitar eliminacion mediante checkbox -->
+											<script>
+												document.getElementById('check_eliminar').onclick = function () {
+													document.getElementById('boton_eliminar').classList.toggle("disabled");				
+												}	
+											</script>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=via.getId()%>" id="boton_eliminar" class="btn btn-danger disabled">Eliminar</a>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+								</div>
 							</div>
-							<div class="modal-body">
-								<p>Estas seguro de que desea eliminar la siguiente via:</p>
-								<div class="row">
-									<div class="form-group col-md-6">
-										<label for="id">ID</label> 
-										<input type="text" name="id" class="form-control" value="<%=via.getId()%>" disabled>
-									</div>
-									<div class="form-group col-md-6">
-										<label for="nombre">Nombre</label> 
-										<input type="text" name="nombre" class="form-control" value="<%=via.getNombre()%>" disabled>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-md-6">
-										<label for="grado">Dificultad</label> 
-										<input type="text" name="grado" class="form-control" value="<%=via.getGrado().getNombre()%>" disabled>
-									</div>
-									<div class="form-group col-md-6">
-										<label for="longitud">Longitud</label> 
-										<input type="text" name="longitud" class="form-control" value="<%=via.getLongitud()%>" disabled>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-md-12">
-										<label for="descripcion">Descripcion</label>
-										<textarea class="form-control" rows="3" name="descripcion" disabled><%=via.getDescripcion()%></textarea>
-									</div>
-								</div>
-								<div class="row checkbox">
-									<div class="form-group col-md-12">
-										<label> <input type="checkbox" id="check_eliminar">S&iacute;,
-											estoy seguro. Deseo eliminar la Via seleccionada.
-										</label>
-										<!-- Habilitar eliminacion mediante checkbox -->
-										<script>
-											document.getElementById('check_eliminar').onclick = function () {
-												document.getElementById('boton_eliminar').classList.toggle("disabled");				
-											}	
-										</script>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=via.getId()%>" id="boton_eliminar" class="btn btn-danger disabled">Eliminar</a>
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-							</div>
+							<!-- END Modal content-->
 						</div>
-						<!-- END Modal content-->
-					</div>
 				</div>
 				<!-- END Ventana Modal -->
 				
@@ -178,9 +197,9 @@
 	                   		<input type="submit" value="Crear" class="btn btn-outline btn-primary">
 		                   	<input type="reset" value="Limpiar" class="btn btn-outline btn-danger">
 		                <%} %>
-	               </div>
-	           </form>
-            </div>
-</div>
+		         </div>
+		         </form>
+	        </div>
+      </div>
         
 <jsp:include page="../includes/foot.jsp"></jsp:include>
