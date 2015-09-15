@@ -234,7 +234,7 @@ public class ModeloVia implements Persistable {
 		grado.setId(rs.getInt(COL_GRADO_ID));
 		
 		TipoEscalada tipoEscalada = new TipoEscalada(rs.getString("nombre_tipo_escalada"));
-		tipoEscalada.setId(rs.getInt(COL_SECTOR_ID));
+		tipoEscalada.setId(rs.getInt(COL_TIPO_ESCALADA_ID));
 		
 		Zona zona = new Zona( rs.getString("nombre_zona") );
 		zona.setId(rs.getInt("id_zona"));

@@ -12,11 +12,11 @@
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
 <%
-	//recoger atributos (Objeto Via)"via" y (String)"titulo"
+	//recoger atributos de la request
 	Via via = (Via)request.getAttribute("via");
 	ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
 	ArrayList<TipoEscalada> tipoEscaladas = (ArrayList<TipoEscalada>)request.getAttribute("tipoEscaladas");
-// 	ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
+	ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
 	ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("sectores");
 	String titulo = request.getAttribute("titulo").toString();
 %>
@@ -59,7 +59,7 @@
            		<label class="control-label col-md-1" for="grado">Grado</label>
            		<div class="col-md-2">
 	           		<select class="form-control" name="grado">
-	 					<%
+	 				<%
 	 					for (int i = 0 ; i < grados.size() ; i++){
 	 						if( grados.get(i).getId() == via.getGrado().getId() ){ %>
 							    <option selected value="<%=grados.get(i).getId()%>"><%=grados.get(i).getNombre()%></option>
@@ -74,7 +74,7 @@
            		<label class="control-label col-md-2" for="tipo_escalada">Tipo Escalada</label>
            		<div class="col-md-2">
 	           		<select class="form-control" name="tipo_escalada">
-	 					<%
+	 				<%
 	 					for (int i = 0 ; i < tipoEscaladas.size() ; i++){
 	 						if( tipoEscaladas.get(i).getId() == via.getTipoEscalada().getId() ){ %>
 							    <option selected value="<%=tipoEscaladas.get(i).getId()%>"><%=tipoEscaladas.get(i).getNombre()%></option>
@@ -91,13 +91,23 @@
           	<div class="form-group">
            		<label class="control-label col-md-2" for="zona">Zona</label>
            		<div class="col-md-3">
-           			<input type="text" class="form-control" name="zona" value="<%=via.getSector().getZona().getNombre()%>">
+           			<select class="form-control" name="zona" id="zona">
+	 				<%
+	 					for (int i = 0 ; i < zonas.size() ; i++){
+	 						if( zonas.get(i).getId() == via.getSector().getZona().getId() ){ %>
+							    <option selected value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
+						  <%} else { %>
+								<option value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
+						  <%}//end else  						
+	 					}//end for
+					%>
+					</select>
            		</div>
            		
            		<label class="control-label col-md-1" for="sector">Sector</label>
 	           	<div class="col-md-3">
-	           		<select class="form-control" name="sector">
-	 					<%
+	           		<select class="form-control" name="sector" id="sector">
+	 				<%
 	 					for (int i = 0 ; i < sectores.size() ; i++){
 	 						if( sectores.get(i).getId() == via.getSector().getId() ){ %>
 							    <option selected value="<%=sectores.get(i).getId()%>"><%=sectores.get(i).getNombre()%></option>

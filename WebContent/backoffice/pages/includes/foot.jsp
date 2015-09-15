@@ -1,4 +1,5 @@
- </div>
+ <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+</div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -25,11 +26,58 @@
     
     <!-- Enganche para DataTable -->
     <script>
-    $(document).ready(function() {
-        $('#tabla').DataTable({
-                responsive: true
-        });
-    });
+	    $(document).ready(function() {
+	       	
+	    	//Habilitar DataTable
+	    	$('#tabla').DataTable({
+	    		aLengthMenu: [
+	    		              [10, 25, 50, -1],
+	    		              [10, 25, 50,"All"]
+	    		          ],
+	    		iDisplayLength: 25,
+	            responsive: true
+	        });
+	    	
+	    	//Llamada Controlador Ajax Sectores	 	    	
+	    	$( "#zona" ).change(function() {	    		
+	    		//recoger id zona seleccionada
+	    		var id_zona = $(this).find("option:selected").val();
+	    		console.debug ("Zona seleccionada = " + id_zona);
+	    		
+	    		//llamada Ajax al controlador
+	    		//Url donde se encuentra el servicio Ajax
+	    		var url = "<%=Constantes.CONTROLLER_ZONA_JSON %>";
+	    		
+	    		$.ajax( url , {
+	    			"type": "GET", // usualmente post o get
+	    			"success": function(result) {
+	    				rellenarSelectSector(result);
+	    			},
+	    			"error": function(result) {
+	    				console.error("Error ajax", result);
+	    			},
+	    			"data": { id_zona: id_zona },
+	    			"async": true,
+	    		});	//END: llamada AJAX
+	    			     		
+	    	});	//END: change #zona
+	    	
+	    	/**
+	    	 * Limpiar y rellenar el select-options con los datos
+	    	 * obtenidos del servicio Ajax para los sectores
+	    	 */
+	    	function rellenarSelectSector(result) {
+	    		console.debug("vaciar select sectores");
+	    		$("#sector").html("");
+	    		console.debug("injectar options");
+	    		
+	    		$(result).each( function ( index , value ) {
+	    			$("#sector").append('<option value="' + value.id + '">' + value.nombre + '</option>');
+	    		});	//END: foreach
+	    		
+	    	}	//END: rellenarSelectSector
+	    	
+	    }); //END: document ready	    
     </script>
 
 </body>

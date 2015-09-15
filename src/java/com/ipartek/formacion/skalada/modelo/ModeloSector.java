@@ -27,6 +27,8 @@ public class ModeloSector implements Persistable{
 	private static final String SQL_GETONE = SQL_GETALL + "WHERE s.id = ?";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_ZONA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
+	private static final String SQL_GETALL_BY_ZONA = "SELECT `id`, `nombre` FROM sector WHERE `id_zona` = ?";
+	
 	@Override
 	public int save(Object o) {
 		int resul = -1;
@@ -189,7 +191,8 @@ public class ModeloSector implements Persistable{
 			}
 		}		
 		return resul;
-	}
+	}	
+	
 	
 	/**
 	 * Mapea un ResultSet a Sector
@@ -210,6 +213,45 @@ public class ModeloSector implements Persistable{
 	}
 	
 	
-	
+	/**
+	 * Ontiene todos los sectores de una {@code Zona}, 
+	 * <b> Cuidado: getZona() retorna <code>null</code>, se supone que ya la conocemos </b>
+	 * @param id_zona {@code int} identificador de la {@code Zona}
+	 * @return {@code ArrayList<Sector>} coleccion de sectores de la {@code Zona},
+	 * 			si no existe ninguno coleccion inicializada con new().
+	 */
+	public ArrayList<Sector> getAllByZona (int id_zona){
+		ArrayList<Sector> resul = new ArrayList<Sector>();		
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETALL_BY_ZONA);
+			pst.setInt(1, id_zona);	
+	    	rs = pst.executeQuery();  
+	    	Sector sector = null;
+	    	while(rs.next()){	    		
+	    		sector = new Sector( rs.getString(COL_NOMBRE), null );
+	    		sector.setId( rs.getInt(COL_ID));	    		
+	    		resul.add(sector);
+	    		sector = null;
+	    	}	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
 
 }

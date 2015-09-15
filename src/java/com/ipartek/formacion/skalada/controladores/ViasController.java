@@ -65,7 +65,8 @@ public class ViasController extends HttpServlet {
     	modeloVia = new ModeloVia();
     	modeloGrado = new ModeloGrado();
     	modeloTipoEscalada = new ModeloTipoEscalada();
-    	modeloSector = new ModeloSector();    	
+    	modeloSector = new ModeloSector();
+    	modeloZona = new ModeloZona();
     }
 
 
@@ -141,7 +142,8 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("metodo", "Guardar");
 		request.setAttribute("grados", modeloGrado.getAll());
 		request.setAttribute("tipoEscaladas", modeloTipoEscalada.getAll());
-		request.setAttribute("sectores", modeloSector.getAll());
+		request.setAttribute("zonas", modeloZona.getAll());
+		request.setAttribute("sectores", modeloSector.getAllByZona(1));
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 		
 	}
@@ -154,6 +156,8 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("grados", modeloGrado.getAll());
 		request.setAttribute("tipoEscaladas", modeloTipoEscalada.getAll());
 		request.setAttribute("sectores", modeloSector.getAll());
+		request.setAttribute("zonas", modeloZona.getAll());
+		request.setAttribute("sectores", modeloSector.getAllByZona(via.getSector().getZona().getId()));
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);		
 	}
 
@@ -200,16 +204,9 @@ public class ViasController extends HttpServlet {
 		tipoEscalada = (TipoEscalada)modeloTipoEscalada.getById(pIDTipoEscalada);
 		sector = (Sector)modeloSector.getById(pIDSector);		
 		
-		if (pID != -1) {
-			via = (Via)modeloVia.getById(pID);
-			via.setGrado(grado);
-			via.setTipoEscalada(tipoEscalada);
-			via.setSector(sector);
-		}else{			
-			via = new Via(pNombre, pLongitud, grado, tipoEscalada, sector);
-			via.setId(pID);
-			via.setDescripcion(pDescripcion);
-		}
+		via = new Via(pNombre, pLongitud, grado, tipoEscalada, sector);
+		via.setId(pID);
+		via.setDescripcion(pDescripcion);		
 	}
 
 
