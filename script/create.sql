@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `zona` (
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla eskalada.zona: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `zona` DISABLE KEYS */;
@@ -178,7 +178,6 @@ INSERT INTO `zona` (`id`, `nombre`) VALUES
 	(1, 'Atxarte'),
 	(3, 'Cabo Ogoño'),
 	(4, 'Naranjo de Bulnes'),
-	(5, 'sdf'),
 	(2, 'Untzillaitz Sur');
 /*!40000 ALTER TABLE `zona` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
