@@ -10,6 +10,9 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    
+    <!-- TinyMce Plugin JavaScript -->
+    <script src="js/tinymce/tinymce.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
 <!--     <script src="bower_components/raphael/raphael-min.js"></script> -->
@@ -27,6 +30,20 @@
     <!-- Enganche para DataTable -->
     <script>
 	    $(document).ready(function() {
+	    	
+	    	
+	    	//HAbilitar TinyMCE
+	    	tinymce.init({
+	    	    selector: "textarea",
+	    	    theme: "modern",
+	    	    min_height: 200,
+	    	    plugins: [
+	    	        "advlist autolink lists link image charmap print preview anchor",
+	    	        "searchreplace visualblocks code fullscreen",
+	    	        "insertdatetime media table contextmenu paste"
+	    	    ],
+	    	    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+	    	});  
 	       	
 	    	//Habilitar DataTable
 	    	$('#tabla').DataTable({

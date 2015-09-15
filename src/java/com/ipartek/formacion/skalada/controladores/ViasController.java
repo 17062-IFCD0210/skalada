@@ -231,7 +231,9 @@ public class ViasController extends HttpServlet {
 		pDescripcion = request.getParameter("descripcion");
 		pIDGrado= Integer.parseInt(request.getParameter("grado"));
 		pIDTipoEscalada = Integer.parseInt(request.getParameter("tipo_escalada"));
-		pIDSector = Integer.parseInt(request.getParameter("sector"));
+		if(request.getParameter("sector") != null && !"".equals(request.getParameter("sector"))){
+			pIDSector = Integer.parseInt(request.getParameter("sector"));
+		}
 	
 	}
 
