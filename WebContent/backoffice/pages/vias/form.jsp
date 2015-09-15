@@ -89,8 +89,8 @@
 	          	
 	          	
           	<div class="form-group">
-           		<label class="control-label col-md-1" for="zona">Zona</label>
-           		<div class="col-md-2">
+           		<label class="control-label col-md-2" for="zona">Zona</label>
+           		<div class="col-md-3">
            			<input type="text" class="form-control" name="zona" value="<%=via.getSector().getZona().getNombre()%>">
            		</div>
            		
@@ -111,7 +111,7 @@
           	</div>
 	          	
 	        <div class="form-group">
-		            <label class="control-label col-md-1" for="descripcion">Descripción</label>
+		            <label class="control-label col-md-2" for="descripcion">Descripción</label>
 		            <div class="col-md-9">
 		            	<textarea class="form-control" rows="3" name="descripcion"><%=via.getDescripcion()%></textarea>
 		       		</div>
@@ -121,7 +121,7 @@
 			
 			<!-- Botonera -->
 			<div class="form-group">
-				<div class="col-md-10 pull-right">				
+				<div class="col-md-4 pull-right">				
 				<% if(via.getId()!= -1){ %>
 						<input type="submit" class="btn btn-outline btn-primary" value="Modificar / Guardar">
   						<!-- Trigger the modal with a button -->
