@@ -20,6 +20,8 @@ public class ModeloZona implements Persistable{
 	private static final String SQL_GETBYID = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?";
 	private static final String SQL_GETALL = "SELECT * FROM `" + TABLA + "` ";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "` = ? WHERE `" + COL_ID + "` = ?;";
+	private static final String SQL_GETCOUNTZONAS = "select distinct (z.id), z.nombre from sector s inner join zona z on(z.id = s.id_zona);";
+
 	
 	@Override
 	public int save(Object o) {
@@ -225,6 +227,39 @@ public class ModeloZona implements Persistable{
 			}
 			DataBaseHelper.closeConnection();
 		}
+		return resul;
+	}
+	
+	public ArrayList<Zona> getZonas() {
+		PreparedStatement pst = null;
+		ArrayList<Zona> resul = new ArrayList<Zona>();
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETCOUNTZONAS); 
+	    	ResultSet rs = pst.executeQuery ();
+	    	//mapeo resultSet => ArrayList<Sector>
+	    	Zona z = null;
+	    	while(rs.next()) {
+	    		
+	    		z = new Zona( rs.getString("nombre"), null );
+	    		z.setId( rs.getInt("id"));
+	    		
+	    		resul.add(z);
+	    		z = null;
+	    	}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				if(pst != null) {
+					pst.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DataBaseHelper.closeConnection();
+		}
+		
 		return resul;
 	}
 

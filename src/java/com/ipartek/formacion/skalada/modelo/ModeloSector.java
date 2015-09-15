@@ -25,8 +25,7 @@ public class ModeloSector implements Persistable{
 	private static final String SQL_GETBYID = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id) WHERE s." + COL_ID + "= ?";
 	private static final String SQL_GETALL = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id);";
 	private static final String SQL_UPDATE = "UPDATE " + TABLA_SECTOR + "  SET " + COL_NOMBRE + " = ?, " + COL_ZONA_ID + " = ? WHERE " + COL_ID + " = ?;";
-	private static final String SQL_GETALLBYZONA = "SELECT id, nombre from sector where id_zona =?";
-	
+	private static final String SQL_GETALLBYZONA = "SELECT id, nombre from sector where id_zona =?";	
 	@Override
 	public int save(Object o) {
 		int resul = -1;

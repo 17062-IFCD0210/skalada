@@ -219,7 +219,7 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("lista_grados", mg.getAll());
 		request.setAttribute("lista_tipos", mte.getAll());
 		request.setAttribute("lista_sectores", ms.getAll());
-		request.setAttribute("lista_zonas", mz.getAll());
+		request.setAttribute("lista_zonas", mz.getZonas());
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 		
@@ -232,7 +232,7 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("lista_grados", mg.getAll());
 		request.setAttribute("lista_tipos", mte.getAll());
 		request.setAttribute("lista_sectores", ms.getByZona(via.getSector().getZona().getId()));
-		request.setAttribute("lista_zonas", mz.getAll());
+		request.setAttribute("lista_zonas", mz.getZonas());
 		
 		
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);

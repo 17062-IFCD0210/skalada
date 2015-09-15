@@ -155,12 +155,22 @@
 									</div>
 									<div class="row">
 										<div class="form-group col-md-6">
-											<label for="grado">Dificultad</label> 
-											<input type="text" name="grado" class="form-control" value="<%=via.getGrado().getNombre()%>" disabled>
+											<label for="dificultad">Dificultad</label> 
+											<input type="text" name="dificultad" class="form-control" value="<%=via.getGrado().getNombre()%>" disabled>
 										</div>
 										<div class="form-group col-md-6">
 											<label for="longitud">Longitud</label> 
 											<input type="text" name="longitud" class="form-control" value="<%=via.getLongitud()%>" disabled>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6">
+											<label for="zona">Zona</label> 
+											<input type="text" name="zona" class="form-control" value="<%=via.getSector().getZona().getNombre()%>" disabled>
+										</div>
+										<div class="form-group col-md-6">
+											<label for="sector">Sector</label> 
+											<input type="text" name="sector" class="form-control" value="<%=via.getSector().getNombre()%>" disabled>
 										</div>
 									</div>
 									<div class="row">
