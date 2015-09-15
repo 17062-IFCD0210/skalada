@@ -22,7 +22,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloVia;
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private ModeloVia modelo = null;
+	private ModeloVia modeloVia = null;
 	
        
     /**
@@ -30,7 +30,7 @@ public class HomeController extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modelo = new ModeloVia();
+		modeloVia = new ModeloVia();
 	}
 
 	/**
@@ -46,28 +46,16 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-//		/*
-//		 * Se puede dibujar html a pelo
-//		 */
-//		PrintWriter out = response.getWriter();		
-//		out.println("<h1>HOME</h1>");		
-//		out.flush();
-		
-		
-//		if ( modelo.getAll().size() > 6 ){
-//			request.setAttribute("ultimas_vias", modelo.getAll().subList(0, 6));
-//		}
-		
 		//recuperar las ultimas 6 vias del modelo
-//		ArrayList<Object> vias = modelo.getAll();
-//		if ( vias.size() > 6 ){
-//			vias = new ArrayList<Object>(vias.subList(0, 6));
-//		}
-//		
-//		//enviarlas como atributo en la request
-//		request.setAttribute("ultimas_vias", vias);
-//		
-//		//ir a index
+		ArrayList<Object> vias = modeloVia.getAll();
+		if ( vias.size() > 6 ){
+			vias = new ArrayList<Object>(vias.subList(0, 6));
+		}
+		
+		//enviarlas como atributo en la request
+		request.setAttribute("ultimas_vias", vias);
+		
+		//ir a index
 		request.getRequestDispatcher(Constantes.VIEW_PUBLIC_INDEX).forward(request, response);
 		
 		

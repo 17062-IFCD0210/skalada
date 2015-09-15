@@ -1,3 +1,6 @@
+<%@page contentType="text/html"%> 
+<%@page pageEncoding="UTF-8"%> 
+
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
@@ -106,10 +109,10 @@
             %>
             <div class="col-md-4 col-sm-6">
                <figure>
-                    <img class="img-responsive img-portfolio img-hover" src="imagen" alt="">
+                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/500x450" alt="">
                 	<figcaption class="text-center">
-<%-- 						<a href="<%=Constantes.CONTROLLER_VIA%>?id=<%=v.getId()%>" ><%=v.getNombre()%></a> --%>
-					</figcaption>
+                		<span><%=v.getNombre()%> [<%=v.getSector().getNombre()%> (<%=v.getSector().getZona().getNombre()%>)]</span>
+                	</figcaption>
 				</figure>
             </div>
             <%
