@@ -33,7 +33,8 @@ public class ModeloVia implements Persistable {
                                        
 	 */
 	
-	private static final String SQL_INSERT = "";
+	private static final String SQL_INSERT = "INSERT INTO `via` (`nombre`, `longitud`, `descripcion`, `id_grado`, `id_tipo_escalada`, `id_sector`) VALUES (?, ?, ?, ?, ?, ?);";
+	
 	private static final String SQL_GETALL = "select v.`id`, v.`nombre`,v.`longitud`,v.`descripcion`,`id_grado`, g.`nombre` as `nombre_grado`, `id_sector`, s.`nombre` as `nombre_sector`,`id_tipo_escalada`, t.`nombre` as `nombre_tipo_escalada`,s.`id_zona`, z.`nombre` as `nombre_zona`from `via` as v INNER JOIN `grado` as g ON `id_grado`=g.`id` INNER JOIN `sector`as s ON `id_sector`=s.`id` INNER JOIN `tipo_escalada`as t ON `id_tipo_escalada`=t.`id` INNER JOIN `zona` as z ON s.`id_zona`=z.`id`";
 	
 	/*
@@ -53,8 +54,8 @@ public class ModeloVia implements Persistable {
 	 */
 	private static final String SQL_GETONE = SQL_GETALL + " where v.`id`=?";
 	
-	private static final String SQL_UPDATE = "";
-	private static final String SQL_DELETE = "";
+	private static final String SQL_UPDATE = "UPDATE `via` SET `nombre`=?, `longitud`=?, `descripcion`=?, `id_grado`=?, `id_tipo_escalada`=?, `id_sector`=? WHERE  `id`=?;";
+	private static final String SQL_DELETE = "DELETE FROM `via` WHERE  `id`=?;";
 	
 
 	@Override
@@ -67,8 +68,13 @@ public class ModeloVia implements Persistable {
 			try{
 				v = (Via)o;
 				Connection con = DataBaseHelper.getConnection();
-				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, v.getNombre());	
+				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);		
+				pst.setString(1, v.getNombre());
+				pst.setInt(2, v.getLongitud());
+				pst.setString(3,v.getDescripcion());
+				pst.setInt(4, v.getGrado().getId());
+				pst.setInt(5, v.getTipoEscalada().getId());
+				pst.setInt(6, v.getSector().getId());
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
@@ -172,7 +178,12 @@ public class ModeloVia implements Persistable {
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
 				pst.setString(1, v.getNombre());
-				pst.setInt(2, v.getId());				
+				pst.setInt(2, v.getLongitud());
+				pst.setString(3,v.getDescripcion());
+				pst.setInt(4, v.getGrado().getId());
+				pst.setInt(5, v.getTipoEscalada().getId());
+				pst.setInt(6, v.getSector().getId());
+				pst.setInt(7, v.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}
