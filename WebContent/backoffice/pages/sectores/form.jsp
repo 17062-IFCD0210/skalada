@@ -28,17 +28,17 @@
             <div class="row">
 	           <!-- Formulario -->
 	           <form role="form" action ="<%=Constantes.CONTROLLER_SECTORES%>" method="post">
-		           <div class="form-group">
+		           <div class="form-group col-lg-1">
 		           	<!-- Mostramos el input text, pero se submita el hidden -->
 	                   <label for="id">ID</label>
 	                   <input type="hidden" name="id" value="<%=s.getId()%>">
 	                   <input type="text" class="form-control" value="<%=s.getId()%>" disabled>
 	               </div>
-	               <div class="form-group">
+	               <div class="form-group col-lg-11">
 	                   <label for="nombre">Nombre</label>
 	                   <input class="form-control" name="nombre" value="<%=s.getNombre()%>" required>
 	               </div>
-	              <div class="form-group">
+	              <div class="form-group col-lg-12">
 	                   <label for="zona">Zona</label>
 						<select class="form-control" name="zona">
 							<%
@@ -56,8 +56,13 @@
 	                 	     %>					
 						</select>
 	               </div>
+	               <div class="form-group col-lg-12">
+	                   <label for="imagen">URL Imagen</label>
+	                   <input type="file" class="form-control" name="imagen">
+	                   <img class="img-responsive img-thumbnail" alt="Imagen del sector <%=s.getNombre()%>" src="../img/<%=s.getImagen()%>">
+	               </div>
 	               <!-- Botonera -->
-	               <div class="form-group">
+	               <div class="form-group col-lg-12">
 	               		<% if(s.getId() != -1) { %>
 		               		<input type="submit" value="Modificar" class="btn btn-outline btn-primary">
 		                   	<input type="button" value="Eliminar" class="btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">

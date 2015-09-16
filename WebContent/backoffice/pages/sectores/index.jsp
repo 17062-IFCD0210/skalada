@@ -63,6 +63,7 @@
 					<th>ID</th>
 					<th>Nombre</th>
 					<th>Zona</th>
+					<th>URL Imagen</th>
 				</tr>
 			</thead>
 
@@ -83,6 +84,7 @@
 						</a>
 					</td>
 					<td><%=s.getZona().getNombre()%></td>
+					<td><%=s.getImagen()%></td>
 				</tr>
 			<%	} //Cerramos el For  %>	
 			</tbody>
