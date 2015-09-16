@@ -27,7 +27,7 @@
             <!-- /.row -->
             <div class="row">
 	           <!-- Formulario -->
-	           <form role="form" action ="<%=Constantes.CONTROLLER_SECTORES%>" method="post">
+	           <form role="form" action ="<%=Constantes.CONTROLLER_SECTORES%>" method="post" enctype="multipart/form-data">
 		           <div class="form-group col-lg-1">
 		           	<!-- Mostramos el input text, pero se submita el hidden -->
 	                   <label for="id">ID</label>
