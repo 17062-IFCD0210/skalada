@@ -47,7 +47,7 @@ public class ViasPublicController extends HttpServlet {
 		
 		request.setAttribute("via", v);
 		request.setAttribute("titulo", v.getNombre());
-		request.setAttribute("nivel", String.valueOf(v.getGrado()));
+		request.setAttribute("nivel", v.getGrado().getNombre());
 		request.setAttribute("long", v.getLongitud());
 		request.setAttribute("desc", v.getDescripcion());
 		//request.setAttribute("url", v.getUrl());
