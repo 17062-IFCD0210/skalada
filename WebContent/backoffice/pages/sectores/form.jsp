@@ -66,7 +66,7 @@
 		        
 		        <div class="form-group">
 	           		<label for="img">Imagen existente</label>
-	           		<select class="form-control" name="img">
+	           		<select class="form-control" name="img" id="img_select">
 	           		<%
 	           			File f = new File(Constantes.IMG_UPLOAD_FOLDER);
            				File[] ficheros = f.listFiles();
@@ -85,7 +85,8 @@
 	           		</select>           		
 	          		<img src="../uploads/<%=sector.getImagen()%>"
 	           			 alt="Imagen del sector <%=sector.getNombre()%>"
-	           			 class="img-responsive img-thumbnail">
+	           			 class="img-responsive img-thumbnail"
+	           			 id="img_mostrar">
 	           	</div>
 	           	<div class="form-group">	
 	           		<label for="imagen">Nueva imagen</label>

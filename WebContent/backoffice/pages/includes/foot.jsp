@@ -92,7 +92,15 @@
 	    			$("#sector").append('<option value="' + value.id + '">' + value.nombre + '</option>');
 	    		});	//END: foreach
 	    		
-	    	}	//END: rellenarSelectSector
+	    	};	//END: rellenarSelectSector
+	    	
+	    	
+	    	
+	    	$("#img_select").change(function() {
+	    		var imagen = $(this).find("option:selected").val();
+	    		$("#img_mostrar").attr("src", "../uploads/" + imagen);
+	    	});
+	    	
 	    	
 	    }); //END: document ready	    
     </script>
