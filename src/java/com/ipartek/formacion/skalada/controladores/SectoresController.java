@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
@@ -30,6 +32,10 @@ public class SectoresController extends HttpServlet {
 	
 	//Variables subida imagenes
 	private File file;
+	private String fileName = "";
+	private String contentType = "";
+	private long sizeInBytes = 0;
+	private Mensaje msg = null;
 	
 	private RequestDispatcher dispatcher = null;
 	private ModeloSector modeloSector = null;
@@ -98,19 +104,28 @@ public class SectoresController extends HttpServlet {
 		crearObjetoSector();
 		
 		if(sector.getId() != -1) { //sector modificable
-			if(modeloSector.update(sector)) {
-				request.setAttribute("msg_mod", "Registro Modificado");
-			} else {
-				request.setAttribute("msg_mod", "Registro no modificado");
-			}	
+			if(fileName != "") {
+				if(!"image/jpeg".equals(contentType)) {
+	        		  msg = new Mensaje(Mensaje.MSG_DANGER, "Solo se pueden subir imagenes jpg");
+	        	} else if(modeloSector.update(sector)) {
+					msg = new Mensaje(Mensaje.MSG_INFO, "Registro Modificado");
+				} else {
+					msg = new Mensaje(Mensaje.MSG_INFO, "Registro NO Modificado");
+				}
+			}
 		} else { //sector nuevo
-			if(modeloSector.save(sector) != -1) {
-				request.setAttribute("msg_new", "Registro Creado");
-			} else {
-				request.setAttribute("msg_new", "Registro NO Creado");
+			if(fileName != "") {
+				if(!"image/jpeg".equals(contentType)) {
+	        		  msg = new Mensaje(Mensaje.MSG_DANGER, "Solo se pueden subir imagenes jpg");
+	        	} else if(modeloSector.save(sector) != -1) {
+					msg = new Mensaje(Mensaje.MSG_INFO, "Registro Creado");
+				} else {
+					msg = new Mensaje(Mensaje.MSG_INFO, "Registro NO Creado");
+				}
 			}			
 		}
 		
+		request.setAttribute("msg", msg);
 		listar(request, response);
 		dispatcher.forward(request, response);
 		
@@ -135,13 +150,18 @@ public class SectoresController extends HttpServlet {
 			sector = (Sector)modeloSector.getById(pID);
 			sector.setNombre(pNombre);
 			sector.setZona(zona);
-			sector.setImagen(file.getName());
+			if(file != null) {
+				sector.setImagen(file.getName());
+			}
+			
 			
 		//nuevo sector	
 		}else{
 			sector = new Sector(pNombre, zona);
 			sector.setId(pID);
-			sector.setImagen(file.getName());
+			if(file != null) {
+				sector.setImagen(file.getName());
+			}
 		}
 	}
 
@@ -152,12 +172,12 @@ public class SectoresController extends HttpServlet {
 	 * @param response
 	 */
 	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) {
-		String fileName = "";
 		try {
 			  DiskFileItemFactory factory = new DiskFileItemFactory();
 		      // maximum size that will be stored in memory
 			  //TODO cambiar este valor para que falle
 		      factory.setSizeThreshold(Constantes.MAX_MEM_SIZE);
+		      
 		      // Location to save data that is larger than maxMemSize.
 		      //TODO comprobar si no existe carpeta
 		      factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));
@@ -178,20 +198,25 @@ public class SectoresController extends HttpServlet {
 		    		  dataParameters.put(item.getFieldName(), item.getString());
 		    	  } else { //Imagen
 		    		  fileName = item.getName();
-			          String contentType = item.getContentType();
-			          boolean isInMemory = item.isInMemory();
-			          long sizeInBytes = item.getSize();
+			          contentType = item.getContentType();
+			          sizeInBytes = item.getSize();
 			          
 			          //TODO comprobar size y contenttype
+			          if(fileName != "") {
+			        	  file = new File(Constantes.IMG_UPLOAD_FOLDER + fileName);
+			        	  item.write(file);
+				      }         
+			          
 			          //TODO no repetir nombres de imagenes
 			          //TODO comprobar subir mas de una imagen
-			          file = new File(Constantes.IMG_UPLOAD_FOLDER + fileName);
-			          item.write(file);
+			          
 		    	  }
 		      } //End for
 		      pID = Integer.parseInt(dataParameters.get("id"));
 		      pNombre = dataParameters.get("nombre");
-		      pZona = Integer.parseInt(dataParameters.get("zona"));    
+		      pZona = Integer.parseInt(dataParameters.get("zona"));
+		} catch(SizeLimitExceededException slee) {
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al subir, tamaño excedido");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}	
@@ -228,9 +253,11 @@ public class SectoresController extends HttpServlet {
 		
 		//Comprobamos si ha podido eliminar la sector, y le damos un mensaje de informacion al index.jsp
 		if(modeloSector.delete(pID)) {
-		 	request.setAttribute("msg_elim", "sector eliminado.");
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Sector Eliminado");
+		 	request.setAttribute("msg", msg);
 		} else {
-			request.setAttribute("msg_elim", "sector NO eliminado. " + pID);
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Sector NO Eliminado");
+		 	request.setAttribute("msg", msg);
 		}
 		
 		//listamos las sectors actualizadas

@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
 <%@page import="java.util.ArrayList"%>
@@ -19,36 +20,15 @@
 	                    </a>
                     </h1>
                     <%
-                    	String msg_elim = (String)request.getAttribute("msg_elim");
-                     	String msg_new = (String)request.getAttribute("msg_new");
-                     	String msg_mod = (String)request.getAttribute("msg_mod");
-                    	
-                    	if(msg_elim != null) {
-                    		out.print("<div class='alert alert-danger alert-dismissible' role='alert'>");
-							out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
-							out.print("<span aria-hidden='true'>&times;</span>");
-							out.print("</button>");
-							out.print("<strong>" + msg_elim + "</strong>");
-							out.print("</div>");
-                    	}
-                    	
-                    	if(msg_new != null) {
-                    		out.print("<div class='alert alert-success alert-dismissible' role='alert'>");
-							out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
-							out.print("<span aria-hidden='true'>&times;</span>");
-							out.print("</button>");
-							out.print("<strong>" + msg_new + "</strong>");
-							out.print("</div>");
-                    	}
-                    	
-                    	if(msg_mod != null) {
-                    		out.print("<div class='alert alert-info alert-dismissible' role='alert'>");
-							out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
-							out.print("<span aria-hidden='true'>&times;</span>");
-							out.print("</button>");
-							out.print("<strong>" + msg_mod + "</strong>");
-							out.print("</div>");
-                    	}
+                    Mensaje msg = (Mensaje)request.getAttribute("msg");	
+        			if (msg != null){
+        				out.print("<div class='alert "+msg.getTipo()+" alert-dismissible' role='alert'>");
+        					out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
+        						out.print("<span aria-hidden='true'>&times;</span>");
+        					out.print("</button>");
+        					out.print("<strong>"+ msg.getTexto() +"</strong>");
+        				out.print("</div>");
+        			} 
                     
                     %>
                 </div>
