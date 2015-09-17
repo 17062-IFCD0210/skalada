@@ -17,15 +17,16 @@ public class ModeloSector implements Persistable{
 	private static final String COL_ID = "id";
 	
 	private static final String COL_NOMBRE = "nombre";
+	private static final String COL_IMAGEN = "imagen";
 	private static final String COL_ZONA_ID = "id_zona";
 	private static final String COL_ZONA_NOMBRE = "zona_nombre";
 	
-	private static final String SQL_INSERT = "INSERT INTO " + TABLA_SECTOR + " (" + COL_NOMBRE  + ", " + COL_ZONA_ID + ") VALUES (?,?);";
+	private static final String SQL_INSERT = "INSERT INTO " + TABLA_SECTOR + " (" + COL_NOMBRE  + ", " + COL_ZONA_ID + ", "+ COL_IMAGEN + ") VALUES (?,?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `"+ TABLA_SECTOR + "` WHERE  `" + COL_ID + "`=?;";
-	private static final String SQL_GETBYID = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id) WHERE s." + COL_ID + "= ?";
-	private static final String SQL_GETALL = "SELECT s." + COL_ID + ", s." + COL_NOMBRE +", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id);";
-	private static final String SQL_UPDATE = "UPDATE " + TABLA_SECTOR + "  SET " + COL_NOMBRE + " = ?, " + COL_ZONA_ID + " = ? WHERE " + COL_ID + " = ?;";
-	private static final String SQL_GETALLBYZONA = "SELECT id, nombre from sector where id_zona =?";	
+	private static final String SQL_GETBYID = "SELECT s." + COL_ID + ", s." + COL_NOMBRE + ", s."+ COL_IMAGEN + ", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id) WHERE s." + COL_ID + "= ?";
+	private static final String SQL_GETALL = "SELECT s." + COL_ID + ", s." + COL_NOMBRE + ", s."+ COL_IMAGEN + ", z.nombre as " + COL_ZONA_NOMBRE + ", "+ COL_ZONA_ID +" FROM `" + TABLA_SECTOR + "` s inner join " + TABLA_ZONA + " z on(s." + COL_ZONA_ID + " = z.id);";
+	private static final String SQL_UPDATE = "UPDATE " + TABLA_SECTOR + "  SET " + COL_NOMBRE + " = ?, " + COL_ZONA_ID + " = ?, " + COL_IMAGEN + " = ? WHERE " + COL_ID + " = ?;";
+	private static final String SQL_GETALLBYZONA = "SELECT id, nombre, imagen from sector where id_zona =?";	
 	@Override
 	public int save(Object o) {
 		int resul = -1;
@@ -39,6 +40,7 @@ public class ModeloSector implements Persistable{
 				
 				pst.setString(1, s.getNombre());
 				pst.setInt(2, s.getZona().getId());
+				pst.setString(3, s.getImagen());
 		    	
 		    	if(pst.executeUpdate() == 1) {
 		    		rsKeys = pst.getGeneratedKeys();
@@ -143,7 +145,8 @@ public class ModeloSector implements Persistable{
 			
 			pst.setString(1, s.getNombre());
 			pst.setInt(2, s.getZona().getId());
-			pst.setInt(3, s.getId());
+			pst.setString(3, s.getImagen());
+			pst.setInt(4, s.getId());
 			
 	    	if(pst.executeUpdate() == 1) {
 	    		resul = true;
@@ -201,6 +204,7 @@ public class ModeloSector implements Persistable{
 		Sector s = new Sector( rs.getString("nombre"), z );
 		s.setId( rs.getInt("id"));
 		s.setNombre(rs.getString("nombre"));
+		s.setImagen(rs.getString("imagen"));
 		
 		
 		return s;

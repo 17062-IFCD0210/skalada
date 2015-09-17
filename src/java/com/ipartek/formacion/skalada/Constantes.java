@@ -3,9 +3,10 @@ package com.ipartek.formacion.skalada;
 public class Constantes {
 
 	public static final String ROOT_APP = "/skalada/";
+	public static final String APP_NAME = "skalada";
 
 	// vistas publicas
-	public static final String VIEW_PUBLIC_INDEX = ROOT_APP + "index.jsp";
+	public static final String VIEW_PUBLIC_INDEX   = ROOT_APP + "index.jsp";
 	public static final String VIEW_PUBLIC_INFOVIA = ROOT_APP + "infoVia.jsp";
 
 	// vistas backoffice
@@ -53,7 +54,10 @@ public class Constantes {
 	public static final int ACCION_ELIMINAR = 4;
 	
 	//Imagenes
-	public static final String IMG_UPLOAD_FOLDER = "C:\\Desarrollo\\apache-tomcat-6.0.44\\uploads\\";
-	public static final String IMG_DEFAULT_SECTOR = "default_sector.jpg";
+	public static final String IMG_UPLOAD_FOLDER      = "C:\\Desarrollo\\apache-tomcat-6.0.44\\webapps\\" + APP_NAME + "\\uploads\\";
+	public static final String IMG_UPLOAD_TEMP_FOLDER = "C:\\Desarrollo\\apache-tomcat-6.0.44\\temp\\";
+	public static final String IMG_DEFAULT_SECTOR     = "default_sector.jpg";
+	public static final int    MAX_FILE_SIZE          = 1000 * 1024;
+	public static final int    MAX_MEM_SIZE           = 4 * 1024;
 	
 }

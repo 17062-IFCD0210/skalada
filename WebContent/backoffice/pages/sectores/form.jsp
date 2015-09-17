@@ -59,7 +59,7 @@
 	               <div class="form-group col-lg-12">
 	                   <label for="imagen">URL Imagen</label>
 	                   <input type="file" class="form-control" name="imagen">
-	                   <img class="img-responsive img-thumbnail" alt="Imagen del sector <%=s.getNombre()%>" src="../img/<%=s.getImagen()%>">
+	                   <img class="img-responsive img-thumbnail" alt="Imagen del sector <%=s.getNombre()%>" src="../uploads/<%=s.getImagen()%>">
 	               </div>
 	               <!-- Botonera -->
 	               <div class="form-group col-lg-12">

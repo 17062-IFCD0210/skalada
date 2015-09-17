@@ -3,7 +3,6 @@ package com.ipartek.formacion.skalada.controladores;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -30,13 +29,8 @@ public class SectoresController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	//Variables subida imagenes
-	private boolean isMultipart;
-	private String filePath;
-	private int maxFileSize = 5000 * 1024;
-	private int maxMemSize = 4 * 1024;
 	private File file;
 	
-    
 	private RequestDispatcher dispatcher = null;
 	private ModeloSector modeloSector = null;
 	private ModeloZona modeloZona = null;
@@ -60,7 +54,6 @@ public class SectoresController extends HttpServlet {
     	super.init(config);
     	modeloSector = new ModeloSector();
     	modeloZona = new ModeloZona();
-    	filePath = Constantes.IMG_UPLOAD_FOLDER;
     }
 
 	/**
@@ -128,46 +121,7 @@ public class SectoresController extends HttpServlet {
 	 * @param request
 	 */
 	private void uploadFile(HttpServletRequest request) {
-		try {
-			  DiskFileItemFactory factory = new DiskFileItemFactory();
-		      // maximum size that will be stored in memory
-		      factory.setSizeThreshold(maxMemSize);
-		      // Location to save data that is larger than maxMemSize.
-		      factory.setRepository(new File("c:\\temp"));
-	
-		      // Create a new file upload handler
-		      ServletFileUpload upload = new ServletFileUpload(factory);
-		      // maximum file size to be uploaded.
-		      upload.setSizeMax( maxFileSize );
-		      
-		      // Parse the request to get file items.
-		      List fileItems = upload.parseRequest(request);
-			
-		      // Process the uploaded file items
-		      Iterator i = fileItems.iterator();
-		      
-		      //Comprobar que se ha subido una imagen
-		      if ( i.hasNext () ) {
-		         FileItem fi = (FileItem)i.next();
-		         String fieldName = fi.getFieldName();
-	             String fileName = fi.getName();
-	             String contentType = fi.getContentType();
-	             boolean isInMemory = fi.isInMemory();
-	             long sizeInBytes = fi.getSize();
-	             
-	             //TODO comprobar 'size' y 'contentType'
-	             
-	             //Guardar imagen
-	             file = new File(filePath + fileName);
-	             fi.write(file);
-	             
-	             //TODO Actualizar modelo
-		         
-		      }
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+		//TODO realizar comprobaciones y guardar imagen en PC
 	}
 
 	/**
@@ -179,12 +133,15 @@ public class SectoresController extends HttpServlet {
 		//existe sector
 		if ( pID != -1 ){		
 			sector = (Sector)modeloSector.getById(pID);
+			sector.setNombre(pNombre);
 			sector.setZona(zona);
+			sector.setImagen(file.getName());
 			
 		//nuevo sector	
 		}else{
 			sector = new Sector(pNombre, zona);
 			sector.setId(pID);
+			sector.setImagen(file.getName());
 		}
 	}
 
@@ -199,22 +156,24 @@ public class SectoresController extends HttpServlet {
 		try {
 			  DiskFileItemFactory factory = new DiskFileItemFactory();
 		      // maximum size that will be stored in memory
-		      factory.setSizeThreshold(maxMemSize);
+			  //TODO cambiar este valor para que falle
+		      factory.setSizeThreshold(Constantes.MAX_MEM_SIZE);
 		      // Location to save data that is larger than maxMemSize.
-		      factory.setRepository(new File("c:\\temp"));
+		      //TODO comprobar si no existe carpeta
+		      factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));
 	
 		      // Create a new file upload handler
 		      ServletFileUpload upload = new ServletFileUpload(factory);
 		      // maximum file size to be uploaded.
-		      upload.setSizeMax( maxFileSize );
+		      //TODO cambiar valor no dejar subir mas de 1MB
+		      upload.setSizeMax(Constantes.MAX_FILE_SIZE);
 		      
 		      //Parametros de la request del parametro, NO la imagen
 		      HashMap<String, String> dataParameters = new HashMap<String, String>();
 		      
 		      // Parse the request to get file items.
 		      List<FileItem> items = upload.parseRequest(request);
-		      for(FileItem item : items) {
-		    	  
+		      for(FileItem item : items) { 
 		    	  if(item.isFormField()) {
 		    		  dataParameters.put(item.getFieldName(), item.getString());
 		    	  } else { //Imagen
@@ -223,21 +182,19 @@ public class SectoresController extends HttpServlet {
 			          boolean isInMemory = item.isInMemory();
 			          long sizeInBytes = item.getSize();
 			          
-			          file = new File(filePath + fileName);
+			          //TODO comprobar size y contenttype
+			          //TODO no repetir nombres de imagenes
+			          //TODO comprobar subir mas de una imagen
+			          file = new File(Constantes.IMG_UPLOAD_FOLDER + fileName);
 			          item.write(file);
 		    	  }
-	           }
-		         
-	             
-		    pID = Integer.parseInt(dataParameters.get("id"));
-     		pNombre = dataParameters.get("nombre");
-     		pZona = Integer.parseInt(dataParameters.get("zona"));
-		      
+		      } //End for
+		      pID = Integer.parseInt(dataParameters.get("id"));
+		      pNombre = dataParameters.get("nombre");
+		      pZona = Integer.parseInt(dataParameters.get("zona"));    
 		} catch(Exception e) {
 			e.printStackTrace();
-		}
-		
-			
+		}	
 	}
 
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {
