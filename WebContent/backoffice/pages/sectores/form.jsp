@@ -1,3 +1,4 @@
+<%@page import="java.io.File"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
@@ -64,12 +65,32 @@
 		        </div>
 		        
 		        <div class="form-group">
-	           		<label for="imagen">Imagen</label>
-	           		<input type="file" class="form-control" name="imagen">
-	           		<img src="../uploads/<%=sector.getImagen()%>"
+	           		<label for="img">Imagen existente</label>
+	           		<select class="form-control" name="img">
+	           		<%
+	           			File f = new File(Constantes.IMG_UPLOAD_FOLDER);
+           				File[] ficheros = f.listFiles();
+           				for (int i = 0 ; i<ficheros.length; i++){
+           				  	if( ficheros[i].getName().equalsIgnoreCase(sector.getImagen())){
+           			%>
+           				<option selected value="<%=ficheros[i].getName()%>"><%=ficheros[i].getName()%></option>
+           			<%	
+           				  	} else {
+           			%>
+    					<option value="<%=ficheros[i].getName()%>"><%=ficheros[i].getName()%></option>
+    				<%
+           				 	} 						
+  						}	           		
+	           		%>	
+	           		</select>           		
+	          		<img src="../uploads/<%=sector.getImagen()%>"
 	           			 alt="Imagen del sector <%=sector.getNombre()%>"
 	           			 class="img-responsive img-thumbnail">
-	          	</div>
+	           	</div>
+	           	<div class="form-group">	
+	           		<label for="imagen">Nueva imagen</label>
+	           		<input type="file" class="form-control" name="imagen">	  
+	           	</div>
 	        
 	        
 

@@ -44,6 +44,7 @@ public class SectoresController extends HttpServlet {
 	private int pID	= -1;		//ID no valido	
 	private String pNombre;
 	private int pIDZona;
+	private String pImagen;
 
 	private Mensaje msg = null;
 	
@@ -194,40 +195,40 @@ public class SectoresController extends HttpServlet {
 			
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			// maximum size that will be stored in memory
-			//TODO cambiar este valor para que falle
 			factory.setSizeThreshold(Constantes.IMG_MAX_MEM_SIZE);
 			// Location to save data that is larger than maxMemSize.
-			//TODO comprobar si no existe carpeta
 			factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));
 			
 			// Create a new file upload handler
 		    ServletFileUpload upload = new ServletFileUpload(factory);
 		    // maximum file size to be uploaded.
-		    //TODO cambiar valor no dejar subir mas de 1Mb
 		    upload.setSizeMax( Constantes.IMG_MAX_FILE_SIZE );
 		    
 		    //Parametros de la request del formulario, NO la imagen
 		    HashMap<String, String> dataParameters = new HashMap<String, String>();
 			// Parse the request to get file items.		   
-		    List<FileItem> items = upload.parseRequest(request);		   
+		    List<FileItem> items = upload.parseRequest(request);
+		    boolean new_img = false;
 		    for (FileItem item : items) {
 		    	
 		    	//parametro formulario
 		    	if ( item.isFormField() ){		    		
-		    		dataParameters.put( item.getFieldName(), item.getString() );
+		    		dataParameters.put( item.getFieldName(), item.getString("UTF-8") );
 		    	//Imagen	
 		    	}else{
-		    		String fileName     = item.getName();
+		    		String fileName     	= item.getName();
 		    		if (!fileName.equals("")){
+		    			new_img = true;
 			            String contentType  = item.getContentType();
 			            boolean isInMemory  = item.isInMemory();
 			            long sizeInBytes    = item.getSize();
 			            
-			            //TODO comprobar size y contentType
-			            //TODO NO epetir nombes imagenes
-			            //TODO comprobar subir +1 imagen
 			            file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName );
+			            if(file.exists()){
+			            	msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro. Nombre de imagen ya empleada");
+			            }			            
 			            item.write( file ) ;
+			            pImagen = file.getName();
 		    		}
 		    	}	            
 		    	
@@ -235,9 +236,12 @@ public class SectoresController extends HttpServlet {
 		    
 		   	pID = Integer.parseInt( dataParameters.get("id"));
 			pNombre = dataParameters.get("nombre");
-			pIDZona = Integer.parseInt(dataParameters.get("zona"));	
+			pIDZona = Integer.parseInt(dataParameters.get("zona"));
+			if(!new_img){
+				pImagen = dataParameters.get("img");
+			}
 		}catch(SizeLimitExceededException e){
-			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro. Tamaño imagen excedido");
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro. Tamaño imagen excedido (1Mb)");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -260,7 +264,7 @@ public class SectoresController extends HttpServlet {
 		}
 		
 		if (file != null){ 
-			sector.setImagen(file.getName());
+			sector.setImagen(pImagen);
 		} 
 	}
 	

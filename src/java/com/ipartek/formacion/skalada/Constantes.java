@@ -57,6 +57,6 @@ public class Constantes {
 	public static final String IMG_UPLOAD_FOLDER = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\" + APP_NAME + "\\uploads";
 	public static final String IMG_UPLOAD_TEMP_FOLDER = "C:\\desarrollo\\apache-tomcat-6.0.44\\temp";
 	public static final String IMG_DEFAULT_SECTOR = "default_sector.jpg";
-	public static final int IMG_MAX_FILE_SIZE = 500 * 1024;
-	public static final int IMG_MAX_MEM_SIZE = 40 * 1024;
+	public static final int IMG_MAX_FILE_SIZE = 1000 * 1024;
+	public static final int IMG_MAX_MEM_SIZE = 4 * 1024;
 }
