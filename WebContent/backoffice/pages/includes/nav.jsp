@@ -73,7 +73,9 @@
                         <li>
                             <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Sectores</a>
                         </li>
-                        
+                        <li>
+                            <a href="<%=Constantes.CONTROLLER_LUGARES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Lugares</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

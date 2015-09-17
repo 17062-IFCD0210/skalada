@@ -28,11 +28,11 @@
     	
 	<!-- Formulario -->
 	
-		<form action="<%=Constantes.CONTROLLER_SECTORES%>" method="post" role="form">
+		<form action="<%=Constantes.CONTROLLER_SECTORES%>" 
+			  enctype="multipart/form-data"
+			  method="post" role="form">
 			
-			<div class="row">
-				
-				<div class="form-group">			
+			<div class="form-group">			
 					<!-- Mostramon el input text, pero se submita el hidden -->
 					<label for="id">ID</label>
 					<input type="hidden" name="id" value="<%=sector.getId()%>">
@@ -48,19 +48,29 @@
 		            <label for="zona">Zona</label>
 		            <select class="form-control" name="zona">
   					<%
-  					for (int i = 0 ; i < zonas.size() ; i++){
+	  					for (int i = 0 ; i < zonas.size() ; i++){
+	  						if( zonas.get(i).getId() == sector.getZona().getId() ){ 
   					%>
-  						
-  						    <% if( zonas.get(i).getId() == sector.getZona().getId() ){ %>
-  						    	<option selected value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
-  						    <%}else{ %>
-  								<option value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
-  							<%}//end else  						
-  					}//end for
+				    	<option selected value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
+				    <%		
+				    		}else{ 
+				    %>
+						<option value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
+					<%	
+							} 						
+  						}
 					%>
 					</select>
 		        </div>
-	        </div>
+		        
+		        <div class="form-group">
+	           		<label for="imagen">Imagen</label>
+	           		<input type="file" class="form-control" name="imagen">
+	           		<img src="../uploads/<%=sector.getImagen()%>"
+	           			 alt="Imagen del sector <%=sector.getNombre()%>"
+	           			 class="img-responsive img-thumbnail">
+	          	</div>
+	        
 	        
 
 			

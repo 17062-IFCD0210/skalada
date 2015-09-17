@@ -16,18 +16,19 @@ public class ModeloSector implements Persistable{
 	
 	private static final String COL_ID = "id";
 	private static final String COL_NOMBRE = "nombre";
+	private static final String COL_IMAGEN = "imagen";
 	private static final String COL_ZONA_ID = "id_zona";
 	private static final String COL_ZONA_NOMBRE = "nombre_zona";
 	
-	private static final String SQL_INSERT = "INSERT INTO `" + TABLA_SECTOR + "` (`" + COL_NOMBRE + "`, `" + COL_ZONA_ID + "`) VALUES (?,?);";
+	private static final String SQL_INSERT = "INSERT INTO `" + TABLA_SECTOR + "` (`" + COL_NOMBRE + "`, `" + COL_IMAGEN + "`, `" + COL_ZONA_ID + "`) VALUES (?,?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_SECTOR + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT  s.id, s.nombre, id_zona, z.nombre AS nombre_zona "
+	private static final String SQL_GETALL = "SELECT  s.id, s.nombre, id_zona, z.nombre AS nombre_zona, s.imagen "
 											+ "FROM sector AS s "
 											+ "INNER JOIN zona AS z ON (s.id_zona = z.id)";
 	private static final String SQL_GETONE = SQL_GETALL + "WHERE s.id = ?";
-	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_ZONA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
+	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_IMAGEN + "`= ? , `" + COL_ZONA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
-	private static final String SQL_GETALL_BY_ZONA = "SELECT `id`, `nombre` FROM sector WHERE `id_zona` = ?";
+	private static final String SQL_GETALL_BY_ZONA = "SELECT `id`, `nombre`, `imagen` FROM sector WHERE `id_zona` = ?";
 	
 	@Override
 	public int save(Object o) {
@@ -41,7 +42,8 @@ public class ModeloSector implements Persistable{
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, g.getNombre());
-				pst.setInt(2, g.getZona().getId());		
+				pst.setString(2, g.getImagen());
+				pst.setInt(3, g.getZona().getId());		
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
@@ -145,8 +147,9 @@ public class ModeloSector implements Persistable{
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
 				pst.setString(1, s.getNombre());
-				pst.setInt(2, s.getZona().getId());
-				pst.setInt(3, s.getId());				
+				pst.setString(2, s.getImagen());
+				pst.setInt(3, s.getZona().getId());
+				pst.setInt(4, s.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}
@@ -208,6 +211,7 @@ public class ModeloSector implements Persistable{
 		
 		resul = new Sector( rs.getString(COL_NOMBRE), zona );
 		resul.setId( rs.getInt(COL_ID));
+		resul.setImagen(rs.getString(COL_IMAGEN));
 		
 		return resul;
 	}
@@ -232,7 +236,8 @@ public class ModeloSector implements Persistable{
 	    	Sector sector = null;
 	    	while(rs.next()){	    		
 	    		sector = new Sector( rs.getString(COL_NOMBRE), null );
-	    		sector.setId( rs.getInt(COL_ID));	    		
+	    		sector.setId( rs.getInt(COL_ID));
+	    		sector.setImagen(rs.getString(COL_IMAGEN));
 	    		resul.add(sector);
 	    		sector = null;
 	    	}	

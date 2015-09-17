@@ -3,6 +3,7 @@ package com.ipartek.formacion.skalada;
 public class Constantes {
 
 	public static final String ROOT_APP = "/skalada/";
+	public static final String APP_NAME = "skalada";
 	
 	//vistas publicas
 	public static final String VIEW_PUBLIC_INDEX = "index.jsp";
@@ -29,6 +30,9 @@ public class Constantes {
 	public static final String VIEW_BACK_SECTORES_INDEX = "backoffice/pages/sectores/index.jsp";
 	public static final String VIEW_BACK_SECTORES_FORM = "backoffice/pages/sectores/form.jsp";
 	
+	public static final String VIEW_BACK_LUGARES_INDEX = "backoffice/pages/lugares/index.jsp";
+	public static final String VIEW_BACK_LUGARES_DETALLE = "backoffice/pages/lugares/detalle.jsp";
+	
 	//controladores
 	public static final String CONTROLLER_LOGIN  = ROOT_APP + "login";
 	public static final String CONTROLLER_LOGOUT = ROOT_APP + "logout";	
@@ -41,10 +45,18 @@ public class Constantes {
 	
 	public static final String CONTROLLER_ZONA_JSON = ROOT_APP + "zonas-json";
 	
+	public static final String CONTROLLER_LUGARES   = ROOT_APP + "lugares";
+	
 	//acciones
 	public static final int ACCION_NUEVO	= 0;
 	public static final int ACCION_DETALLE	= 1;
 	public static final int ACCION_LISTAR	= 2;
 	public static final int ACCION_ELIMINAR = 3;
 	
+	//imagenes
+	public static final String IMG_UPLOAD_FOLDER = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\" + APP_NAME + "\\uploads";
+	public static final String IMG_UPLOAD_TEMP_FOLDER = "C:\\desarrollo\\apache-tomcat-6.0.44\\temp";
+	public static final String IMG_DEFAULT_SECTOR = "default_sector.jpg";
+	public static final int IMG_MAX_FILE_SIZE = 500 * 1024;
+	public static final int IMG_MAX_MEM_SIZE = 40 * 1024;
 }

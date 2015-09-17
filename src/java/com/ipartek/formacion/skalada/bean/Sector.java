@@ -2,6 +2,8 @@ package com.ipartek.formacion.skalada.bean;
 
 import java.io.Serializable;
 
+import com.ipartek.formacion.skalada.Constantes;
+
 public class Sector implements Serializable{
 	private static final long serialVersionUID = -2537948970066821711L;
 	
@@ -11,6 +13,8 @@ public class Sector implements Serializable{
 	private int id;
 	private String nombre;
 	private Zona zona;
+	private String imagen;	//path + nombre de la imagen a mostrar
+
 
 	/**
 	 * Constructor
@@ -20,6 +24,7 @@ public class Sector implements Serializable{
 		this.setId(-1);
 		this.setNombre(nombre);
 		this.setZona(zona);
+		this.setImagen(Constantes.IMG_DEFAULT_SECTOR);
 	}
 
 	/**
@@ -42,6 +47,12 @@ public class Sector implements Serializable{
 	}
 	public void setZona(Zona zona) {
 		this.zona = zona;
+	}
+	public String getImagen() {
+		return imagen;
+	}
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 	
 	
