@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -96,39 +96,41 @@ public class SectoresController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-		getParametersPost(request, response);
-		
-		//Subida Imagen
-		uploadFile(request);
-		
-		crearObjetoSector();
-		
-		if(sector.getId() != -1) { //sector modificable
-			if(fileName != "") {
-				if(!"image/jpeg".equals(contentType)) {
-	        		  msg = new Mensaje(Mensaje.MSG_DANGER, "Solo se pueden subir imagenes jpg");
-	        	} else if(modeloSector.update(sector)) {
+		response.setCharacterEncoding("UTF-8");
+		try {
+			getParametersPost(request, response);
+			
+			//Subida Imagen
+			uploadFile(request);
+			
+			crearObjetoSector();
+			
+			if(sector.getId() != -1) { //sector modificable
+				if(modeloSector.update(sector)) {
 					msg = new Mensaje(Mensaje.MSG_INFO, "Registro Modificado");
 				} else {
 					msg = new Mensaje(Mensaje.MSG_INFO, "Registro NO Modificado");
 				}
-			}
-		} else { //sector nuevo
-			if(fileName != "") {
-				if(!"image/jpeg".equals(contentType)) {
-	        		  msg = new Mensaje(Mensaje.MSG_DANGER, "Solo se pueden subir imagenes jpg");
-	        	} else if(modeloSector.save(sector) != -1) {
+			} else { //sector nuevo
+				if(modeloSector.save(sector) != -1) {
 					msg = new Mensaje(Mensaje.MSG_INFO, "Registro Creado");
 				} else {
 					msg = new Mensaje(Mensaje.MSG_INFO, "Registro NO Creado");
 				}
-			}			
+			}
+			request.setAttribute("msg", msg);
+		} catch(FileSizeLimitExceededException f) {
+			f.printStackTrace();
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Tamaño maximo excedido");
+			request.setAttribute("msg", msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Fallo al modificar sector. " + e.getMessage());
+			request.setAttribute("msg", msg);
 		}
 		
-		request.setAttribute("msg", msg);
 		listar(request, response);
 		dispatcher.forward(request, response);
-		
 	}
 	
 	/**
@@ -171,8 +173,7 @@ public class SectoresController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) {
-		try {
+	private void getParametersPost(HttpServletRequest request, HttpServletResponse response) throws Exception{
 			  DiskFileItemFactory factory = new DiskFileItemFactory();
 		      // maximum size that will be stored in memory
 			  //TODO cambiar este valor para que falle
@@ -198,15 +199,23 @@ public class SectoresController extends HttpServlet {
 		    		  dataParameters.put(item.getFieldName(), item.getString());
 		    	  } else { //Imagen
 		    		  fileName = item.getName();
-			          contentType = item.getContentType();
-			          sizeInBytes = item.getSize();
+		    		  if(!"".equals(fileName)) {
+		    			  contentType = item.getContentType();
+		    			  if(Constantes.CONTENT_TYPES.contains(contentType)) {
+		    				  sizeInBytes = item.getSize();
+					          file = new File(Constantes.IMG_UPLOAD_FOLDER + fileName);
+				        	  if(file.exists()) {
+				        		  msg = new Mensaje(Mensaje.MSG_DANGER, "Error al subir, ya existe esa imagen.");
+				        	  } else {
+				        		  item.write(file);  
+				        	  }
+		    			  } else {
+		    				  throw new Exception("[" + contentType + "] extension no permitida");
+		    			  }
+		    		  }
 			          
-			          //TODO comprobar size y contenttype
-			          if(fileName != "") {
-			        	  file = new File(Constantes.IMG_UPLOAD_FOLDER + fileName);
-			        	  item.write(file);
-				      }         
 			          
+			          //TODO comprobar size y contenttype        
 			          //TODO no repetir nombres de imagenes
 			          //TODO comprobar subir mas de una imagen
 			          
@@ -214,12 +223,7 @@ public class SectoresController extends HttpServlet {
 		      } //End for
 		      pID = Integer.parseInt(dataParameters.get("id"));
 		      pNombre = dataParameters.get("nombre");
-		      pZona = Integer.parseInt(dataParameters.get("zona"));
-		} catch(SizeLimitExceededException slee) {
-			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al subir, tamaño excedido");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}	
+		      pZona = Integer.parseInt(dataParameters.get("zona"));	
 	}
 
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {

@@ -70,13 +70,44 @@
 	               </div>
 	               <div class="form-group col-lg-12">
 	                   <label for="imagen">URL Imagen</label>
-	                   <input type="file" class="form-control" name="imagen">
-	                   <img class="img-responsive img-thumbnail" alt="Imagen del sector <%=s.getNombre()%>" src="../uploads/<%=s.getImagen()%>">
+	                   <input type="file" class="form-control" name="imagen" id="imagen" onchange="showFileSize();">
+	                   <%
+	           			String img_path = Constantes.IMG_DEFAULT_SECTOR;
+		      			if ( !img_path.equals( s.getImagen())){
+		      				img_path = Constantes.IMG_WEP_PATH + s.getImagen();
+		      			}else{
+		      				img_path = "../img/" + img_path;
+		      			}	
+	           		
+	           		
+	           			%>
+	                   
+	                   <img class="img-responsive img-thumbnail" alt="Imagen del sector <%=s.getNombre()%>" src="<%=img_path%>">
+	                    <script type="text/javascript">
+						function showFileSize() {
+						    var input, file;						   
+						    if (!window.FileReader) {
+						        bodyAppend("p", "The file API isn't supported on this browser yet.");
+						        return;
+						    }
+						
+						    input = document.getElementById('imagen');
+						    if ( input.files[0] ){
+						    	file = input.files[0];
+						    	if ( file.size > <%=Constantes.MAX_FILE_SIZE%> ){
+						    		alert( "Demasiado grande la imagen");
+						    		document.getElementById('btn_submit').classList.toggle("disabled");			
+						    	}else{
+						    		document.getElementById('btn_submit').classList.remove("disabled");	
+						    	}						    	
+						    }   
+						}//end showFileSize
+				      	</script>  
 	               </div>
 	               <!-- Botonera -->
 	               <div class="form-group col-lg-12">
 	               		<% if(s.getId() != -1) { %>
-		               		<input type="submit" value="Modificar" class="btn btn-outline btn-primary">
+		               		<input type="submit" value="Modificar" id="btn_submit" class="btn btn-outline btn-primary">
 		                   	<input type="button" value="Eliminar" class="btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">
 
 					<!-- Ventana Modal -->
@@ -134,7 +165,7 @@
 					<!-- END Ventana Modal -->
 				
 					<%} else { %>
-		                   		<input type="submit" value="Crear" class="btn btn-outline btn-primary">
+		                   		<input type="submit" value="Crear" id="btn_submit" class="btn btn-outline btn-primary">
 			                   	<input type="reset" value="Limpiar" class="btn btn-outline btn-danger">
 			                <%} %>
 		               </div>
