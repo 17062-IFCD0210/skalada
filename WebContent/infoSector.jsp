@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@page pageEncoding = "utf-8" %>
 <html lang="en">
 
 <head>
@@ -107,19 +109,10 @@
 		<!-- Portfolio Item Row -->
 		<div class="row">
 
-			<div class="col-md-8">
+			<div class="col-lg-12">
 				<img class="img-responsive img-portfolio img-hover"
-					src="<%=request.getAttribute("url")%>" alt="">
+ 					src="<%=request.getAttribute("imagen")%>" alt="">
 			</div>
-
-			<div class="col-md-4">
-				<h3>Nivel</h3>
-				<p><%=request.getAttribute("nivel")%></p>
-				<h3>Longitud</h3>
-				<p><%=request.getAttribute("long")%>m.
-				</p>
-			</div>
-
 		</div>
 		<!-- /.row -->
 
@@ -141,21 +134,21 @@
 				<h3 class="page-header">Te podria interesar...</h3>
 			</div>
  			<% 
-               	ArrayList<Via> vias = (ArrayList<Via>)request.getAttribute("cuatro_vias");
-            	if(vias == null) {
-            		vias = new ArrayList<Via>();
+               	ArrayList<Sector> sector = (ArrayList<Sector>)request.getAttribute("cuatro_vias");
+            	if(sector == null) {
+            		sector = new ArrayList<Sector>();
             	}
-            	Via v = null;
+            	Sector s = null;
             	
-            	for(int i=0; i<vias.size();i++) {
-            		v = vias.get(i); 
+            	for(int i=0; i<sector.size();i++) {
+            		s = sector.get(i); 
              %> 
              <div class="col-md-3 col-sm-3">
              	<figure> 
-            		<a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>">
-<%--             			<img class="img-responsive img-portfolio img-hover" src="<%=v.getUrl()%>" alt=""> --%>
+            		<a href="<%=Constantes.CONTROLLER_INFO_SECTOR%>?id=<%=s.getId()%>">
+             			<img class="img-responsive img-portfolio img-hover" src="<%=Constantes.IMG_WEP_PATH + s.getImagen()%>" alt="">
             		</a>
-            		<figcaption><a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>"><%=v.getNombre()%></a></figcaption>
+            		<figcaption><a href="<%=Constantes.CONTROLLER_INFO_SECTOR%>?id=<%=s.getId()%>"><%=s.getNombre()%></a></figcaption>
              	</figure> 
             </div> 
  			<%	} //Cerramos el For  %>

@@ -10,7 +10,7 @@ public class Constantes {
 
 	// vistas publicas
 	public static final String VIEW_PUBLIC_INDEX   = ROOT_APP + "index.jsp";
-	public static final String VIEW_PUBLIC_INFOVIA = ROOT_APP + "infoVia.jsp";
+	public static final String VIEW_PUBLIC_INFO_SECTOR = ROOT_APP + "infoSector.jsp";
 
 	// vistas backoffice
 	public static final String ROOT_BACK       = ROOT_APP + "backoffice/";
@@ -39,16 +39,16 @@ public class Constantes {
 	
 
 	// controladores
-	public static final String CONTROLLER_LOGIN      = ROOT_APP + "login";
-	public static final String CONTROLLER_LOGOUT     = ROOT_APP + "logout";
-	public static final String CONTROLLER_VIAS       = ROOT_APP + "vias";
-	public static final String CONTROLLER_HOME       = ROOT_APP + "home";
-	public static final String CONTROLLER_INFO_VIA   = "infoVia";
-	public static final String CONTROLLER_GRADOS     = ROOT_APP + "grados";
-	public static final String CONTROLLER_TIPOS      = ROOT_APP + "tipo-escalada";
-	public static final String CONTROLLER_ZONAS      = ROOT_APP + "zona";
-	public static final String CONTROLLER_SECTORES   = ROOT_APP + "sector";
-	public static final String CONTROLLER_ZONAS_JSON = ROOT_APP + "zonas-json";
+	public static final String CONTROLLER_LOGIN         = ROOT_APP + "login";
+	public static final String CONTROLLER_LOGOUT        = ROOT_APP + "logout";
+	public static final String CONTROLLER_VIAS          = ROOT_APP + "vias";
+	public static final String CONTROLLER_HOME          = ROOT_APP + "home";
+	public static final String CONTROLLER_INFO_SECTOR   = ROOT_APP +"infoSector";
+	public static final String CONTROLLER_GRADOS        = ROOT_APP + "grados";
+	public static final String CONTROLLER_TIPOS         = ROOT_APP + "tipo-escalada";
+	public static final String CONTROLLER_ZONAS         = ROOT_APP + "zona";
+	public static final String CONTROLLER_SECTORES      = ROOT_APP + "sector";
+	public static final String CONTROLLER_ZONAS_JSON    = ROOT_APP + "zonas-json";
 	
 	//Acciones
 	public static final int ACCION_NUEVO    = 1;

@@ -196,7 +196,7 @@ public class SectoresController extends HttpServlet {
 		      List<FileItem> items = upload.parseRequest(request);
 		      for(FileItem item : items) { 
 		    	  if(item.isFormField()) {
-		    		  dataParameters.put(item.getFieldName(), item.getString());
+		    		  dataParameters.put(item.getFieldName(), item.getString("UTF-8"));
 		    	  } else { //Imagen
 		    		  fileName = item.getName();
 		    		  if(!"".equals(fileName)) {

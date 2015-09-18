@@ -46,13 +46,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ViasPublicController</display-name>
-    <servlet-name>ViasPublicController</servlet-name>
-    <servlet-class>com.ipartek.formacion.skalada.controladores.ViasPublicController</servlet-class>
+    <display-name>SectoresPublicController</display-name>
+    <servlet-name>SectoresPublicController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.SectoresPublicController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ViasPublicController</servlet-name>
-    <url-pattern>/infoVia</url-pattern>
+    <servlet-name>SectoresPublicController</servlet-name>
+    <url-pattern>/infoSector</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

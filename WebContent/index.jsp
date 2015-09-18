@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Via"%>
 <%@page import="java.util.ArrayList"%>
+<%@page pageEncoding = "utf-8" %>
 <html lang="en">
 
 <head>
@@ -218,21 +220,21 @@
                 <h2 class="page-header">Ultimas Vias</h2>
             </div>
             <%
-            	ArrayList<Via> vias = (ArrayList<Via>)request.getAttribute("ultimas_vias");
-            	if(vias == null) {
-            		vias = new ArrayList<Via>();
+            	ArrayList<Sector> sector = (ArrayList<Sector>)request.getAttribute("ultimos_sectores");
+            	if(sector == null) {
+            		sector = new ArrayList<Sector>();
             	}
-            	Via v = null;
+            	Sector s = null;
             	
-            	for(int i=0; i<vias.size();i++) {
-            		v = vias.get(i);
+            	for(int i=0; i<sector.size();i++) {
+            		s = sector.get(i);
             %>
             <div class="col-md-4 col-sm-6">
             	<figure>
-            		<a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>">
-<%--             			<img class="img-responsive img-portfolio img-hover" src="<%=v.getUrl()%>" alt=""> --%>
+            		<a href="<%=Constantes.CONTROLLER_INFO_SECTOR%>?id=<%=s.getId()%>">
+             			<img class="img-responsive img-portfolio img-hover" src="<%=Constantes.IMG_WEP_PATH + s.getImagen()%>" alt="">
             		</a>
-            		<figcaption><a href="<%=Constantes.CONTROLLER_INFO_VIA%>?id=<%=v.getId()%>"><%=v.getNombre()%></a></figcaption>
+            		<figcaption><a href="<%=Constantes.CONTROLLER_INFO_SECTOR%>?id=<%=s.getId()%>"><%=s.getNombre()%></a></figcaption>
             	</figure>
             </div>
 			<%	} //Cerramos el For  %>	

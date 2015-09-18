@@ -10,17 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ipartek.formacion.skalada.bean.Via;
-import com.ipartek.formacion.skalada.modelo.ModeloVia;
+import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
  * Servlet implementation class ViasPublicController
  */
-public class ViasPublicController extends HttpServlet {
+public class SectoresPublicController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private ModeloVia modelo = null;
-	private Via v = null;
+	private ModeloSector modelo = null;
+	private Sector s = null;
 	
 	private int pID = 0;
 
@@ -31,7 +31,7 @@ public class ViasPublicController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modelo = new ModeloVia();
+		modelo = new ModeloSector();
 		
 	}
 
@@ -43,28 +43,25 @@ public class ViasPublicController extends HttpServlet {
 		String sId = request.getParameter("id");
 		pID = Integer.parseInt(sId);
 		
-		v = (Via)modelo.getById(pID);
+		s = (Sector)modelo.getById(pID);
 		
-		request.setAttribute("via", v);
-		request.setAttribute("titulo", v.getNombre());
-		request.setAttribute("nivel", v.getGrado().getNombre());
-		request.setAttribute("long", v.getLongitud());
-		request.setAttribute("desc", v.getDescripcion());
-		//request.setAttribute("url", v.getUrl());
-		request.setAttribute("id", v.getId());
+		request.setAttribute("sector", s);
+		request.setAttribute("titulo", s.getNombre());
+		request.setAttribute("imagen", s.getImagen());
+		request.setAttribute("id", s.getId());
 		
 		
-		ArrayList<Object> vias = modelo.getAll();
+		ArrayList<Object> sectores = modelo.getAll();
 		
 		//Recuperar las ultimas 6 vias del modelo
-		if(vias.size() > 4) {
-			vias = new ArrayList<Object>(vias.subList(0, 4));
+		if(sectores.size() > 4) {
+			sectores = new ArrayList<Object>(sectores.subList(0, 4));
 		}
 		
 		//Enviarlas como atributo en la request
-		request.setAttribute("cuatro_vias", vias);
+		request.setAttribute("cuatro_vias", sectores);
 		
-		request.getRequestDispatcher("infoVia.jsp").forward(request, response);
+		request.getRequestDispatcher("infoSector.jsp").forward(request, response);
 	}
 
 	/**

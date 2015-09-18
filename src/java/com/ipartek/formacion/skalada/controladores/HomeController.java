@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ipartek.formacion.skalada.modelo.ModeloVia;
+import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
  * Servlet implementation class HomeController
@@ -20,7 +20,7 @@ public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private RequestDispatcher dispatcher = null;
 	
-	private ModeloVia modelo = null;
+	private ModeloSector modelo = null;
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -28,7 +28,7 @@ public class HomeController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modelo = new ModeloVia();
+		modelo = new ModeloSector();
 	}
 
 	/**
@@ -44,15 +44,15 @@ public class HomeController extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Object> vias = modelo.getAll();
+		ArrayList<Object> sectores = modelo.getAll();
 		
 		//Recuperar las ultimas 6 vias del modelo
-		if(vias.size() > 6) {
-			vias = new ArrayList<Object>(vias.subList(0, 6));
+		if(sectores.size() > 6) {
+			sectores = new ArrayList<Object>(sectores.subList(0, 6));
 		}
 		
 		//Enviarlas como atributo en la request
-		request.setAttribute("ultimas_vias", vias);
+		request.setAttribute("ultimos_sectores", sectores);
 		
 		//Ir a index.jsp
 		request.getRequestDispatcher("index.jsp").forward(request, response);
