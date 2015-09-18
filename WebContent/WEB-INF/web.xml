@@ -104,4 +104,14 @@
     <servlet-name>ZonasJsonController</servlet-name>
     <url-pattern>/zonas-json</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LugaresController</display-name>
+    <servlet-name>LugaresController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.LugaresController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LugaresController</servlet-name>
+    <url-pattern>/lugares</url-pattern>
+  </servlet-mapping>
 </web-app>
