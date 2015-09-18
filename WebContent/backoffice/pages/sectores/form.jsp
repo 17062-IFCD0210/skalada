@@ -98,7 +98,27 @@
 	           	</div>
 	           	<div class="form-group">	
 	           		<label for="imagen">Nueva imagen</label>
-	           		<input type="file" class="form-control" name="imagen">	  
+	           		<input type="file" class="form-control" name="imagen" id="img_file" onchange="showFileSize();">	           		
+	           		
+	           		<script type='text/javascript'>
+							function showFileSize() {
+							    var input, file;							    							
+							    input = document.getElementById('img_file');
+							    if (input.files[0]) {							        
+							        file = input.files[0];
+							        if ( file.size > <%=Constantes.IMG_MAX_FILE_SIZE%>){
+							        	alert("Imagen Demasiado grande");
+							        	document.getElementById('btn_submit').classList.toggle("disabled");
+							    	} else {
+							    		document.getElementById('btn_submit').classList.remove("disabled");
+							    	}
+							    }
+							}
+					</script>
+	           		
+	           		
+	           		
+	           			  
 	           	</div>
 	        
 	        
@@ -108,7 +128,7 @@
 			<div class="form-group">
 								
 				<% if(sector.getId()!= -1){ %>
-						<input type="submit" class="btn btn-outline btn-primary" value="Modificar / Guardar">
+						<input type="submit" id="btn_submit" class="btn btn-outline btn-primary" value="Modificar / Guardar">
   						<!-- Trigger the modal with a button -->
 						<button type="button" class="btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">Eliminar</button>
 						
@@ -147,7 +167,7 @@
 			
 				
 				<% } else { %>
-						<input type="submit" class="btn btn-outline btn-primary" value="Crear / Guardar">
+						<input type="submit" id="btn_submit" class="btn btn-outline btn-primary" value="Crear / Guardar">
 						<button type='reset' class='btn btn-outline btn-warning'>Limpiar</button>
 				<% } %>
 	

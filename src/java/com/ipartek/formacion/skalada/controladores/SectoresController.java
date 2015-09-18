@@ -219,9 +219,13 @@ public class SectoresController extends HttpServlet {
 		    		String fileName     	= item.getName();
 		    		if (!fileName.equals("")){
 		    			new_img = true;
-			            String contentType  = item.getContentType();
+			            String fileContentType  = item.getContentType();
+			            if(!Constantes.IMG_CONTENT_TYPES.contains(fileContentType)){
+			            	msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro. Extension de imagen no valida (.jpg, .png)");
+			            }
 			            boolean isInMemory  = item.isInMemory();
 			            long sizeInBytes    = item.getSize();
+			            
 			            
 			            file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName );
 			            if(file.exists()){
@@ -241,7 +245,7 @@ public class SectoresController extends HttpServlet {
 				pImagen = dataParameters.get("img");
 			}
 		}catch(SizeLimitExceededException e){
-			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro. Tamaño imagen excedido (1Mb)");
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro. Tamaño imagen excedido (MAX. 1Mb)");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -82,7 +82,7 @@ public class LugaresController extends HttpServlet {
 		ArrayList<Integer> cant_sector = new ArrayList<Integer>();
 		for(int i = 0 ; i < cant_sector.size() ; i++ ){
 			zona = (Zona)zonas.get(i);
-			modeloSector.getAllByZona(zona.getId()y);
+			modeloSector.getAllByZona(zona.getId());
 		}		
 		request.setAttribute("zonas", zonas);
 		request.setAttribute("cant_sector", cant_sector);
