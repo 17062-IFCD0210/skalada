@@ -98,8 +98,8 @@
 	    	
 	    	$("#img_select").change(function() {
 	    		var imagen = $(this).find("option:selected").val();
-	    		$("#img_mostrar").attr("src", "../uploads/" + imagen);
-	    	});
+	    		$("#img_mostrar").attr("src", "<%=Constantes.IMG_WEP_PATH%>" + imagen);
+	    	})
 	    	
 	    	
 	    }); //END: document ready	    

@@ -83,7 +83,15 @@
   						}	           		
 	           		%>	
 	           		</select>           		
-	          		<img src="../uploads/<%=sector.getImagen()%>"
+	          		<%
+	           			String img_path = Constantes.IMG_DEFAULT_SECTOR;
+		      			if ( !img_path.equals( sector.getImagen())){
+		      				img_path = Constantes.IMG_WEP_PATH + sector.getImagen();
+		      			}else{
+		      				img_path = "../img/" + img_path;
+		      			}	
+	           		%>
+	          		<img src="<%=Constantes.IMG_WEP_PATH%><%=sector.getImagen() %>"
 	           			 alt="Imagen del sector <%=sector.getNombre()%>"
 	           			 class="img-responsive img-thumbnail"
 	           			 id="img_mostrar">
