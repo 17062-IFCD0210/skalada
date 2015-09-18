@@ -1,10 +1,9 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.skalada.bean.Grado;
-import com.ipartek.formacion.skalada.bean.Via;
-import com.ipartek.formacion.skalada.modelo.ModeloVia;
+import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
  * Servlet implementation class HomeController
@@ -22,7 +19,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloVia;
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private ModeloVia modeloVia = null;
+	private ModeloSector modeloSector = null;
 	
        
     /**
@@ -30,7 +27,7 @@ public class HomeController extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modeloVia = new ModeloVia();
+		modeloSector = new ModeloSector();
 	}
 
 	/**
@@ -46,14 +43,16 @@ public class HomeController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//recuperar las ultimas 6 vias del modelo
-		ArrayList<Object> vias = modeloVia.getAll();
-		if ( vias.size() > 6 ){
-			vias = new ArrayList<Object>(vias.subList(0, 6));
+		//recuperar los ultimos 6 sectores del modelo
+		ArrayList<Object> sectores = modeloSector.getAll();
+		
+		//TODO usar LIMIT en la select y ORDER BY id desc
+		if ( sectores.size() > 6 ){
+			sectores = new ArrayList<Object>(sectores.subList(0, 6));
 		}
 		
 		//enviarlas como atributo en la request
-		request.setAttribute("ultimas_vias", vias);
+		request.setAttribute("ultimos_sectores", sectores);
 		
 		//ir a index
 		request.getRequestDispatcher(Constantes.VIEW_PUBLIC_INDEX).forward(request, response);

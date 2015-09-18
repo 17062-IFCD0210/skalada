@@ -1,7 +1,7 @@
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
-<%@page import="com.ipartek.formacion.skalada.bean.Via"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
@@ -98,20 +98,20 @@
         <!-- Ultimas Vias -->
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="page-header">Ultimas Vias</h2>
+                <h2 class="page-header">Ultimos Sectores</h2>
             </div>
             <%
-            	ArrayList<Via> vias = (ArrayList<Via>)request.getAttribute("ultimas_vias");            	
-            	Via v = null;
-       			for(int i = 0 ; i < vias.size() ; i++){
-       				v = vias.get(i);
+            	ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("ultimos_sectores");            	
+            	Sector sector = null;
+       			for(int i = 0 ; i < sectores.size() ; i++){
+       				sector = sectores.get(i);
             
             %>
             <div class="col-md-4 col-sm-6">
                <figure>
-                    <img class="img-responsive img-portfolio img-hover" src="http://placehold.it/500x450" alt="">
+                    <img class="img-responsive img-portfolio img-hover" src="<%=Constantes.IMG_WEP_PATH%><%=sector.getImagen() %>" alt="">
                 	<figcaption class="text-center">
-                		<span><%=v.getNombre()%> [<%=v.getSector().getNombre()%> (<%=v.getSector().getZona().getNombre()%>)]</span>
+                		<p><%=sector.getNombre()%> (<%=sector.getZona().getNombre()%>)</p>
                 	</figcaption>
 				</figure>
             </div>
