@@ -36,15 +36,23 @@ public class Constantes {
 	public static final String VIEW_BACK_LUGARES_INDEX = "backoffice/pages/lugares/index.jsp";
 	public static final String VIEW_BACK_LUGARES_DETALLE = "backoffice/pages/lugares/detalle.jsp";
 	
+	public static final String VIEW_BACK_ROLES_INDEX = "backoffice/pages/roles/index.jsp";
+	public static final String VIEW_BACK_ROLES_FORM = "backoffice/pages/roles/form.jsp";
+	
+	public static final String VIEW_BACK_USUARIOS_INDEX = "backoffice/pages/usuarios/index.jsp";
+	public static final String VIEW_BACK_USUARIOS_FORM = "backoffice/pages/usuarios/form.jsp";
+	
 	//controladores
-	public static final String CONTROLLER_LOGIN  = ROOT_APP + "login";
-	public static final String CONTROLLER_LOGOUT = ROOT_APP + "logout";	
-	public static final String CONTROLLER_VIAS   = ROOT_APP + "vias";
-	public static final String CONTROLLER_HOME   = ROOT_APP + "home";
-	public static final String CONTROLLER_GRADOS   = ROOT_APP + "grados";
+	public static final String CONTROLLER_LOGIN			  = ROOT_APP + "login";
+	public static final String CONTROLLER_LOGOUT		  = ROOT_APP + "logout";	
+	public static final String CONTROLLER_VIAS  		  = ROOT_APP + "vias";
+	public static final String CONTROLLER_HOME   		  = ROOT_APP + "home";
+	public static final String CONTROLLER_GRADOS		  = ROOT_APP + "grados";
 	public static final String CONTROLLER_TIPO_ESCALADA   = ROOT_APP + "tipo-escalada";
-	public static final String CONTROLLER_ZONAS   = ROOT_APP + "zonas";
-	public static final String CONTROLLER_SECTORES   = ROOT_APP + "sectores";
+	public static final String CONTROLLER_ZONAS   		  = ROOT_APP + "zonas";
+	public static final String CONTROLLER_SECTORES   	  = ROOT_APP + "sectores";
+	public static final String CONTROLLER_ROLES           = ROOT_APP + "roles";
+	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	
 	public static final String CONTROLLER_ZONA_JSON = ROOT_APP + "zonas-json";
 	
@@ -64,4 +72,9 @@ public class Constantes {
 	public static final int IMG_MAX_FILE_SIZE = 1000 * 1024;
 	public static final int IMG_MAX_MEM_SIZE = 4 * 1024;
 	public static final ArrayList<String> IMG_CONTENT_TYPES = new ArrayList<String>(Arrays.asList("image/jpeg", "image/png"));
+
+	//ROLES
+	public static final String ROLE_USER = "usuario";
+	public static final String ROLE_ADMIN = "admin";
+
 }
