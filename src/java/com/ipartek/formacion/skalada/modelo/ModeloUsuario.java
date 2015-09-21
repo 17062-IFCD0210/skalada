@@ -12,20 +12,13 @@ import com.ipartek.formacion.skalada.bean.Usuario;
 
 public class ModeloUsuario implements Persistable{
 
-	private static final String TABLA = "usuario";
-	private static final String COL_ID = "id";
-	private static final String COL_NOMBRE = "nombre";
-	private static final String COL_EMAIL = "email";
-	private static final String COL_PASSWORD = "password";
-	private static final String COL_VALIDADO = "validado";
-	private static final String COL_ROL_ID = "id_rol";
-	private static final String COL_ROL_NOMBRE = "nombre_rol";
-	
 	private static final String SQL_INSERT = "";
 	private static final String SQL_DELETE = "";
 	private static final String SQL_GETONE = "";
 	private static final String SQL_GETALL = "";
 	private static final String SQL_UPDATE = "";
+	
+	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = 'bbb'";
 	
 	
 	@Override
@@ -201,18 +194,52 @@ public class ModeloUsuario implements Persistable{
 	private Usuario mapeo (ResultSet rs) throws SQLException{
 		Usuario resul = null;    
 		
-		Rol rol = new Rol(rs.getString(COL_ROL_NOMBRE));
-		rol.setId(rs.getShort(COL_ROL_ID));
+		Rol rol = new Rol(rs.getString("nombre_rol"));
+		rol.setId(rs.getShort("id_rol"));
 		
-		resul = new Usuario( rs.getString(COL_NOMBRE), rs.getString(COL_EMAIL), rs.getString(COL_PASSWORD), rol);
-		resul.setId( rs.getInt(COL_ID));
-		resul.setValidado(rs.getInt(COL_VALIDADO));
+		resul = new Usuario( rs.getString("nombre"), rs.getString("email"), rs.getString("password"), rol);
+		resul.setId( rs.getInt("id"));
+		resul.setValidado(rs.getInt("validado"));
 		
 		return resul;
 	}
 	
 	
-	
+	/**
+	 * Comprueba si existe ese nombre o email en la tabla usuario
+	 * @param nombre {@code String} nombre del {@code Usuario}
+	 * @return {@code boolean} true si existe en la tabla, 
+	 * 						   false en caso de que este libre
+	 */
+	private boolean checkUser(String nombre, String email){
+		boolean resul = true;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_CHECK_USER);
+	    	rs = pst.executeQuery(); 
+	    	
+	    	
+	    	
+	    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
 	
 
 }
