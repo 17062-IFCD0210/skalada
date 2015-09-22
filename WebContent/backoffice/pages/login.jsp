@@ -43,6 +43,14 @@
                         </form>
                     </div>                    
                 </div>
+                
+                <br><br>
+                <a href="<%=Constantes.VIEW_BACK_SIGNUP %>" class="btn btn-lg btn-block btn-default">Registro nuevo usuario</a>
+                <br>
+                <a href="#" class="">¿Has olvidado la contraseña?</a>
+                   
+                
+                
             </div>
         </div>
     </div>
