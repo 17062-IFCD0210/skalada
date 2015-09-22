@@ -23,7 +23,7 @@ public class TestSendEmail {
 		Session session = Session.getDefaultInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("ander.uraga@gmail.com","pass");
+					return new PasswordAuthentication("skalada.ipartek@gmail.com","123ABC123");
 				}
 			});
 
