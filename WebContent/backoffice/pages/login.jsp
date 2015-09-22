@@ -1,4 +1,5 @@
 
+<%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
 
@@ -7,23 +8,25 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
+            
+            	<% 
+		            Mensaje msg = (Mensaje)request.getAttribute("msg");	
+					if (msg != null){
+						out.print("<div class='alert "+ msg.getTipo() +" alert-dismissible' role='alert'>");
+							out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
+								out.print("<span aria-hidden='true'>&times;</span>");
+							out.print("</button>");
+							out.print("<strong>"+ msg.getTexto() +"</strong>");
+						out.print("</div>");
+					} 
+				%>  
+            
+            
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
-                    <div class="panel-body">                    
-                
-  								<% 
-  									String msg = (String)request.getAttribute("msg");	
-  									if (msg != null){
-  										out.print("<div class='alert alert-danger alert-dismissible' role='alert'>");
-  											out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
-  												out.print("<span aria-hidden='true'>&times;</span>");
-  											out.print("</button>");
-  											out.print("<strong>"+ msg +"</strong>");
-  										out.print("</div>");
-  									}  								
-  								%>                
+                    <div class="panel-body">   
                     
                         <form role="form" action="<%=Constantes.CONTROLLER_LOGIN%>" method="post">
                             <fieldset>

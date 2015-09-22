@@ -138,13 +138,14 @@ public class UsuariosController extends HttpServlet {
 		//recoger parametros del formulario
 		getParametersForm(request);
 		
-		//Crear Objeto Grado
-		crearObjeto();
+		
 		
 		//Comprobar si estan libre el nombre y email del usuario
 		if(!modeloUsuario.checkUser(pNombre, pEmail)){	
+		//Esta libre			
+			//Crear Objeto Grado
+			crearObjeto();
 			
-			//Esta libre
 			//Guardar/Modificar Objeto Usuario
 			if (pID == -1){
 				if( modeloUsuario.save(usuario) != -1){	
@@ -159,12 +160,13 @@ public class UsuariosController extends HttpServlet {
 					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar el registro [id(" + pID + ")]");
 				}
 			}
+			
 			listar(request,response);
 		
 		//No esta libre
 		} else {
 			msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre/email del usuario no disponibles");
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);	
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_USUARIOS_FORM);	
 		}
 		
 		request.setAttribute("msg", msg);
@@ -203,6 +205,7 @@ public class UsuariosController extends HttpServlet {
 		
 		pEmail = request.getParameter("email");
 		pPassword = request.getParameter("password");
+		
 		pIDRol = Integer.parseInt(request.getParameter("rol"));
 
 	}

@@ -93,7 +93,7 @@
   <servlet-mapping>
     <servlet-name>SectoresController</servlet-name>
     <url-pattern>/sectores</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <servlet>
     <description>Controlador para los roles de los usuarios</description>
     <display-name>RolesController</display-name>
@@ -103,7 +103,7 @@
   <servlet-mapping>
     <servlet-name>RolesController</servlet-name>
     <url-pattern>/roles</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <servlet>
     <description>Controlador para los los usuarios</description>
     <display-name>UsuariosController</display-name>
@@ -113,7 +113,7 @@
   <servlet-mapping>
     <servlet-name>UsuariosController</servlet-name>
     <url-pattern>/usuarios</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <servlet>
     <description>Controlador para retornar las zonas en formato JSON</description>
     <display-name>ZonasJsonController</display-name>
@@ -133,5 +133,15 @@
   <servlet-mapping>
     <servlet-name>LugaresController</servlet-name>
     <url-pattern>/lugares</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RegistroController</display-name>
+    <servlet-name>RegistroController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.RegistroController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegistroController</servlet-name>
+    <url-pattern>/registro</url-pattern>
   </servlet-mapping>
 </web-app>

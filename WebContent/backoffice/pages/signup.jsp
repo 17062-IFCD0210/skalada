@@ -19,7 +19,7 @@
 						<% 
 				            Mensaje msg = (Mensaje)request.getAttribute("msg");	
 							if (msg != null){
-								out.print("<div class='alert alert-"+ msg.getTipo() +" alert-dismissible' role='alert'>");
+								out.print("<div class='alert "+ msg.getTipo() +" alert-dismissible' role='alert'>");
 									out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
 										out.print("<span aria-hidden='true'>&times;</span>");
 									out.print("</button>");
@@ -27,12 +27,15 @@
 								out.print("</div>");
 							} 
 						%>
-                        <form action="#" method="post" role="form" name="formulario_registro" onsubmit="return validar();">
+                        <form action="<%=Constantes.CONTROLLER_REGISTRO%>" method="post" role="form" name="formulario_registro" onsubmit="return validar();">
                            
                             <!-- div para el mensaje alert -->
             				<div id ="alert_placeholder"></div>  
                             
-                            <fieldset>
+                            <fieldset>                            	
+                            	<input type="hidden" name="id" value="-1">
+                            	<input type="hidden" name="rol" value="2">
+                            	
                             	<div class="form-group">
                             		<label for="nombre">Nombre (min. 4 caracteres)</label>
                                     <input type="text" class="form-control" name="nombre" id="nombre" pattern="[a-zA-Z0-9]{4,99}" required autofocus tabindex="1" >
