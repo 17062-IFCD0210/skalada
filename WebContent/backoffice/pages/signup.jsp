@@ -34,7 +34,7 @@
 						
 	
 						
-                        <form role="form" id="formNuevoUsuario" name="f1"  method="post" action="<%=Constantes.CONTROLLER_REGISTRO%>" onsubmit="return validar();">
+                        <form role="form" id="formNuevoUsuario" name="f1"  method="post" action="<%=Constantes.CONTROLLER_REGISTRO%>" onsubmit="return validar()">
                             <fieldset>
                             	<div class="form-group">
                                     <input class="form-control" placeholder="Nombre" name="nombre" id="nombre" type="text" required autofocus tabindex="1">
@@ -57,6 +57,35 @@
 							</div>                            
      
                         </form>
+                        
+<script>
+function validar(){
+   	p1 = document.getElementById('pw1').value; //document.f1.pw1.value; 
+   	p2 = document.getElementById('pw2').value; //document.f1.pw2.value;
+   	nombre=document.getElementById('nombre').value; //document.f1.nombre.value;
+   	console.debug("p1="+p1);
+   	console.debug("p2="+p2);
+   	console.debug("nombre="+nombre);
+   	if ((p1 != p2)){ 
+   		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. Las claves son distintas");
+      	$('#alertNuevoUsuario').show();
+      	return false;
+   	}
+   	if ((p1.length<6)){ 
+   		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. El password tiene menos de 6 caracteres");
+      	$('#alertNuevoUsuario').show();
+      	return false;
+   	}
+   	if (nombre.length<4){ 
+   		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. El nombre tiene menos de 4 caracteres");
+      	$('#alertNuevoUsuario').show();
+      	return false;
+   	}
+   	return true;
+   	
+} //End: validar
+
+</script>                        
                     </div>                    
                 </div>
             </div>

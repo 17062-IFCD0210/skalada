@@ -1,6 +1,8 @@
+
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -10,6 +12,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -34,7 +37,7 @@ public class RegistroController extends HttpServlet {
 	private ModeloUsuario modeloUsuario = null;
 	private ModeloRol modeloRol = null;
 	private Usuario usuario = null;	
-	private int idUsuario;
+	private Rol rol= null;
 	
 	//parametros
 	private String pNombre = "";
@@ -56,7 +59,20 @@ public class RegistroController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		Mensaje msg = new Mensaje(Mensaje.MSG_DANGER,"Error activando cuenta de usuario");
+		//recoger parametro
+		pEmail = (request.getParameter("email"));
+		if(!modeloUsuario.checkUser("", pEmail)){
+			//NO existe el email
+			msg.setTexto("La dirección de email '"+pEmail+"' no existe");
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
+		}else{
+			//SI existe el email
+			//ver si esta validado
+
+			
+		}
+		dispatcher.forward(request, response);
 	}
 
 	/**
@@ -70,12 +86,16 @@ public class RegistroController extends HttpServlet {
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 		}else{
 			crearObjeto();
-			modeloUsuario.save(usuario);
-			enviarEmail();
-			msg.setTipo(Mensaje.MSG_SUCCESS);
-			msg.setTexto("Revisa tu email para confirmar el alta");
-			dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_LOGIN);
+			if(modeloUsuario.save(usuario)!=-1){
+				enviarEmail();
+				msg.setTipo(Mensaje.MSG_SUCCESS);
+				msg.setTexto("Revisa tu email para confirmar el alta");
+			}else{
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
+			}
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 		}
+		
 		dispatcher.forward(request, response);
 		
 	}
@@ -90,10 +110,9 @@ public class RegistroController extends HttpServlet {
 	 * Crea un Objeto {@code Usuario} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
-		Rol rol = new Rol(Constantes.ROLE_USER);		
+		rol = (Rol)modeloRol.getById(Constantes.ROLE_USER_ID);	
 		usuario = new Usuario(pNombre, pEmail, pPassword, rol);
 		usuario.setValidado(Constantes.USER_NO_VALIDATE);
-		usuario.setId(idUsuario);
 	}
 	
 	private void enviarEmail(){
@@ -116,12 +135,20 @@ public class RegistroController extends HttpServlet {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("skalada.ipartek@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(usuario.getEmail()));
-			message.setSubject("Confirmaci�n de registro de usuario en Skalada App");
-			message.setText("Para confirmar tu registro pincha en el siguiente enlace"
-					+ "No es Spam," +"\n\n Enviado email desde Java, dentro de poco el codigo en tu GIT!");
+			String messageSubject = "Confirmación de registro de usuario en Skalada App";
+			try {
+				message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			message.setText("Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más."
+					+ "\n Para confirmar tu registro pincha en el siguiente enlace "
+					+ "http://localhost:8081/skalada/registro?email="+usuario.getEmail()
+					+ " \n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App");
 			Transport.send(message);
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}	
 	}
+	
 }

@@ -71,7 +71,9 @@ public class Constantes {
 
 	//ROLES
 	public static final String ROLE_USER = "usuario";
+	public static final int ROLE_USER_ID = 2;
 	public static final String ROLE_ADMIN = "administrador";
+	public static final int ROLE_ADMIN_ID = 1;
 	
 	//Usuarios
 	public static final int USER_VALIDATE    = 1;
