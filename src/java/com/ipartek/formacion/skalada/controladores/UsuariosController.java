@@ -141,22 +141,31 @@ public class UsuariosController extends HttpServlet {
 		//Crear Objeto Grado
 		crearObjeto();
 		
-		//Guardar/Modificar Objeto Via
-		if (pID == -1){
-			if( modeloUsuario.save(usuario) != -1){	
-				msg = new Mensaje(Mensaje.MSG_SUCCESS, "Registro creado con exito");
+		//Comprobar si estan libre el nombre y email del usuario
+		if(!modeloUsuario.checkUser(pNombre, pEmail)){	
+			
+			//Esta libre
+			//Guardar/Modificar Objeto Usuario
+			if (pID == -1){
+				if( modeloUsuario.save(usuario) != -1){	
+					msg = new Mensaje(Mensaje.MSG_SUCCESS, "Registro creado con exito");
+				} else {
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro");
+				}
 			} else {
-				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro");
+				if(modeloUsuario.update(usuario)){
+					msg = new Mensaje(Mensaje.MSG_SUCCESS, "Modificado correctamente el registro [id(" + pID + ")]");
+				} else {
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar el registro [id(" + pID + ")]");
+				}
 			}
-		} else {
-			if(modeloUsuario.update(usuario)){
-				msg = new Mensaje(Mensaje.MSG_SUCCESS, "Modificado correctamente el registro [id(" + pID + ")]");
-			} else {
-				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar el registro [id(" + pID + ")]");
-			}
-		}
+			listar(request,response);
 		
-		listar(request,response);
+		//No esta libre
+		} else {
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre/email del usuario no disponibles");
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);	
+		}
 		
 		request.setAttribute("msg", msg);
 		dispatcher.forward(request, response);
