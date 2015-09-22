@@ -10,37 +10,40 @@ public class Constantes {
 	
 	//vistas publicas
 	public static final String VIEW_PUBLIC_INDEX = "index.jsp";
-	public static final String VIEW_PUBLIC_VIA = "/pages/via_detalle.jsp";
+	public static final String VIEW_PUBLIC_VIA 	 = "/pages/via_detalle.jsp";
 	
 	//vistas backoffice
-	public static final String ROOT_BACK = ROOT_APP + "backoffice/";
+	public static final String ROOT_BACK 		 = ROOT_APP + "backoffice/";
 	
-	public static final String VIEW_BACK_LOGIN = "backoffice/pages/login.jsp";
-	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
+	public static final String VIEW_BACK_LOGIN   = "backoffice/pages/login.jsp";
+	public static final String VIEW_BACK_INDEX   = "backoffice/pages/index_back.jsp";
 	
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
-	public static final String VIEW_BACK_VIAS_FORM = "backoffice/pages/vias/form.jsp";
+	public static final String VIEW_BACK_VIAS_FORM  = "backoffice/pages/vias/form.jsp";
 	
 	public static final String VIEW_BACK_GRADOS_INDEX = "backoffice/pages/grados/index.jsp";
-	public static final String VIEW_BACK_GRADOS_FORM = "backoffice/pages/grados/form.jsp";
+	public static final String VIEW_BACK_GRADOS_FORM  = "backoffice/pages/grados/form.jsp";
 	
 	public static final String VIEW_BACK_TIPO_ESCALADA_INDEX = "backoffice/pages/tipo-escalada/index.jsp";
-	public static final String VIEW_BACK_TIPO_ESCALADA_FORM = "backoffice/pages/tipo-escalada/form.jsp";
+	public static final String VIEW_BACK_TIPO_ESCALADA_FORM  = "backoffice/pages/tipo-escalada/form.jsp";
 	
 	public static final String VIEW_BACK_ZONAS_INDEX = "backoffice/pages/zonas/index.jsp";
-	public static final String VIEW_BACK_ZONAS_FORM = "backoffice/pages/zonas/form.jsp";
+	public static final String VIEW_BACK_ZONAS_FORM  = "backoffice/pages/zonas/form.jsp";
 	
 	public static final String VIEW_BACK_SECTORES_INDEX = "backoffice/pages/sectores/index.jsp";
-	public static final String VIEW_BACK_SECTORES_FORM = "backoffice/pages/sectores/form.jsp";
+	public static final String VIEW_BACK_SECTORES_FORM  = "backoffice/pages/sectores/form.jsp";
+	
+	public static final String VIEW_BACK_ROLES_INDEX = "backoffice/pages/roles/index.jsp";
+	public static final String VIEW_BACK_ROLES_FORM  = "backoffice/pages/roles/form.jsp";
+	
+	public static final String VIEW_BACK_USUARIOS_INDEX = "backoffice/pages/usuarios/index.jsp";
+	public static final String VIEW_BACK_USUARIOS_FORM  = "backoffice/pages/usuarios/form.jsp";
+	
 	
 	public static final String VIEW_BACK_LUGARES_INDEX = "backoffice/pages/lugares/index.jsp";
 	public static final String VIEW_BACK_LUGARES_DETALLE = "backoffice/pages/lugares/detalle.jsp";
 	
-	public static final String VIEW_BACK_ROLES_INDEX = "backoffice/pages/roles/index.jsp";
-	public static final String VIEW_BACK_ROLES_FORM = "backoffice/pages/roles/form.jsp";
 	
-	public static final String VIEW_BACK_USUARIOS_INDEX = "backoffice/pages/usuarios/index.jsp";
-	public static final String VIEW_BACK_USUARIOS_FORM = "backoffice/pages/usuarios/form.jsp";
 	
 	//controladores
 	public static final String CONTROLLER_LOGIN			  = ROOT_APP + "login";
@@ -75,6 +78,10 @@ public class Constantes {
 
 	//ROLES
 	public static final String ROLE_USER = "usuario";
-	public static final String ROLE_ADMIN = "admin";
-
+	public static final String ROLE_ADMIN = "administrador";
+	
+	//Usuarios
+	public static final int USER_VALIDATE 	 = 1;
+	public static final int USER_NO_VALIDATE = 0;
+	
 }

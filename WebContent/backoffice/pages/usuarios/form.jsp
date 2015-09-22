@@ -10,7 +10,6 @@
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
 <%
-	//recoger atributos (Objeto Zona)"zona" y (String)"titulo"
 	Usuario usuario = (Usuario)request.getAttribute("usuario");
 	ArrayList<Rol> roles = (ArrayList<Rol>)request.getAttribute("roles");
 	String titulo = request.getAttribute("titulo").toString();
@@ -42,25 +41,53 @@
 				
 				<div class="form-group">
 	           		<label for="nombre">Nombre</label>
-	           		<input type="text" class="form-control" name="nombre" value="<%=usuario.getNombre()%>">
+	           		<input type="text" required class="form-control" name="nombre" value="<%=usuario.getNombre()%>">
+	          	</div>
+	          	
+	          	<div class="form-group">
+	           		<label for="email">Correo electronico</label>
+	           		<input type="email" class="form-control" name="email" value="<%=usuario.getEmail()%>">
+	          	</div>
+	          	
+	          	<div class="form-group">
+	           		<label for="password">Contraseña</label>
+	           		<input type="password" class="form-control" name="password" value="<%=usuario.getPassword()%>">
 	          	</div>
 	          	
 	          	<div class="form-group">
 		            <label for="rol">Rol</label>
 		            <select class="form-control" name="rol">
   					<%
-  					for (int i = 0 ; i < roles.size() ; i++){
+	  					for (int i = 0 ; i < roles.size() ; i++){
+	  						if( roles.get(i).getNombre().equalsIgnoreCase(usuario.getRol().getNombre()) ){ 
   					%>
-  						
-  						    <% if( roles.get(i).getId() == usuario.getRol().getId() ){ %>
-  						    	<option selected value="<%=roles.get(i).getId()%>"><%=roles.get(i).getNombre()%></option>
-  						    <%}else{ %>
-  								<option value="<%=roles.get(i).getId()%>"><%=roles.get(i).getNombre()%></option>
-  							<%}//end else  						
-  					}//end for
+  						<option selected value="<%=roles.get(i).getId()%>"><%=roles.get(i).getNombre()%></option>
+  					<%
+  						} else { 
+  					%>
+  						<option value="<%=roles.get(i).getId()%>"><%=roles.get(i).getNombre()%></option>
+  					<%
+  							}//end else  						
+  						}//end for
 					%>
 					</select>
-	          	
+					
+					<div class="form-group">
+						<label for="validado">Validado</label>
+					 	<%
+		           			if(usuario.getValidado() == Constantes.USER_VALIDATE){
+		           		%>
+							<input type="checkbox" checked name="validado" value="<%=Constantes.USER_VALIDATE%>"> 
+					    <%
+		           			} else {
+		          		%>
+		          			<input type="checkbox" name="validado" value="<%=Constantes.USER_VALIDATE%>">
+		          		<%
+		           			}
+		          		%>
+					    
+					</div>	           		
+
 	        </div>
 	        
 

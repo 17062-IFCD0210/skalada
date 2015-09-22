@@ -17,7 +17,7 @@ public class DataBaseHelper {
 	static final public String SERVER    = "localhost";
 	static final public String DATA_BASE = "eskalada";
 	static final public String USER      = "root";
-	static final public String PASS      = "root";
+	static final public String PASS      = "";
 	
 	//Conexion
 	private static Connection con;
