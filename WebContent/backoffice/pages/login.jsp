@@ -40,11 +40,18 @@
                                         <input name="remember" type="checkbox" value="Remember Me">Remember Me
                                     </label>
                                 </div>
-                                <input class="btn btn-lg btn-block btn-success" type="submit" value="login">
+                                <div class="form-group">
+                                	<input class="btn btn-lg btn-block btn-success" type="submit" value="login">
+                                </div>
                             </fieldset>
                         </form>
-                    </div>                    
-                </div>
+                    </div>
+				</div>
+                <br>
+                <br>
+                <a href="<%=Constantes.VIEW_BACK_SIGNUP%>" class="btn btn-lg btn-block btn-default">Registro nuevo usuario</a>
+                <br>
+                <a href="#" class="">¿Has olvidado tu contraseña?</a>
             </div>
         </div>
     </div>

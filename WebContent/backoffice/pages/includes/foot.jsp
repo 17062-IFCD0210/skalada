@@ -74,6 +74,47 @@
 				});//End: foreach
 			}//End: rellenarSelectSector
 			
+			
+			$('#alertNuevoUsuario').hide();
+/*				
+			 $("#formNuevoUsuario").submit(function(e) {
+
+			        //prevent Default functionality
+			        e.preventDefault();
+
+			        //get the action-url of the form
+			        var actionurl = e.currentTarget.action;
+
+					validar();
+
+			    });
+	*/
+			/**
+			*   Valida el registro de un usuario nuevo
+			*/
+			function validar(){
+			   	p1 = $('#pw1').value;//document.f1.pw1.value; 
+			   	p2 = $('#pw2').value;//document.f1.pw2.value;
+			   	nombre=$('#nombre').value;//document.f1.nombre.value;
+			   	
+			   	if ((p1 != p2)){ 
+			   		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. Las claves son distintas");
+			      	$('#alertNuevoUsuario').show();
+			      	return false;
+			   	}
+			   	if ((p1.length<6)){ 
+			   		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. El password tiene menos de 6 caracteres");
+			      	$('#alertNuevoUsuario').show();
+			      	return false;
+			   	}
+			   	if (nombre.length<4){ 
+			   		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. El nombre tiene menos de 4 caracteres");
+			      	$('#alertNuevoUsuario').show();
+			      	return false;
+			   	}
+			   	return true;
+			   	
+			} //End: validar
 	        
 	    });//End: Ready
     </script>
