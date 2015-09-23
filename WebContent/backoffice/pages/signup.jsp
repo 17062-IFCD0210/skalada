@@ -17,22 +17,20 @@
                     <div class="panel-body">                    
                             
              
+   <div class="row">
+        <% 
+            Mensaje msg = (Mensaje)request.getAttribute("msg");	
+			if (msg != null){
+				out.print("<div class='alert alert-"+ msg.getTipo() +" alert-dismissible' role='alert'>");
+					out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
+						out.print("<span aria-hidden='true'>&times;</span>");
+					out.print("</button>");
+					out.print("<strong>"+ msg.getTexto() +"</strong>");
+				out.print("</div>");
+			} 
+		%>
+	</div> <!-- /.row -->   
 
-
-
-<% 
-				            Mensaje msg = (Mensaje)request.getAttribute("msg");	
-							if (msg != null){
-								out.print("<div class='alert alert-"+ msg.getTipo() +" alert-dismissible' role='alert'>");
-									out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
-										out.print("<span aria-hidden='true'>&times;</span>");
-									out.print("</button>");
-									out.print("<strong>"+ msg.getTexto() +"</strong>");
-								out.print("</div>");
-							} 
-						%>
-						
-	
 						
                         <form role="form" id="formNuevoUsuario" name="f1"  method="post" action="<%=Constantes.CONTROLLER_REGISTRO%>" onsubmit="return validar()">
                             <fieldset>
@@ -51,6 +49,7 @@
                                 <input class="btn btn-lg btn-block btn-primary"  type="submit" tabindex="5" value="Registrate"> 
                             </fieldset>
                             
+                            <!-- Mensajes de error de validacion -->
 							<div id="alertNuevoUsuario" class="alert alert-warning alert-dismissible fade in" role="alert">
 							      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 							      <strong><span id="mensajeNuevoUsuario"></span></strong>
@@ -63,6 +62,7 @@ function validar(){
    	p1 = document.getElementById('pw1').value; //document.f1.pw1.value; 
    	p2 = document.getElementById('pw2').value; //document.f1.pw2.value;
    	nombre=document.getElementById('nombre').value; //document.f1.nombre.value;
+   	email=document.getElementById('email').value; 
    	console.debug("p1="+p1);
    	console.debug("p2="+p2);
    	console.debug("nombre="+nombre);
@@ -78,6 +78,11 @@ function validar(){
    	}
    	if (nombre.length<4){ 
    		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. El nombre tiene menos de 4 caracteres");
+      	$('#alertNuevoUsuario').show();
+      	return false;
+   	}
+   	if(email==''){
+   		$('#mensajeNuevoUsuario').text("No se puede enviar el formulario. El email está vacío");
       	$('#alertNuevoUsuario').show();
       	return false;
    	}

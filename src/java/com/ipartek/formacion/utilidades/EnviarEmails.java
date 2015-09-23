@@ -14,24 +14,19 @@ import javax.mail.internet.MimeUtility;
 
 public class EnviarEmails {
 	
-	private String direccionOrigen = "skalada.ipartek@gmail.com";
+	public static String direccionOrigen = "skalada.ipartek@gmail.com";
 	private String passwordOrigen = "123ABC123";
 	private String direccionFrom ="";//"skalada.ipartek@gmail.com"
 	private String direccionDestino ="";
-	private String messageSubject=""; //"Confirmación de registro de usuario en Skalada App";
-	private String messageText=""; 
-	/*
-			"Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más."
-			+ "\n Para confirmar tu registro pincha en el siguiente enlace "
-			+ "http://localhost:8080/skalada/registro?email="+usuario.getEmail()
-			+ " \n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App"
-	*/
+	private String messageSubject=""; //Asunto 
+	private String messageText=""; //Cuerpo
+	
 	private Session session;
 	
-		/**	Construye el objeto {@code EnviarEmails} 
-		*
-		*/
-		public EnviarEmails() {
+	/**	Construye el objeto {@code EnviarEmails} 
+	*
+	*/
+	public EnviarEmails() {
 		super();
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -45,24 +40,9 @@ public class EnviarEmails {
 						return new PasswordAuthentication(direccionOrigen,passwordOrigen);
 					}
 				});			
-		}
+	}
 	
-	 	/**	Construye el objeto {@code EnviarEmails} 
-		 * @param direccionOrigen
-		 * @param passwordOrigen
-		 * @param direccionFrom
-		 * @param direccionDestino
-		 * @param messageSubject
-		 * @param messageText
-		 */
-		public EnviarEmails(String direccionFrom, String direccionDestino,
-				String messageSubject, String messageText) {
-			this.direccionFrom = direccionFrom;
-			this.direccionDestino = direccionDestino;
-			this.messageSubject = messageSubject;
-			this.messageText = messageText;
-		}
-
+	
 	
 	/*********************** GETTERS Y SETTERS **************************************************/
 
@@ -71,18 +51,8 @@ public class EnviarEmails {
 	}
 
 
-	public void setDireccionOrigen(String direccionOrigen) {
-		this.direccionOrigen = direccionOrigen;
-	}
-
-
 	public String getPasswordOrigen() {
 		return passwordOrigen;
-	}
-
-
-	public void setPasswordOrigen(String passwordOrigen) {
-		this.passwordOrigen = passwordOrigen;
 	}
 
 
@@ -139,22 +109,39 @@ public class EnviarEmails {
 	
 	/*************************** METODO PUBLICO ****************************************************/
 	
-	public void enviarEmail(){
-	
+	public boolean enviar(){
+		boolean resul=false;
 		try {
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(direccionFrom));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(direccionDestino));
-			try {
-				message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
 			message.setText(messageText);
 			Transport.send(message);
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			resul=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			//throw new RuntimeException(e);
 		}	
+		return resul;
+	}
+
+	public boolean enviarHTML(){
+		boolean resul=false;
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(direccionFrom));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(direccionDestino));
+			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
+			//message.setContent(messageText);
+			Transport.send(message);
+			resul=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			//throw new RuntimeException(e);
+		}	
+		return resul;
 	}
 }

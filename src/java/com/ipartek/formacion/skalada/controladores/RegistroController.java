@@ -2,17 +2,7 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -89,6 +79,7 @@ public class RegistroController extends HttpServlet {
 			}
 
 		}
+		request.setAttribute("msg", msg);
 		dispatcher.forward(request, response);
 	}
 
@@ -96,25 +87,35 @@ public class RegistroController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Mensaje msg = new Mensaje(Mensaje.MSG_DANGER,"Error dando de alta al usuario");
+	  Mensaje msg = new Mensaje(Mensaje.MSG_DANGER,"Error dando de alta al usuario");
+	  try{
+		
 		getParameters(request,response);
 		if(modeloUsuario.checkUser(pNombre, pEmail)){
 			msg.setTexto("El usuario ya existe");
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
+			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
 		}else{
 			crearObjeto();
 			if(modeloUsuario.save(usuario)!=-1){
-				enviarEmail();
-				msg.setTipo(Mensaje.MSG_SUCCESS);
-				msg.setTexto("Revisa tu email para confirmar el alta");
+				if(enviarEmail()){
+					msg.setTipo(Mensaje.MSG_SUCCESS);
+					msg.setTexto("Revisa tu email para confirmar el alta");
+				}else{
+					msg.setTexto("Error al enviar el email Por favor ponte en contacto con nosotros " + EnviarEmails.direccionOrigen);
+				}
 			}else{
 				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
 			}
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 		}
-		
-		dispatcher.forward(request, response);
-		
+	  }catch(Exception e){
+		  e.printStackTrace();
+		  msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
+		  request.setAttribute("msg", msg);
+	  }	finally{
+		request.setAttribute("msg", msg);
+		dispatcher.forward(request, response);		  
+	  }
 	}
 
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {
@@ -133,18 +134,21 @@ public class RegistroController extends HttpServlet {
 	}
 	
 	
-	private void enviarEmail(){
-		EnviarEmails sendEmail = new EnviarEmails();
-		sendEmail.setDireccionDestino(usuario.getEmail());
-		sendEmail.setMessageSubject("Confirmación de registro de usuario en Skalada App");
-		String messageText="Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más."
-				+ "\n Para confirmar tu registro pincha en el siguiente enlace "
-				+ "http://localhost:8080/skalada/registro?email="+usuario.getEmail()
-				+ " \n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App";
-		sendEmail.setMessageText(messageText);
-		sendEmail.setDireccionFrom("skalada.ipartek@gmail.com");
-		sendEmail.enviarEmail();
-		
+	private boolean enviarEmail(){
+		boolean resul=false;
+		EnviarEmails correo = new EnviarEmails();
+		correo.setDireccionDestino(usuario.getEmail());
+		correo.setMessageSubject("Confirmación de registro de usuario en Skalada App");
+		String cuerpo="<h1>Validar cuenta de usuario</h1>";
+		cuerpo+="<p>Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más.";
+		cuerpo+="\n Para confirmar tu registro pincha en el siguiente enlace ";
+		//cuerpo+="<a href='http://localhost:8080/skalada/registro?email="+usuario.getEmail();
+		cuerpo+=Constantes.SERVER+Constantes.CONTROLLER_REGISTRO+"?email="+usuario.getEmail();
+		cuerpo+="\n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App";
+		correo.setMessageText(cuerpo);
+		correo.setDireccionFrom("skalada.ipartek@gmail.com");
+		resul=correo.enviar();
+		return resul;
 	}
 		
 }

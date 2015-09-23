@@ -125,7 +125,7 @@
     <url-pattern>/usuarios</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description></description>
+    <description>Registro y alta de nuevos usuarios</description>
     <display-name>RegistroController</display-name>
     <servlet-name>RegistroController</servlet-name>
     <servlet-class>com.ipartek.formacion.skalada.controladores.RegistroController</servlet-class>
@@ -133,5 +133,15 @@
   <servlet-mapping>
     <servlet-name>RegistroController</servlet-name>
     <url-pattern>/registro</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RecordarPasswordController</display-name>
+    <servlet-name>RecordarPasswordController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.RecordarPasswordController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RecordarPasswordController</servlet-name>
+    <url-pattern>/recordarpass</url-pattern>
   </servlet-mapping>
 </web-app>

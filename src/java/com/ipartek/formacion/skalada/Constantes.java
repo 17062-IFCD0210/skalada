@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class Constantes {
 
+	public static final String SERVER = "http://localhost:8080";
 	public static final String ROOT_APP = "/skalada/";
 	public static final String APP_NAME = "skalada";
 	
@@ -18,6 +19,7 @@ public class Constantes {
 	public static final String VIEW_BACK_LOGIN = "backoffice/pages/login.jsp";
 	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP = "pages/signup.jsp";
+	public static final String VIEW_BACK_RECORDAR_PASSWORD = "pages/recordar_password.jsp";
 	
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
 	public static final String VIEW_BACK_VIAS_FORM = "backoffice/pages/vias/form.jsp";
@@ -53,12 +55,16 @@ public class Constantes {
 	public static final String CONTROLLER_ROLES           = ROOT_APP + "roles";
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_REGISTRO        = ROOT_APP + "registro";
+	public static final String CONTROLLER_RECORDAR_PASSWORD = ROOT_APP + "recordarpass";
+	
 	
 	//acciones
 	public static final int ACCION_NUEVO	= 0;
 	public static final int ACCION_DETALLE	= 1;
 	public static final int ACCION_LISTAR	= 2;
 	public static final int ACCION_ELIMINAR = 3;
+	public static final int ACCION_VALIDAR  = 4;
+	public static final int ACCION_RECUPERAR= 5;
 	
 	//Imagenes y Ficheros
 	public static final String IMG_UPLOAD_FOLDER        = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
