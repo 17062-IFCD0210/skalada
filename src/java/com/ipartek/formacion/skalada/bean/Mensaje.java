@@ -10,7 +10,7 @@ public class Mensaje {
 	private String tipo;
 	private String texto;
 	
-	//tipos de mensajes
+	// Tipos de mensajes
 	public static final String MSG_SUCCESS = "success";
 	public static final String MSG_INFO    = "info";
 	public static final String MSG_WARNING = "warning";
