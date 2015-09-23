@@ -64,10 +64,12 @@ public class Constantes {
 	public static final String CONTROLLER_LUGARES   = ROOT_APP + "lugares";
 	
 	//acciones
-	public static final int ACCION_NUEVO	= 0;
-	public static final int ACCION_DETALLE	= 1;
-	public static final int ACCION_LISTAR	= 2;
-	public static final int ACCION_ELIMINAR = 3;
+	public static final int ACCION_NUEVO	 = 0;
+	public static final int ACCION_DETALLE	 = 1;
+	public static final int ACCION_LISTAR	 = 2;
+	public static final int ACCION_ELIMINAR  = 3;
+	public static final int ACCION_VALIDAR	 = 4;
+	public static final int ACCION_RECUPERAR = 5;	
 	
 	//imagenes
 	public static final String IMG_UPLOAD_FOLDER = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
@@ -85,5 +87,11 @@ public class Constantes {
 	//Usuarios
 	public static final int USER_VALIDATE 	 = 1;
 	public static final int USER_NO_VALIDATE = 0;
+	
+	//Email
+	public static final String MAIL_USER = "skalada.ipartek@gmail.com";
+	public static final String MAIL_PASS = "123ABC123";
+	
+	
 	
 }
