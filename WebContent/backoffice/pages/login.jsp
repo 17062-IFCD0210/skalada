@@ -43,8 +43,21 @@
                                 <input class="btn btn-lg btn-block btn-success" type="submit" value="login">
                             </fieldset>
                         </form>
-                    </div>                    
-                </div>
+                       
+                    </div>
+                  </div>
+                    
+                    <br><br>
+                    <a  href="<%=Constantes.VIEW_BACK_SIGNUP%>"
+                        class="btn btn-lg btn-block btn-default">
+                        Registro nuevo usuario</a>
+                        	
+                   <br> 	
+                   <a  href="#"
+                       class="">
+                       ¿Has olvidado tu contraseña?</a>
+                                        
+                
             </div>
         </div>
     </div>
