@@ -21,6 +21,7 @@ public class ModeloUsuario implements Persistable{
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ? WHERE `id`= ?;";
 	
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
+	private static final String SQL_GET_ID_BY_EMAIL  = "SELECT id FROM `usuario` WHERE `email` = ?";
 	
 	
 	@Override
@@ -250,6 +251,42 @@ public class ModeloUsuario implements Persistable{
 		return resul;
 	}
 	
+	
+	/**
+	 * Busca el email en la tabla y si exite devuelve el id
+	 * @param email {@code String} del usuario
+	 * @return id {@code int} del ususario,
+	 * 		   sino existe devuelve 0;
+	 */
+	public int getIdByEmail(String email){
+		int resul = 0;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GET_ID_BY_EMAIL);
+			pst.setString(1, email);
+	    	rs = pst.executeQuery(); 
+	    	while(rs.next()){
+	    		resul = rs.getInt("id");
+	    	}		    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
 
 }
 
