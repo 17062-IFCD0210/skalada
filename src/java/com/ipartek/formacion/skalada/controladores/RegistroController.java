@@ -26,6 +26,7 @@ import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloRol;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
+import com.ipartek.formacion.utilidades.EnviarEmails;
 
 /**
  * Servlet implementation class RegistroController
@@ -64,13 +65,29 @@ public class RegistroController extends HttpServlet {
 		pEmail = (request.getParameter("email"));
 		if(!modeloUsuario.checkUser("", pEmail)){
 			//NO existe el email
-			msg.setTexto("La direcciÃ³n de email '"+pEmail+"' no existe");
+			msg.setTexto("La dirección de email '"+pEmail+"' no existe");
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 		}else{
 			//SI existe el email
-			//ver si esta validado
-
 			
+			//ver si esta validado
+			if(!modeloUsuario.estaValidado(pEmail)){
+				//NO esta validado
+				usuario=(Usuario)modeloUsuario.getByEmail(pEmail);
+				usuario.setValidado(Constantes.USER_VALIDATE);
+				modeloUsuario.update(usuario);
+				
+				msg.setTipo(Mensaje.MSG_SUCCESS);
+				msg.setTexto("El usuario ha sido validado");
+				
+				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			}else{
+				//SI esta validado
+				
+				msg.setTexto("El usuario ya estaba validado");
+				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			}
+
 		}
 		dispatcher.forward(request, response);
 	}
@@ -115,40 +132,19 @@ public class RegistroController extends HttpServlet {
 		usuario.setValidado(Constantes.USER_NO_VALIDATE);
 	}
 	
-	private void enviarEmail(){
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-
-		Session session = Session.getDefaultInstance(props,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("skalada.ipartek@gmail.com","123ABC123");
-				}
-			});
-
-		try {
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("skalada.ipartek@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(usuario.getEmail()));
-			String messageSubject = "ConfirmaciÃ³n de registro de usuario en Skalada App";
-			try {
-				message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			message.setText("Bienvenid@ "+usuario.getNombre()+". SÃ³lo nos falta un paso mÃ¡s."
-					+ "\n Para confirmar tu registro pincha en el siguiente enlace "
-					+ "http://localhost:8081/skalada/registro?email="+usuario.getEmail()
-					+ " \n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App");
-			Transport.send(message);
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}	
-	}
 	
+	private void enviarEmail(){
+		EnviarEmails sendEmail = new EnviarEmails();
+		sendEmail.setDireccionDestino(usuario.getEmail());
+		sendEmail.setMessageSubject("Confirmación de registro de usuario en Skalada App");
+		String messageText="Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más."
+				+ "\n Para confirmar tu registro pincha en el siguiente enlace "
+				+ "http://localhost:8080/skalada/registro?email="+usuario.getEmail()
+				+ " \n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App";
+		sendEmail.setMessageText(messageText);
+		sendEmail.setDireccionFrom("skalada.ipartek@gmail.com");
+		sendEmail.enviarEmail();
+		
+	}
+		
 }

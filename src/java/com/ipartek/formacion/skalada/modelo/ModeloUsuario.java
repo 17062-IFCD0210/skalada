@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 
@@ -21,7 +22,8 @@ public class ModeloUsuario implements Persistable{
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ? WHERE `id`= ?;";
 	
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
-	
+	private static final String SQL_VALIDADO_USER  = "SELECT * FROM `usuario` WHERE `email` = ? AND `validado`="+Constantes.USER_NO_VALIDATE;
+	private static final String SQL_GET_BY_EMAIL  = SQL_GETALL + " WHERE u.`email`= ?;";
 	
 	@Override
 	public int save(Object o) {
@@ -250,6 +252,71 @@ public class ModeloUsuario implements Persistable{
 		return resul;
 	}
 	
-
+	/**
+	 * Comprueba si un usuario esta validado
+	 * @param email {@code String} email del {@code Usuario}
+	 * @return {@code boolean} true si está validado, 
+	 * 						   false en caso contrario
+	 */
+	public boolean estaValidado(String email){
+		boolean resul = true;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_VALIDADO_USER);
+			pst.setString(1, email);
+	    	rs = pst.executeQuery(); 
+	    	if (rs.next()){
+	    		resul = false;	//no está validado
+	    	}	    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
+	
+	
+	public Object getByEmail(String email) {
+		Usuario resul = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GET_BY_EMAIL);
+			pst.setString(1, email);
+	    	rs = pst.executeQuery();	      	   	
+	    	while(rs.next()){
+	    		resul = mapeo(rs);
+	    	}	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}		
+		return resul;		
+	}
 }
 
