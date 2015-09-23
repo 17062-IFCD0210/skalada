@@ -37,18 +37,18 @@ public class SendMail{
 	 * Metodo que se encarga de rellenar el email y enviarlo
 	 * @param destino {@code String} Email al que se quiere enviar el correo
 	 * @param asunto {@code String} Asunto del correo
-	 * @param mensaje {@code String} Cuerpo del email
+	 * @param cuerpo {@code String} Cuerpo del email
 	 * @return
 	 */
 	@SuppressWarnings("finally")
-	public boolean enviar(String destino, String asunto, String mensaje){
+	public boolean enviar(String destino, String asunto, String cuerpo){
 		boolean resul = false;
 		try {
-			message = new MimeMessage(session);
+			message = new MimeMessage(session);			
 			message.setFrom(new InternetAddress(Constantes.MAIL_USER));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destino));
 			message.setSubject(MimeUtility.encodeText(asunto,"UTF-8","B"));
-			message.setText(mensaje);
+			message.setContent(cuerpo, "text/html; charset=utf-8");
 			
 			Transport.send(message);
 			resul = true;

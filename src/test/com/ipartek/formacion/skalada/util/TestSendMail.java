@@ -10,7 +10,8 @@ public class TestSendMail {
 	
 	private static final String DESTINO = "ieltxuorue@gmail.com";
 	private static final String ASUNTO  = "prueba";
-	private static final String MENSAJE = "";
+	private static final String MENSAJE = "<h1>hola</h1>"
+										+ "<p>ñsdfghañusoihfgasodhf</p>";
 	
 	SendMail mail;
 	

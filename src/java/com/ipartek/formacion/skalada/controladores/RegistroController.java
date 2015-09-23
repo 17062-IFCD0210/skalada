@@ -41,7 +41,6 @@ public class RegistroController extends HttpServlet {
 	
 	private SendMail mail;
 
-	
 	private Mensaje msg;
 	
 	 /**
@@ -53,6 +52,7 @@ public class RegistroController extends HttpServlet {
     	super.init(config);
     	modeloUsuario = new ModeloUsuario();   
     	modeloRol = new ModeloRol();
+    	mail = new SendMail();
     }
 
     /**
@@ -103,10 +103,8 @@ public class RegistroController extends HttpServlet {
 				} else {
 					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al activar, intentelo de nuevo");
 				}
-			}
-			
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);	
-			
+			}			
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
 		} else {
 			msg = new Mensaje(Mensaje.MSG_DANGER, "Usuario no registrado");
 			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
@@ -114,8 +112,26 @@ public class RegistroController extends HttpServlet {
 	}
 
 	private void recuperar(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
+		pID = modeloUsuario.getIdByEmail(pEmail);
+		if(pID != 0){
+			usuario = (Usuario)modeloUsuario.getById(pID);
+			String asunto = "Recuperacion de contraseña";
+			String mensaje = "Hola "+usuario.getNombre()+"."
+							+ "\n Contraseña: " + usuario.getPassword()
+							+ " \n\n Esperamos que disfrutes de nuestra web." + "\n\n Staf de Skalada App";
+			
+			if(mail.enviar(usuario.getEmail(), asunto, mensaje)){
+				//Mensaje enviado correctamente
+				msg = new Mensaje(Mensaje.MSG_INFO, "Contraseña enviada al email, compruebalo");					
+			} else {
+				//Error en el envio del mensaje
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email, por favor ponte en contacto con nosotros (admin@admin.com)");
+			}
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+		} else {
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Usuario no registrado");
+			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
+		}	
 	}
 
 	
@@ -137,19 +153,20 @@ public class RegistroController extends HttpServlet {
 			//Guardar Objeto Usuario			
 				if( modeloUsuario.save(usuario) != -1){	
 					//enviar email
-					mail = new SendMail();
 					String asunto = "Activacion nuevo Usuario";
-					String mensaje = "Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más."
-									+ "\n Para confirmar tu registro pincha en el siguiente enlace "
-									+ "http://localhost:8080/skalada/registro?accion="+Constantes.ACCION_VALIDAR+"&email=" + usuario.getEmail()
-									+ " \n\n Esperamos que disfrutes de nuestra web." + "\n\n Staf de Skalada App";
+					String mensaje = "<h1>Validar cuenta de usuario</h1>"
+									+ "<p>Bienvenid@ " + usuario.getNombre() + ". Sólo nos falta un paso más.</p>"
+									+ "<p>Para confirmar tu registro pincha en el siguiente enlace "
+									+ Constantes.SERVER + Constantes.CONTROLLER_REGISTRO + "?accion="+Constantes.ACCION_VALIDAR+"&email=" + usuario.getEmail() + "</p>"
+									+ "<p> Esperamos que disfrutes de nuestra web.</p>" 
+									+ "<p>Staf de Skalada App</p>";
 					
 					if(mail.enviar(usuario.getEmail(), asunto, mensaje)){
 						//Mensaje enviado correctamente
 						msg = new Mensaje(Mensaje.MSG_INFO, "Mira tu cuenta de correo, y valida el registro");					
 					} else {
 						//Error en el envio del mensaje
-						msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email de activacion");
+						msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email de activacion, por favor ponte en contacto con nosotros (admin@admin.com)");
 					}
 				} else {
 					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");

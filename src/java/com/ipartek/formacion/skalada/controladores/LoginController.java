@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
 
 /**
  * Servlet implementation class LoginController
@@ -29,6 +30,8 @@ public class LoginController extends HttpServlet {
 	
 	private String pEmail;
 	private String pPassword;
+	
+	private Mensaje msg;
 
 		
     /**
@@ -50,28 +53,17 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//
-		System.out.println("Login entrando....");
-		
 		//recoger la sesion
 		session = request.getSession();
 		String usuario = (String)session.getAttribute(KEY_SESSION_USER);
 		
 //Usuario logeado
 		if ( usuario != null && "".equals(usuario) ){
-			
-			//
-			System.out.println("    Usuario YA logueado");
-			
 			//Ir a => index_back.jsp		
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			
 //Usuario No logeado o caducada session
-		} else {
-			
-			//
-			System.out.println("    Usuario NO logueado");
-			
+		} else {		
 			//recoger parametros del formulario
 			getParameters(request);
 					
@@ -86,16 +78,13 @@ public class LoginController extends HttpServlet {
 				//Ir a => index_back.jsp		
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			} else {
+				msg = new Mensaje(Mensaje.MSG_DANGER, "El email y/o contraseña incorrecta");				
+				request.setAttribute("msg", msg);
 				//Ir a => login.jsp
-				request.setAttribute("msg", "El email y/o contrase&ntilde;a incorrecta");			
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
 			
-		}
-		
-		//
-		System.out.println("login forward o saliendo....");
-				
+		}			
 		dispatcher.forward(request, response);
 		
 	}
