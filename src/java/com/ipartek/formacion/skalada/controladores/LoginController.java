@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
+import com.ipartek.formacion.skalada.bean.Usuario;
+import com.ipartek.formacion.skalada.modelo.ModeloRol;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
+import com.ipartek.formacion.utilidades.EnviarEmails;
 
 /**
  * Servlet implementation class LoginController
@@ -25,79 +31,70 @@ public class LoginController extends HttpServlet {
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
 	
-	private final String EMAIL = "admin@admin.com";
-	private final String PASS = "admin";
+//	private final String EMAIL = "admin@admin.com";
+//	private final String PASS = "admin";
 	
+	//Parametros
 	private String pEmail;
 	private String pPassword;
-
-		
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginController() {
-        super();
+	
+	//Variables
+	ModeloUsuario modeloUsuario=null;
+	Usuario usuario=null;
+	
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+    	super.init(config);
+    	modeloUsuario = new ModeloUsuario();   
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
-	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//
-		System.out.println("Login entrando....");
-		
-		//recoger la sesion
-		session = request.getSession();
-		String usuario = (String)session.getAttribute(KEY_SESSION_USER);
-		
-//Usuario logeado
-		if ( usuario != null && "".equals(usuario) ){
-			
-			//
-			System.out.println("    Usuario YA logueado");
-			
-			//Ir a => index_back.jsp		
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
-			
-//Usuario No logeado o caducada session
-		} else {
-			
-			//
-			System.out.println("    Usuario NO logueado");
-			
-			//recoger parametros del formulario
+		Mensaje msg = new Mensaje(Mensaje.MSG_WARNING,"Error al loguearte");
+		try{
 			getParameters(request);
-					
-			//validar los datos
+			if(modeloUsuario.checkUser("", pEmail)){
+				usuario=(Usuario)modeloUsuario.getByEmail(pEmail);
+				if(usuario.getPassword().equals(pPassword)){
+					if(usuario.getValidado()==Constantes.USER_VALIDATE){
+						//El usuario puede acceder
 
-			//comprobamos con la BBDD			
-			if(EMAIL.equals(pEmail)&&PASS.equals(pPassword)){
-				
-				//salvar session
-				session.setAttribute(KEY_SESSION_USER, pEmail);
-				
-				//Ir a => index_back.jsp		
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
-			} else {
-				//Ir a => login.jsp
-				request.setAttribute("msg", "El email y/o contrase&ntilde;a incorrecta");			
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+						session = request.getSession();
+						session.setAttribute(KEY_SESSION_USER, usuario.getNombre());
+						
+						msg.setTipo(Mensaje.MSG_SUCCESS);
+						msg.setTexto("Acceso correcto");
+						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+					}else{
+						//el usuario no esta validado
+						if(enviarEmail()){
+							msg.setTipo(Mensaje.MSG_SUCCESS);
+							msg.setTexto("No estás validado. Revisa tu email para activar tu cuenta");
+						}else{
+							msg.setTexto("No estás validado. Se ha producido algún error al enviar email de validación");
+						}
+						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+					}
+				}else{
+					//error al teclear el password
+					msg.setTexto("El password no coincide con el que tenemos registrado. Por favor intentalo de nuevo.");
+					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
+				}
+			}else{
+				//no existe ese email en la BD
+				msg.setTexto("El email introducido no existe en la base de datos. Por favor regístrate.");
+				dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
 			}
-			
+		}catch(Exception e){
+			e.printStackTrace();
+			msg.setTexto("ERROR: "+e.getMessage());
+		}finally{
+			request.setAttribute("msg", msg);
+			dispatcher.forward(request, response);			
 		}
-		
-		//
-		System.out.println("login forward o saliendo....");
-				
-		dispatcher.forward(request, response);
+
 		
 	}
 	
@@ -113,6 +110,22 @@ public class LoginController extends HttpServlet {
 		
 	}
 	
+	private boolean enviarEmail(){
+		boolean resul=false;
+		EnviarEmails correo = new EnviarEmails();
+		correo.setDireccionDestino(usuario.getEmail());
+		correo.setMessageSubject("Confirmación de registro de usuario en Skalada App");
+		String cuerpo="<h1>Validar cuenta de usuario</h1>";
+		cuerpo+="<p>Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más.";
+		cuerpo+="\n Para confirmar tu registro pincha en el siguiente enlace ";
+		//cuerpo+="<a href='http://localhost:8080/skalada/registro?email="+usuario.getEmail();
+		cuerpo+=Constantes.SERVER+Constantes.CONTROLLER_REGISTRO+"?email="+usuario.getEmail();
+		cuerpo+="\n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App";
+		correo.setMessageText(cuerpo);
+		correo.setDireccionFrom("skalada.ipartek@gmail.com");
+		resul=correo.enviar();
+		return resul;
+	}	
 }
 
 

@@ -5,7 +5,8 @@ import java.util.Arrays;
 
 public class Constantes {
 
-	public static final String SERVER = "http://localhost:8080";
+	public static final String PORT = "8081";
+	public static final String SERVER = "http://localhost:"+PORT;
 	public static final String ROOT_APP = "/skalada/";
 	public static final String APP_NAME = "skalada";
 	

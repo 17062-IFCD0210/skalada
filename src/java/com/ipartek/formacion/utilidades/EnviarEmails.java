@@ -20,6 +20,7 @@ public class EnviarEmails {
 	private String direccionDestino ="";
 	private String messageSubject=""; //Asunto 
 	private String messageText=""; //Cuerpo
+	private String mensajeHTML="";
 	
 	private Session session;
 	
@@ -96,7 +97,17 @@ public class EnviarEmails {
 	}
 
 	
-	
+	public String getMensajeHTML() {
+		return mensajeHTML;
+	}
+
+
+	public void setMensajeHTML(String mensajeHTML) {
+		this.mensajeHTML = mensajeHTML;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "EnviarEmails [direccionOrigen=" + direccionOrigen
@@ -130,12 +141,11 @@ public class EnviarEmails {
 	public boolean enviarHTML(){
 		boolean resul=false;
 		try {
-
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(direccionFrom));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(direccionDestino));
 			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
-			//message.setContent(messageText);
+			message.setContent(mensajeHTML, "text/html; charset=utf-8");
 			Transport.send(message);
 			resul=true;
 		} catch (Exception e) {

@@ -1,4 +1,3 @@
-
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
@@ -55,7 +54,7 @@ public class RegistroController extends HttpServlet {
 		pEmail = (request.getParameter("email"));
 		if(!modeloUsuario.checkUser("", pEmail)){
 			//NO existe el email
-			msg.setTexto("La dirección de email '"+pEmail+"' no existe");
+			msg.setTexto("La direcciï¿½n de email '"+pEmail+"' no existe");
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 		}else{
 			//SI existe el email
@@ -138,16 +137,19 @@ public class RegistroController extends HttpServlet {
 		boolean resul=false;
 		EnviarEmails correo = new EnviarEmails();
 		correo.setDireccionDestino(usuario.getEmail());
-		correo.setMessageSubject("Confirmación de registro de usuario en Skalada App");
+		correo.setMessageSubject("ConfirmaciÃ³n de registro de usuario en Skalada App");
 		String cuerpo="<h1>Validar cuenta de usuario</h1>";
-		cuerpo+="<p>Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más.";
-		cuerpo+="\n Para confirmar tu registro pincha en el siguiente enlace ";
+		cuerpo+="<p>Bienvenid@ "+usuario.getNombre()+". SÃ³lo nos falta un paso mÃ¡s.";
+		cuerpo+="<br>Para confirmar tu registro pincha en el siguiente enlace ";
 		//cuerpo+="<a href='http://localhost:8080/skalada/registro?email="+usuario.getEmail();
+		cuerpo+="<a href='";
 		cuerpo+=Constantes.SERVER+Constantes.CONTROLLER_REGISTRO+"?email="+usuario.getEmail();
-		cuerpo+="\n\n Esperamos que disfrutes de nuestra web." +"\n\n Staf de Skalada App";
-		correo.setMessageText(cuerpo);
+		cuerpo+="'>ACTIVAR</a>";
+		cuerpo+="<br><br> Esperamos que disfrutes de nuestra web." +"<br><br> Staf de Skalada App";
+		//correo.setMessageText(cuerpo);
+		correo.setMensajeHTML(cuerpo);
 		correo.setDireccionFrom("skalada.ipartek@gmail.com");
-		resul=correo.enviar();
+		resul=correo.enviarHTML();
 		return resul;
 	}
 		
