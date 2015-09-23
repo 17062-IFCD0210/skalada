@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Constantes {
-
+	
+	public static final String SERVER   = "http://localhost:8080";
 	public static final String ROOT_APP = "/skalada/";
 	public static final String APP_NAME = "skalada";
 	
@@ -53,12 +54,15 @@ public class Constantes {
 	public static final String CONTROLLER_SECTORES        = ROOT_APP + "sectores";
 	public static final String CONTROLLER_ROLES           = ROOT_APP + "roles";
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
+	public static final String CONTROLLER_SIGNUP          = ROOT_APP + "signup";
 	
 	//acciones
 	public static final int ACCION_NUEVO	= 0;
 	public static final int ACCION_DETALLE	= 1;
 	public static final int ACCION_LISTAR	= 2;
 	public static final int ACCION_ELIMINAR = 3;
+	public static final int ACCION_VALIDAR  = 4;
+	public static final int ACCION_RECUPERAR= 5;
 	
 	//Imagenes y Ficheros
 	public static final String IMG_UPLOAD_FOLDER        = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
