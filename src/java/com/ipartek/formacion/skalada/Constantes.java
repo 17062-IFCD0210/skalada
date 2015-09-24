@@ -92,8 +92,12 @@ public class Constantes {
 	//Email
 	public static final String MAIL_USER = "skalada.ipartek@gmail.com";
 	public static final String MAIL_PASS = "123ABC123";
+	//Asuntos emails
+	public static final String MAIL_SUBJECT_VALIDAR = "Activacion nuevo Usuario";
+	public static final String MAIL_SUBJECT_RECUPERAR = "Recuperacion de contraseña";
 	//Plantillas emails
-	public static final String MAIL_TEMPLATE_REGISTRO = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\skalada\\emails\\registro.html"; 
+	public static final String MAIL_TEMPLATE_VALIDAR_REGISTRO = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\skalada\\emails\\validar_registro.html"; 
+	public static final String MAIL_TEMPLATE_RECUPERAR_PASS = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\skalada\\emails\\recuperar_pass.html"; 
 	
 	
 	

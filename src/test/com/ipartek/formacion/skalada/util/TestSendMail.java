@@ -43,9 +43,9 @@ public class TestSendMail {
 		
 		HashMap<String, String> hmParametros = new HashMap<String, String>();
 		hmParametros.put("{usuario}", usuario);
-		hmParametros.put("{url}", url);
+		hmParametros.put("{pass}", "NEW PASS");
 		
-		cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_REGISTRO, hmParametros );
+		cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
 	         
 	    assertTrue("Email no enviado", mail.enviar(destino, asunto, cuerpo));
 

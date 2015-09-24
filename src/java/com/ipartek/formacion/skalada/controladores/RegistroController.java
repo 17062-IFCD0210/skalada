@@ -2,6 +2,7 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -17,6 +18,7 @@ import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloRol;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.skalada.util.SendMail;
+import com.ipartek.formacion.skalada.util.Utilidades;
 
 /**
  * Servlet implementation class RegistroController
@@ -40,6 +42,9 @@ public class RegistroController extends HttpServlet {
 	private int pIDRol = 2;	//Rol Usuario predefinido
 	
 	private SendMail mail;
+	private String asunto;
+	private String cuerpo;
+	private HashMap<String, String> hmParametros;
 
 	private Mensaje msg;
 	
@@ -115,17 +120,24 @@ public class RegistroController extends HttpServlet {
 		pID = modeloUsuario.getIdByEmail(pEmail);
 		if(pID != 0){
 			usuario = (Usuario)modeloUsuario.getById(pID);
-			String asunto = "Recuperacion de contraseña";
-			String mensaje = "Hola "+usuario.getNombre()+"."
-							+ "\n Contraseña: " + usuario.getPassword()
-							+ " \n\n Esperamos que disfrutes de nuestra web." + "\n\n Staf de Skalada App";
-			
-			if(mail.enviar(usuario.getEmail(), asunto, mensaje)){
-				//Mensaje enviado correctamente
-				msg = new Mensaje(Mensaje.MSG_INFO, "Contraseña enviada al email, compruebalo");					
+			usuario.setPassword(Utilidades.getCadenaAlfanumAleatoria(20));
+			if(modeloUsuario.update(usuario)){
+				//enviar email		
+				hmParametros = new HashMap<String, String>();
+				hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
+				hmParametros.put("{pass}", usuario.getPassword());					
+				cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
+				
+				if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_RECUPERAR, cuerpo)){
+					//Mensaje enviado correctamente
+					msg = new Mensaje(Mensaje.MSG_INFO, "Contraseña Reestablecida, comprueba el email");
+				} else {
+					//Error en el envio del mensaje
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al recuperar contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
+				}
 			} else {
-				//Error en el envio del mensaje
-				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email, por favor ponte en contacto con nosotros (admin@admin.com)");
+				//Error en modificar contraseña
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al recuperar contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
 			}
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 		} else {
@@ -151,26 +163,23 @@ public class RegistroController extends HttpServlet {
 			crearObjeto();
 			
 			//Guardar Objeto Usuario			
-				if( modeloUsuario.save(usuario) != -1){	
-					//enviar email
-					String asunto = "Activacion nuevo Usuario";
-					String mensaje = "<h1>Validar cuenta de usuario</h1>"
-									+ "<p>Bienvenid@ " + usuario.getNombre() + ". Sólo nos falta un paso más.</p>"
-									+ "<p>Para confirmar tu registro pincha en el siguiente enlace "
-									+ Constantes.SERVER + Constantes.CONTROLLER_REGISTRO + "?accion="+Constantes.ACCION_VALIDAR+"&email=" + usuario.getEmail() + "</p>"
-									+ "<p> Esperamos que disfrutes de nuestra web.</p>" 
-									+ "<p>Staf de Skalada App</p>";
+			if( modeloUsuario.save(usuario) != -1){	
+				//enviar email		
+				hmParametros = new HashMap<String, String>();
+				hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
+				hmParametros.put("{url}", usuario.getEmail());					
+				cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_VALIDAR_REGISTRO, hmParametros );
 					
-					if(mail.enviar(usuario.getEmail(), asunto, mensaje)){
-						//Mensaje enviado correctamente
-						msg = new Mensaje(Mensaje.MSG_INFO, "Mira tu cuenta de correo, y valida el registro");					
-					} else {
-						//Error en el envio del mensaje
-						msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email de activacion, por favor ponte en contacto con nosotros (admin@admin.com)");
-					}
+				if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_VALIDAR, cuerpo)){
+					//Mensaje enviado correctamente
+					msg = new Mensaje(Mensaje.MSG_INFO, "Mira tu cuenta de correo, y valida el registro");					
 				} else {
-					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
+					//Error en el envio del mensaje
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email de activacion, por favor ponte en contacto con nosotros (admin@admin.com)");
 				}
+			} else {
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
+			}
 
 			//dispatcher login.jsp
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
