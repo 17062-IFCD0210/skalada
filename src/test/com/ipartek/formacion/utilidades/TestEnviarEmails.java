@@ -1,6 +1,9 @@
 package com.ipartek.formacion.utilidades;
 
 import static org.junit.Assert.*;
+
+import java.io.File;
+
 import junit.framework.Assert;
 
 import org.junit.AfterClass;
@@ -45,6 +48,25 @@ public class TestEnviarEmails {
 		 * ${url}      =>  Enlace para validar la cuenta del usuario  
 		 * 
 		 * */
+		
+		
+		File file = new File (Constantes.EMAIL_TEMPLATE_REGISTRO);
+		String cuerpo = file.toString();
+		cuerpo.replace("{usuario}", usuario);
+		cuerpo.replace("{url}", url);
+		
+		EnviarEmails correo = new EnviarEmails();
+		
+		correo.setDireccionFrom("skalada.ipartek@gmail.com");
+		correo.setDireccionDestino("ander.ipartek@gmail.com");
+		correo.setMessageSubject("Confirmar registro usuario");
+		correo.setMessageContent( cuerpo );
+		
+		assertTrue(
+				 "Email no enviado " + correo.toString() ,
+				  correo.enviar()
+				);
+		
 		
 	}
 
