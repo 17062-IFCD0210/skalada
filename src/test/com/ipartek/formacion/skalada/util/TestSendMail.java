@@ -6,8 +6,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
+import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
+
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +35,7 @@ public class TestSendMail {
 	}
 
 	@Test
-	public void testSendMail() {
+	public void testSendMail() throws IOException {
 		
 		
 		String destino = "ieltxuorue@gmail.com";
@@ -43,9 +49,16 @@ public class TestSendMail {
 		
 		HashMap<String, String> hmParametros = new HashMap<String, String>();
 		hmParametros.put("{usuario}", usuario);
-		hmParametros.put("{pass}", "NEW PASS");
+		hmParametros.put("{pass}", "NEW PASS");		
 		
-		cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
+		ClassLoader classLoader = getClass().getClassLoader();
+		cuerpo = IOUtils.toString(classLoader.getResourceAsStream(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS), "UTF-8");
+		
+		Iterator it = hmParametros.entrySet().iterator();
+	    while (it.hasNext()) {
+	    	Map.Entry e = (Map.Entry)it.next();
+	    	cuerpo = cuerpo.replace(e.getKey().toString(), e.getValue().toString());
+	    }
 	         
 	    assertTrue("Email no enviado", mail.enviar(destino, asunto, cuerpo));
 

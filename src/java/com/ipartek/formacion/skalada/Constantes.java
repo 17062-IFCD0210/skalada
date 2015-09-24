@@ -19,6 +19,7 @@ public class Constantes {
 	public static final String VIEW_BACK_LOGIN   = "backoffice/pages/login.jsp";
 	public static final String VIEW_BACK_INDEX   = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP   = "pages/signup.jsp";
+	public static final String VIEW_BACK_RECUPERAR   = ROOT_BACK + "pages/recuperar.jsp";
 	
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
 	public static final String VIEW_BACK_VIAS_FORM  = "backoffice/pages/vias/form.jsp";
@@ -96,8 +97,8 @@ public class Constantes {
 	public static final String MAIL_SUBJECT_VALIDAR = "Activacion nuevo Usuario";
 	public static final String MAIL_SUBJECT_RECUPERAR = "Recuperacion de contraseña";
 	//Plantillas emails
-	public static final String MAIL_TEMPLATE_VALIDAR_REGISTRO = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\skalada\\emails\\validar_registro.html"; 
-	public static final String MAIL_TEMPLATE_RECUPERAR_PASS = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\skalada\\emails\\recuperar_pass.html"; 
+	public static final String MAIL_TEMPLATE_VALIDAR_REGISTRO = "file/validar_registro.html"; 
+	public static final String MAIL_TEMPLATE_RECUPERAR_PASS = "file/recuperar_pass.html"; 
 	
 	
 	

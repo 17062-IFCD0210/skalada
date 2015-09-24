@@ -121,25 +121,24 @@ public class RegistroController extends HttpServlet {
 		if(pID != 0){
 			usuario = (Usuario)modeloUsuario.getById(pID);
 			usuario.setPassword(Utilidades.getCadenaAlfanumAleatoria(20));
-			if(modeloUsuario.update(usuario)){
-				//enviar email		
-				hmParametros = new HashMap<String, String>();
-				hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
-				hmParametros.put("{pass}", usuario.getPassword());					
-				cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
+			
+			//enviar email	
+			String url = Constantes.SERVER + Constantes.VIEW_BACK_RECUPERAR + "?email=" + usuario.getEmail();
+			hmParametros = new HashMap<String, String>();
+			hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
+			hmParametros.put("{url}", url);					
+			cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
 				
-				if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_RECUPERAR, cuerpo)){
-					//Mensaje enviado correctamente
-					msg = new Mensaje(Mensaje.MSG_INFO, "Contraseña Reestablecida, comprueba el email");
-				} else {
-					//Error en el envio del mensaje
-					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al recuperar contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
-				}
+			if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_RECUPERAR, cuerpo)){
+				//Mensaje enviado correctamente
+				msg = new Mensaje(Mensaje.MSG_INFO, "Solicitud de reestablecer contraseña aceptada, comprueba el email y sigue los pasos indicados.");
 			} else {
-				//Error en modificar contraseña
-				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al recuperar contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
+				//Error en el envio del mensaje
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al intentar recuperar la contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
 			}
+			
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			
 		} else {
 			msg = new Mensaje(Mensaje.MSG_DANGER, "Usuario no registrado");
 			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
@@ -155,39 +154,54 @@ public class RegistroController extends HttpServlet {
 		//recoger parametros del formulario
 		getParametersForm(request);
 		
-		//Comprobar si estan libre el nombre y email del usuario
-		if(!modeloUsuario.checkUser(pNombre, pEmail)){	
-		
-		//Esta libre			
-			//Crear Objeto Usuario
-			crearObjeto();
+		//Crear nuevo usuario
+		if(pID == -1){		
+			//Comprobar si estan libre el nombre y email del usuario
+			if(!modeloUsuario.checkUser(pNombre, pEmail)){	
 			
-			//Guardar Objeto Usuario			
-			if( modeloUsuario.save(usuario) != -1){	
-				//enviar email		
-				hmParametros = new HashMap<String, String>();
-				hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
-				hmParametros.put("{url}", usuario.getEmail());					
-				cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_VALIDAR_REGISTRO, hmParametros );
-					
-				if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_VALIDAR, cuerpo)){
-					//Mensaje enviado correctamente
-					msg = new Mensaje(Mensaje.MSG_INFO, "Mira tu cuenta de correo, y valida el registro");					
-				} else {
-					//Error en el envio del mensaje
-					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email de activacion, por favor ponte en contacto con nosotros (admin@admin.com)");
-				}
-			} else {
-				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
-			}
-
-			//dispatcher login.jsp
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			//Esta libre			
+				//Crear Objeto Usuario
+				crearObjeto();
 				
-		//No esta libre
+				//Guardar Objeto Usuario			
+				if( modeloUsuario.save(usuario) != -1){	
+					//enviar email
+					String url = Constantes.SERVER + Constantes.CONTROLLER_REGISTRO + "?accion=" + Constantes.ACCION_VALIDAR + "&email=" + usuario.getEmail();
+					hmParametros = new HashMap<String, String>();
+					hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
+					hmParametros.put("{url}", url);					
+					cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_VALIDAR_REGISTRO, hmParametros );
+						
+					if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_VALIDAR, cuerpo)){
+						//Mensaje enviado correctamente
+						msg = new Mensaje(Mensaje.MSG_INFO, "Mira tu cuenta de correo, y valida el registro");					
+					} else {
+						//Error en el envio del mensaje
+						msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email de activacion, por favor ponte en contacto con nosotros (admin@admin.com)");
+					}
+				} else {
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
+				}
+	
+				//dispatcher login.jsp
+				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+					
+			//No esta libre
+			} else {
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre o email del usuario no disponibles");
+				dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);	
+			}
+		//Modificar contraseña
 		} else {
-			msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre o email del usuario no disponibles");
-			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);	
+			pID = modeloUsuario.getIdByEmail(pEmail);
+			usuario = (Usuario)modeloUsuario.getById(pID);
+			usuario.setPassword(pPassword);
+			if(modeloUsuario.update(usuario)){
+				msg = new Mensaje(Mensaje.MSG_SUCCESS, "Contraseña modificada correctamente. Prueba a iniciar sesion.");
+			} else {
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar la contraseña");
+			}		
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 		}
 				
 		request.setAttribute("msg", msg);
@@ -212,6 +226,7 @@ public class RegistroController extends HttpServlet {
 	*/
 	private void getParametersForm(HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
+		pID = Integer.parseInt(request.getParameter("id"));
 		pNombre = request.getParameter("nombre");
 		pEmail = request.getParameter("email");
 		pPassword = request.getParameter("password");

@@ -1,6 +1,5 @@
 package com.ipartek.formacion.skalada.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,7 +15,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import com.ipartek.formacion.skalada.Constantes;
 
@@ -66,25 +65,26 @@ public class SendMail{
 		}
 	}
 	
+	/**
+	 * Metodo para obtener el cuerpo del email personalizado
+	 * @param fileUrl url de donde se encuentra la plantilla html a enviar
+	 * @param parametros {@code HashMap } con key-value a reemplazar en el email
+	 * @return el cuerpo del email
+	 */
 	public String mailTemplateToString(String fileUrl, HashMap<String, String> parametros ){
 		String resul = "";
-		
-		File file = new File(fileUrl);
-
 	    try{
-			 resul = FileUtils.readFileToString(file, "UTF-8"); 
+	    	ClassLoader classLoader = getClass().getClassLoader();
+	    	resul = IOUtils.toString(classLoader.getResourceAsStream(fileUrl), "UTF-8");
 		} catch(IOException e) {
 			e.printStackTrace();
-		}	
-	    
+		}	    
 	    Iterator it = parametros.entrySet().iterator();
 	    while (it.hasNext()) {
 	    	Map.Entry e = (Map.Entry)it.next();
 	    	resul = resul.replace(e.getKey().toString(), e.getValue().toString());
-	    }
-	    
-	    return resul;
-		
+	    }	    
+	    return resul;		
 	}
 	
 
