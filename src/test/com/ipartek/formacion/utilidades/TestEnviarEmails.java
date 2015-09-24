@@ -6,6 +6,8 @@ import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.Test;
 
+import com.ipartek.formacion.skalada.Constantes;
+
 public class TestEnviarEmails {
 
 	@AfterClass
@@ -27,6 +29,22 @@ public class TestEnviarEmails {
 				  correo.enviar()
 				);
 		
+		
+	}
+	
+	@Test
+	public void testEnviarRegistro() {
+		
+		String email   = "ander.ipartek@gmail.com";
+		String url     = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP+"?accion="+Constantes.ACCION_VALIDAR+"&email="+email;
+		String usuario = "Antton Gorriti";
+		
+		/*
+		 * Variables a reemplazar en la plantilla:
+		 * ${usuario}  =>  Usuario Refistrado
+		 * ${url}      =>  Enlace para validar la cuenta del usuario  
+		 * 
+		 * */
 		
 	}
 

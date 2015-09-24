@@ -15,11 +15,12 @@ import javax.mail.internet.MimeUtility;
 public class EnviarEmails {
 	
 	public  static final String direccionOrigen = "skalada.ipartek@gmail.com";
-	private String passwordOrigen = "123ABC123";
-	private String direccionFrom ="";
+	private String passwordOrigen   = "123ABC123";
+	private String direccionFrom    ="";
 	private String direccionDestino ="";
-	private String messageSubject=""; //Asunto	
-	private String messageText="";    //Cuerpo
+	private String messageSubject   =""; //Asunto	
+	private String messageText      ="";    //Cuerpo Texto Plano
+	private String messageContent   ="";    //Cuerpo Html
 	
 	private Session session;
 	
@@ -88,6 +89,18 @@ public class EnviarEmails {
 	}
 
 
+	public String getMessageContent() {
+		return messageContent;
+	}
+
+
+
+	public void setMessageContent(String messageContent) {
+		this.messageContent = messageContent;
+	}
+
+
+
 	public String getMessageSubject() {
 		return messageSubject;
 	}
@@ -128,8 +141,13 @@ public class EnviarEmails {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(direccionFrom));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(direccionDestino));
-			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));			
-			message.setText(messageText);
+			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
+			
+			if ( !"".equals(messageText) ){
+				message.setText(messageText);
+			}else{
+				message.setContent(messageContent,"text/html; charset=utf-8");
+			}	
 			Transport.send(message);
 			resul = true;
 		} catch ( Exception e) {
