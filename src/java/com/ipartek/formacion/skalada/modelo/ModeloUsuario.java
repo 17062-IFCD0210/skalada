@@ -22,6 +22,7 @@ public class ModeloUsuario implements Persistable{
 	
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
 	private static final String SQL_GET_ID_BY_EMAIL  = "SELECT id FROM `usuario` WHERE `email` = ?";
+	private static final String SQL_LOGIN_USER  = SQL_GETALL + " WHERE `nombre` = ? OR `email` = ?";
 	
 	
 	@Override
@@ -270,6 +271,37 @@ public class ModeloUsuario implements Persistable{
 	    	while(rs.next()){
 	    		resul = rs.getInt("id");
 	    	}		    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
+	
+	public Usuario getUserLogin(String user){
+		Usuario resul = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_LOGIN_USER);
+			pst.setString(1, user);
+			pst.setString(2, user);
+	    	rs = pst.executeQuery(); 
+	    	while(rs.next()){
+	    		resul = mapeo(rs);		    	
+	    	}	    	
 		} catch (Exception e){
 			e.printStackTrace();
 		} finally {

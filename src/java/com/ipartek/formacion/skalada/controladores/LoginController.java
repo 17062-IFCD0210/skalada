@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
+import com.ipartek.formacion.skalada.bean.Rol;
+import com.ipartek.formacion.skalada.bean.Usuario;
+import com.ipartek.formacion.skalada.modelo.ModeloRol;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
@@ -25,10 +29,10 @@ public class LoginController extends HttpServlet {
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
 	
-	private final String EMAIL = "admin@admin.com";
-	private final String PASS = "admin";
-	
-	private String pEmail;
+	private ModeloUsuario modeloUsuario = null;
+	private Usuario usuario = null;
+
+	private String pUser;
 	private String pPassword;
 	
 	private Mensaje msg;
@@ -39,6 +43,7 @@ public class LoginController extends HttpServlet {
      */
     public LoginController() {
         super();
+        modeloUsuario = new ModeloUsuario();
     }
 
 	/**
@@ -55,36 +60,56 @@ public class LoginController extends HttpServlet {
 
 		//recoger la sesion
 		session = request.getSession();
-		String usuario = (String)session.getAttribute(KEY_SESSION_USER);
+		String sessionKey = (String)session.getAttribute(KEY_SESSION_USER);
 		
 //Usuario logeado
-		if ( usuario != null && "".equals(usuario) ){
-			//Ir a => index_back.jsp		
+		if ( sessionKey != null && "".equals(sessionKey) ){	
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			
 //Usuario No logeado o caducada session
 		} else {		
 			//recoger parametros del formulario
 			getParameters(request);
+				
+			//Obtener Usuario de BBDD
+			if(modeloUsuario.checkUser(pUser, pUser)){
+				
+				//Existe el usuario
+				usuario = (Usuario)modeloUsuario.getUserLogin(pUser);
+				
+				if(usuario.getValidado() == 0 ){
 					
-			//validar los datos
-
-			//comprobamos con la BBDD			
-			if(EMAIL.equals(pEmail)&&PASS.equals(pPassword)){
-				
-				//salvar session
-				session.setAttribute(KEY_SESSION_USER, pEmail);
-				
-				//Ir a => index_back.jsp		
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+					//Usuario no validado
+					msg = new Mensaje(Mensaje.MSG_WARNING, "Usuario no validado, por favor comprueba su bandeja de entrada del email.");
+					request.setAttribute("msg", msg);
+					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+				} else {
+					
+					//Usuario Validado
+					if(pPassword.equals(usuario.getPassword())){
+						
+						//Password correcto
+						//salvar session
+						session.setAttribute(KEY_SESSION_USER, usuario.getEmail());						
+						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+						
+					}else{
+						
+						//Password incorrecto
+						msg = new Mensaje(Mensaje.MSG_DANGER, "La contraseña es incorrecta");
+						request.setAttribute("msg", msg);
+						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+					}
+				}			
 			} else {
-				msg = new Mensaje(Mensaje.MSG_DANGER, "El email y/o contraseña incorrecta");				
+				
+				//Nombre de usuario incorrecto
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre o email no registrado");
 				request.setAttribute("msg", msg);
-				//Ir a => login.jsp
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-			}
-			
-		}			
+				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
+			}	
+		}	
+
 		dispatcher.forward(request, response);
 		
 	}
@@ -95,7 +120,7 @@ public class LoginController extends HttpServlet {
 	*/
 	private void getParameters(HttpServletRequest request) {
 	
-		pEmail = request.getParameter("email");
+		pUser = request.getParameter("user");
 		pPassword = request.getParameter("password");
 		
 	}
