@@ -1,9 +1,16 @@
 package com.ipartek.formacion.utilidades;
-
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
+
+import junit.framework.Assert;
+
+import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
+
+import com.ipartek.formacion.skalada.Constantes;
 
 public class TestEnviarEmails {
 
@@ -12,24 +19,65 @@ public class TestEnviarEmails {
 	}
 
 	@Test
-	public void testEnviarEmails() {
+	public void testEnviar() {
+		
 		EnviarEmails correo = new EnviarEmails();
-		correo.setDireccionFrom("Skalada_App");
+		
+		correo.setDireccionFrom("skalada.ipartek@gmail.com");
 		correo.setDireccionDestino("javi70@gmail.com");
-		correo.setMessageSubject("Email enviado desde Java");
-		correo.setMessageText("Estamos todos aprobados");
-		assertTrue("Email no enviado "+correo.toString(),correo.enviar());
+		correo.setMessageSubject("Email de prueba enviado desde Java");
+		correo.setMessageText("Cuerpo del mensaje de texto");
+		
+		assertTrue(
+				 "Email no enviado " + correo.toString() ,
+				  correo.enviar()
+				);
+		
+		
 	}
-
+	
 	@Test
-	public void testEnviarEmailHTML() {
-		String plantillaHTML="";
+	public void testEnviarRegistro() {
+		
+		
+		String email   = "ander.ipartek@gmail.com";
+		String url     = Constantes.SERVER + Constantes.CONTROLLER_REGISTRO+"?accion="+Constantes.ACCION_VALIDAR+"&email="+email;
+		String usuario = "Antton Gorriti";
+		
+		/*
+		 * Variables a reemplazar en la plantilla:
+		 * {usuario}  =>  Usuario Refistrado
+		 * {url}      =>  Enlace para validar la cuenta del usuario  
+		 * 
+		 * */
+		
+		//Constantes.EMAIL_TEMPLATE_REGISTRO);
+		
+		//@see: http://memorynotfound.com/load-file-resources-folder-java/
+		
+		File file = new File(Constantes.TEST_EMAIL_TEMPLATE_REGISTRO);  		                     
+		String cuerpo = "";
+		try{
+			 cuerpo = FileUtils.readFileToString(file, "UTF-8"); 
+		}catch(IOException e){
+			e.printStackTrace();
+			fail("No existe la plantilla: " + Constantes.EMAIL_TEMPLATE_REGISTRO);
+		}	
+		cuerpo = cuerpo.replace("{usuario}", usuario);
+		cuerpo = cuerpo.replace("{url}", url);
+		
 		EnviarEmails correo = new EnviarEmails();
-		correo.setDireccionFrom("Skalada_App");
+		
+		correo.setDireccionFrom("skalada.ipartek@gmail.com");
 		correo.setDireccionDestino("javi70@gmail.com");
-		correo.setMessageSubject("Email enviado desde Java");
-		correo.setMessageText(plantillaHTML);
-		assertTrue("Email no enviado "+correo.toString(),correo.enviar());
+		correo.setMessageSubject("Confirmar registro usuario");
+		correo.setMessageContent( cuerpo );
+		
+		assertTrue(
+				 "Email no enviado " + correo.toString() ,
+				  correo.enviar()
+				);
+		
+		
 	}
-
 }

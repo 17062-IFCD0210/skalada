@@ -144,4 +144,14 @@
     <servlet-name>RecordarPasswordController</servlet-name>
     <url-pattern>/recordarpass</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RegenerarPasswordController</display-name>
+    <servlet-name>RegenerarPasswordController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.RegenerarPasswordController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegenerarPasswordController</servlet-name>
+    <url-pattern>/regenerarpass</url-pattern>
+  </servlet-mapping>
 </web-app>

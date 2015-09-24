@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Rol;
@@ -135,21 +134,20 @@ public class RegistroController extends HttpServlet {
 	
 	private boolean enviarEmail(){
 		boolean resul=false;
+
+		String url=Constantes.SERVER+Constantes.CONTROLLER_REGISTRO+"?email="+usuario.getEmail();
+		
 		EnviarEmails correo = new EnviarEmails();
-		correo.setDireccionDestino(usuario.getEmail());
-		correo.setMessageSubject("Confirmación de registro de usuario en Skalada App");
-		String cuerpo="<h1>Validar cuenta de usuario</h1>";
-		cuerpo+="<p>Bienvenid@ "+usuario.getNombre()+". Sólo nos falta un paso más.";
-		cuerpo+="<br>Para confirmar tu registro pincha en el siguiente enlace ";
-		//cuerpo+="<a href='http://localhost:8080/skalada/registro?email="+usuario.getEmail();
-		cuerpo+="<a href='";
-		cuerpo+=Constantes.SERVER+Constantes.CONTROLLER_REGISTRO+"?email="+usuario.getEmail();
-		cuerpo+="'>ACTIVAR</a>";
-		cuerpo+="<br><br> Esperamos que disfrutes de nuestra web." +"<br><br> Staf de Skalada App";
-		//correo.setMessageText(cuerpo);
-		correo.setMensajeHTML(cuerpo);
 		correo.setDireccionFrom("skalada.ipartek@gmail.com");
-		resul=correo.enviarHTML();
+		correo.setDireccionDestino(usuario.getEmail());
+		correo.setMessageSubject("Confirmaci�n de registro de usuario en Skalada App");
+		
+		//TODO cambiar la ruta 		
+		correo.setPlantillaHTML(Constantes.TEST_EMAIL_TEMPLATE_REGISTRO);
+		correo.setReemplazos("{usuario}", usuario.getNombre());
+		correo.setReemplazos("{url}", url);
+
+		resul=correo.enviar();
 		return resul;
 	}
 		

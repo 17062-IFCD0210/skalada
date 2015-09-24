@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Constantes {
 
-	public static final String PORT = "8081";
+	public static final String PORT = "8080";
 	public static final String SERVER = "http://localhost:"+PORT;
 	public static final String ROOT_APP = "/skalada/";
 	public static final String APP_NAME = "skalada";
@@ -21,6 +21,7 @@ public class Constantes {
 	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP = "pages/signup.jsp";
 	public static final String VIEW_BACK_RECORDAR_PASSWORD = "pages/recordar_password.jsp";
+	public static final String VIEW_BACK_RESETEAR_PASSWORD = "backoffice/pages/resetear_password.jsp";
 	
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
 	public static final String VIEW_BACK_VIAS_FORM = "backoffice/pages/vias/form.jsp";
@@ -57,6 +58,7 @@ public class Constantes {
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_REGISTRO        = ROOT_APP + "registro";
 	public static final String CONTROLLER_RECORDAR_PASSWORD = ROOT_APP + "recordarpass";
+	public static final String CONTROLLER_REGENERAR_PASSWORD = ROOT_APP + "regenerarpass";
 	
 	
 	//acciones
@@ -86,6 +88,12 @@ public class Constantes {
 	public static final int USER_VALIDATE    = 1;
 	public static final int USER_NO_VALIDATE = 0;
 	
+	//Plantillas emails
+	public static final String TEST_EMAIL_TEMPLATE_REGISTRO ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\registro.html"; 
+	public static final String TEST_EMAIL_TEMPLATE_RECORDAR_PASS ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\recordarpass.html";
+	public static final String TEST_EMAIL_TEMPLATE_RESETEAR_PASS ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\resetearpass.html";
+	public static final String EMAIL_TEMPLATE_REGISTRO =SERVER+ROOT_APP+"emails/registro.html";
+	public static final String EMAIL_TEMPLATE_RECORDAR_PASS=SERVER+ROOT_APP+"emails/recordarpass.html";
+	public static final String EMAIL_TEMPLATE_RESETEAR_PASS=SERVER+ROOT_APP+"emails/resetearpass.html";
 	
-
 }
