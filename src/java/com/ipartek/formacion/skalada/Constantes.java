@@ -81,6 +81,8 @@ public class Constantes {
 	public static final int USER_VALIDATE    = 1;
 	public static final int USER_NO_VALIDATE = 0;
 	
+	// Email
 	
+	public static final String EMAIL_TEMPLATE_REGISTRO = "emails/resgitro.html";
 
 }

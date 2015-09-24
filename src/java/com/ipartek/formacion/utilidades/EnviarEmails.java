@@ -136,4 +136,11 @@ public class EnviarEmails {
 		}	
 		return resul;
 	}
+
+
+
+	public void setMessageContent(String cuerpo) {
+		// TODO Auto-generated method stub
+		
+	}
 }
