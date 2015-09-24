@@ -2,16 +2,19 @@ package com.ipartek.formacion.skalada.util;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ipartek.formacion.skalada.Constantes;
+
 public class TestSendMail {
-	
-	private static final String DESTINO = "ieltxuorue@gmail.com";
-	private static final String ASUNTO  = "prueba";
-	private static final String MENSAJE = "<h1>hola</h1>"
-										+ "<p>ñsdfghañusoihfgasodhf</p>";
 	
 	SendMail mail;
 	
@@ -26,8 +29,26 @@ public class TestSendMail {
 	}
 
 	@Test
-	public void testSendMail() {				
-		assertTrue("Email no enviado", mail.enviar(DESTINO, ASUNTO, MENSAJE));
+	public void testSendMail() {
+		
+		
+		String destino = "ieltxuorue@gmail.com";
+		String asunto  = "prueba";
+		
+		String usuario = "Antton Gorriti";
+		String email   = "ander.ipartek@gmail.com";
+		String url     = Constantes.SERVER + Constantes.CONTROLLER_REGISTRO+"?accion="+Constantes.ACCION_VALIDAR+"&email="+email;
+		
+		String cuerpo;
+		
+		HashMap<String, String> hmParametros = new HashMap<String, String>();
+		hmParametros.put("{usuario}", usuario);
+		hmParametros.put("{url}", url);
+		
+		cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_REGISTRO, hmParametros );
+	         
+	    assertTrue("Email no enviado", mail.enviar(destino, asunto, cuerpo));
+
 	}
 
 }

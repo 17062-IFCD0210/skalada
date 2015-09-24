@@ -92,6 +92,8 @@ public class Constantes {
 	//Email
 	public static final String MAIL_USER = "skalada.ipartek@gmail.com";
 	public static final String MAIL_PASS = "123ABC123";
+	//Plantillas emails
+	public static final String MAIL_TEMPLATE_REGISTRO = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\skalada\\emails\\registro.html"; 
 	
 	
 	
