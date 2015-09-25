@@ -18,6 +18,7 @@ public class ModeloUsuario implements Persistable{
 											+ "FROM `usuario` AS u "
 											+ "INNER JOIN `rol` as r ON (u.`id_rol` = r.`id`)";
 	private static final String SQL_GETONE  = SQL_GETALL + " WHERE u.`id`= ?;";
+	private static final String SQL_GETONE_BY_MAIL = SQL_GETALL + " WHERE u.`email`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ? WHERE `id`= ?;";
 	
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
@@ -77,6 +78,41 @@ public class ModeloUsuario implements Persistable{
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_GETONE);
 			pst.setInt(1, id);
+	    	rs = pst.executeQuery();	      	   	
+	    	while(rs.next()){
+	    		resul = mapeo(rs);
+	    	}	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}		
+		return resul;		
+	}
+	
+	/**
+	 * Busca un usuario por su email
+	 * @param email
+	 * @return objeto usuario creado si lo encuentra. null en caso contrario
+	 */
+	public Object getByEmail(String email) {
+		Object resul = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETONE_BY_MAIL);
+			pst.setString(1, email);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
 	    		resul = mapeo(rs);
