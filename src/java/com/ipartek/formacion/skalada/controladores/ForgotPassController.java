@@ -13,12 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
-import com.ipartek.formacion.skalada.bean.Rol;
+import com.ipartek.formacion.skalada.bean.Token;
 import com.ipartek.formacion.skalada.bean.Usuario;
-import com.ipartek.formacion.skalada.modelo.ModeloRol;
+import com.ipartek.formacion.skalada.modelo.ModeloToken;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.skalada.util.SendMail;
-import com.ipartek.formacion.skalada.util.Utilidades;
 
 /**
  * Servlet implementation class ForgotPasswordController
@@ -28,7 +27,6 @@ public class ForgotPassController extends HttpServlet {
 	
 	private RequestDispatcher dispatcher = null;
 	private ModeloUsuario modeloUsuario = null;
-
 	private Usuario usuario = null;
 
 	
@@ -36,9 +34,13 @@ public class ForgotPassController extends HttpServlet {
 	private int pID	= -1;		//ID no valido	
 	private String pEmail;
 	private String pPassword;
+	private String pToken;
 	
 	private SendMail mail;
 
+	private ModeloToken modeloToken = null;
+	private Token token;
+	
 	private String cuerpo;
 	private HashMap<String, String> hmParametros;
 
@@ -53,6 +55,7 @@ public class ForgotPassController extends HttpServlet {
     	super.init(config);
     	modeloUsuario = new ModeloUsuario();   
     	mail = new SendMail(Constantes.MAIL_USER, Constantes.MAIL_PASS);
+    	modeloToken = new ModeloToken();
     }
 
 	/**
@@ -84,21 +87,26 @@ public class ForgotPassController extends HttpServlet {
 		pID = modeloUsuario.getIdByEmail(pEmail);
 		if(pID != 0){
 			usuario = (Usuario)modeloUsuario.getById(pID);
-			usuario.setPassword(Utilidades.getCadenaAlfanumAleatoria(20));
 			
-			//enviar email	
-			String url = Constantes.SERVER + Constantes.VIEW_BACK_RECUPERAR + "?email=" + usuario.getEmail();
-			hmParametros = new HashMap<String, String>();
-			hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
-			hmParametros.put("{url}", url);					
-			cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
-				
-			if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_RECUPERAR, cuerpo)){
-				//Mensaje enviado correctamente
-				msg = new Mensaje(Mensaje.MSG_INFO, "Solicitud de reestablecer contraseña aceptada, comprueba el email y sigue los pasos indicados.");
-			} else {
-				//Error en el envio del mensaje
+			token = new Token(usuario.getEmail());
+			
+			if(!modeloToken.update(token)){
 				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al intentar recuperar la contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
+			} else {			
+				//enviar email	
+				String url = Constantes.SERVER + Constantes.VIEW_BACK_RECUPERAR + "?email=" + usuario.getEmail() + "&token=" + token.getToken();
+				hmParametros = new HashMap<String, String>();
+				hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
+				hmParametros.put("{url}", url);					
+				cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
+					
+				if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_RECUPERAR, cuerpo)){
+					//Mensaje enviado correctamente
+					msg = new Mensaje(Mensaje.MSG_INFO, "Solicitud de reestablecer contraseña aceptada, comprueba el email y sigue los pasos indicados.");
+				} else {
+					//Error en el envio del mensaje
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al intentar recuperar la contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
+				}
 			}
 			
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
@@ -119,12 +127,21 @@ public class ForgotPassController extends HttpServlet {
 		//Modificar contraseña
 		pID = modeloUsuario.getIdByEmail(pEmail);
 		usuario = (Usuario)modeloUsuario.getById(pID);
-		usuario.setPassword(pPassword);
-		if(modeloUsuario.update(usuario)){
-			msg = new Mensaje(Mensaje.MSG_SUCCESS, "Contraseña modificada correctamente. Prueba a iniciar sesion.");
+		
+		token = modeloToken.getByEmail(pEmail);
+		
+		if(pToken.equals(token.getToken())){		
+			usuario.setPassword(pPassword);
+			if(modeloUsuario.update(usuario)){
+				msg = new Mensaje(Mensaje.MSG_SUCCESS, "Contraseña modificada correctamente. Prueba a iniciar sesion.");
+				token.setToken("0");
+				modeloToken.update(token);
+			} else {
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar la contraseña");
+			}
 		} else {
-			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar la contraseña");
-		}		
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar la contraseña datos incorrectos");
+		}
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 						
 		request.setAttribute("msg", msg);
@@ -142,6 +159,7 @@ public class ForgotPassController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		pEmail = request.getParameter("email");
 		pPassword = request.getParameter("password");
+		pToken = request.getParameter("token");
 
 	}
 }

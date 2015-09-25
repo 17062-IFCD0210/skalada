@@ -60,7 +60,7 @@ public class LoginController extends HttpServlet {
 
 		//recoger la sesion
 		session = request.getSession();
-		String sessionKey = (String)session.getAttribute(KEY_SESSION_USER);
+		Usuario sessionKey = (Usuario)session.getAttribute(KEY_SESSION_USER);
 		
 //Usuario logeado
 		if ( sessionKey != null || "".equals(sessionKey) ){	
@@ -92,7 +92,7 @@ public class LoginController extends HttpServlet {
 							
 							//Password correcto
 							//salvar session
-							session.setAttribute(KEY_SESSION_USER, usuario.getEmail());						
+							session.setAttribute(KEY_SESSION_USER, usuario);						
 							dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 							
 						}else{

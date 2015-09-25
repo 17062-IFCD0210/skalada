@@ -33,7 +33,7 @@
             				<div id ="alert_placeholder"></div>  
                             
                             <fieldset>                            	
-                            	<input type="hidden" name="id" value="0">
+                            	<input type="hidden" name="token" value="<%=request.getParameter("token")%>">
                             	<input type="hidden" name="email" value="<%=request.getParameter("email")%>">
                             	  
                                 <div class="form-group">
