@@ -70,44 +70,49 @@ public class LoginController extends HttpServlet {
 		} else {		
 			//recoger parametros del formulario
 			getParameters(request);
+			
+			if (pUser != null && pPassword != null){
 				
-			//Obtener Usuario de BBDD
-			if(modeloUsuario.checkUser(pUser, pUser)){
-				
-				//Existe el usuario
-				usuario = (Usuario)modeloUsuario.getUserLogin(pUser);
-				
-				if(usuario.getValidado() == 0 ){
+				//Obtener Usuario de BBDD
+				if(modeloUsuario.checkUser(pUser, pUser)){
 					
-					//Usuario no validado
-					msg = new Mensaje(Mensaje.MSG_WARNING, "Usuario no validado, por favor comprueba su bandeja de entrada del email.");
-					request.setAttribute("msg", msg);
-					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-				} else {
+					//Existe el usuario
+					usuario = (Usuario)modeloUsuario.getUserLogin(pUser);
 					
-					//Usuario Validado
-					if(pPassword.equals(usuario.getPassword())){
+					if(usuario.getValidado() == 0 ){
 						
-						//Password correcto
-						//salvar session
-						session.setAttribute(KEY_SESSION_USER, usuario.getEmail());						
-						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
-						
-					}else{
-						
-						//Password incorrecto
-						msg = new Mensaje(Mensaje.MSG_DANGER, "La contraseña es incorrecta");
+						//Usuario no validado
+						msg = new Mensaje(Mensaje.MSG_WARNING, "Usuario no validado, por favor comprueba su bandeja de entrada del email.");
 						request.setAttribute("msg", msg);
 						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-					}
-				}			
+					} else {
+						
+						//Usuario Validado
+						if(pPassword.equals(usuario.getPassword())){
+							
+							//Password correcto
+							//salvar session
+							session.setAttribute(KEY_SESSION_USER, usuario.getEmail());						
+							dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+							
+						}else{
+							
+							//Password incorrecto
+							msg = new Mensaje(Mensaje.MSG_DANGER, "La contraseña es incorrecta");
+							request.setAttribute("msg", msg);
+							dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+						}
+					}			
+				} else {
+					
+					//Nombre de usuario incorrecto
+					msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre o email no registrado");
+					request.setAttribute("msg", msg);
+					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
+				}	
 			} else {
-				
-				//Nombre de usuario incorrecto
-				msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre o email no registrado");
-				request.setAttribute("msg", msg);
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
-			}	
+				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			}
 		}	
 
 		dispatcher.forward(request, response);

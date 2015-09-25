@@ -27,7 +27,7 @@
 								out.print("</div>");
 							} 
 						%>
-                        <form action="<%=Constantes.CONTROLLER_REGISTRO%>" method="post" role="form" name="formulario_registro" onsubmit="return validar();">
+                        <form action="<%=Constantes.CONTROLLER_FORGOT_PASS%>" method="post" role="form" name="formulario_registro" onsubmit="return validar();">
                            
                             <!-- div para el mensaje alert -->
             				<div id ="alert_placeholder"></div>  

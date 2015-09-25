@@ -21,33 +21,29 @@ import com.ipartek.formacion.skalada.util.SendMail;
 import com.ipartek.formacion.skalada.util.Utilidades;
 
 /**
- * Servlet implementation class RegistroController
+ * Servlet implementation class ForgotPasswordController
  */
-public class RegistroController extends HttpServlet {
+public class ForgotPassController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private RequestDispatcher dispatcher = null;
 	private ModeloUsuario modeloUsuario = null;
-	private ModeloRol modeloRol = null;
+
 	private Usuario usuario = null;
-	private Rol rol = null;
+
 	
 	//parametros
-	private int pAccion = Constantes.ACCION_VALIDAR;
 	private int pID	= -1;		//ID no valido	
-	private String pNombre;
 	private String pEmail;
 	private String pPassword;
-	//private int pValidado;
-	private int pIDRol = 2;	//Rol Usuario predefinido
 	
 	private SendMail mail;
-	private String asunto;
+
 	private String cuerpo;
 	private HashMap<String, String> hmParametros;
 
 	private Mensaje msg;
-	
+       
 	 /**
      * Este metodo se ejecuta solo la primera vez que se llama al servlet
      * Se usa para crear el modelo
@@ -56,11 +52,10 @@ public class RegistroController extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
     	modeloUsuario = new ModeloUsuario();   
-    	modeloRol = new ModeloRol();
     	mail = new SendMail(Constantes.MAIL_USER, Constantes.MAIL_PASS);
     }
 
-    /**
+	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,7 +63,7 @@ public class RegistroController extends HttpServlet {
 		getParameters(request,response);
 		
 		//realizar accion solicitada
-		validar(request,response);		
+		recuperar(request,response);			
 		
 		request.setAttribute("msg", msg);
 		dispatcher.forward(request, response);
@@ -84,28 +79,36 @@ public class RegistroController extends HttpServlet {
 			e.printStackTrace();
 		}		
 	}
-		
-	private void validar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	private void recuperar(HttpServletRequest request, HttpServletResponse response) {
 		pID = modeloUsuario.getIdByEmail(pEmail);
 		if(pID != 0){
 			usuario = (Usuario)modeloUsuario.getById(pID);
-			if(usuario.getValidado() == Constantes.USER_VALIDATE){
-				msg = new Mensaje(Mensaje.MSG_INFO, "Usuario ya activado, utiliza el nombre y la contraseña para loguearte.");
+			usuario.setPassword(Utilidades.getCadenaAlfanumAleatoria(20));
+			
+			//enviar email	
+			String url = Constantes.SERVER + Constantes.VIEW_BACK_RECUPERAR + "?email=" + usuario.getEmail();
+			hmParametros = new HashMap<String, String>();
+			hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
+			hmParametros.put("{url}", url);					
+			cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS, hmParametros );
+				
+			if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_RECUPERAR, cuerpo)){
+				//Mensaje enviado correctamente
+				msg = new Mensaje(Mensaje.MSG_INFO, "Solicitud de reestablecer contraseña aceptada, comprueba el email y sigue los pasos indicados.");
 			} else {
-				usuario.setValidado(Constantes.USER_VALIDATE);
-				if(modeloUsuario.update(usuario)){
-					msg = new Mensaje(Mensaje.MSG_SUCCESS, "Usuario activado, ya puedes loguearte.");
-				} else {
-					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al activar, intentelo de nuevo");
-				}
-			}			
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
+				//Error en el envio del mensaje
+				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al intentar recuperar la contraseña, por favor ponte en contacto con nosotros (admin@admin.com)");
+			}
+			
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			
 		} else {
 			msg = new Mensaje(Mensaje.MSG_DANGER, "Usuario no registrado");
 			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
 		}	
 	}
-    
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -113,56 +116,22 @@ public class RegistroController extends HttpServlet {
 		//recoger parametros del formulario
 		getParametersForm(request);
 		
-		//Comprobar si estan libre el nombre y email del usuario
-		if(!modeloUsuario.checkUser(pNombre, pEmail)){	
-		
-		//Esta libre			
-			//Crear Objeto Usuario
-			crearObjeto();
-			
-			//Guardar Objeto Usuario			
-			if( modeloUsuario.save(usuario) != -1){	
-				//enviar email
-				String url = Constantes.SERVER + Constantes.CONTROLLER_REGISTRO + "?email=" + usuario.getEmail();
-				hmParametros = new HashMap<String, String>();
-				hmParametros.put("{usuario}", usuario.getNombre().toUpperCase());
-				hmParametros.put("{url}", url);					
-				cuerpo = mail.mailTemplateToString(Constantes.MAIL_TEMPLATE_VALIDAR_REGISTRO, hmParametros );
-					
-				if(mail.enviar(usuario.getEmail(), Constantes.MAIL_SUBJECT_VALIDAR, cuerpo)){
-					//Mensaje enviado correctamente
-					msg = new Mensaje(Mensaje.MSG_INFO, "Mira tu cuenta de correo, y valida el registro");					
-				} else {
-					//Error en el envio del mensaje
-					msg = new Mensaje(Mensaje.MSG_DANGER, "Error al enviar el email de activacion, por favor ponte en contacto con nosotros (admin@admin.com)");
-				}
-			} else {
-				msg = new Mensaje(Mensaje.MSG_DANGER, "Error al registrar usuario");
-			}
-
-			//dispatcher login.jsp
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-				
-		//No esta libre
+		//Modificar contraseña
+		pID = modeloUsuario.getIdByEmail(pEmail);
+		usuario = (Usuario)modeloUsuario.getById(pID);
+		usuario.setPassword(pPassword);
+		if(modeloUsuario.update(usuario)){
+			msg = new Mensaje(Mensaje.MSG_SUCCESS, "Contraseña modificada correctamente. Prueba a iniciar sesion.");
 		} else {
-			msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre o email del usuario no disponibles");
-			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);	
-		}
-				 				
+			msg = new Mensaje(Mensaje.MSG_DANGER, "Error al modificar la contraseña");
+		}		
+		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+						
 		request.setAttribute("msg", msg);
 		dispatcher.forward(request, response);
 		
 	}
-	
-	/**
-	 * Crea un Objeto {@code Usuario} Con los parametros recibidos
-	 */
-	private void crearObjeto() {
-		rol = (Rol)modeloRol.getById(pIDRol);		
-		usuario = new Usuario(pNombre, pEmail, pPassword, rol);
-	}
-
-
+			
 	/**
 	* Recoger los parametros enviados desde el formulario
 	* @see backoffice\pages\\usuarios\form.jsp
@@ -171,8 +140,6 @@ public class RegistroController extends HttpServlet {
 	*/
 	private void getParametersForm(HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		pID = Integer.parseInt(request.getParameter("id"));
-		pNombre = request.getParameter("nombre");
 		pEmail = request.getParameter("email");
 		pPassword = request.getParameter("password");
 

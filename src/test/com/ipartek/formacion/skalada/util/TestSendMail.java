@@ -2,16 +2,10 @@ package com.ipartek.formacion.skalada.util;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import javax.swing.plaf.basic.BasicScrollPaneUI.HSBChangeListener;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
@@ -26,7 +20,7 @@ public class TestSendMail {
 	
 	@Before
 	public void setUp() throws Exception {
-		mail = new SendMail();
+		mail = new SendMail(Constantes.MAIL_USER, Constantes.MAIL_PASS);
 	}
 
 	@After

@@ -63,10 +63,9 @@
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 								<h2 class="modal-title text-center">Recuperar Contraseña</h2>
 				  			</div>
-				  			<form action="<%=Constantes.CONTROLLER_REGISTRO%>" method="get">
+				  			<form action="<%=Constantes.CONTROLLER_FORGOT_PASS%>" method="get">
 				  				<div class="modal-body col-md-offset-1 col-md-10">
 			    					<p>Introduce tu correo electronico para recuperar la contraseña</p>
-			    					<input type="hidden" name="accion" value="<%=Constantes.ACCION_RECUPERAR%>">
                                    	<div class="form-group">
 					           			<label for="email">Correo electronico</label>
 					           			<input type="email" class="form-control" name="email">
