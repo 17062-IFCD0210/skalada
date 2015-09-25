@@ -22,7 +22,7 @@ public class ModeloUsuario implements Persistable{
 	
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
 	private static final String SQL_GET_ID_BY_EMAIL  = "SELECT id FROM `usuario` WHERE `email` = ?";
-	private static final String SQL_LOGIN_USER  = SQL_GETALL + " WHERE `nombre` = ? OR `email` = ?";
+	private static final String SQL_LOGIN_USER  = SQL_GETALL + " WHERE u.`nombre` = ? OR u.`email` = ?";
 	
 	
 	@Override

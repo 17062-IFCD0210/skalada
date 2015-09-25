@@ -63,7 +63,7 @@ public class LoginController extends HttpServlet {
 		String sessionKey = (String)session.getAttribute(KEY_SESSION_USER);
 		
 //Usuario logeado
-		if ( sessionKey != null && "".equals(sessionKey) ){	
+		if ( sessionKey != null || "".equals(sessionKey) ){	
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			
 //Usuario No logeado o caducada session
