@@ -16,6 +16,7 @@ public class Usuario implements Serializable{
 	private String password;
 	private int validado;
 	private Rol rol;
+	private String token;
 	
 	
 	//**********************************
@@ -80,8 +81,17 @@ public class Usuario implements Serializable{
 	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
-
 	
+	public String getToken() {
+		return token;
+	}
+
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+
 	//**********************************
 	//****		ToString()			****
 	//**********************************	
