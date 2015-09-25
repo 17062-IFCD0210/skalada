@@ -142,7 +142,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>RecordarPasswordController</servlet-name>
-    <url-pattern>/recordarpass</url-pattern>
+    <url-pattern>/recordar-pass</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -152,6 +152,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>RegenerarPasswordController</servlet-name>
-    <url-pattern>/regenerarpass</url-pattern>
+    <url-pattern>/regenerar-pass</url-pattern>
   </servlet-mapping>
 </web-app>

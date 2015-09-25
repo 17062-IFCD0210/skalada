@@ -15,11 +15,11 @@ public class ModeloUsuario implements Persistable{
 
 	private static final String SQL_INSERT = "INSERT INTO `usuario` (`email`, `nombre`, `password`, `id_rol`) VALUES (?, ?, ?, ?);";
 	private static final String SQL_DELETE = "DELETE FROM `usuario` WHERE `id`= ? ;";
-	private static final String SQL_GETALL = "SELECT u.`id`, u.`email`, u.`nombre`, u.`password`, u.`validado`, u.`id_rol`, r.`nombre` AS nombre_rol "
-											+ "FROM `usuario` AS u "
+	private static final String SQL_GETALL = "SELECT u.`id`, u.`email`, u.`nombre`, u.`password`, u.`validado`, u.`id_rol`, r.`nombre` AS nombre_rol, "
+											+ "u.`token` AS token FROM `usuario` AS u "
 											+ "INNER JOIN `rol` as r ON (u.`id_rol` = r.`id`)";
 	private static final String SQL_GETONE  = SQL_GETALL + " WHERE u.`id`= ?;";
-	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ? WHERE `id`= ?;";
+	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ?, `token`= ? WHERE `id`= ?;";
 	
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
 	private static final String SQL_VALIDADO_USER  = "SELECT * FROM `usuario` WHERE `email` = ? AND `validado`="+Constantes.USER_NO_VALIDATE;
@@ -147,7 +147,8 @@ public class ModeloUsuario implements Persistable{
 				pst.setString(3, usuario.getPassword());
 				pst.setInt(4, usuario.getValidado());
 				pst.setInt(5, usuario.getRol().getId());
-				pst.setInt(6, usuario.getId());				
+				pst.setString(6, usuario.getToken());
+				pst.setInt(7, usuario.getId());
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}
@@ -209,7 +210,7 @@ public class ModeloUsuario implements Persistable{
 		resul = new Usuario( rs.getString("nombre"), rs.getString("email"), rs.getString("password"), rol);
 		resul.setId( rs.getInt("id"));
 		resul.setValidado(rs.getInt("validado"));
-		
+		resul.setToken(rs.getString("token"));
 		return resul;
 	}
 	

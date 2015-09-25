@@ -14,6 +14,7 @@ import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.utilidades.EnviarEmails;
+import com.ipartek.formacion.utilidades.Utilidades;
 
 /**
  * Servlet implementation class RecordarPasswordController
@@ -54,7 +55,12 @@ public class RecordarPasswordController extends HttpServlet {
 		
 		}else{
 
+			//Generar token para el usuario
+			String token=Utilidades.getCadenaAlfanumAleatoria(250);
+			
 			usuario=(Usuario) modeloUsuario.getByEmail(pEmail);
+			usuario.setToken(token);
+			modeloUsuario.update(usuario);
 			//Enviar email para confirmar reseteo de password
 			
 			if(enviarEmail()){
@@ -73,14 +79,13 @@ public class RecordarPasswordController extends HttpServlet {
 	private boolean enviarEmail(){
 		boolean resul=false;
 		String cuerpo="";
-		String url=Constantes.SERVER+Constantes.CONTROLLER_REGENERAR_PASSWORD+"?email="+usuario.getEmail();
+		String url=Constantes.SERVER+Constantes.ROOT_BACK+Constantes.VIEW_BACK_RESETEAR_PASSWORD+"?email="+usuario.getEmail()+"&token="+usuario.getToken();
 		
 		EnviarEmails correo = new EnviarEmails();
 		correo.setDireccionFrom("skalada.ipartek@gmail.com");
 		correo.setDireccionDestino(usuario.getEmail());
-		correo.setMessageSubject("Petición de reseteo de password");
+		correo.setMessageSubject("Petición de cambio de contraseña");
 
-		//TODO cambiar la ruta 		
 		correo.setPlantillaHTML(Constantes.EMAIL_TEMPLATE_RESETEAR_PASS);
 		correo.setReemplazos("{usuario}", usuario.getNombre());
 		correo.setReemplazos("{url}", url);

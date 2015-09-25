@@ -26,10 +26,8 @@
 					out.print("<strong>"+ msg.getTexto() +"</strong>");
 				out.print("</div>");
 			}
-			String email="";
-			if(request.getAttribute("email")!=null){
-				email = (String)request.getAttribute("email");
-			}
+			String email=(String)request.getParameter("email");
+			String token=(String)request.getParameter("token");
 		%>
 	</div> <!-- /.row -->   
                     
@@ -37,6 +35,7 @@
                             <fieldset>
                             	<div class="form-group">
                                     <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus value="<%=email%>" readonly>
+                                     <input class="form-control" name="hidden" type="hidden" value="<%=token%>">
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Contraseña mínimo 6 caracteres" name="password" id="pw1" type="password" required value="" tabindex="3">

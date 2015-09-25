@@ -21,7 +21,7 @@ public class Constantes {
 	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP = "pages/signup.jsp";
 	public static final String VIEW_BACK_RECORDAR_PASSWORD = "pages/recordar_password.jsp";
-	public static final String VIEW_BACK_RESETEAR_PASSWORD = "backoffice/pages/resetear_password.jsp";
+	public static final String VIEW_BACK_RESETEAR_PASSWORD = "pages/resetear_password.jsp";
 	
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
 	public static final String VIEW_BACK_VIAS_FORM = "backoffice/pages/vias/form.jsp";
@@ -57,8 +57,8 @@ public class Constantes {
 	public static final String CONTROLLER_ROLES           = ROOT_APP + "roles";
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_REGISTRO        = ROOT_APP + "registro";
-	public static final String CONTROLLER_RECORDAR_PASSWORD = ROOT_APP + "recordarpass";
-	public static final String CONTROLLER_REGENERAR_PASSWORD = ROOT_APP + "regenerarpass";
+	public static final String CONTROLLER_RECORDAR_PASSWORD = ROOT_APP + "recordar-pass";
+	public static final String CONTROLLER_REGENERAR_PASSWORD = ROOT_APP + "regenerar-pass";
 	
 	
 	//acciones

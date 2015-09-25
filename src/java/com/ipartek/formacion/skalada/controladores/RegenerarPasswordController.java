@@ -29,6 +29,7 @@ public class RegenerarPasswordController extends HttpServlet {
 	//Parametros
 	String pEmail = "";
 	String pPassword = "";
+	String pToken="";
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -38,6 +39,7 @@ public class RegenerarPasswordController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
 		Mensaje msg=null;
 		//getParameters
 		if(request.getParameter("email")!=null){
@@ -50,7 +52,7 @@ public class RegenerarPasswordController extends HttpServlet {
 		}
 		request.setAttribute("msg", msg);
 		dispatcher.forward(request, response);	
-		
+		*/
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,6 +64,9 @@ public class RegenerarPasswordController extends HttpServlet {
 		if(request.getParameter("password")!=null){
 			pPassword=request.getParameter("password");
 		}
+		if(request.getParameter("token")!=null){
+			pToken=request.getParameter("token");
+		}
 		
 		if(modeloUsuario.getByEmail(pEmail)==null){
 			//NO existe ese email en la BD
@@ -71,12 +76,18 @@ public class RegenerarPasswordController extends HttpServlet {
 		}else{
 			//SI existe el usuario
 			usuario=(Usuario)modeloUsuario.getByEmail(pEmail);
-			usuario.setPassword(pPassword);
-			if(modeloUsuario.update(usuario)){
-				msg.setTipo(Mensaje.MSG_SUCCESS);
-				msg.setTexto("Contraseña reseteada correctamente");
+			
+			//comprobar que no nos hayan cambiado el email
+			if(pToken.equals(usuario.getToken())){
+				usuario.setPassword(pPassword);
+				if(modeloUsuario.update(usuario)){
+					msg.setTipo(Mensaje.MSG_SUCCESS);
+					msg.setTexto("Contraseña reseteada correctamente");
+				}else{
+					msg.setTexto("Error al actualizar la contraseña");
+				}
 			}else{
-				msg.setTexto("Error al actualizar la contraseña");
+				msg.setTexto("Has intentado modificar la dirección de email");
 			}
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 		}
