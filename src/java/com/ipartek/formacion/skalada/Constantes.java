@@ -19,6 +19,7 @@ public class Constantes {
 	public static final String VIEW_BACK_LOGIN  = "backoffice/pages/login.jsp";
 	public static final String VIEW_BACK_INDEX  = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP = "pages/signup.jsp";
+	public static final String VIEW_BACK_NEW_PASS = "backoffice/pages/newpass.jsp"; ;
 	
 	
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
@@ -42,6 +43,7 @@ public class Constantes {
 	public static final String VIEW_BACK_USUARIOS_INDEX = "backoffice/pages/usuarios/index.jsp";
 	public static final String VIEW_BACK_USUARIOS_FORM = "backoffice/pages/usuarios/form.jsp";
 	
+
 	//controladores
 	public static final String CONTROLLER_LOGIN           = ROOT_APP + "login";
 	public static final String CONTROLLER_LOGOUT          = ROOT_APP + "logout";	
@@ -55,14 +57,15 @@ public class Constantes {
 	public static final String CONTROLLER_ROLES           = ROOT_APP + "roles";
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_SIGNUP		  = ROOT_APP + "signup";
+	public static final String CONTROLLER_FORGOT_PASS     = ROOT_APP + "forgotPass";
 	
 	//acciones
 	public static final int ACCION_NUEVO	= 0;
 	public static final int ACCION_DETALLE	= 1;
 	public static final int ACCION_LISTAR	= 2;
 	public static final int ACCION_ELIMINAR = 3;
-	public static final int ACCION_VALIDAR 	= 4;
-	public static final int ACCION_RECUPERAR= 5;
+	public static final int ACCION_FORGOT_PASS = 4;
+	public static final int ACCION_NEW_PASS = 5;
 	
 	//Imagenes y Ficheros
 	public static final String IMG_UPLOAD_FOLDER        = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
@@ -81,8 +84,10 @@ public class Constantes {
 	public static final int USER_VALIDATE    = 1;
 	public static final int USER_NO_VALIDATE = 0;
 	
-	// Email
+	// Plantillas Emails
 	
 	public static final String EMAIL_TEMPLATE_REGISTRO = "emails/resgitro.html";
+	public static final String EMAIL_VALIDACION = "validacion";
+	public static final String EMAIL_PASS = "pass";
 
 }

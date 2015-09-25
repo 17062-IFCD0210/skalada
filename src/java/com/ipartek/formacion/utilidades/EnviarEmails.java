@@ -1,6 +1,9 @@
 package com.ipartek.formacion.utilidades;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -11,14 +14,17 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
+import org.apache.commons.io.IOUtils;
+
 public class EnviarEmails {
 	
 	public  static final String direccionOrigen = "skalada.ipartek@gmail.com";
-	private String passwordOrigen = "123ABC123";
-	private String direccionFrom ="";
+	private String passwordOrigen   = "123ABC123";
+	private String direccionFrom    ="";
 	private String direccionDestino ="";
-	private String messageSubject=""; //Asunto	
-	private String messageText="";    //Cuerpo
+	private String messageSubject   =""; //Asunto	
+	private String messageText      ="";    //Cuerpo Texto Plano
+	private String messageContent   ="";    //Cuerpo Html
 	
 	private Session session;
 	
@@ -87,6 +93,18 @@ public class EnviarEmails {
 	}
 
 
+	public String getMessageContent() {
+		return messageContent;
+	}
+
+
+
+	public void setMessageContent(String messageContent) {
+		this.messageContent = messageContent;
+	}
+
+
+
 	public String getMessageSubject() {
 		return messageSubject;
 	}
@@ -127,8 +145,13 @@ public class EnviarEmails {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(direccionFrom));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(direccionDestino));
-			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));			
-			message.setText(messageText);
+			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
+			
+			if ( !"".equals(messageText) ){
+				message.setText(messageText);
+			}else{
+				message.setContent(messageContent,"text/html; charset=utf-8");
+			}	
 			Transport.send(message);
 			resul = true;
 		} catch ( Exception e) {
@@ -136,11 +159,30 @@ public class EnviarEmails {
 		}	
 		return resul;
 	}
-
-
-
-	public void setMessageContent(String cuerpo) {
-		// TODO Auto-generated method stub
+	
+	/**
+	 * Genera un String a partir de una plantilla y un HashMap de parametros
+	 * @param plantilla Ruta donde se encuentra la plantilla del email, debe estar en "src/resources"
+	 * @param parametros HashMap con variables a sustituir en la plantilla
+	 * @return String con HTML listo para enviar
+	 * @throws IOException 
+	 */
+	
+	public String generarPlantilla(String plantilla, HashMap<String,String> parametros)
+			throws IOException {
+		String resul = "";
 		
+		// A partir del ClassLoader se puede coger un resource como String
+		ClassLoader classLoader = getClass().getClassLoader();
+		resul = (IOUtils.toString(classLoader
+				.getResourceAsStream(plantilla),"UTF-8"));
+
+		Iterator<Map.Entry<String, String>> it = parametros.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String,String> e = (Map.Entry<String,String>)it.next();
+			resul = resul.replace(e.getKey(), e.getValue());
+		
+		}
+		return resul;
 	}
 }

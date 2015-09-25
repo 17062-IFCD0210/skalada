@@ -58,7 +58,7 @@ public class LoginController extends HttpServlet {
 		session = request.getSession();
 		String usuario = (String)session.getAttribute(KEY_SESSION_USER);
 		
-//Usuario logeado
+		//Usuario logeado
 		if ( usuario != null && "".equals(usuario) ){
 			
 			//
@@ -67,7 +67,7 @@ public class LoginController extends HttpServlet {
 			//Ir a => index_back.jsp		
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			
-//Usuario No logeado o caducada session
+		//Usuario No logeado o caducada session
 		} else {
 			
 			//

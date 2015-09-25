@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 
@@ -19,10 +20,12 @@ public class ModeloUsuario implements Persistable{
 											+ "INNER JOIN `rol` as r ON (u.`id_rol` = r.`id`)";
 	private static final String SQL_GETONE  = SQL_GETALL + " WHERE u.`id`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ? WHERE `id`= ?;";
+	private static final String SQL_GETONE_BY_MAIL = SQL_GETALL + " WHERE u.`email`= ?;";
 	
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
-	
-	
+	private static final String SQL_CHECK_EMAIL  = "SELECT * FROM `usuario` WHERE `email` = ?";
+	private static final String SQL_VALIDADO  = "SELECT * FROM `usuario` WHERE `email` = ? and `validado` = " + Constantes.USER_NO_VALIDATE;
+
 	@Override
 	public int save(Object o) {
 		int resul = -1;
@@ -98,6 +101,42 @@ public class ModeloUsuario implements Persistable{
 		}		
 		return resul;		
 	}
+	
+	/**
+	 * Busca un usuario por su email
+	 * @param email
+	 * @return objeto usuario creado si lo encuentra. null en caso contrario
+	 */
+	public Object getByEmail(String email) {
+		Object resul = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETONE_BY_MAIL);
+			pst.setString(1, email);
+	    	rs = pst.executeQuery();	      	   	
+	    	while(rs.next()){
+	    		resul = mapeo(rs);
+	    	}	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}		
+		return resul;		
+	}
+	
 
 	@Override
 	public ArrayList<Object> getAll() {
@@ -231,6 +270,76 @@ public class ModeloUsuario implements Persistable{
 	    	rs = pst.executeQuery(); 
 	    	if (!rs.next()){
 	    		resul = false;	//Nombre y email libres
+	    	}	    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
+
+	/**
+	 * Comprueba si existe ese email en la tabla usuario
+	 * @param email {@code String} email del {@code Usuario}
+	 * @return {@code boolean} true si existe en la tabla, 
+	 * 						   false en caso de que este libre
+	 */
+	public boolean checkEmail(String pEmail) {
+		boolean resul = false;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_CHECK_EMAIL);
+			pst.setString(1, pEmail);
+	    	rs = pst.executeQuery(); 
+	    	if (rs.next()){
+	    		resul = true;	//Email existe
+	    	}	    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
+	/**
+	 * Comprueba si esta validado o no el mail del usuario
+	 * @param email
+	 * @return true si esta validado false en caso contrario
+	 */
+	public boolean isValidado(String email){
+		boolean resul = true;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_VALIDADO);
+			pst.setString(1, email);
+	    	rs = pst.executeQuery(); 
+	    	if (rs.next()){
+	    		resul = false;	//email no validado
 	    	}	    	
 		} catch (Exception e){
 			e.printStackTrace();

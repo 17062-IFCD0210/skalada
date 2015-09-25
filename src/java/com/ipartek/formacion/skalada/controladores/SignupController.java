@@ -1,6 +1,7 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -39,6 +40,7 @@ public class SignupController extends HttpServlet {
 	private ModeloRol modeloRol = null;
 	private Mensaje msg = null;
 	
+	
 
     @Override
   	public void init(ServletConfig config) throws ServletException {
@@ -51,8 +53,41 @@ public class SignupController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+		try {
+			msg.setTexto("Error sin definir");
+			msg.setTipo(Mensaje.MSG_DANGER);
+			pEmail = request.getParameter("email");
+
+			usuario = (Usuario) modeloUsuario.getByEmail(pEmail);
+			//usuario  no existe
+			if (usuario == null){ 
+				msg.setTexto("Email no registrado: "+ pEmail);
+				dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
+			//usuario encpontrado
+			} else {	
+				if(usuario.getValidado()==1){
+					msg.setTexto("Ya estabas registrado");
+					msg.setTipo(Mensaje.MSG_WARNING);
+					
+				}else{
+					usuario.setValidado(1);
+					if(modeloUsuario.update(usuario)){
+						msg.setTexto("Eskerrik asko por registrarte");
+						msg.setTipo(Mensaje.MSG_SUCCESS);
+					}
+				}
+				dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			}
+		} catch (Exception e) {
+		}finally{
+			dispatcher.forward(request, response);
+		}
+
+	}		
+
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -68,7 +103,7 @@ public class SignupController extends HttpServlet {
 			
 			if (!modeloUsuario.checkUser(pNombre, pEmail)){ //Comprobamos si existe el usuario
 
-				//Creamos el objeto Usuario
+				// Creamos el objeto Usuario
 				rol = (Rol)modeloRol.getById(pIdRol);
 				usuario = new Usuario(pNombre, pEmail, pPass, rol);
 				
@@ -77,7 +112,7 @@ public class SignupController extends HttpServlet {
 					msg = new Mensaje( Mensaje.MSG_DANGER , "Ha habido un error al guardar el usuario");
 					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 				}else{
-					//Enviar email de validación
+					// Enviar email de validación
 					if ( enviarEmail() ){
 						msg = new Mensaje( Mensaje.MSG_SUCCESS , "Te has dado de alta con éxito, por favor revisa tu email para validar tu registro");
 					}else{
@@ -103,22 +138,29 @@ public class SignupController extends HttpServlet {
 
 	private boolean enviarEmail() {
 		boolean resul = false;
-		
-		EnviarEmails correo = new EnviarEmails();
-		
-		correo.setDireccionFrom("skalada.ipartek@gmail.com");
-		correo.setDireccionDestino( usuario.getEmail() );
-		correo.setMessageSubject("Por favor valida tu email");
-		String cuerpo = "<h1>Validar cuenta de usuario</h1>";
-		cuerpo += "<p>Pulsa este enlace para validar:</p>";
-		cuerpo += Constantes.SERVER + Constantes.CONTROLLER_SIGNUP+"?accion="+Constantes.ACCION_VALIDAR+"&email="+usuario.getEmail();
-		correo.setMessageText(cuerpo);
-		
-		resul= correo.enviar();
+		try {
+			EnviarEmails correo = new EnviarEmails();
+			correo.setDireccionFrom("skalada.ipartek@gmail.com");
+			correo.setDireccionDestino( usuario.getEmail() );
+			correo.setMessageSubject("Validación de usuario");
+			
+			//Parametros para generar la plantilla html
+			HashMap<String,String> parametros = new HashMap<String,String>();
+			parametros.put("{usuario}", usuario.getNombre());
+			parametros.put("{url}", Constantes.SERVER + Constantes.CONTROLLER_SIGNUP+"?email="+usuario.getEmail());
+			parametros.put("{contenido}", "Gracias por registrarte. Para activar el usuario y verificar el email, clica en el enlace de debajo.");
+			parametros.put("{texto_boton}", "Activa tu cuenta y logeate");
+			
+			//Enviamos la plantilla html al mail de destino
+			correo.setMessageContent(correo.generarPlantilla(Constantes.EMAIL_TEMPLATE_REGISTRO, parametros));
+			resul = correo.enviar();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		return resul;
-		
-		
 	}
+
 
 
 	
