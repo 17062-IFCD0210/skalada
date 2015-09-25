@@ -81,7 +81,7 @@ public class RecordarPasswordController extends HttpServlet {
 		correo.setMessageSubject("Petición de reseteo de password");
 
 		//TODO cambiar la ruta 		
-		correo.setPlantillaHTML(Constantes.TEST_EMAIL_TEMPLATE_RESETEAR_PASS);
+		correo.setPlantillaHTML(Constantes.EMAIL_TEMPLATE_RESETEAR_PASS);
 		correo.setReemplazos("{usuario}", usuario.getNombre());
 		correo.setReemplazos("{url}", url);
 		correo.setReemplazos("{email}", usuario.getEmail());

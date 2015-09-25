@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -15,6 +16,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import com.ipartek.formacion.skalada.Constantes;
 
@@ -151,10 +153,11 @@ public class EnviarEmails {
 	}
 
 	
-	/*************************** METODO PUBLICO ****************************************************/
+	/*************************** METODOS PUBLICO ****************************************************/
 	
 	public boolean enviar(){
 		boolean resul = false;
+
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(direccionFrom));
@@ -165,9 +168,9 @@ public class EnviarEmails {
 				message.setText(messageText);
 			}else{
 				if(!"".equals(plantillaHTML)){
-					File file = new File(plantillaHTML);  		                     
 					try{
-						messageContent = FileUtils.readFileToString(file, "UTF-8"); 
+						ClassLoader classLoader = getClass().getClassLoader();
+						messageContent =  ( IOUtils.toString(classLoader.getResourceAsStream(plantillaHTML),"UTF-8"));
 					}catch(IOException e){
 						e.printStackTrace();
 						resul=false;
@@ -189,4 +192,29 @@ public class EnviarEmails {
 		}	
 		return resul;
 	}
+	
+	/**
+	 * Genera un String a partir de una plantilla y un hashMap de parametros
+	 * @param plantilla Ruta donde se encuentra la plantilla del email debe estar en "src/resources" 
+	 * @param parametros hashMap con variables a sustituir en la plantilla
+	 * @return String con HTML listo para enviar
+	 * @throws IOException
+	 */
+	public String generarPlantilla(String plantilla, HashMap<String,String> parametros)
+			throws IOException {
+		String resul = "";
+
+		ClassLoader classLoader = getClass().getClassLoader();
+		resul = (IOUtils.toString(classLoader
+				.getResourceAsStream(plantilla),"UTF-8"));
+
+		Iterator<Map.Entry<String, String>> it = parametros.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String,String> e = (Map.Entry<String,String>)it.next();
+			resul = resul.replace(e.getKey(), e.getValue());
+		
+		}
+		return resul;
+	}
+
 }

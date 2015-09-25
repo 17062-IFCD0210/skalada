@@ -143,7 +143,7 @@ public class RegistroController extends HttpServlet {
 		correo.setMessageSubject("Confirmación de registro de usuario en Skalada App");
 		
 		//TODO cambiar la ruta 		
-		correo.setPlantillaHTML(Constantes.TEST_EMAIL_TEMPLATE_REGISTRO);
+		correo.setPlantillaHTML(Constantes.EMAIL_TEMPLATE_REGISTRO);
 		correo.setReemplazos("{usuario}", usuario.getNombre());
 		correo.setReemplazos("{url}", url);
 

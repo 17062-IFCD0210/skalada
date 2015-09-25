@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -55,18 +56,17 @@ public class TestEnviarEmails {
 		
 		//@see: http://memorynotfound.com/load-file-resources-folder-java/
 		
-		File file = new File(Constantes.TEST_EMAIL_TEMPLATE_REGISTRO);  		                     
+		EnviarEmails correo = new EnviarEmails();
 		String cuerpo = "";
+		HashMap<String, String> parametros = new HashMap<String, String>();
+		parametros.put("{usuario}", usuario);
+		parametros.put("{url}", url);
 		try{
-			 cuerpo = FileUtils.readFileToString(file, "UTF-8"); 
+			 cuerpo = correo.generarPlantilla(Constantes.EMAIL_TEMPLATE_REGISTRO, parametros);
 		}catch(IOException e){
 			e.printStackTrace();
 			fail("No existe la plantilla: " + Constantes.EMAIL_TEMPLATE_REGISTRO);
 		}	
-		cuerpo = cuerpo.replace("{usuario}", usuario);
-		cuerpo = cuerpo.replace("{url}", url);
-		
-		EnviarEmails correo = new EnviarEmails();
 		
 		correo.setDireccionFrom("skalada.ipartek@gmail.com");
 		correo.setDireccionDestino("javi70@gmail.com");
@@ -80,4 +80,6 @@ public class TestEnviarEmails {
 		
 		
 	}
+	
+
 }

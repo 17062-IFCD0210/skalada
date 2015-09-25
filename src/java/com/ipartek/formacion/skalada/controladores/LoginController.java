@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
-import com.ipartek.formacion.skalada.modelo.ModeloRol;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.utilidades.EnviarEmails;
 
@@ -25,7 +24,7 @@ public class LoginController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	//Key oara guardar el usuario en la session
+	//Key para guardar el usuario en la session
 	public static final String KEY_SESSION_USER = "ss_user";
        
 	private RequestDispatcher dispatcher = null;
@@ -120,8 +119,7 @@ public class LoginController extends HttpServlet {
 		correo.setDireccionDestino(usuario.getEmail());
 		correo.setMessageSubject("Confirmación de registro de usuario en Skalada App");
 		
-		//TODO cambiar la ruta 		
-		correo.setPlantillaHTML(Constantes.TEST_EMAIL_TEMPLATE_REGISTRO);
+		correo.setPlantillaHTML(Constantes.EMAIL_TEMPLATE_REGISTRO);
 		correo.setReemplazos("{usuario}", usuario.getNombre());
 		correo.setReemplazos("{url}", url);
 

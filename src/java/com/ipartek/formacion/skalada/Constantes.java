@@ -92,8 +92,8 @@ public class Constantes {
 	public static final String TEST_EMAIL_TEMPLATE_REGISTRO ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\registro.html"; 
 	public static final String TEST_EMAIL_TEMPLATE_RECORDAR_PASS ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\recordarpass.html";
 	public static final String TEST_EMAIL_TEMPLATE_RESETEAR_PASS ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\resetearpass.html";
-	public static final String EMAIL_TEMPLATE_REGISTRO =SERVER+ROOT_APP+"emails/registro.html";
-	public static final String EMAIL_TEMPLATE_RECORDAR_PASS=SERVER+ROOT_APP+"emails/recordarpass.html";
-	public static final String EMAIL_TEMPLATE_RESETEAR_PASS=SERVER+ROOT_APP+"emails/resetearpass.html";
+	public static final String EMAIL_TEMPLATE_REGISTRO ="emails/registro.html";
+	public static final String EMAIL_TEMPLATE_RECORDAR_PASS="emails/recordarpass.html";//SERVER+ROOT_APP+"emails/recordarpass.html";
+	public static final String EMAIL_TEMPLATE_RESETEAR_PASS="emails/resetearpass.html";//SERVER+ROOT_APP+"emails/resetearpass.html";
 	
 }

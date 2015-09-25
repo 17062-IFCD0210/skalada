@@ -38,13 +38,14 @@ public class RegenerarPasswordController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Mensaje msg=new Mensaje(Mensaje.MSG_WARNING,"Error al regenerar la contraseña");
+		Mensaje msg=null;
 		//getParameters
 		if(request.getParameter("email")!=null){
 			pEmail = request.getParameter("email");
 			request.setAttribute("email",pEmail);
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_RESETEAR_PASSWORD);
 		}else{
+			msg=new Mensaje(Mensaje.MSG_WARNING,"Error al regenerar la contraseña");
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 		}
 		request.setAttribute("msg", msg);
