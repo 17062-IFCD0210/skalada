@@ -129,8 +129,9 @@ public class ForgotPassController extends HttpServlet {
 		usuario = (Usuario)modeloUsuario.getById(pID);
 		
 		token = modeloToken.getByEmail(pEmail);
-		
-		if(pToken.equals(token.getToken())){		
+		if("0".equals(token.getToken())){
+			msg = new Mensaje(Mensaje.MSG_DANGER, "NO INTENTES CAMBIAR LA CONTRASEÑA DE OTRO!!!");
+		}else if(pToken.equals(token.getToken())){		
 			usuario.setPassword(pPassword);
 			if(modeloUsuario.update(usuario)){
 				msg = new Mensaje(Mensaje.MSG_SUCCESS, "Contraseña modificada correctamente. Prueba a iniciar sesion.");
