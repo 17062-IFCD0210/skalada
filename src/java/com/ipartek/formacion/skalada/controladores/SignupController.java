@@ -1,6 +1,7 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -65,13 +66,14 @@ public class SignupController extends HttpServlet {
 						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 			//usuario encpontrado
 			} else {	
-				if(usuario.getValidado()==1){
+				if( usuario.getValidado() == Constantes.USER_VALIDATE ){
 					msg.setTexto("Ya estabas registrado");
 					msg.setTipo(Mensaje.MSG_WARNING);
 					
 				}else{
-					usuario.setValidado(1);
-					if(modeloUsuario.update(usuario)){
+					
+					usuario.setValidado( Constantes.USER_VALIDATE );
+					if( modeloUsuario.update(usuario) ){
 						msg.setTexto("Eskerrik asko por registrarte");
 						msg.setTipo(Mensaje.MSG_SUCCESS);
 					}
@@ -80,7 +82,9 @@ public class SignupController extends HttpServlet {
 						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();	
 		}finally{
+			request.setAttribute("msg", msg);
 			dispatcher.forward(request, response);
 		}
 
@@ -145,22 +149,39 @@ public class SignupController extends HttpServlet {
 		}
 	}
 
-	private boolean enviarEmail() {
+	private boolean enviarEmail(){
 		boolean resul = false;
-
-		EnviarEmails correo = new EnviarEmails();
-
-		correo.setDireccionFrom("skalada.ipartek@gmail.com");
-		correo.setDireccionDestino(usuario.getEmail());
-		correo.setMessageSubject("Por favor valida tu email");
-		String cuerpo = "Validar cuenta de usuario \n";
-		cuerpo += "Pulsa este enlace para validar: \n";
-		cuerpo += Constantes.SERVER + Constantes.CONTROLLER_SIGNUP + "?accion="
-				+ Constantes.ACCION_VALIDAR + "&email=" + usuario.getEmail();
-
-		correo.setMessageText(cuerpo);
-
-		resul = correo.enviar();
+		try{
+			EnviarEmails correo = new EnviarEmails();
+			
+			//url para validar el registro del usuario
+			//llamara a este mismo controlador por GET pasando el email del usuario
+			String url = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP + "?email=" + usuario.getEmail();
+			
+			//parametros para la plantilla
+			HashMap<String, String> parametros = new HashMap<String, String>();
+			parametros.put("{usuario}", usuario.getNombre());
+			parametros.put("{url}", url);
+			parametros.put("{contenido}", "Gracias por registrarte. Para activar el usuario y verificar el email, clica en el enlace de debajo.");
+			parametros.put("{btn_submit_text}", "Activa tu cuenta" );
+			
+			//configurar correo electronico
+			correo.setDireccionFrom("skalada.ipartek@gmail.com");
+			correo.setDireccionDestino(usuario.getEmail());			
+			correo.setMessageContent( 
+						correo.generarPlantilla( 
+								Constantes.EMAIL_TEMPLATE_REGISTRO ,	
+								parametros	
+							)					
+					);
+			
+			//enviar correo electronico
+			resul = correo.enviar();
+						
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
+		
 		return resul;
 	}
 

@@ -1,6 +1,10 @@
 package com.ipartek.formacion.utilidades;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -11,6 +15,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
+
+import org.apache.commons.io.IOUtils;
 
 public class EnviarEmails {
 	
@@ -153,6 +159,30 @@ public class EnviarEmails {
 		} catch ( Exception e) {
 			e.printStackTrace();						
 		}	
+		return resul;
+	}
+	
+	/**
+	 * Genera un String a partir de una plantilla y un hashMap de parametros 
+	 * @param plantilla Ruta donde se encuentra la plantilla del email debe estar en "src/resources"
+	 * @param parametros hashMap con variables a sustituir en la plantilla
+	 * @return String con HTML listo para enviar
+	 * @throws IOException
+	 */
+	public String generarPlantilla(String plantilla, HashMap<String,String> parametros)
+			throws IOException {
+		String resul = "";
+
+		ClassLoader classLoader = getClass().getClassLoader();
+		resul = (IOUtils.toString(classLoader
+				.getResourceAsStream(plantilla),"UTF-8"));
+
+		Iterator<Map.Entry<String, String>> it = parametros.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String,String> e = (Map.Entry<String,String>)it.next();
+			resul = resul.replace(e.getKey(), e.getValue());
+		
+		}
 		return resul;
 	}
 }
