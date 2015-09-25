@@ -171,8 +171,7 @@ public class EnviarEmails {
 	public String generarPlantilla(String plantilla, HashMap<String,String> parametros)
 			throws IOException {
 		String resul = "";
-		
-		// A partir del ClassLoader se puede coger un resource como String
+
 		ClassLoader classLoader = getClass().getClassLoader();
 		resul = (IOUtils.toString(classLoader
 				.getResourceAsStream(plantilla),"UTF-8"));

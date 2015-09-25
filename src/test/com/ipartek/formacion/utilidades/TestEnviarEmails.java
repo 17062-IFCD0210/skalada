@@ -41,7 +41,7 @@ public class TestEnviarEmails {
 	public void testEnviarRegistro() {
 		
 		String email   = "laragonzalez.bm@gmail.com";
-		String url     = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP;
+		String url     = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP+"?email=+email";
 		String usuario = "Antton Gorriti";
 		String contenido = "Gracias por registrarte. Para activar el usuario y verificar el email, clica en el enlace de debajo";
 		String submit_button_text = "Activa tu cuenta";
@@ -52,11 +52,14 @@ public class TestEnviarEmails {
 		HashMap<String, String> parametros = new HashMap<String, String>();
 		parametros.put("{usuario}", usuario);
 		parametros.put("{url}", url);
-		parametros.put("{contenido}", "Gracias por registrarte. Para activar el usuario y verificar el email, clica en el enlace de debajo");
-		parametros.put("{btn_submit_text}", "Activa tu cuenta");
+		parametros.put("{contenido}", contenido);
+		parametros.put("{btn_submit_text}", submit_button_text);
 
 		try{
-			 cuerpo = correo.generarPlantilla(Constantes.EMAIL_TEMPLATE_REGISTRO, parametros); 
+			 cuerpo = correo.generarPlantilla(
+					 					Constantes.EMAIL_TEMPLATE_REGISTRO,
+					 					parametros
+					 					); 
 		}catch(IOException e){
 			e.printStackTrace();
 			fail("No existe la plantilla: " + Constantes.EMAIL_TEMPLATE_REGISTRO);
