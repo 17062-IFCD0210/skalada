@@ -16,8 +16,11 @@
                     </div>
                     <div class="panel-body">
                     <% 
-                    
+             
+            // Parametros        
             String email = (String)request.getParameter("email");
+            String token = (String)request.getParameter("token");
+            // Mensaje
             Mensaje msg = (Mensaje)request.getAttribute("msg");	
             
 			if (msg != null){
@@ -35,6 +38,7 @@
                             	</div>
                             	<div class="form-group">
                                     <input type="hidden" name="email" value="<%=email%>">
+                                    <input type="hidden" name="token" value="<%=token%>">
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Contraseña(Mínimo 6 caracteres)" name="password" id="pw1" type="password" required value="" tabindex="1">
