@@ -127,8 +127,9 @@
     <url-pattern>/usuarios</url-pattern>
   </servlet-mapping>
   
-   <servlet>
-    <description>Registro y Alta de nuevos usuarios</description>
+  
+  <servlet>
+    <description>Resgistro y Alta de nuevos usuarios</description>
     <display-name>SignupController</display-name>
     <servlet-name>SignupController</servlet-name>
     <servlet-class>com.ipartek.formacion.skalada.controladores.SignupController</servlet-class>
@@ -137,5 +138,18 @@
     <servlet-name>SignupController</servlet-name>
     <url-pattern>/signup</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <description>Recuperar password</description>
+    <display-name>ForgotPassController</display-name>
+    <servlet-name>ForgotPassController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.ForgotPassController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ForgotPassController</servlet-name>
+    <url-pattern>/forgot-pass</url-pattern>
+  </servlet-mapping>
+  
+  
   
 </web-app>

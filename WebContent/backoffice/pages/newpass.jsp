@@ -17,8 +17,9 @@
                     <div class="panel-body">
                     <% 
                     
-            String email = (String)request.getAttribute("email");
+            String email = (String)request.getParameter("email");
             Mensaje msg = (Mensaje)request.getAttribute("msg");	
+            
 			if (msg != null){
 				out.print("<div class='alert alert-"+ msg.getTipo() +" alert-dismissible' role='alert'>");
 					out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
@@ -27,7 +28,7 @@
 					out.print("<strong>"+ msg.getTexto() +"</strong>");
 				out.print("</div>");
 			} 
-		%>               <form role="form" name="form1" method="post" action="<%=Constantes.CONTROLLER_FORGOT_PASS %>?accion=<%=Constantes.ACCION_NEW_PASS %>" onsubmit="return validar();">   
+		%>               <form role="form" name="form1" method="post" action="<%=Constantes.CONTROLLER_FORGOT_PASS %>" onsubmit="return validar();">   
                             <fieldset>
                             	<div class ="form-group">
                             		<div id="alerts" class="row"></div>

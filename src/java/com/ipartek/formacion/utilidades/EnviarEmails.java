@@ -23,8 +23,8 @@ public class EnviarEmails {
 	private String direccionFrom    ="";
 	private String direccionDestino ="";
 	private String messageSubject   =""; //Asunto	
-	private String messageText      ="";    //Cuerpo Texto Plano
-	private String messageContent   ="";    //Cuerpo Html
+	private String messageText      =""; //Cuerpo Texto Plano
+	private String messageContent   =""; //Cuerpo Html
 	
 	private Session session;
 	
@@ -154,8 +154,8 @@ public class EnviarEmails {
 			}	
 			Transport.send(message);
 			resul = true;
-		} catch ( Exception e) {
-			e.printStackTrace();						
+		}catch( Exception e) {
+			e.printStackTrace();
 		}	
 		return resul;
 	}

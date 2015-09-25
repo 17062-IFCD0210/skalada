@@ -59,6 +59,7 @@ public class SignupController extends HttpServlet {
 			pEmail = request.getParameter("email");
 
 			usuario = (Usuario) modeloUsuario.getByEmail(pEmail);
+			
 			//usuario  no existe
 			if (usuario == null){ 
 				msg.setTexto("Email no registrado: "+ pEmail);

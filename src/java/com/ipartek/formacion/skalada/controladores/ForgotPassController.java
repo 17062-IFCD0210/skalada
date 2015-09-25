@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,131 +11,149 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
+import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
+import com.ipartek.formacion.skalada.modelo.ModeloRol;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.utilidades.EnviarEmails;
 
-
 /**
- * Servlet implementation class PassOlvidadoController
+ * Servlet implementation class forgotPassController
  */
 public class ForgotPassController extends HttpServlet {
-	private String pEmail;
-	private String pPass;
-	private int pAccion;
-	
-	private RequestDispatcher dispatcher = null;
-	
-	private Usuario usuario = null;
-	private ModeloUsuario modeloUsuario = null;
-	private Mensaje msg = null;
-	
+	//parametros
 	private static final long serialVersionUID = 1L;
+	private RequestDispatcher dispatcher = null;
+	private String pEmail;
+	private Usuario usuario = null;
+	private Rol rol = null;
+	private ModeloUsuario modeloUsuario = null;
+	private ModeloRol modeloRol = null;
+	private Mensaje msg = null;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ForgotPassController() {
         super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    @Override
-  	public void init(ServletConfig config) throws ServletException {
-    	super.init(config);
-    	modeloUsuario = new ModeloUsuario();
+        modeloUsuario = new ModeloUsuario();
+    	modeloRol = new ModeloRol();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		pEmail = request.getParameter("email");
-		request.setAttribute("email", pEmail);
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_NEW_PASS);
-		dispatcher.forward(request, response);
+		msg = new Mensaje(Mensaje.MSG_DANGER,"Error sin definir");
+		try{
+			
+			pEmail = request.getParameter("email");
+			//recuperar usuario por su email
+			usuario = (Usuario) modeloUsuario.getByEmail(pEmail);
+			//usuario no existe
+			if (usuario == null){ 
+				msg.setTexto("Email no registrado: "+ pEmail);
+				dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
+			//usuario encontrado
+			}else{
+				//Enviar email de validacion
+				if ( enviarEmail() ){
+					msg = new Mensaje( Mensaje.MSG_SUCCESS , "Por favor revisa tu Email para reestablecer las contraseñas");						
+				}else{
+					msg = new Mensaje( Mensaje.MSG_DANGER , "Error al enviar email, por favor ponte en contacto con nosotros " + EnviarEmails.direccionOrigen);						
+				}	
+			} 
+			
+			dispatcher = request
+					.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			
+			request.setAttribute("msg", msg);
+			dispatcher.forward(request, response);
+			
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		pPass = request.getParameter("password");
-		pAccion = Integer.parseInt(request.getParameter("accion"));
-		pEmail = request.getParameter("email");
-		
-		usuario = (Usuario)modeloUsuario.getByEmail(pEmail);
-		switch(pAccion) {
-		case 4: //ACCION_FORGOT_PASS
-			forgotPass(request,response);
-			break;
-		case 5: //ACCION_NEW_PASS
-			newPass(request,response);
-			break;
+		msg = new Mensaje(Mensaje.MSG_DANGER,"Error sin definir");
+		try{
+			
+			//recoger parametros
+			pEmail= (String) request.getParameter("email");
+			String pass =  (String) request.getParameter("password");
+			
+			//buscar usuario en BBDD
+			usuario = (Usuario) modeloUsuario.getByEmail(pEmail);
+			
+			//usuario existe
+			if(usuario!=null){
+				
+				usuario.setPassword(pass);
+				if( modeloUsuario.update(usuario)) {
+					msg.setTexto("Contraseñas modificadas correctamente");
+					msg.setTipo(Mensaje.MSG_SUCCESS);
+				}	
+				
+			}else{
+				//usuario no existe
+				msg.setTexto("usuario no existe");
+				msg.setTipo(Mensaje.MSG_WARNING);
+				
+			}
+				
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			request.setAttribute("msg", msg);
+			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN );			
+			dispatcher.forward(request, response);
 		}
-		request.setAttribute("msg", msg);
-		dispatcher.forward(request, response);
 	}
-
-	private boolean enviarEmail() {
+	private boolean enviarEmail()  {
+		
 		boolean resul = false;
-		try {
+		
+		try{
 			EnviarEmails correo = new EnviarEmails();
-			correo.setDireccionFrom("skalada.ipartek@gmail.com");
-			correo.setDireccionDestino(usuario.getEmail());
-			correo.setMessageSubject("Cambio de contraseña");
-			HashMap<String,String> parametros = new HashMap<String,String>();
+				
+			//url para validar el registro del usuario, 
+			//llamara a este mismo controlador por Get pasando el email del usuario
+			//mas una accion para ahora
+			String url = Constantes.SERVER + Constantes.ROOT_BACK + Constantes.VIEW_BACK_NEWPASS +"?email="+usuario.getEmail();
+			
+			//parametros para la plantilla			
+			HashMap<String, String> parametros = new HashMap<String, String>();
 			parametros.put("{usuario}", usuario.getNombre());
-			parametros.put("{url}", Constantes.SERVER + Constantes.CONTROLLER_FORGOT_PASS+"?email=" + usuario.getEmail());
-			parametros.put("{contenido}", "Acabas de pedir una nueva contraseña para tu usuario. Por favor, clica en el enlace de debajo para cambiar la contraseña");
-			parametros.put("{texto_boton}", "Recupera tu contraseña");
-			correo.setMessageContent(correo.generarPlantilla(Constantes.EMAIL_TEMPLATE_REGISTRO, parametros));
+			parametros.put("{url}", url);
+			parametros.put("{contenido}", "Has solicitado cambiar la contraseña, si no ha sido usted por favor pongase en bla BLA BLA....");
+			parametros.put("{btn_submit_text}", "Solicitar nuevo Password");
+			
+			//configurar correo electronico
+			correo.setDireccionFrom("skalada.ipartek@gmail.com");
+			correo.setDireccionDestino( usuario.getEmail() );
+			correo.setMessageSubject("Recuperar Password");
+			
+			//generamos la plantilla			
+			correo.setMessageContent( correo.generarPlantilla
+										(Constantes.EMAIL_TEMPLATE_REGISTRO,
+					 						parametros 
+					 						)
+					 				);
+			//enviar
 			resul = correo.enviar();
 			
-		} catch(Exception e) {
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return resul;
-	}
-	
-	/**
-	 * Metodo que se encarga de actualizar la contraseña por una nueva
-	 * @param request
-	 * @param response
-	 */
-	private void newPass(HttpServletRequest request, HttpServletResponse response) {
-		usuario.setPassword(pPass);
-		modeloUsuario.update(usuario);
-		msg = new Mensaje(Mensaje.MSG_SUCCESS, "Contrase�a cambiada");
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-	}
-	
-	/**
-	 * Metodo que se encarga de enviar un mail al usuario para poder cambiar la contraseña
-	 * @param request
-	 * @param response
-	 */
-	private void forgotPass(HttpServletRequest request, HttpServletResponse response) {
-		if(!modeloUsuario.checkEmail(pEmail)){
-			//NO existe el email
-			msg = new Mensaje(Mensaje.MSG_DANGER, "No existe el email");
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-		}else { //SI existe el email
-			//ver si esta validado
-			if(!modeloUsuario.isValidado(pEmail)){	//NO esta validado
-				msg = new Mensaje(Mensaje.MSG_DANGER, "El usuario no est� validado");
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-			}else{
-				if ( enviarEmail() ){
-					msg = new Mensaje( Mensaje.MSG_SUCCESS , "Por favor revisa tu Email para cambiar tu contrase�a");
-					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-				}else{
-					msg = new Mensaje( Mensaje.MSG_DANGER , "Error al enviar email, por favor ponte en contacto con nosotros " + EnviarEmails.direccionOrigen);						
-				}	
-			}
-		}
 	}
 
 }
