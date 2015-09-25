@@ -19,7 +19,7 @@
 						<% 
 				            Mensaje msg = (Mensaje)request.getAttribute("msg");	
 							if (msg != null){
-								out.print("<div class='alert alert-"+ msg.getTipo() +" alert-dismissible' role='alert'>");
+								out.print("<div class='alert"+ msg.getTipo() +" alert-dismissible' role='alert'>");
 									out.print("<button type='button' class='close' data-dismiss='alert' aria-label='Close'>");
 										out.print("<span aria-hidden='true'>&times;</span>");
 									out.print("</button>");
