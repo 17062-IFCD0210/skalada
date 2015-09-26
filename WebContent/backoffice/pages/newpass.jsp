@@ -31,11 +31,11 @@
 		%>
 	</div> <!-- /.row -->   
                     
-				     <form role="form" id="formNuevoUsuario" name="f1"  method="post" action="<%=Constantes.CONTROLLER_REGENERAR_PASSWORD%>" onsubmit="return validar()">
+				     <form role="form" id="formNuevoUsuario" name="f1"  method="post" action="<%=Constantes.CONTROLLER_RECORDAR_PASSWORD%>" onsubmit="return validar()">
                             <fieldset>
                             	<div class="form-group">
                                     <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus value="<%=email%>" readonly>
-                                     <input class="form-control" name="hidden" type="hidden" value="<%=token%>">
+                                     <input class="form-control" name="token" type="hidden" value="<%=token%>">
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Contraseña mínimo 6 caracteres" name="password" id="pw1" type="password" required value="" tabindex="3">

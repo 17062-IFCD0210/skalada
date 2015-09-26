@@ -54,9 +54,39 @@
                 <br>
                 <a href="<%=Constantes.VIEW_BACK_SIGNUP%>" class="btn btn-lg btn-block btn-default">Registro nuevo usuario</a>
                 <br>
-                <a href="<%=Constantes.VIEW_BACK_RECORDAR_PASSWORD%>" class="">¿Has olvidado tu contraseña?</a>
+                <a  href="#" data-toggle="modal" data-target="#myModal">¿Has olvidado tu contraseña?</a>
+                                        
             </div>
         </div>
+<!-- VENTANA MODAL recordar_password -->        
+		<div class="modal fade col-md-6 col-md-offset-3" id="myModal" role="dialog">
+			<div class="modal-dialog">				  
+		    	<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title text-center">Recuperar Contraseña</h2>
+		  			</div>
+		  			<form action="<%=Constantes.CONTROLLER_RECORDAR_PASSWORD%>" method="get">
+		  				<div class="modal-body col-md-offset-1 col-md-10">
+	    					<p>Introduce tu correo electronico para recuperar la contraseña</p>
+                                 	<div class="form-group">
+			           			<label for="email">Correo electronico</label>
+			           			<input type="email" class="form-control" name="email">
+			          		</div>
+			     		                              
+		  				</div>
+		  				<div class="modal-footer">						    			
+		    				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		    				<input type="submit" class="btn btn-info" value="Recuperar">
+		      			</div>
+		      		</form> 
+		    	</div> <!-- END Modal content-->
+		  	</div>
+		</div>
+<!-- END Ventana Modal -->           
+        
+        
     </div>
 
 <jsp:include page="includes/foot.jsp"></jsp:include>

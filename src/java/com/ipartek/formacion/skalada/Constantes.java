@@ -20,8 +20,7 @@ public class Constantes {
 	public static final String VIEW_BACK_LOGIN = "backoffice/pages/login.jsp";
 	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP = "pages/signup.jsp";
-	public static final String VIEW_BACK_RECORDAR_PASSWORD = "pages/recordar_password.jsp";
-	public static final String VIEW_BACK_RESETEAR_PASSWORD = "pages/resetear_password.jsp";
+	public static final String VIEW_BACK_NEW_PASS = "pages/newpass.jsp";
 	
 	public static final String VIEW_BACK_VIAS_INDEX = "backoffice/pages/vias/index.jsp";
 	public static final String VIEW_BACK_VIAS_FORM = "backoffice/pages/vias/form.jsp";
@@ -58,7 +57,6 @@ public class Constantes {
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_REGISTRO        = ROOT_APP + "registro";
 	public static final String CONTROLLER_RECORDAR_PASSWORD = ROOT_APP + "recordar-pass";
-	public static final String CONTROLLER_REGENERAR_PASSWORD = ROOT_APP + "regenerar-pass";
 	
 	
 	//acciones
@@ -89,11 +87,9 @@ public class Constantes {
 	public static final int USER_NO_VALIDATE = 0;
 	
 	//Plantillas emails
-	public static final String TEST_EMAIL_TEMPLATE_REGISTRO ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\registro.html"; 
-	public static final String TEST_EMAIL_TEMPLATE_RECORDAR_PASS ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\recordarpass.html";
-	public static final String TEST_EMAIL_TEMPLATE_RESETEAR_PASS ="C:\\Desarrollo\\workspace\\skalada\\WebContent\\emails\\resetearpass.html";
+	public static final String EMAIL_TEMPLATE_PLANTILLA ="emails/plantilla.html";
 	public static final String EMAIL_TEMPLATE_REGISTRO ="emails/registro.html";
 	public static final String EMAIL_TEMPLATE_RECORDAR_PASS="emails/recordarpass.html";//SERVER+ROOT_APP+"emails/recordarpass.html";
-	public static final String EMAIL_TEMPLATE_RESETEAR_PASS="emails/resetearpass.html";//SERVER+ROOT_APP+"emails/resetearpass.html";
+
 	
 }

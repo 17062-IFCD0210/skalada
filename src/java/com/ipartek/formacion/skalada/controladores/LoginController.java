@@ -70,9 +70,9 @@ public class LoginController extends HttpServlet {
 						//el usuario no esta validado
 						if(enviarEmail()){
 							msg.setTipo(Mensaje.MSG_SUCCESS);
-							msg.setTexto("No estás validado. Revisa tu email para activar tu cuenta");
+							msg.setTexto("No estï¿½s validado. Revisa tu email para activar tu cuenta");
 						}else{
-							msg.setTexto("No estás validado. Se ha producido algún error al enviar email de validación");
+							msg.setTexto("No estï¿½s validado. Se ha producido algï¿½n error al enviar email de validaciï¿½n");
 						}
 						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 					}
@@ -83,7 +83,7 @@ public class LoginController extends HttpServlet {
 				}
 			}else{
 				//no existe ese email en la BD
-				msg.setTexto("El email introducido no existe en la base de datos. Por favor regístrate.");
+				msg.setTexto("El email introducido no existe en la base de datos. Por favor regï¿½strate.");
 				dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
 			}
 		}catch(Exception e){
@@ -117,7 +117,7 @@ public class LoginController extends HttpServlet {
 		EnviarEmails correo = new EnviarEmails();
 		correo.setDireccionFrom("skalada.ipartek@gmail.com");
 		correo.setDireccionDestino(usuario.getEmail());
-		correo.setMessageSubject("Confirmación de registro de usuario en Skalada App");
+		correo.setMessageSubject("Confirmaciï¿½n de registro de usuario en Skalada App");
 		
 		correo.setPlantillaHTML(Constantes.EMAIL_TEMPLATE_REGISTRO);
 		correo.setReemplazos("{usuario}", usuario.getNombre());
