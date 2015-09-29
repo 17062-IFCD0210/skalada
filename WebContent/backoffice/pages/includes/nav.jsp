@@ -83,7 +83,7 @@
                           <a href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Roles</a> 
                         </li>
                         <li> 
-                          <a target="_blank" href="<%=Constantes.VIEW_BACK_LOGS%>"><i class="fa fa-picture-o fa-fw"></i>Logs</a> 
+                          <a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>"><i class="fa fa-picture-o fa-fw"></i>Logs</a> 
                         </li>
                                                   
                     </ul>
