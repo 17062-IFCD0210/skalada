@@ -52,7 +52,6 @@ public class LoginController extends HttpServlet {
 	 */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		
 		super.init(config);
 		modeloUsuario = new ModeloUsuario();
 		try {
@@ -62,9 +61,7 @@ public class LoginController extends HttpServlet {
 			PropertyConfigurator.configure(props);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-
-		
+		}	
 	}
 
 
@@ -79,8 +76,6 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		log.info("Entrando...");
 		
 		//recoger la sesion
 		session = request.getSession();
@@ -109,6 +104,9 @@ public class LoginController extends HttpServlet {
 						msg = new Mensaje(Mensaje.MSG_WARNING, "Usuario no validado, por favor comprueba su bandeja de entrada del email.");
 						request.setAttribute("msg", msg);
 						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+						
+						log.warn("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Usuario no validado.");
+						
 					} else {
 						
 						//Usuario Validado
@@ -119,12 +117,16 @@ public class LoginController extends HttpServlet {
 							session.setAttribute(KEY_SESSION_USER, usuario);						
 							dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 							
+							log.info("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Inicio sesion.");
+							
 						}else{
 							
 							//Password incorrecto
 							msg = new Mensaje(Mensaje.MSG_DANGER, "La contraseña es incorrecta");
 							request.setAttribute("msg", msg);
 							dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+							
+							log.warn("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Contraseña incorrecta.");
 						}
 					}			
 				} else {
@@ -132,14 +134,14 @@ public class LoginController extends HttpServlet {
 					//Nombre de usuario incorrecto
 					msg = new Mensaje(Mensaje.MSG_DANGER, "Nombre o email no registrado");
 					request.setAttribute("msg", msg);
-					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
+					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);	
+					
+					log.warn("Inicio de sesion usuario no registrado.");
 				}	
 			} else {
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
 		}	
-
-		log.info("Saliendo...");
 		
 		dispatcher.forward(request, response);
 		

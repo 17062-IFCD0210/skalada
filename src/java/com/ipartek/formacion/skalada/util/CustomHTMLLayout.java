@@ -2,8 +2,6 @@ package com.ipartek.formacion.skalada.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
@@ -19,36 +17,40 @@ import org.apache.log4j.spi.LoggingEvent;
  * */
 
 public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
-
-	// RegEx pattern looks for <tr> <td> nnn...nnn </td> (all whitespace
-	// ignored)
-
-	private static final String rxTimestamp = "\\s*<\\s*tr\\s*>\\s*<\\s*td\\s*>\\s*(\\d*)\\s*<\\s*/td\\s*>";
-
+	
+	static String TRACE_PREFIX = "<br>&nbsp;&nbsp;&nbsp;&nbsp;";
+	
 	/*
-	 * The timestamp format. The format can be overriden by including the
-	 * following property in the Log4J configuration file:
-	 * 
+	 * The timestamp format. The format can be overriden by including the following property in the Log4J configuration file:
 	 * log4j.appender.<category>.layout.TimestampFormat
-	 * 
 	 * using the same format string as would be specified with SimpleDateFormat.
 	 */
-
-	private String timestampFormat = "dd-MMM-yyyy HH:mm:ss"; // Default
-																// format.
-																// Example:
-																// 2008-11-21-18:35:21.472-0800
-
+	private String timestampFormat = "dd-MMM-yyyy HH:mm:ss"; // Default format. Example: 2008-11-21-18:35:21.472-0800
 	private SimpleDateFormat sdf = new SimpleDateFormat(timestampFormat);
+	/**
+	 * Setter for timestamp format. Called if
+	 * log4j.appender.<category>.layout.TimestampFormat property is specfied
+	 */
+	public void setTimestampFormat(String format) {
+		this.timestampFormat = format;
+		this.sdf = new SimpleDateFormat(format); // Use the format specified by the TimestampFormat property
+	}
 
+	/** Getter for timestamp format being used. */
+	public String getTimestampFormat() {
+		return this.timestampFormat;
+	}
+	
+	
+	/**
+	 * Constructor
+	 */
 	public CustomHTMLLayout() {
 		super();
 	}
 
+	
 	/** Override HTMLLayout's format() method */
-	// output buffer appended to when format() is invoked
-	private StringBuffer sbuf = new StringBuffer(BUF_SIZE);
-
 	@Override
 	public String format(LoggingEvent event) {
 		StringBuffer sbuf = new StringBuffer();
@@ -62,11 +64,6 @@ public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
 
 		sbuf.append("<td>");
 		sbuf.append(sdf.format(new Date(event.timeStamp)));
-		sbuf.append("</td>" + Layout.LINE_SEP);
-
-		String escapedThread = Transform.escapeTags(event.getThreadName());
-		sbuf.append("<td title=\"" + escapedThread + " thread\">");
-		sbuf.append(escapedThread);
 		sbuf.append("</td>" + Layout.LINE_SEP);
 
 		sbuf.append("<td title=\"Level\">");
@@ -116,7 +113,6 @@ public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
 		return sbuf.toString();
 	}
 
-	static String TRACE_PREFIX = "<br>&nbsp;&nbsp;&nbsp;&nbsp;";
 	
 	void appendThrowableAsHTML(String[] s, StringBuffer sbuf) {
 		if (s != null) {
@@ -133,24 +129,8 @@ public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
 		}
 	}
 
-	/**
-	 * Setter for timestamp format. Called if
-	 * log4j.appender.<category>.layout.TimestampFormat property is specfied
-	 */
-
-	public void setTimestampFormat(String format) {
-		this.timestampFormat = format;
-		this.sdf = new SimpleDateFormat(format); // Use the format specified by
-													// the TimestampFormat
-													// property
-	}
-
-	/** Getter for timestamp format being used. */
-
-	public String getTimestampFormat() {
-		return this.timestampFormat;
-	}
-
+	
+	/** Override HTMLLayout's getHeader() method */
 	@Override
 	public String getHeader() {
 		StringBuffer sbuf = new StringBuffer();
@@ -180,7 +160,6 @@ public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
 		sbuf.append("<thead>" + Layout.LINE_SEP);
 		sbuf.append("<tr>" + Layout.LINE_SEP);
 		sbuf.append("<th>Time</th>" + Layout.LINE_SEP);
-		sbuf.append("<th>Thread</th>" + Layout.LINE_SEP);
 		sbuf.append("<th>Level</th>" + Layout.LINE_SEP);
 		sbuf.append("<th>Category</th>" + Layout.LINE_SEP);
 		sbuf.append("<th>File:Line</th>" + Layout.LINE_SEP);
@@ -190,7 +169,9 @@ public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
 		sbuf.append("<tbody>" + Layout.LINE_SEP);
 		return sbuf.toString();
 	}
+	
 
+	/** Override HTMLLayout's getFooter() method */
 	@Override
 	public String getFooter() {
 		StringBuffer sbuf = new StringBuffer();

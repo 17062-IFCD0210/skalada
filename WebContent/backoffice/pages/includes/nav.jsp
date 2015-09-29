@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
@@ -19,10 +20,14 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 
+                <% 
+                	Usuario usuario = (Usuario)session.getAttribute(LoginController.KEY_SESSION_USER);
+                %>
+                
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    	<%=session.getAttribute(LoginController.KEY_SESSION_USER)%>
+                    	<%=usuario.getNombre()%>
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
@@ -81,6 +86,9 @@
                         </li>
                         <li>
                             <a href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Roles</a>
+                        </li>
+                        <li>
+                            <a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>"><i class="fa fa-picture-o fa-fw"></i> Logs</a>
                         </li>
 
                         
