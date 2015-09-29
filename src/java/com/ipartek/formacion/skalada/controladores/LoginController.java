@@ -1,13 +1,19 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
@@ -22,6 +28,8 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 public class LoginController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	//Logs
+	private final static Logger log = Logger.getLogger(LoginController.class);
 	
 	//Key oara guardar el usuario en la session
 	public static final String KEY_SESSION_USER = "ss_user";
@@ -36,15 +44,29 @@ public class LoginController extends HttpServlet {
 	private String pPassword;
 	
 	private Mensaje msg;
+	
+	
+	
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		
+		super.init(config);
+		modeloUsuario = new ModeloUsuario();
+		try {
+			//Fichero de configuracion de Log4jv 
+			Properties props = new Properties();
+			props.load( getClass().getResourceAsStream("/log4j.properties"));
+			PropertyConfigurator.configure(props);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginController() {
-        super();
-        modeloUsuario = new ModeloUsuario();
-    }
+	}
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -58,6 +80,8 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		log.info("Entrando...");
+		
 		//recoger la sesion
 		session = request.getSession();
 		Usuario sessionKey = (Usuario)session.getAttribute(KEY_SESSION_USER);
@@ -115,6 +139,8 @@ public class LoginController extends HttpServlet {
 			}
 		}	
 
+		log.info("Saliendo...");
+		
 		dispatcher.forward(request, response);
 		
 	}
