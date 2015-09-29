@@ -2,13 +2,18 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
 
@@ -18,6 +23,7 @@ import com.ipartek.formacion.skalada.Constantes;
 public class LoginController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	private final static Logger log = Logger.getLogger(LoginController.class);
 	
 	//Key oara guardar el usuario en la session
 	public static final String KEY_SESSION_USER = "ss_user";
@@ -32,13 +38,24 @@ public class LoginController extends HttpServlet {
 	private String pPassword;
 
 		
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginController() {
-        super();
-    }
-
+    
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		
+		super.init(config);
+		try {
+			//Fichero configuracion de Log4j
+			Properties props = new Properties();		
+			props.load( getClass().getResourceAsStream("/log4j.properties"));
+			PropertyConfigurator.configure(props);
+			
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}		
+		
+	}
+	
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -51,8 +68,7 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//
-		System.out.println("Login entrando....");
+		log.info("Entrando....");
 		
 		//recoger la sesion
 		session = request.getSession();
@@ -67,7 +83,7 @@ public class LoginController extends HttpServlet {
 			//Ir a => index_back.jsp		
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			
-		//Usuario No logeado o caducada session
+//Usuario No logeado o caducada session
 		} else {
 			
 			//
@@ -94,8 +110,7 @@ public class LoginController extends HttpServlet {
 			
 		}
 		
-		//
-		System.out.println("login forward o saliendo....");
+		log.info("Saliendo....");
 				
 		dispatcher.forward(request, response);
 		
@@ -114,6 +129,5 @@ public class LoginController extends HttpServlet {
 	}
 	
 }
-
 
 
