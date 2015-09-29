@@ -16,9 +16,12 @@ public class Constantes {
 	
 	//vistas backoffice
 	public static final String ROOT_BACK = ROOT_APP + "backoffice/";
+
+	public static final String VIEW_BACK_LOGS = "/logs/trazas.jsp";
+	public static final String VIEW_BACK_CONTENT_LOG = "pages/log-content.jsp";
 	
 	public static final String VIEW_BACK_LOGIN = "backoffice/pages/login.jsp";
-	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
+	public static final String VIEW_BACK_INDEX = "pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP = "pages/signup.jsp";
 	public static final String VIEW_BACK_NEW_PASS = "pages/newpass.jsp";
 	

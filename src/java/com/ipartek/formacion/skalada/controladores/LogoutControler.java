@@ -1,26 +1,36 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ipartek.formacion.skalada.Constantes;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 /**
  * Servlet implementation class LogoutControler
  */
 public class LogoutControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final static Logger log = Logger.getLogger(LoginController.class);
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LogoutControler() {
-        super();
-    }
+  @Override
+	public void init() throws ServletException {
+		super.init();
+	  	try {
+				//Fichero configuracion de Log4j
+				Properties props = new Properties();		
+				props.load( getClass().getResourceAsStream("/log4j.properties"));
+				PropertyConfigurator.configure(props);
+				
+			} catch (IOException e) {			
+				e.printStackTrace();
+			}		
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,8 +44,8 @@ public class LogoutControler extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//
-		System.out.println("Logout.... ");
+		//System.out.println("Logout.... ");
+		log.info("Saliendo del bakoffice");
 		
 		request.getSession().invalidate();
 		request.getRequestDispatcher("home").forward(request, response);

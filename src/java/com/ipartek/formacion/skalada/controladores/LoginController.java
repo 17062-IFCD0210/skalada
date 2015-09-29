@@ -2,6 +2,7 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
@@ -23,6 +27,9 @@ import com.ipartek.formacion.utilidades.EnviarEmails;
 public class LoginController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	//necesario para usar logs
+	private final static Logger log = Logger.getLogger(LoginController.class);
+
 	
 	//Key para guardar el usuario en la session
 	public static final String KEY_SESSION_USER = "ss_user";
@@ -44,7 +51,16 @@ public class LoginController extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
-    	modeloUsuario = new ModeloUsuario();   
+    	modeloUsuario = new ModeloUsuario();
+    	try {
+			//Fichero configuracion de Log4j
+			Properties props = new Properties();		
+			props.load( getClass().getResourceAsStream("/log4j.properties"));
+			PropertyConfigurator.configure(props);
+			
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}		
     }
 	
 	/**
@@ -52,6 +68,7 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Mensaje msg = new Mensaje(Mensaje.MSG_WARNING,"Error al loguearte");
+		log.info("Entrando a login...");
 		try{
 			getParameters(request);
 			if(modeloUsuario.checkUser("", pEmail)){
@@ -65,32 +82,40 @@ public class LoginController extends HttpServlet {
 						
 						msg.setTipo(Mensaje.MSG_SUCCESS);
 						msg.setTexto("Acceso correcto");
+						log.info(msg.getTexto());
 						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 					}else{
 						//el usuario no esta validado
 						if(enviarEmail()){
 							msg.setTipo(Mensaje.MSG_SUCCESS);
 							msg.setTexto("No est�s validado. Revisa tu email para activar tu cuenta");
+							log.warn("Usuario no validado - se envia email");
 						}else{
 							msg.setTexto("No est�s validado. Se ha producido alg�n error al enviar email de validaci�n");
+							log.error("Usuario no validado - ERROR al enviar email");
 						}
+
 						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 					}
 				}else{
 					//error al teclear el password
 					msg.setTexto("El password no coincide con el que tenemos registrado. Por favor intentalo de nuevo.");
+					log.warn("Usuario validado, password erroneo");
 					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);				
 				}
 			}else{
 				//no existe ese email en la BD
 				msg.setTexto("El email introducido no existe en la base de datos. Por favor reg�strate.");
+				log.warn("Usuario no existe");
 				dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 			msg.setTexto("ERROR: "+e.getMessage());
+			log.error(msg.getTexto());
 		}finally{
 			request.setAttribute("msg", msg);
+			log.info("Saliendo de login...");
 			dispatcher.forward(request, response);			
 		}
 
