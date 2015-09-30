@@ -24,6 +24,7 @@ public class ModeloUsuario implements Persistable{
 	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
 	private static final String SQL_VALIDADO_USER  = "SELECT * FROM `usuario` WHERE `email` = ? AND `validado`="+Constantes.USER_NO_VALIDATE;
 	private static final String SQL_GET_BY_EMAIL  = SQL_GETALL + " WHERE u.`email`= ?;";
+	private static final String SQL_COUNT_NO_VALIDADOS = "select count(`id`) from `usuario` where `validado`="+Constantes.USER_NO_VALIDATE;
 	
 	@Override
 	public int save(Object o) {
@@ -318,6 +319,35 @@ public class ModeloUsuario implements Persistable{
 			}
 		}		
 		return resul;		
+	}
+	
+	public int usuariosSinValidar(){
+		int resul = 0;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_COUNT_NO_VALIDADOS);
+	    	rs = pst.executeQuery();	      	   	
+	    	while(rs.next()){
+	    		resul = rs.getInt(1);
+	    	}	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}		
+		return resul;				
 	}
 }
 

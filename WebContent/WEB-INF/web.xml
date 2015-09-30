@@ -144,4 +144,14 @@
     <servlet-name>RecordarPasswordController</servlet-name>
     <url-pattern>/recordar-pass</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BackIndexController</display-name>
+    <servlet-name>BackIndexController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.BackIndexController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BackIndexController</servlet-name>
+    <url-pattern>/back-index</url-pattern>
+  </servlet-mapping>
 </web-app>

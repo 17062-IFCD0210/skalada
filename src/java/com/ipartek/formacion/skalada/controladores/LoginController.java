@@ -83,7 +83,7 @@ public class LoginController extends HttpServlet {
 						msg.setTipo(Mensaje.MSG_SUCCESS);
 						msg.setTexto("Acceso correcto");
 						log.info(msg.getTexto());
-						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+						dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_BACK_INDEX);
 					}else{
 						//el usuario no esta validado
 						if(enviarEmail()){

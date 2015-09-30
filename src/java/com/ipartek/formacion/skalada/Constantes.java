@@ -21,7 +21,7 @@ public class Constantes {
 	public static final String VIEW_BACK_CONTENT_LOG = "pages/log-content.jsp";
 	
 	public static final String VIEW_BACK_LOGIN = "backoffice/pages/login.jsp";
-	public static final String VIEW_BACK_INDEX = "pages/index_back.jsp";
+	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_SIGNUP = "pages/signup.jsp";
 	public static final String VIEW_BACK_NEW_PASS = "pages/newpass.jsp";
 	
@@ -60,6 +60,7 @@ public class Constantes {
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_REGISTRO        = ROOT_APP + "registro";
 	public static final String CONTROLLER_RECORDAR_PASSWORD = ROOT_APP + "recordar-pass";
+	public static final String CONTROLLER_BACK_INDEX	    = "back-index";
 	
 	
 	//acciones
