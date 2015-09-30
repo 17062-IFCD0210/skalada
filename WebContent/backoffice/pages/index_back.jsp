@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
@@ -16,16 +17,16 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" style="width:50%">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">26</div>
-                                    <div>New Comments!</div>
+                                    <div>Usuarios Conectados</div>
                                 </div>
                             </div>
                         </div>
@@ -38,20 +39,20 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" style="width:50%">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-area-chart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">12</div>
-                                    <div>New Tasks!</div>
+                                    <div>Sectores Publicados</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -60,16 +61,16 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" style="width:50%">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
+                                    <i class="fa fa-user-times fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div>Usuarios Sin Validar</div>
                                 </div>
                             </div>
                         </div>
@@ -82,20 +83,20 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" style="width:50%">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
+                                    <i class="fa fa-file-text-o fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
+                                    <div class="huge">15</div>
+                                    <div>Logs</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -108,7 +109,7 @@
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="panel panel-default">
+                	<div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
                             <div class="pull-right">
@@ -166,7 +167,7 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
+                                      <table class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -228,7 +229,7 @@
                                         </table>
                                     </div>
                                     <!-- /.table-responsive -->
-                                </div>
+                                </div>  
                                 <!-- /.col-lg-4 (nested) -->
                                 <div class="col-lg-8">
                                     <div id="morris-bar-chart"></div>
@@ -252,7 +253,7 @@
                                     </div>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
-                                            <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                            <h4 class="timeline-title"><i class="fa fa-users"></i>Usuarios Conectados</h4>
                                             <p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago via Twitter</small>
                                             </p>
                                         </div>
@@ -266,7 +267,7 @@
                                     </div>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
-                                            <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                            <h4 class="timeline-title"><i class="fa fa-area-chart"></i>Sectores Publicados</h4>
                                         </div>
                                         <div class="timeline-body">
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolorem quibusdam, tenetur commodi provident cumque magni voluptatem libero, quis rerum. Fugiat esse debitis optio, tempore. Animi officiis alias, officia repellendus.</p>
@@ -279,8 +280,8 @@
                                     </div>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
-                                            <h4 class="timeline-title">Lorem ipsum dolor</h4>
-                                        </div>
+                                            <h4 class="timeline-title"><i class="fa fa-user-times"></i>Usuarios sin Validar</h4>
+                                        </div>                                                                          
                                         <div class="timeline-body">
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus numquam facilis enim eaque, tenetur nam id qui vel velit similique nihil iure molestias aliquam, voluptatem totam quaerat, magni commodi quisquam.</p>
                                         </div>
@@ -289,7 +290,7 @@
                                 <li class="timeline-inverted">
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
-                                            <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                            <h4 class="timeline-title"><i class="fa fa-file-text-o"></i>Logs</h4>
                                         </div>
                                         <div class="timeline-body">
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates est quaerat asperiores sapiente, eligendi, nihil. Itaque quos, alias sapiente rerum quas odit! Aperiam officiis quidem delectus libero, omnis ut debitis!</p>
@@ -324,8 +325,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </li>
-                                <li>
+                                 </li>
+                                 <li>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
                                             <h4 class="timeline-title">Lorem ipsum dolor</h4>

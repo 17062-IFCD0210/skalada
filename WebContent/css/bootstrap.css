@@ -1612,6 +1612,7 @@ pre code {
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
+
 }
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
   float: left;
@@ -2117,7 +2118,7 @@ pre code {
     width: 33.33333333%;
   }
   .col-lg-3 {
-    width: 25%;
+    width: 50%;
   }
   .col-lg-2 {
     width: 16.66666667%;
@@ -2153,7 +2154,7 @@ pre code {
     right: 33.33333333%;
   }
   .col-lg-pull-3 {
-    right: 25%;
+    right: 50%;
   }
   .col-lg-pull-2 {
     right: 16.66666667%;
@@ -2192,7 +2193,7 @@ pre code {
     left: 33.33333333%;
   }
   .col-lg-push-3 {
-    left: 25%;
+    left: 50%;
   }
   .col-lg-push-2 {
     left: 16.66666667%;
