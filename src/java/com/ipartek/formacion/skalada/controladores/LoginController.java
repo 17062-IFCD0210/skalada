@@ -83,8 +83,13 @@ public class LoginController extends HttpServlet {
 		
 //Usuario logeado
 		if ( sessionKey != null || "".equals(sessionKey) ){	
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
-			
+//			if(sessionKey.getRol().getNombre().equalsIgnoreCase(Constantes.ROLE_ADMIN)){
+				dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_BACK_HOME);
+//			} else {
+//				msg = new Mensaje(Mensaje.MSG_INFO, "Solo el administrador puede entrar. Sentimos las molestias");
+//				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+//			}
+
 //Usuario No logeado o caducada session
 		} else {		
 			//recoger parametros del formulario
@@ -115,7 +120,7 @@ public class LoginController extends HttpServlet {
 							//Password correcto
 							//salvar session
 							session.setAttribute(KEY_SESSION_USER, usuario);						
-							dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+							dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_BACK_HOME);
 							
 							log.info("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Inicio sesion.");
 							

@@ -67,6 +67,8 @@ public class Constantes {
 	public static final String CONTROLLER_REGISTRO        = ROOT_APP + "registro";
 	public static final String CONTROLLER_FORGOT_PASS     = ROOT_APP + "forgotPass";
 	
+	public static final String CONTROLLER_BACK_HOME		  = "backoffice/home";
+	
 	public static final String CONTROLLER_ZONA_JSON = ROOT_APP + "zonas-json";
 	
 	public static final String CONTROLLER_LUGARES   = ROOT_APP + "lugares";

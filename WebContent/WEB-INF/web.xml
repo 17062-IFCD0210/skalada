@@ -154,4 +154,14 @@
     <servlet-name>ForgotPassController</servlet-name>
     <url-pattern>/forgotPass</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>HomeBackController</display-name>
+    <servlet-name>HomeBackController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.HomeBackController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HomeBackController</servlet-name>
+    <url-pattern>/backoffice/home</url-pattern>
+  </servlet-mapping>
 </web-app>

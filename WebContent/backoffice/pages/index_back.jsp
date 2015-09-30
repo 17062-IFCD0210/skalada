@@ -4,8 +4,6 @@
 <jsp:include page="includes/head.jsp"></jsp:include>
 <jsp:include page="includes/nav.jsp"></jsp:include>
 
-
-
 <div id="page-wrapper">
 
 	<div class="row">
@@ -51,7 +49,7 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge">12</div>
+							<div class="huge"><%=request.getAttribute("num_sectores")%></div>
 							<div class="huge">Sectores publicados</div>
 						</div>
 					</div>
@@ -76,7 +74,7 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge">13</div>
+							<div class="huge"><%=request.getAttribute("num_user_invalid")%></div>
 							<div class="huge">Usuarios sin validar</div>
 						</div>
 					</div>
@@ -84,7 +82,7 @@
 				<a href="#">
 					<div class="panel-footer">
 						<span class="pull-left">View Details</span> <span
-							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+							  class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 						<div class="clearfix"></div>
 					</div>
 				</a>
@@ -95,9 +93,12 @@
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-xs-3">
-							<i class="fa fa-shopping-cart fa-5x"></i>
+							<span class="fa-stack fa-5x"> 
+								<i class="fa fa-file-text-o fa-stack-2x"></i>
+							</span>
 						</div>
 						<div class="col-xs-9 text-right">
+							<div class="huge">.</div>
 							<div class="huge">Logs</div>
 						</div>
 					</div>
