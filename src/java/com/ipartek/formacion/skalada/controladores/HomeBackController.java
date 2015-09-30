@@ -48,20 +48,11 @@ public class HomeBackController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Usuario sessionUser = (Usuario)request.getSession().getAttribute(KEY_SESSION_USER);
+//		Usuario sessionUser = (Usuario)request.getSession().getAttribute(KEY_SESSION_USER);
 		
-		ArrayList<Object> usuarios = modeloUsuario.getAll();
-		int num_user_not_valid = 0;
-		for( int i = 0 ; i < usuarios.size() ; i++ ){
-			usuario = (Usuario) usuarios.get(i);
-			if(usuario.getValidado() == Constantes.USER_NO_VALIDATE){
-				num_user_not_valid++;
-			}
-		}
-		request.setAttribute("num_user_invalid", num_user_not_valid);
+		request.setAttribute("num_user_invalid", modeloUsuario.getUserInvalid());
 		
-		ArrayList<Object> sectores = modeloSector.getAll();
-		request.setAttribute("num_sectores", sectores.size());
+		request.setAttribute("num_sectores", modeloSector.getSectorCant());
 		
 		dispatcher = request.getRequestDispatcher("pages/index_back.jsp");
 		dispatcher.forward(request, response);

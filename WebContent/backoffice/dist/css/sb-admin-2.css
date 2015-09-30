@@ -356,3 +356,83 @@ table.dataTable thead .sorting:after {
 .row {
 	    padding-top: 15px;
 }
+
+.panel-menu > li > a {
+  padding: 0 5px 0 10px;
+  line-height: 50px;
+}
+.panel-menu a.account {
+  height: 50px;
+  padding: 5px 0 5px 10px;
+  line-height: 18px;
+}
+.panel-menu i {
+  margin-top: 8px;
+  padding: 5px;
+  font-size: 20px;
+  color: #9C9A78;
+  line-height: 1em;
+  vertical-align: top;
+  -webkit-transition: 0.05s;
+  -moz-transition: 0.05s;
+  -o-transition: 0.05s;
+  transition: 0.05s;
+}
+.panel-menu i.pull-right {
+  color: #121212;
+  border: 0 !important;
+  box-shadow: none;
+  font-size: 16px;
+  background: none !important;
+}
+.panel-menu .badge {
+  margin-top:5px;
+  padding: 3px 6px;
+  vertical-align: top;
+  border-radius: 2px;
+  background:none;
+  color: #45837A;
+  border: 1px solid #45837A;
+}
+.avatar {
+  width: 40px;
+  float: left;
+  margin-right: 5px;
+}
+.avatar > img {
+  width:40px;
+  height:40px;
+}
+.user-mini > span {
+  display: block;
+  font-size: 12px;
+  color:#AA8383;
+  margin-bottom: -4px;
+}
+.user-mini > span.welcome {
+  font-weight: bold;
+  margin-top: 2px;
+}
+.panel-menu .dropdown-menu {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0;
+  border: 0;
+  right: 0;
+  left: auto;
+  min-width: 100%;
+}
+.panel-menu .dropdown-menu > li > a {
+  padding:5px 10px !important;
+  color:#9C9A78;
+}
+.panel-menu .dropdown-menu > li > a > i {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  width: 20px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}

@@ -18,18 +18,38 @@
             </div>
             <!-- /.navbar-header -->
 
-            <ul class="nav navbar-top-links navbar-right">
+            <ul class="nav navbar-top-links navbar-right panel-menu">
                 
                 <% 
                 	Usuario usuario = (Usuario)session.getAttribute(LoginController.KEY_SESSION_USER);
                 %>
-                
+
+								
+
+
+
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    	<%=usuario.getNombre()%>
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
+					<a href="#" class="dropdown-toggle account" data-toggle="dropdown">
+						<div class="avatar">
+						<%
+							if(usuario.getRol().getNombre().equalsIgnoreCase(Constantes.ROLE_ADMIN)){
+						%>
+						<img src="../uploads/avatar_admin.png" class="img-circle" alt="avatar">
+						<%
+							} else {
+						%>
+						<img src="../uploads/avatar_user2.png" class="img-circle" alt="avatar">	
+						<%
+							}
+						%>
+						</div>
+						<i class="fa fa-angle-down pull-right"></i>
+						<div class="user-mini pull-right">
+							<span class="welcome"><%=usuario.getNombre()%></span>
+							<span><%=usuario.getRol().getNombre()%></span>
+						</div>
+					</a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>

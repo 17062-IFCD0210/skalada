@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.Zona;
 
@@ -29,6 +30,9 @@ public class ModeloSector implements Persistable{
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_IMAGEN + "`= ? , `" + COL_ZONA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	private static final String SQL_GETALL_BY_ZONA = "SELECT `id`, `nombre`, `imagen` FROM sector WHERE `id_zona` = ?";
+	
+	private static final String SQL_SECTOR_NUM = "SELECT COUNT(*) AS sectores FROM `sector`";
+	
 	
 	@Override
 	public int save(Object o) {
@@ -259,4 +263,33 @@ public class ModeloSector implements Persistable{
 		return resul;
 	}
 
+	public int getSectorCant(){
+		int resul = 0;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_SECTOR_NUM);
+	    	rs = pst.executeQuery(); 
+	    	while(rs.next()){
+	    		resul = rs.getInt("sectores");		    	
+	    	}	    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
+	
 }
