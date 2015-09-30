@@ -89,6 +89,7 @@ public class Constantes {
 	//Usuarios
 	public static final int USER_VALIDATE    = 1;
 	public static final int USER_NO_VALIDATE = 0;
+	public static final String KEY_SESSION_USER = "ss_user";
 	
 	//Plantillas emails
 	public static final String EMAIL_TEMPLATE_PLANTILLA ="emails/plantilla.html";

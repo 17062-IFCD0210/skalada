@@ -78,7 +78,8 @@ public class LoginController extends HttpServlet {
 						//El usuario puede acceder
 
 						session = request.getSession();
-						session.setAttribute(KEY_SESSION_USER, usuario.getNombre());
+						//session.setAttribute(KEY_SESSION_USER, usuario.getNombre());
+						session.setAttribute(KEY_SESSION_USER, usuario);
 						
 						msg.setTipo(Mensaje.MSG_SUCCESS);
 						msg.setTexto("Acceso correcto");

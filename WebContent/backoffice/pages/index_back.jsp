@@ -1,3 +1,5 @@
+<%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
@@ -7,8 +9,15 @@
 <%
 //Recoger parametros del controlador
 
-int sectoresPublicados=Integer.parseInt(request.getParameter("sectoresPublicados"));
-int usuariosSinValidar=Integer.parseInt(request.getParameter("usuariosSinValidar"));
+int sectoresPublicados=0;
+if(request.getParameter("sectoresPublicados")!=null){
+	sectoresPublicados=Integer.parseInt(request.getParameter("sectoresPublicados"));
+}
+int usuariosSinValidar=0;
+if(request.getParameter("usuariosSinValidar")!=null){
+	usuariosSinValidar=Integer.parseInt(request.getParameter("usuariosSinValidar"));
+}
+Usuario usuario=(Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
 
 %>
 
