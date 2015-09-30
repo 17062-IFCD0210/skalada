@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
@@ -31,8 +30,8 @@ public class BackIndexController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("sectoresPublicados", modeloSector.sectoresPublicados());
-		request.setAttribute("usuariosSinValidar", modeloUsuario.usuariosSinValidar());
+		request.setAttribute("sectoresPublicados", Integer.toString(modeloSector.sectoresPublicados()));
+		request.setAttribute("usuariosSinValidar", Integer.toString(modeloUsuario.usuariosSinValidar()));
 		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 		dispatcher.forward(request, response);	
 	}

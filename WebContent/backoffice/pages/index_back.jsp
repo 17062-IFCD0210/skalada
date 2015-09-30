@@ -9,13 +9,13 @@
 <%
 //Recoger parametros del controlador
 
-int sectoresPublicados=0;
-if(request.getParameter("sectoresPublicados")!=null){
-	sectoresPublicados=Integer.parseInt(request.getParameter("sectoresPublicados"));
+String sectoresPublicados="";
+if(request.getAttribute("sectoresPublicados")!=null){
+	sectoresPublicados=(String)request.getAttribute("sectoresPublicados");
 }
-int usuariosSinValidar=0;
-if(request.getParameter("usuariosSinValidar")!=null){
-	usuariosSinValidar=Integer.parseInt(request.getParameter("usuariosSinValidar"));
+String usuariosSinValidar="";
+if(request.getAttribute("usuariosSinValidar")!=null){
+	usuariosSinValidar=(String)(request.getAttribute("usuariosSinValidar"));
 }
 Usuario usuario=(Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
 
