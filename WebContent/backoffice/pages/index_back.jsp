@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
@@ -25,7 +26,7 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge">5</div>
+							<div class="huge">...</div>
 							<div class="huge">Usuarios conectados</div>
 						</div>
 					</div>
@@ -103,7 +104,7 @@
 						</div>
 					</div>
 				</div>
-				<a href="#">
+				<a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>">
 					<div class="panel-footer">
 						<span class="pull-left">View Details</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
