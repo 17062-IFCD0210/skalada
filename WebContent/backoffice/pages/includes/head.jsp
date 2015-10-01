@@ -1,5 +1,6 @@
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
+<%@page errorPage="../error.jsp"%> 
 
 
 <%@page import="com.ipartek.formacion.skalada.controladores.LoginController"%>
@@ -19,7 +20,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Backoffice</title>
+    <title>Skalada Backoffice</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
