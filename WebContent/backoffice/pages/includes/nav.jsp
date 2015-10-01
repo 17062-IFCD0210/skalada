@@ -24,25 +24,12 @@
                 	Usuario usuario = (Usuario)session.getAttribute(LoginController.KEY_SESSION_USER);
                 %>
 
-								
-
-
-
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
 					<a href="#" class="dropdown-toggle account" data-toggle="dropdown">
 						<div class="avatar">
-						<%
-							if(usuario.getRol().getNombre().equalsIgnoreCase(Constantes.ROLE_ADMIN)){
-						%>
-						<img src="../uploads/avatar_admin.png" class="img-circle" alt="avatar">
-						<%
-							} else {
-						%>
-						<img src="../uploads/avatar_user2.png" class="img-circle" alt="avatar">	
-						<%
-							}
-						%>
+<!-- 							<span class="img-circle"><i class="fa fa-user fa-3x"></i></span> -->
+							<img src="../uploads/avatar_admin.png" class="img-circle" alt="avatar">
 						</div>
 						<i class="fa fa-angle-down pull-right"></i>
 						<div class="user-mini pull-right">

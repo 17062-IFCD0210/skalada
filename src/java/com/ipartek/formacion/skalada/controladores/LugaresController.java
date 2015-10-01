@@ -78,10 +78,10 @@ public class LugaresController extends HttpServlet {
 	}
 	
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		ArrayList<Object> zonas = modeloZona.getAll(); 
+		ArrayList<Zona> zonas = modeloZona.getAll(); 
 		ArrayList<Integer> cant_sector = new ArrayList<Integer>();
 		for(int i = 0 ; i < cant_sector.size() ; i++ ){
-			zona = (Zona)zonas.get(i);
+			zona = zonas.get(i);
 			modeloSector.getAllByZona(zona.getId());
 		}		
 		request.setAttribute("zonas", zonas);

@@ -20,7 +20,7 @@ import com.ipartek.formacion.skalada.bean.Zona;
  * @author ur00
  *
  */
-public class ModeloVia implements Persistable {
+public class ModeloVia implements Persistable<Via> {
 	
 	private static final String TABLA_VIA = "via";
 	
@@ -50,29 +50,27 @@ public class ModeloVia implements Persistable {
 	
 
 	@Override
-	public int save(Object o) {
-		int resul = -1;
-		Via v = null;	
+	public int save(Via via) {
+		int resul = -1;	
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if(o != null){
+		if(via != null){
 			try{
-				v = (Via)o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, v.getNombre());
-				pst.setInt(2, v.getLongitud());
-				pst.setString(3, v.getDescripcion());
-				pst.setInt(4, v.getGrado().getId());
-				pst.setInt(5, v.getTipoEscalada().getId());
-				pst.setInt(6, v.getSector().getId());				
+				pst.setString(1, via.getNombre());
+				pst.setInt(2, via.getLongitud());
+				pst.setString(3, via.getDescripcion());
+				pst.setInt(4, via.getGrado().getId());
+				pst.setInt(5, via.getTipoEscalada().getId());
+				pst.setInt(6, via.getSector().getId());				
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
 					rsKeys = pst.getGeneratedKeys();
 					if (rsKeys.next()) {
 						resul = rsKeys.getInt(1);
-						v.setId(resul);
+						via.setId(resul);
 					} else {
 						throw new Exception("No se ha podido generar ID");
 					}
@@ -97,8 +95,8 @@ public class ModeloVia implements Persistable {
 	}
 
 	@Override
-	public Object getById(int id) {
-		Object resul = null;
+	public Via getById(int id) {
+		Via resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -128,8 +126,8 @@ public class ModeloVia implements Persistable {
 	}
 
 	@Override
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Via> getAll() {
+		ArrayList<Via> resul = new ArrayList<Via>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -158,23 +156,21 @@ public class ModeloVia implements Persistable {
 	}
 
 	@Override
-	public boolean update(Object o) {
+	public boolean update(Via via) {
 		boolean resul = false;
-		Via v = null;
 		PreparedStatement pst = null;
-		if (o != null){
+		if (via != null){
 			try{
-				v = (Via)o;
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
-				pst.setString(1, v.getNombre());
-				pst.setInt(2, v.getLongitud());
-				pst.setString(3, v.getDescripcion());
-				pst.setInt(4, v.getGrado().getId());
-				pst.setInt(5, v.getTipoEscalada().getId());
-				pst.setInt(6, v.getSector().getId());	
-				pst.setInt(7, v.getId());				
+				pst.setString(1, via.getNombre());
+				pst.setInt(2, via.getLongitud());
+				pst.setString(3, via.getDescripcion());
+				pst.setInt(4, via.getGrado().getId());
+				pst.setInt(5, via.getTipoEscalada().getId());
+				pst.setInt(6, via.getSector().getId());	
+				pst.setInt(7, via.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}
