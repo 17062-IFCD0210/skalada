@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Usuario;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
@@ -37,12 +39,15 @@ public class LoginController extends HttpServlet {
 	private String pEmail;
 	private String pPassword;
 
+		private ModeloUsuario modeloUsuario=null;
+		private Usuario usuario =null;
 		
     
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		
 		super.init(config);
+		modeloUsuario = new ModeloUsuario();
 		try {
 			//Fichero configuracion de Log4j
 			Properties props = new Properties();		
@@ -68,50 +73,37 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		log.info("Entrando....");
-		
+		log.info("Entrando....");		
 		//recoger la sesion
 		session = request.getSession();
-		String usuario = (String)session.getAttribute(KEY_SESSION_USER);
-		
+		usuario = (Usuario) session.getAttribute(KEY_SESSION_USER);		
 		//Usuario logeado
-		if ( usuario != null && "".equals(usuario) ){
-			
-			//
-			System.out.println("    Usuario YA logueado");
-			
+		if ( usuario != null  ){					
+			System.out.println("    Usuario YA logueado");			
 			//Ir a => index_back.jsp		
 			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			
 //Usuario No logeado o caducada session
-		} else {
-			
-			//
-			System.out.println("    Usuario NO logueado");
-			
+		} else {					
+			System.out.println("    Usuario NO logueado");			
 			//recoger parametros del formulario
 			getParameters(request);
-					
+			//obtener usuario por email
+			Usuario  user  = modeloUsuario.getByEmail(pEmail);								
 			//validar los datos
-
 			//comprobamos con la BBDD			
-			if(EMAIL.equals(pEmail)&&PASS.equals(pPassword)){
-				
+			if(pPassword.equals(user.getPassword())){				
 				//salvar session
-				session.setAttribute(KEY_SESSION_USER, pEmail);
-				
+				session.setAttribute(KEY_SESSION_USER, user);				
 				//Ir a => index_back.jsp		
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			} else {
 				//Ir a => login.jsp
 				request.setAttribute("msg", "El email y/o contrase&ntilde;a incorrecta");			
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-			}
-			
-		}
-		
-		log.info("Saliendo....");
-				
+			}			
+		}		
+		log.info("Saliendo....");				
 		dispatcher.forward(request, response);
 		
 	}

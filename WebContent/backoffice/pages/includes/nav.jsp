@@ -22,7 +22,9 @@
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    	<%=session.getAttribute(LoginController.KEY_SESSION_USER)%>
+                    	                   	                    	
+                    	${sessionScope.ss_user.nombre}(${sessionScope.ss_user.rol.nombre})
+                    	
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
@@ -84,6 +86,9 @@
                         </li>
                         <li> 
                           <a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>"><i class="fa fa-picture-o fa-fw"></i>Logs</a> 
+                        </li>
+                         <li> 
+                          <a href="../backoffice/pages/error.jsp"><i class="fa fa-picture-o fa-fw"></i>Error</a> 
                         </li>
                                                   
                     </ul>

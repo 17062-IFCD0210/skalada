@@ -117,7 +117,10 @@
 						  			</div>
 						  			<div class="modal-footer">						    			
 						    			<a href="<%=Constantes.CONTROLLER_USUARIOS%>?accion=<%=Constantes.ACCION_ELIMINAR%>&id=<%=usuario.getId()%>&accion=eliminar" id ="boton_eliminar" class="btn btn-danger btn-xs disabled">Eliminar</a>
+						    			<br>
+						    			
 						      			<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						      			
 						      		</div>
 						    	</div> <!-- END Modal content-->
 						  	</div>
