@@ -20,7 +20,7 @@ import com.ipartek.formacion.skalada.bean.Zona;
  * @author ur00
  *
  */
-public class ModeloVia implements Persistable {
+public class ModeloVia implements Persistable<Via> {
 	
 	private static final String TABLA_VIA = "via";
 	private static final String TABLA_GRADO = "grado";
@@ -57,14 +57,14 @@ public class ModeloVia implements Persistable {
 	
 
 	@Override
-	public int save(Object o) {
+	public int save(Via v) {
 		int resul = -1;
-		Via v = null;	
+			
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if(o != null){
+		if(v != null){
 			try{
-				v = (Via)o;
+				
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, v.getNombre());	
@@ -99,8 +99,8 @@ public class ModeloVia implements Persistable {
 	}
 
 	@Override
-	public Object getById(int id) {
-		Object resul = null;
+	public Via getById(int id) {
+		Via resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -130,8 +130,8 @@ public class ModeloVia implements Persistable {
 	}
 
 	@Override
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Via> getAll() {
+		ArrayList<Via> resul = new ArrayList<Via>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -160,13 +160,13 @@ public class ModeloVia implements Persistable {
 	}
 
 	@Override
-	public boolean update(Object o) {
+	public boolean update(Via v) {
 		boolean resul = false;
-		Via v = null;
+		
 		PreparedStatement pst = null;
-		if (o != null){
+		if (v != null){
 			try{
-				v = (Via)o;
+				
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
