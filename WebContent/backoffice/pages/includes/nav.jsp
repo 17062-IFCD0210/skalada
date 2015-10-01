@@ -14,7 +14,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<%=Constantes.ROOT_APP + Constantes.VIEW_BACK_INDEX%>"> Backoffice </a>
+                <a class="navbar-brand" href="<%=Constantes.CONTROLLER_BACK_INDEX_BACK%>"> Backoffice </a>
             </div>
             <!-- /.navbar-header -->
 
@@ -24,9 +24,12 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     	<%
-                    		Usuario usuario = (Usuario)session.getAttribute(LoginController.KEY_SESSION_USER);
-                    		out.print(usuario.getNombre()+" ("+usuario.getRol().getNombre()+")");
+                    	
+                    	//	Usuario usuario = (Usuario)session.getAttribute(LoginController.KEY_SESSION_USER);
+                    	//	out.print(usuario.getNombre()+" ("+usuario.getRol().getNombre()+")");
+ 						                   		
                     		%>
+                    	${sessionScope.ss_user.nombre} (${sessionScope.ss_user.rol.nombre})	
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
@@ -63,7 +66,7 @@
                         	<a href="<%=Constantes.CONTROLLER_HOME%>"><i class="fa fa-globe fa-fw"></i> Web Publica</a>
                         </li>                        	
                         <li>
-                            <a href="<%=Constantes.VIEW_BACK_INDEX%>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="<%=Constantes.CONTROLLER_BACK_INDEX_BACK%>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-map-signs fa-fw"></i> Vias</a>

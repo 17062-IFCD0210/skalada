@@ -61,6 +61,7 @@ public class Constantes {
 	public static final String CONTROLLER_REGISTRO        = ROOT_APP + "registro";
 	public static final String CONTROLLER_RECORDAR_PASSWORD = ROOT_APP + "recordar-pass";
 	public static final String CONTROLLER_BACK_INDEX	    = "back-index";
+	public static final String CONTROLLER_BACK_INDEX_BACK   = SERVER + ROOT_APP + "back-index";
 	
 	
 	//acciones

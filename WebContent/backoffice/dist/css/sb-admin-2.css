@@ -17,6 +17,9 @@ body {
     min-height: 568px;
     background-color: #fff;
 }
+#contenido-error{
+	text-align:center;	
+}
 
 @media(min-width:768px) {
     #page-wrapper {

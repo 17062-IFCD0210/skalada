@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
 
-public class ModeloTipoEscalada implements Persistable{
+public class ModeloTipoEscalada implements Persistable<TipoEscalada>{
 	
 	private static final String TABLA = "tipo_escalada";
 	private static final String COL_ID = "id";
@@ -19,18 +19,16 @@ public class ModeloTipoEscalada implements Persistable{
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
 	private static final String SQL_GETONE = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	private static final String SQL_GETALL = "SELECT * FROM " + TABLA +" LIMIT 1000";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
-	public int save(Object o) {
+	public int save(TipoEscalada te) {
 		int resul = -1;
-		TipoEscalada te = null;	
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if(o != null){
+		if(te != null){
 			try{
-				te = (TipoEscalada)o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, te.getNombre());
@@ -66,8 +64,8 @@ public class ModeloTipoEscalada implements Persistable{
 	}
 
 	@Override
-	public Object getById(int id) {
-		Object resul = null;
+	public TipoEscalada getById(int id) {
+		TipoEscalada resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -97,8 +95,8 @@ public class ModeloTipoEscalada implements Persistable{
 	}
 
 	@Override
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<TipoEscalada> getAll() {
+		ArrayList<TipoEscalada> resul = new ArrayList<TipoEscalada>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -127,13 +125,11 @@ public class ModeloTipoEscalada implements Persistable{
 	}
 
 	@Override
-	public boolean update(Object o) {
+	public boolean update(TipoEscalada te) {
 		boolean resul = false;
-		TipoEscalada te = null;
 		PreparedStatement pst = null;
-		if (o != null){
+		if (te != null){
 			try{
-				te = (TipoEscalada)o;
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);

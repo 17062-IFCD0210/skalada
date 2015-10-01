@@ -1,9 +1,9 @@
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
-
 
 <jsp:include page="includes/head.jsp"></jsp:include>
 

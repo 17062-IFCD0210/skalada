@@ -2,11 +2,13 @@
 <%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
+<%@page errorPage="error.jsp"%>
 
 <jsp:include page="includes/head.jsp"></jsp:include>
 <jsp:include page="includes/nav.jsp"></jsp:include>
 
 <%
+
 //Recoger parametros del controlador
 
 String sectoresPublicados="";
@@ -25,7 +27,7 @@ Usuario usuario=(Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard2</h1>
+                    <h1 class="page-header">Backoffice</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

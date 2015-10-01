@@ -4,6 +4,8 @@
 <%@page import="com.ipartek.formacion.skalada.bean.Grado"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
@@ -73,26 +75,17 @@
 	        </thead> 
 	        	 
 	        <tbody>	           
-	           <%
-	           		// recoger el atributo "grados" que nos llegara del Servlet con una coleccion de grados(ArrayList<Grado>)
-	           		ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
-	           		
-	           		Grado g = null;
-	           		for(int i = 0 ; i < grados.size() ; i++){
-	           			g = grados.get(i);
-   	           %>
-   	                <tr>
-		                <td><%=g.getId()%></td>
+				<c:forEach var="grado" items="${requestScope.grados}">
+					<tr>
+		                <td>${grado.id}</td>
 		                <td>
-		                	<a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=g.getId()%>">
-		                		<%=g.getNombre()%>
+		                	<a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=${grado.id}">
+		                		${grado.nombre}
 		                	</a>
 		                </td>
-		                <td><%=g.getDescripcion()%></td>
+		                <td>${grado.descripcion}</td>
 		            </tr>	            
-	           <%
-	           		} //end for
-	           %>	            
+				 </c:forEach>
            </tbody>
 		</table>    
     </div>

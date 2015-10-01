@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.Zona;
 
-public class ModeloZona implements Persistable{
+public class ModeloZona implements Persistable<Zona>{
 	
 	private static final String TABLA = "zona";
 	private static final String COL_ID = "id";
@@ -18,18 +18,16 @@ public class ModeloZona implements Persistable{
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE + "`) VALUES (?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
 	private static final String SQL_GETONE = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	private static final String SQL_GETALL = "SELECT * FROM " + TABLA +" LIMIT 1000";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
-	public int save(Object o) {
+	public int save(Zona z) {
 		int resul = -1;
-		Zona z = null;	
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if(o != null){
+		if(z != null){
 			try{
-				z = (Zona)o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, z.getNombre());		
@@ -64,8 +62,8 @@ public class ModeloZona implements Persistable{
 	}
 
 	@Override
-	public Object getById(int id) {
-		Object resul = null;
+	public Zona getById(int id) {
+		Zona resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -95,8 +93,8 @@ public class ModeloZona implements Persistable{
 	}
 
 	@Override
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Zona> getAll() {
+		ArrayList<Zona> resul = new ArrayList<Zona>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -125,13 +123,11 @@ public class ModeloZona implements Persistable{
 	}
 
 	@Override
-	public boolean update(Object o) {
+	public boolean update(Zona z) {
 		boolean resul = false;
-		Zona z = null;
 		PreparedStatement pst = null;
-		if (o != null){
+		if (z != null){
 			try{
-				z = (Zona)o;
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
@@ -199,8 +195,8 @@ public class ModeloZona implements Persistable{
 	}
 	
 	//TODO OBTENER SECTORES DE UNA VIA
-	public ArrayList<Object> getSectores(int id){
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Zona> getSectores(int id){
+		ArrayList<Zona> resul = new ArrayList<Zona>();
 		
 		
 		return resul;
