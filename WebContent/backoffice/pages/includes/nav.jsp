@@ -1,9 +1,9 @@
-<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
 <%@page import="com.ipartek.formacion.skalada.controladores.LoginController"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 
  <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -20,10 +20,6 @@
 
             <ul class="nav navbar-top-links navbar-right panel-menu">
                 
-                <% 
-                	Usuario usuario = (Usuario)session.getAttribute(LoginController.KEY_SESSION_USER);
-                %>
-
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
 					<a href="#" class="dropdown-toggle account" data-toggle="dropdown">
@@ -33,8 +29,8 @@
 						</div>
 						<i class="fa fa-angle-down pull-right"></i>
 						<div class="user-mini pull-right">
-							<span class="welcome"><%=usuario.getNombre()%></span>
-							<span><%=usuario.getRol().getNombre()%></span>
+							<span class="welcome">${sessionScope.ss_user.nombre}</span>
+							<span>${sessionScope.ss_user.rol.nombre}</span>
 						</div>
 					</a>
                     <ul class="dropdown-menu dropdown-user">

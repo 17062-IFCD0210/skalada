@@ -79,10 +79,10 @@ public class LoginController extends HttpServlet {
 		
 		//recoger la sesion
 		session = request.getSession();
-		Usuario sessionKey = (Usuario)session.getAttribute(KEY_SESSION_USER);
+		usuario = (Usuario)session.getAttribute(KEY_SESSION_USER);
 		
 //Usuario logeado
-		if ( sessionKey != null || "".equals(sessionKey) ){	
+		if ( usuario != null || "".equals(usuario) ){	
 //			if(sessionKey.getRol().getNombre().equalsIgnoreCase(Constantes.ROLE_ADMIN)){
 				dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_BACK_HOME);
 //			} else {
@@ -101,7 +101,7 @@ public class LoginController extends HttpServlet {
 				if(modeloUsuario.checkUser(pUser, pUser)){
 					
 					//Existe el usuario
-					usuario = (Usuario)modeloUsuario.getUserLogin(pUser);
+					usuario = modeloUsuario.getUserLogin(pUser);
 					
 					if(usuario.getValidado() == 0 ){
 						
