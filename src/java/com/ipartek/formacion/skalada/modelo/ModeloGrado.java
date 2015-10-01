@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.Grado;
 
-public class ModeloGrado implements Persistable{
+public class ModeloGrado implements Persistable<Grado>{
 	
 	private static final String TABLA = "grado";
 	private static final String COL_ID = "id";
@@ -23,7 +23,7 @@ public class ModeloGrado implements Persistable{
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
-	public int save(Object o) {
+	public int save(Grado o) {
 		int resul = -1;
 		Grado g = null;	
 		PreparedStatement pst = null;
@@ -66,8 +66,8 @@ public class ModeloGrado implements Persistable{
 	}
 
 	@Override
-	public Object getById(int id) {
-		Object resul = null;
+	public Grado getById(int id) {
+		Grado resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -97,8 +97,8 @@ public class ModeloGrado implements Persistable{
 	}
 
 	@Override
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Grado> getAll() {
+		ArrayList<Grado> resul = new ArrayList<Grado>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try{
@@ -127,7 +127,7 @@ public class ModeloGrado implements Persistable{
 	}
 
 	@Override
-	public boolean update(Object o) {
+	public boolean update(Grado o) {
 		boolean resul = false;
 		Grado g = null;
 		PreparedStatement pst = null;
