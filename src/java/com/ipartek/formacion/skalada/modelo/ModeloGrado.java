@@ -23,25 +23,24 @@ public class ModeloGrado implements Persistable<Grado>{
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
-	public int save(Grado o) {
+	public int save(Grado grado) {
 		int resul = -1;
-		Grado g = null;	
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if(o != null){
+		if(grado != null){
 			try{
-				g = (Grado)o;
+				
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, g.getNombre());
-				pst.setString(2, g.getDescripcion());		
+				pst.setString(1, grado.getNombre());
+				pst.setString(2, grado.getDescripcion());		
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
 					rsKeys = pst.getGeneratedKeys();
 					if (rsKeys.next()) {
 						resul = rsKeys.getInt(1);
-						g.setId(resul);
+						grado.setId(resul);
 					} else {
 						throw new Exception("No se ha podido generar ID");
 					}
