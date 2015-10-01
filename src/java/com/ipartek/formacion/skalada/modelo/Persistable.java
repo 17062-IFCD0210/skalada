@@ -3,6 +3,8 @@ package com.ipartek.formacion.skalada.modelo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.bean.Rol;
+
 /**
  * Interfaz para permitir guardar, recuperar, modificar y eliminar beans.
  * Soporta las operaciones basicas de CRUD:
@@ -54,5 +56,7 @@ public interface Persistable<T>{
 	 * @return true si se elimina, false en caso contrario
 	 */
 	boolean delete(int id);
+
+
 	
 }
