@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Usuario;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
@@ -30,6 +32,7 @@ public class LoginController extends HttpServlet {
        
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
+	private ModeloUsuario modelUsuario = null;
 	
 	private final String EMAIL = "admin@admin.com";
 	private final String PASS = "admin";
@@ -53,6 +56,8 @@ public class LoginController extends HttpServlet {
 			e.printStackTrace();
 		}		
 		
+		modelUsuario = new ModeloUsuario();
+		
 	}
 	
 	
@@ -75,7 +80,7 @@ public class LoginController extends HttpServlet {
 		String usuario = (String)session.getAttribute(KEY_SESSION_USER);
 		
 		//Usuario logeado
-		if ( usuario != null && "".equals(usuario) ){
+		if ( usuario != null  ){
 			
 			//
 			System.out.println("    Usuario YA logueado");
@@ -91,14 +96,17 @@ public class LoginController extends HttpServlet {
 			
 			//recoger parametros del formulario
 			getParameters(request);
-					
+			
+			//obtener usuario por email
+			Usuario user  = (Usuario)modelUsuario.getByEmail(pEmail);
+			
 			//validar los datos
 
 			//comprobamos con la BBDD			
 			if(EMAIL.equals(pEmail)&&PASS.equals(pPassword)){
 				
 				//salvar session
-				session.setAttribute(KEY_SESSION_USER, pEmail);
+				session.setAttribute(KEY_SESSION_USER, user );
 				
 				//Ir a => index_back.jsp		
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);

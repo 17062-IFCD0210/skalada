@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.core.ApplicationContext;
+
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
@@ -43,6 +45,8 @@ public class ForgotPassController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		msg = new Mensaje(Mensaje.MSG_DANGER,"Error sin definir");
 		try{
+			
+		
 			
 			pEmail = request.getParameter("email");
 			//recuperar usuario por su email
