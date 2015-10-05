@@ -21,106 +21,131 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
+ *
+ * @author ander
  */
 public class LoginController extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
-	private final static Logger log = Logger.getLogger(LoginController.class);
-	
-	//Key oara guardar el usuario en la session
+	private final static Logger LOG = Logger.getLogger(LoginController.class);
+
+	// Key oara guardar el usuario en la session
 	public static final String KEY_SESSION_USER = "ss_user";
-       
+
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
-	
-	private final String EMAIL = "admin@admin.com";
-	private final String PASS = "admin";
-	
+	/*
+	 * private final String EMAIL = "admin@admin.com"; private final String PASS
+	 * = "admin";
+	 */
 	private String pEmail;
 	private String pPassword;
 
-		private ModeloUsuario modeloUsuario=null;
-		private Usuario usuario =null;
-		
-    
-	@Override
+	private ModeloUsuario modeloUsuario = null;
+	private Usuario usuario = null;
+
+	@Override()
 	public void init(ServletConfig config) throws ServletException {
-		
+
 		super.init(config);
-		modeloUsuario = new ModeloUsuario();
+		this.modeloUsuario = new ModeloUsuario();
 		try {
-			//Fichero configuracion de Log4j
-			Properties props = new Properties();		
-			props.load( getClass().getResourceAsStream("/log4j.properties"));
+			// Fichero configuracion de Log4j
+			Properties props = new Properties();
+			props.load(this.getClass().getResourceAsStream("/log4j.properties"));
 			PropertyConfigurator.configure(props);
-			
-		} catch (IOException e) {			
+
+		} catch (IOException e) {
 			e.printStackTrace();
-		}		
-		
-	}
-	
-	
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		}
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @param request
+	 *            a
+	 * @param response
+	 *            a
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 * @throws ServletException
+	 *             a
+	 * @throws IOException
+	 *             a
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		this.doPost(request, response);
+	}
 
-		log.info("Entrando....");		
-		//recoger la sesion
-		session = request.getSession();
-		usuario = (Usuario) session.getAttribute(KEY_SESSION_USER);		
-		//Usuario logeado
-		if ( usuario != null  ){					
-			System.out.println("    Usuario YA logueado");			
-			//Ir a => index_back.jsp		
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
-			
-//Usuario No logeado o caducada session
-		} else {					
-			System.out.println("    Usuario NO logueado");			
-			//recoger parametros del formulario
-			getParameters(request);
-			//obtener usuario por email
-			Usuario  user  = modeloUsuario.getByEmail(pEmail);								
-			//validar los datos
-			//comprobamos con la BBDD			
-			if(pPassword.equals(user.getPassword())){				
-				//salvar session
-				session.setAttribute(KEY_SESSION_USER, user);				
-				//Ir a => index_back.jsp		
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+	/**
+	 * @param request
+	 *            a
+	 * @param response
+	 *            a
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 * @throws ServletException
+	 *             a
+	 * @throws IOException
+	 *             a
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		LOG.info("Entrando....");
+		// recoger la sesion
+		this.session = request.getSession();
+		this.usuario = (Usuario) this.session.getAttribute(KEY_SESSION_USER);
+		// Usuario logeado
+		if (this.usuario != null) {
+
+			// Ir a => index_back.jsp
+			this.dispatcher = request
+					.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+
+			// Usuario No logeado o caducada session
+		} else {
+
+			// recoger parametros del formulario
+			this.getParameters(request);
+			// obtener usuario por email
+			Usuario user = this.modeloUsuario.getByEmail(this.pEmail);
+			// validar los datos
+			// comprobamos con la BBDD
+			if (this.pPassword.equals(user.getPassword())) {
+				// salvar session
+				this.session.setAttribute(KEY_SESSION_USER, user);
+				// Ir a => index_back.jsp
+				this.dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			} else {
-				//Ir a => login.jsp
-				request.setAttribute("msg", "El email y/o contrase&ntilde;a incorrecta");			
-				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-			}			
-		}		
-		log.info("Saliendo....");				
-		dispatcher.forward(request, response);
-		
+				// Ir a => login.jsp
+				request.setAttribute("msg",
+						"El email y/o contrase&ntilde;a incorrecta");
+				this.dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			}
+		}
+		LOG.info("Saliendo....");
+		this.dispatcher.forward(request, response);
+
 	}
-	
+
 	/**
-	* Recoger los parametros enviados
-	* @param request
-	 * @throws UnsupportedEncodingException 
-	*/
-	private void getParameters(HttpServletRequest request) throws UnsupportedEncodingException {
+	 * Recoger los parametros enviados
+	 *
+	 * @param request
+	 * @throws UnsupportedEncodingException
+	 */
+	private void getParameters(HttpServletRequest request)
+			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		pEmail = request.getParameter("email");
-		pPassword = request.getParameter("password");
-		
+		this.pEmail = request.getParameter("email");
+		this.pPassword = request.getParameter("password");
+
 	}
-	
+
 }
-
-
-

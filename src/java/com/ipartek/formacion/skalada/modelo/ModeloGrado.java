@@ -18,11 +18,11 @@ public class ModeloGrado implements Persistable<Grado>{
 	
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETONE = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	private static final String SQL_GETONE = "SELECT `id`,`nombre`,`descripcion` FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
+	private static final String SQL_GETALL = "SELECT `id`,`nombre`,`descripcion` FROM " + TABLA;
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
-	@Override
+	@Override()
 	public int save(Grado grado) {
 		int resul = -1;
 		
@@ -65,7 +65,7 @@ public class ModeloGrado implements Persistable<Grado>{
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public Grado getById(int id) {
 		Grado resul = null;
 		PreparedStatement pst = null;
@@ -76,7 +76,7 @@ public class ModeloGrado implements Persistable<Grado>{
 			pst.setInt(1, id);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
-	    		resul = mapeo(rs);
+	    		resul = this.mapeo(rs);
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -96,7 +96,7 @@ public class ModeloGrado implements Persistable<Grado>{
 		return resul;		
 	}
 
-	@Override
+	@Override()
 	public ArrayList<Grado> getAll() {
 		ArrayList<Grado> resul = new ArrayList<Grado>();
 		PreparedStatement pst = null;
@@ -106,7 +106,7 @@ public class ModeloGrado implements Persistable<Grado>{
 			pst = con.prepareStatement(SQL_GETALL);
 	    	rs = pst.executeQuery();   	   	
 	    	while(rs.next()){
-	    		resul.add(mapeo(rs));
+	    		resul.add(this.mapeo(rs));
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -126,7 +126,7 @@ public class ModeloGrado implements Persistable<Grado>{
 		return resul;				
 	}
 
-	@Override
+	@Override()
 	public boolean update(Grado grado) {
 		boolean resul = false;
 		
@@ -159,7 +159,7 @@ public class ModeloGrado implements Persistable<Grado>{
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public boolean delete(int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;

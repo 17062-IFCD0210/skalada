@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `id_zona` int(11) NOT NULL,
+   `imagen` varchar(250),
   PRIMARY KEY (`id`,`id_zona`),
   KEY `fk_sector_zona1_idx` (`id_zona`),
   CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`id_zona`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

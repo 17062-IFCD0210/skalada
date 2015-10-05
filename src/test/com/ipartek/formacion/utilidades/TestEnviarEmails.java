@@ -14,11 +14,11 @@ import com.ipartek.formacion.skalada.Constantes;
 public class TestEnviarEmails {
 	
 	
-	@AfterClass
+	@AfterClass()
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Test
+	@Test()
 	public void testEnviar() {
 		
 		EnviarEmails correo = new EnviarEmails();
@@ -36,7 +36,7 @@ public class TestEnviarEmails {
 		
 	}
 	
-	@Test
+	@Test()
 	public void testEnviarRegistro() {
 		
 		

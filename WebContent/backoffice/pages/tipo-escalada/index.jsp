@@ -63,7 +63,7 @@
     <div class="row">
     
     <!-- tabla -->
-    	<table id="tabla" class="display"  width="100%">
+    	<table id="tabla" class="display"  >
 	        <thead>
 	            <tr>
 	                <th>ID</th>

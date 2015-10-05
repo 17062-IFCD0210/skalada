@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `nombre` varchar(100) NOT NULL DEFAULT '0',
   `password` varchar(30) NOT NULL DEFAULT '0',
   `id_rol` int(11) NOT NULL DEFAULT '0',
+  `token` varchar(250) DEFAULT '0',
   `validado` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 no validado, 1 validado',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`,`nombre`),

@@ -21,14 +21,14 @@ import com.ipartek.formacion.skalada.bean.Zona;
  *
  */
 public class ModeloVia implements Persistable<Via> {
-	
+	/*
 	private static final String TABLA_VIA = "via";
 	private static final String TABLA_GRADO = "grado";
 	private static final String TABLA_TIPO_ESCALADA = "tipo_escalada";
-	private static final String TABLA_ZONA = "zona";
+
 	private static final String TABLA_SECTOR = "sector";
 	
-	
+	*/
 	
 	
 	private static final String SQL_INSERT = "";
@@ -56,7 +56,7 @@ public class ModeloVia implements Persistable<Via> {
 	private static final String SQL_DELETE = "";
 	
 
-	@Override
+	@Override()
 	public int save(Via v) {
 		int resul = -1;
 			
@@ -98,7 +98,7 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public Via getById(int id) {
 		Via resul = null;
 		PreparedStatement pst = null;
@@ -109,7 +109,7 @@ public class ModeloVia implements Persistable<Via> {
 			pst.setInt(1, id);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
-	    		resul = mapeo(rs);
+	    		resul = this.mapeo(rs);
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -129,7 +129,7 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;		
 	}
 
-	@Override
+	@Override()
 	public ArrayList<Via> getAll() {
 		ArrayList<Via> resul = new ArrayList<Via>();
 		PreparedStatement pst = null;
@@ -139,7 +139,7 @@ public class ModeloVia implements Persistable<Via> {
 			pst = con.prepareStatement(SQL_GETALL);
 	    	rs = pst.executeQuery();   	   	
 	    	while(rs.next()){
-	    		resul.add(mapeo(rs));
+	    		resul.add(this.mapeo(rs));
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -159,7 +159,7 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;				
 	}
 
-	@Override
+	@Override()
 	public boolean update(Via v) {
 		boolean resul = false;
 		
@@ -191,7 +191,7 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public boolean delete(int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;

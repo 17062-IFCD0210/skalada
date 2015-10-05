@@ -33,7 +33,7 @@ public class ModeloSector implements Persistable<Sector>{
 	private static final String SQL_GETALL_BY_ZONA = "select `id`,`nombre`,`imagen` from `sector` where `id_zona` = ?"; 
 	private static final String SQL_COUNT_PUBLICADOS = "select count(`id`) from `sector`";
 	
-	@Override
+	@Override()
 	public int save(Sector o) {
 		int resul = -1;
 			
@@ -77,7 +77,7 @@ public class ModeloSector implements Persistable<Sector>{
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public Sector getById(int id) {
 		Sector resul = null;
 		PreparedStatement pst = null;
@@ -88,7 +88,7 @@ public class ModeloSector implements Persistable<Sector>{
 			pst.setInt(1, id);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
-	    		resul = mapeo(rs);
+	    		resul = this.mapeo(rs);
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -108,7 +108,7 @@ public class ModeloSector implements Persistable<Sector>{
 		return resul;		
 	}
 
-	@Override
+	@Override()
 	public ArrayList<Sector> getAll() {
 		ArrayList<Sector> resul = new ArrayList<Sector>();
 		PreparedStatement pst = null;
@@ -118,7 +118,7 @@ public class ModeloSector implements Persistable<Sector>{
 			pst = con.prepareStatement(SQL_GETALL);
 	    	rs = pst.executeQuery();   	   	
 	    	while(rs.next()){
-	    		resul.add(mapeo(rs));
+	    		resul.add(this.mapeo(rs));
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -138,7 +138,7 @@ public class ModeloSector implements Persistable<Sector>{
 		return resul;				
 	}
 
-	@Override
+	@Override()
 	public boolean update(Sector o) {
 		boolean resul = false;
 		
@@ -172,7 +172,7 @@ public class ModeloSector implements Persistable<Sector>{
 		return resul;
 	}
 
-	@Override
+	@Override()
 	public boolean delete(int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;

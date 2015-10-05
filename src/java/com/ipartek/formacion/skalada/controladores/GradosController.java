@@ -16,6 +16,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloGrado;
 
 /**
  * Servlet implementation class GradosController
+ *  @author ander
  */
 public class GradosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,44 +36,48 @@ public class GradosController extends HttpServlet {
      * Este metodo se ejecuta solo la primera vez que se llama al servlet
      * Se usa para crear el modelo
      */
-    @Override
+    @Override()
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
-    	modelo = new ModeloGrado();   	
+    	this.modelo = new ModeloGrado();   	
     }
 
 	/**
+	 * @param  request a 
+	 * @param  response a
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @throws ServletException a 
+	 * @throws IOException a
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//recoger parametros
-		getParameters(request,response);
+		this.getParameters(request,response);
 		
 		//realizar accion solicitada
-		switch (pAccion) {
+		switch (this.pAccion) {
 		case Constantes.ACCION_NUEVO:
-			nuevo(request,response);
+			this.nuevo(request,response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request,response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			eliminar(request,response);
+			this.eliminar(request,response);
 			break;
 		default:
-			listar(request,response);
+			this.listar(request,response);
 			break;
 		}
 			
-		dispatcher.forward(request, response);
+		this.dispatcher.forward(request, response);
 	}
 		
 	private void getParameters(HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			pAccion = Integer.parseInt(request.getParameter("accion"));		
+			this.pAccion = Integer.parseInt(request.getParameter("accion"));		
 			if(request.getParameter("id") != null && !"".equalsIgnoreCase(request.getParameter("id"))){
-				pID = Integer.parseInt(request.getParameter("id"));
+				this.pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch(Exception e){
 			e.printStackTrace();
@@ -86,64 +91,68 @@ public class GradosController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("grados", modelo.getAll());
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_INDEX);		
+		request.setAttribute("grados", this.modelo.getAll());
+		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_INDEX);		
 	}
 
 	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
-		if(modelo.delete(pID)){
+		if(this.modelo.delete(this.pID)){
 			request.setAttribute("msg-danger", "Registro eliminado correctamente");
 		} else {
-			request.setAttribute("msg-warning", "Error al eliminar el registro [id(" + pID + ")]");
+			request.setAttribute("msg-warning", "Error al eliminar el registro [id(" + this.pID + ")]");
 		}
-		listar(request, response);
+		this.listar(request, response);
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		grado = new Grado("");
-		request.setAttribute("grado", grado);
+		this.grado = new Grado("");
+		request.setAttribute("grado", this.grado);
 		request.setAttribute("titulo", "Crear nuevo Grado");
 		request.setAttribute("metodo", "Guardar");
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_FORM);
+		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_FORM);
 		
 	}
 	
 	private void detalle(HttpServletRequest request, HttpServletResponse response) {
-		grado = (Grado)modelo.getById(pID);
-		request.setAttribute("grado", grado);
-		request.setAttribute("titulo", grado.getNombre().toUpperCase());
+		this.grado = this.modelo.getById(this.pID);
+		request.setAttribute("grado", this.grado);
+		request.setAttribute("titulo", this.grado.getNombre().toUpperCase());
 		request.setAttribute("metodo", "Modificar");
-		dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_FORM);		
+		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_FORM);		
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @param  request a 
+	 * @param  response a
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @throws ServletException a 
+	 * @throws IOException a
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//recoger parametros del formulario
-		getParametersForm(request);
+		this.getParametersForm(request);
 		
 		//Crear Objeto Grado
-		crearObjeto();
+		this.crearObjeto();
 		
 		//Guardar/Modificar Objeto Via
-		if (pID == -1){
-			if( modelo.save(grado) != -1){	
+		if (this.pID == -1){
+			if( this.modelo.save(this.grado) != -1){	
 				request.setAttribute("msg-success", "Registro creado con exito");
 			} else {
 				request.setAttribute("msg-danger", "Error al guardar el nuevo registro");
 			}
 		} else {
-			if(modelo.update(grado)){
-				request.setAttribute("msg-success", "Modificado correctamente el registro [id(" + pID + ")]");
+			if(this.modelo.update(this.grado)){
+				request.setAttribute("msg-success", "Modificado correctamente el registro [id(" + this.pID + ")]");
 			} else {
-				request.setAttribute("msg-danger", "Error al modificar el registro [id(" + pID + ")]");
+				request.setAttribute("msg-danger", "Error al modificar el registro [id(" + this.pID + ")]");
 			}
 		}
 		
-		listar(request,response);
+		this.listar(request,response);
 		
-		dispatcher.forward(request, response);
+		this.dispatcher.forward(request, response);
 		
 	}
 	
@@ -151,9 +160,9 @@ public class GradosController extends HttpServlet {
 	 * Crea un Objeto {@code Grado} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
-		grado = new Grado(pNombre);
-		grado.setId(pID);
-		grado.setDescripcion(pDescripcion);
+		this.grado = new Grado(this.pNombre);
+		this.grado.setId(this.pID);
+		this.grado.setDescripcion(this.pDescripcion);
 	}
 
 
@@ -165,9 +174,9 @@ public class GradosController extends HttpServlet {
 	*/
 	private void getParametersForm(HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		pID = Integer.parseInt(request.getParameter("id"));
-		pNombre = request.getParameter("nombre");	
-		pDescripcion = request.getParameter("descripcion");
+		this.pID = Integer.parseInt(request.getParameter("id"));
+		this.pNombre = request.getParameter("nombre");	
+		this.pDescripcion = request.getParameter("descripcion");
 	}
 
 

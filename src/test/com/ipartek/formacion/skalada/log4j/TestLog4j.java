@@ -15,52 +15,52 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TestLog4j {
-	
+
 	private static final String PATH = "/log4j.properties";
 
-	@BeforeClass
+	@BeforeClass()
 	public static void setUpBeforeClass() throws Exception {
 	}
 
-	@AfterClass
+	@AfterClass()
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Before
+	@Before()
 	public void setUp() throws Exception {
 	}
 
-	@After
+	@After()
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	@Test()
 	public void testLib() {
-		
-		BasicConfigurator.configure(); 
-		Logger log = Logger.getLogger("Logger de Test"); 
-		log.warn("un warning"); 
-		log.error("un error"); 
+
+		BasicConfigurator.configure();
+		Logger log = Logger.getLogger("Logger de Test");
+		log.warn("un warning");
+		log.error("un error");
 		assertTrue("No funciona log4j BasicConfigurator", true);
 	}
-	
-	@Test
+
+	@Test()
 	public void testProperties() {
 
 		try {
-			//cargar properties
-			Properties props = new Properties();		
-			props.load( getClass().getResourceAsStream(PATH));		
+			// cargar properties
+			Properties props = new Properties();
+			props.load(this.getClass().getResourceAsStream(PATH));
 			PropertyConfigurator.configure(props);
-			
-			//Escribir linea
-			Logger log = Logger.getLogger("Logger de Test"); 
+
+			// Escribir linea
+			Logger log = Logger.getLogger("Logger de Test");
 			log.info("Test");
-			
+
 			assertTrue("No encontrado log4j.properties", true);
-		}catch(Exception e){
+		} catch (Exception e) {
 			fail("No encontrado log4j.properties " + PATH);
-		}	
+		}
 	}
 
 }

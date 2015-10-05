@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 		- Read
  * 		- Update
  * 		- Delete
- * 
+ * @param <T> variable
  * @author Curso
  *
  */
@@ -18,8 +18,9 @@ public interface Persistable<T> {
 	/**
 	 **** 		CREATE		****
 	 * Persiste el Objeto y lo guarda
-	 * @param o {@code Object} objeto a guardar
+	 * @param t variable	 
 	 * @return {@code int} Identificador del objeto guardado, -1 en caso de error
+	 * 
 	 */
 	int save(T t);
 	
@@ -41,7 +42,7 @@ public interface Persistable<T> {
 	/**
 	 ****		UPDATE		****
 	 * Modificar un Objeto el cual debe tener un identificador definido
-	 * @param o {@code Object} Objeto a modificar
+	 * @param t variable	
 	 * @return true si se modificaba bien, false en caso contrario
 	 */
 	boolean update(T t);
@@ -49,7 +50,7 @@ public interface Persistable<T> {
 	/**
 	 ****		DELETE		****
 	 * Eliminar un Objeto por su identificador
-	 * @param o {@code int} identificador del recurso a eliminar
+	 * @param id variable	
 	 * @return true si se elimina, false en caso contrario
 	 */
 	boolean delete(int id);
