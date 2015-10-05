@@ -18,6 +18,7 @@ import com.ipartek.formacion.utilidades.Utilidades;
 
 /**
  * Servlet implementation class RecordarPasswordController
+ * @author Javi
  */
 public class RecordarPasswordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -39,70 +40,72 @@ public class RecordarPasswordController extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
-    	modeloUsuario = new ModeloUsuario();   
+    	this.modeloUsuario = new ModeloUsuario();   
     }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Mensaje msg = new Mensaje(Mensaje.MSG_WARNING,"Error recuperando la contrase�a del usuario");
 		
-		pEmail = (request.getParameter("email"));
+		this.pEmail = (request.getParameter("email"));
 		
-		if(modeloUsuario.getByEmail(pEmail)==null){
+		if(this.modeloUsuario.getByEmail(this.pEmail)==null){
 			//NO existe ese email en la BD
 			msg.setTexto("No tenemos registrado ese email");
-			dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
+			this.dispatcher = request.getRequestDispatcher("backoffice/"+Constantes.VIEW_BACK_SIGNUP);
 		
 		}else{
 
 			//Generar token para el usuario
 			String token=Utilidades.getCadenaAlfanumAleatoria(250);
 			
-			usuario=(Usuario) modeloUsuario.getByEmail(pEmail);
-			usuario.setToken(token);
-			modeloUsuario.update(usuario);
+			this.usuario=(Usuario) this.modeloUsuario.getByEmail(this.pEmail);
+			this.usuario.setToken(token);
+			this.modeloUsuario.update(this.usuario);
 			//Enviar email para confirmar reseteo de password
 			
-			if(enviarEmail()){
+			if(this.enviarEmail()){
 				msg.setTipo(Mensaje.MSG_SUCCESS);
 				msg.setTexto("En breve recibir� un email con instruciones para el cambio de la contrase�a");
 			}else{
 				msg.setTexto("Hemos tenido alg�n problema al enviarte el email");	
 			}
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);							
+			this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);							
 		}
 		request.setAttribute("msg", msg);
-		dispatcher.forward(request, response);		
+		this.dispatcher.forward(request, response);		
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Mensaje msg=new Mensaje(Mensaje.MSG_WARNING,"Error al regenerar la contrase�a");
 		//getParameters
 		if(request.getParameter("email")!=null){
-			pEmail = request.getParameter("email");
+			this.pEmail = request.getParameter("email");
 		}
 		if(request.getParameter("password")!=null){
-			pPassword=request.getParameter("password");
+			this.pPassword=request.getParameter("password");
 		}
 		if(request.getParameter("token")!=null){
-			pToken=request.getParameter("token");
+			this.pToken=request.getParameter("token");
 		}
 		
-		if(modeloUsuario.getByEmail(pEmail)==null){
+		if(this.modeloUsuario.getByEmail(this.pEmail)==null){
 			//NO existe ese email en la BD
 			msg.setTexto("No existe ese email");
 			
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
+			this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 		}else{
 			//SI existe el usuario
-			usuario=(Usuario)modeloUsuario.getByEmail(pEmail);
+			this.usuario=(Usuario)this.modeloUsuario.getByEmail(this.pEmail);
 			
 			//comprobar que no nos hayan cambiado el email
-			if(pToken.equals(usuario.getToken())){
-				usuario.setPassword(pPassword);
-				if(modeloUsuario.update(usuario)){
+			if(this.pToken.equals(this.usuario.getToken())){
+				this.usuario.setPassword(this.pPassword);
+				if(this.modeloUsuario.update(this.usuario)){
 					msg.setTipo(Mensaje.MSG_SUCCESS);
 					msg.setTexto("Contrase�a reseteada correctamente");
 				}else{
@@ -111,29 +114,29 @@ public class RecordarPasswordController extends HttpServlet {
 			}else{
 				msg.setTexto("Has intentado modificar la direcci�n de email");
 			}
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+			this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 		}
 		request.setAttribute("msg", msg);
-		dispatcher.forward(request, response);	
+		this.dispatcher.forward(request, response);	
 	}
 	
 	private boolean enviarEmail(){
 		boolean resul=false;
 		String cuerpo="";
-		String url=Constantes.SERVER+Constantes.ROOT_BACK+Constantes.VIEW_BACK_NEW_PASS+"?email="+usuario.getEmail()+"&token="+usuario.getToken();
+		String url=Constantes.SERVER+Constantes.ROOT_BACK+Constantes.VIEW_BACK_NEW_PASS+"?email="+this.usuario.getEmail()+"&token="+this.usuario.getToken();
 		String contenido="Hemos recibido una petición de cambio de contraseña de tu dirección de email. Si las has cursado tú confírmalo clicando en el enlace de debajo.";
 		
 		EnviarEmails correo = new EnviarEmails();
 		correo.setDireccionFrom("skalada.ipartek@gmail.com");
-		correo.setDireccionDestino(usuario.getEmail());
+		correo.setDireccionDestino(this.usuario.getEmail());
 		correo.setMessageSubject("Petici�n de cambio de contrase�a");
 
 		//correo.setPlantillaHTML(Constantes.EMAIL_TEMPLATE_RESETEAR_PASS);
 		correo.setPlantillaHTML(Constantes.EMAIL_TEMPLATE_PLANTILLA);
 		correo.setReemplazos("{contenido}", contenido);
-		correo.setReemplazos("{usuario}", usuario.getNombre());
+		correo.setReemplazos("{usuario}", this.usuario.getNombre());
 		correo.setReemplazos("{url}", url);
-		correo.setReemplazos("{email}", usuario.getEmail());
+		correo.setReemplazos("{email}", this.usuario.getEmail());
 		
 		correo.setReemplazos("{btn_submit_text}", "Accede para resetaear tu contraseña");
 

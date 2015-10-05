@@ -21,8 +21,8 @@ public class ModeloUsuario implements Persistable<Usuario>{
 	private static final String SQL_GETONE  = SQL_GETALL + " WHERE u.`id`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ?, `token`= ? WHERE `id`= ?;";
 	
-	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
-	private static final String SQL_VALIDADO_USER  = "SELECT * FROM `usuario` WHERE `email` = ? AND `validado`="+Constantes.USER_NO_VALIDATE;
+	private static final String SQL_CHECK_USER  = "SELECT `id`, `email`, `nombre`, `password`, `id_rol`,`validado`, `token` FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
+	private static final String SQL_VALIDADO_USER  = "SELECT `id`, `email`, `nombre`, `password`, `id_rol`,`validado`, `token` FROM `usuario` WHERE `email` = ? AND `validado`="+Constantes.USER_NO_VALIDATE;
 	private static final String SQL_GET_BY_EMAIL  = SQL_GETALL + " WHERE u.`email`= ?;";
 	private static final String SQL_COUNT_NO_VALIDADOS = "select count(`id`) from `usuario` where `validado`="+Constantes.USER_NO_VALIDATE;
 	
@@ -80,7 +80,7 @@ public class ModeloUsuario implements Persistable<Usuario>{
 			pst.setInt(1, id);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
-	    		resul = mapeo(rs);
+	    		resul = this.mapeo(rs);
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -110,7 +110,7 @@ public class ModeloUsuario implements Persistable<Usuario>{
 			pst = con.prepareStatement(SQL_GETALL);
 	    	rs = pst.executeQuery();   	   	
 	    	while(rs.next()){
-	    		resul.add(mapeo(rs));
+	    		resul.add(this.mapeo(rs));
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -297,7 +297,7 @@ public class ModeloUsuario implements Persistable<Usuario>{
 			pst.setString(1, email);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
-	    		resul = mapeo(rs);
+	    		resul = this.mapeo(rs);
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();

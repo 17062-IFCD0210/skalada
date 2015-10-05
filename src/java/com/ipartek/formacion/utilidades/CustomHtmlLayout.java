@@ -7,11 +7,12 @@ import org.apache.log4j.Layout;
  * HTMLLayout formatter and replaces the default timestamp (milliseconds,
  * relative to the start of the log) with a more readable timestamp (an example
  * of the default format is 2008-11-21-18:35:21.472-0800).
+ * @author Javi
  * */
 
 public class CustomHtmlLayout extends org.apache.log4j.HTMLLayout{
 
-	@Override
+	@Override()
 	public String getHeader() {
 	
 		//return super.getHeader();
@@ -45,7 +46,7 @@ public class CustomHtmlLayout extends org.apache.log4j.HTMLLayout{
 	}
 	
 	
-	@Override
+	@Override()
 	public String getFooter() {
 		StringBuffer sbuf = new StringBuffer();
 		sbuf.append("</table>" + Layout.LINE_SEP);

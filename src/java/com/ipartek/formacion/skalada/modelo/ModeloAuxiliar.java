@@ -10,32 +10,39 @@ import java.util.ArrayList;
 import com.ipartek.formacion.skalada.bean.Auxiliar;
 
 public class ModeloAuxiliar implements Persistable<Auxiliar> {
-	
-	private static String TABLA = "grado";
+
+	private static final String TABLA = "grado";
 	private static final String COL_ID = "id";
 	private static final String COL_NOMBRE = "nombre";
 	private static final String COL_DESCRIPCION = "descripcion";
-	
-	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
-	private static final String SQL_DELETE = "DELETE FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETONE = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT * FROM " + TABLA +" LIMIT 1000";
-	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `" + COL_ID + "`= ? ;";
-	
+
+	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`"
+			+ COL_NOMBRE + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
+	private static final String SQL_DELETE = "DELETE FROM `" + TABLA
+			+ "` WHERE `" + COL_ID + "`= ?;";
+	private static final String SQL_GETONE = "SELECT `id`, `nombre`, `descripcion` FROM `"
+			+ TABLA + "` WHERE `" + COL_ID + "`= ?;";
+	private static final String SQL_GETALL = "SELECT `id`, `nombre`, `descripcion` FROM "
+			+ TABLA + " LIMIT 1000";
+	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `"
+			+ COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `"
+			+ COL_ID + "`= ? ;";
+
 	@Override
 	public int save(Auxiliar o) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if(o != null){
-			try{
+		if (o != null) {
+			try {
 				Connection con = DataBaseHelper.getConnection();
-				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+				pst = con.prepareStatement(SQL_INSERT,
+						Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, o.getNombre());
-				pst.setString(2, o.getDescripcion());		
-		    	if ( pst.executeUpdate() != 1 ){
+				pst.setString(2, o.getDescripcion());
+				if (pst.executeUpdate() != 1) {
 					throw new Exception("No se ha realizado la insercion");
-				} else {		
+				} else {
 					rsKeys = pst.getGeneratedKeys();
 					if (rsKeys.next()) {
 						resul = rsKeys.getInt(1);
@@ -43,22 +50,22 @@ public class ModeloAuxiliar implements Persistable<Auxiliar> {
 					} else {
 						throw new Exception("No se ha podido generar ID");
 					}
-				}	    		    		
-			} catch (Exception e){
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if(rsKeys != null){
+					if (rsKeys != null) {
 						rsKeys.close();
 					}
-					if(pst != null){
+					if (pst != null) {
 						pst.close();
 					}
-					DataBaseHelper.closeConnection();			
-				}catch(Exception e){
+					DataBaseHelper.closeConnection();
+				} catch (Exception e) {
 					e.printStackTrace();
-				}			
-			}	
+				}
+			}
 		}
 		return resul;
 	}
@@ -67,90 +74,90 @@ public class ModeloAuxiliar implements Persistable<Auxiliar> {
 	public Object getById(int id) {
 		Auxiliar resul = null;
 		PreparedStatement pst = null;
-		ResultSet rs = null;		
-		try{
+		ResultSet rs = null;
+		try {
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_GETONE);
 			pst.setInt(1, id);
-	    	rs = pst.executeQuery();	      	   	
-	    	while(rs.next()){
-	    		resul = mapeo(rs);
-	    	}	
-		} catch (Exception e){
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				resul = this.mapeo(rs);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if(pst != null){
+				if (pst != null) {
 					pst.close();
 				}
-				DataBaseHelper.closeConnection();			
-			}catch(Exception e){
+				DataBaseHelper.closeConnection();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}		
-		return resul;		
+		}
+		return resul;
 	}
 
 	@Override
 	public ArrayList<Auxiliar> getAll() {
 		ArrayList<Auxiliar> resul = new ArrayList<Auxiliar>();
 		PreparedStatement pst = null;
-		ResultSet rs = null;		
-		try{
+		ResultSet rs = null;
+		try {
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_GETALL);
-	    	rs = pst.executeQuery();   	   	
-	    	while(rs.next()){
-	    		resul.add(mapeo(rs));
-	    	}	
-		} catch (Exception e){
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				resul.add(this.mapeo(rs));
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if(pst != null){
+				if (pst != null) {
 					pst.close();
 				}
-				DataBaseHelper.closeConnection();			
-			}catch(Exception e){
+				DataBaseHelper.closeConnection();
+			} catch (Exception e) {
 				e.printStackTrace();
-			}			
-		}	
-		return resul;				
+			}
+		}
+		return resul;
 	}
 
 	@Override
 	public boolean update(Auxiliar g) {
 		boolean resul = false;
 		PreparedStatement pst = null;
-		if (g != null){
-			try{
+		if (g != null) {
+			try {
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
 				pst.setString(1, g.getNombre());
 				pst.setString(2, g.getDescripcion());
-				pst.setInt(3, g.getId());				
-		    	if ( pst.executeUpdate() == 1 ){
-		    		resul = true;	    		
+				pst.setInt(3, g.getId());
+				if (pst.executeUpdate() == 1) {
+					resul = true;
 				}
-			} catch (Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if(pst != null){
+					if (pst != null) {
 						pst.close();
-					}				
-					DataBaseHelper.closeConnection();									
-				}catch(Exception e){
+					}
+					DataBaseHelper.closeConnection();
+				} catch (Exception e) {
 					e.printStackTrace();
-				}			
-			}	
+				}
+			}
 		}
 		return resul;
 	}
@@ -159,45 +166,44 @@ public class ModeloAuxiliar implements Persistable<Auxiliar> {
 	public boolean delete(int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
-		try{
+		try {
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_DELETE);
-			pst.setInt(1, id);			
-			if ( pst.executeUpdate() == 1 ){
+			pst.setInt(1, id);
+			if (pst.executeUpdate() == 1) {
 				resul = true;
-			}			
-		}catch(Exception e){
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
-				if(pst != null){
+				if (pst != null) {
 					pst.close();
 				}
-				DataBaseHelper.closeConnection();	
+				DataBaseHelper.closeConnection();
 				return resul;
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}		
+		}
 		return resul;
 	}
-	
+
 	/**
 	 * Mapea un ResultSet a Object
+	 * 
 	 * @param rs
 	 * @return
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
-	private Auxiliar mapeo (ResultSet rs) throws SQLException{
-		Auxiliar resul = null;    
-		
-		resul = new Auxiliar( rs.getString(COL_NOMBRE) );
-		resul.setId( rs.getInt(COL_ID));
+	private Auxiliar mapeo(ResultSet rs) throws SQLException {
+		Auxiliar resul = null;
+
+		resul = new Auxiliar(rs.getString(COL_NOMBRE));
+		resul.setId(rs.getInt(COL_ID));
 		resul.setDescripcion(rs.getString(COL_DESCRIPCION));
-		
+
 		return resul;
 	}
-	
-	
-	
+
 }

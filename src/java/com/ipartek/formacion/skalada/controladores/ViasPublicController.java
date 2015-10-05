@@ -2,6 +2,7 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloVia;
 
 /**
  * Servlet implementation class ViasPublicController
+ * @author Javi
  */
 public class ViasPublicController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,20 +28,22 @@ public class ViasPublicController extends HttpServlet {
     /**
 	 * @see Servlet#init(ServletConfig)
 	 */
+	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modelo = new ModeloVia();
+		this.modelo = new ModeloVia();
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		getParameters(request);
+		this.getParameters(request);
 		
-		via = (Via)modelo.getById(pID);
-		request.setAttribute("via", via);
+		this.via = this.modelo.getById(this.pID);
+		request.setAttribute("via", this.via);
 		
 		request.getRequestDispatcher(Constantes.VIEW_PUBLIC_VIA).forward(request, response);
 	}
@@ -47,7 +51,7 @@ public class ViasPublicController extends HttpServlet {
 	private void getParameters(HttpServletRequest request) {
 		try {
 			if(request.getParameter("id") != null && !"".equalsIgnoreCase(request.getParameter("id"))){
-				pID = Integer.parseInt(request.getParameter("id"));
+				this.pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch(Exception e){
 			e.printStackTrace();

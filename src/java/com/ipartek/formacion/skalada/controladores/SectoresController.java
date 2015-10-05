@@ -28,6 +28,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
  * Servlet implementation class SectoresController
+ * @author Javi
  */
 public class SectoresController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

@@ -2,27 +2,30 @@ package com.ipartek.formacion.utilidades;
 
 import java.util.Random;
 
-public class Utilidades {
+public final class Utilidades {
 
-	
 	/**
 	 * Genera el token
+	 * 
 	 * @param longitud
 	 * @return
 	 */
-	public static String getCadenaAlfanumAleatoria (int longitud){
+	public static String getCadenaAlfanumAleatoria(int longitud) {
 		String cadenaAleatoria = "";
 		long milis = new java.util.GregorianCalendar().getTimeInMillis();
 		Random r = new Random(milis);
 		int i = 0;
-		while ( i < longitud){
-			char c = (char)r.nextInt(255);
-			if ( (c >= '0' && c <='9') || (c >='A' && c <='Z') ){
+		while (i < longitud) {
+			char c = (char) r.nextInt(255);
+			if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')) {
 				cadenaAleatoria += c;
-				i ++;
+				i++;
 			}
 		}
 		return cadenaAleatoria;
 	}
 
+	private Utilidades() {
+		super();
+	}
 }

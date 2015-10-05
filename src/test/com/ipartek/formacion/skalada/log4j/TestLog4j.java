@@ -1,9 +1,11 @@
 package com.ipartek.formacion.skalada.log4j;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Properties;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -32,7 +34,7 @@ public class TestLog4j {
 		try {
 			//cargar properties
 			Properties props = new Properties();		
-			props.load( getClass().getResourceAsStream(PATH));
+			props.load( this.getClass().getResourceAsStream(PATH));
 			PropertyConfigurator.configure(props);
 			
 			//escribir linea

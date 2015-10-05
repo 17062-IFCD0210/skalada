@@ -19,6 +19,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class UserController
+ * @author Javi
  */
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

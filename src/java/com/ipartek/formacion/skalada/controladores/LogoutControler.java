@@ -13,43 +13,51 @@ import org.apache.log4j.PropertyConfigurator;
 
 /**
  * Servlet implementation class LogoutControler
+ * 
+ * @author Javi
  */
 public class LogoutControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final static Logger log = Logger.getLogger(LoginController.class);
-       
-  @Override
+	private final static Logger LOG = Logger.getLogger(LoginController.class);
+
+	@Override
 	public void init() throws ServletException {
 		super.init();
-	  	try {
-				//Fichero configuracion de Log4j
-				Properties props = new Properties();		
-				props.load( getClass().getResourceAsStream("/log4j.properties"));
-				PropertyConfigurator.configure(props);
-				
-			} catch (IOException e) {			
-				e.printStackTrace();
-			}		
+		try {
+			// Fichero configuracion de Log4j
+			Properties props = new Properties();
+			props.load(this.getClass().getResourceAsStream("/log4j.properties"));
+			PropertyConfigurator.configure(props);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		this.doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//System.out.println("Logout.... ");
-		log.info("Saliendo del bakoffice");
-		
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		// System.out.println("Logout.... ");
+		LOG.info("Saliendo del bakoffice");
+
 		request.getSession().invalidate();
 		request.getRequestDispatcher("home").forward(request, response);
-		
+
 	}
 
 }

@@ -17,8 +17,10 @@ public class Mensaje {
 	public static final String MSG_DANGER  = "danger";
 	
 	/**
-	 * @param tipo
-	 * @param texto
+	 * Crea una clase mensaje
+	 * @param tipo String
+	 * @param texto String
+	 * @autor Javi
 	 */
 	public Mensaje(String tipo, String texto) {
 		super();
@@ -26,25 +28,44 @@ public class Mensaje {
 		this.texto = texto;
 	}
 
+	/**
+	 * Getter del tipo
+	 * @return String
+	 * @autor Javi
+	 */
 	public String getTipo() {
-		return tipo;
+		return this.tipo;
 	}
 
+	/**
+	 * Setter del tipo
+	 * @param tipo String
+	 * @autor Javi
+	 */	
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 
+	/**
+	 * Getter del texto
+	 * @return String
+	 * @autor Javi
+	 */	
 	public String getTexto() {
-		return texto;
+		return this.texto;
 	}
-
+	/**
+	 * Setter del texto
+	 * @param texto String
+	 * @autor Javi
+	 */
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
 
-	@Override
+	@Override()
 	public String toString() {
-		return "Mensaje [tipo=" + tipo + ", texto=" + texto + "]";
+		return "Mensaje [tipo=" + this.tipo + ", texto=" + this.texto + "]";
 	}
 	
 	

@@ -16,6 +16,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
  * Servlet implementation class HomeController
+ * @author Javi
  */
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,27 +27,30 @@ public class HomeController extends HttpServlet {
     /**
 	 * @see Servlet#init(ServletConfig)
 	 */
+	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modeloSector = new ModeloSector();
+		this.modeloSector = new ModeloSector();
 	}
 
 	/**
 	 * Se puentea al doPost()
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		this.doPost(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
 		//recuperar las ultimas 6 sectores del modelo
-		ArrayList<Sector> sectores = modeloSector.getAll();
+		ArrayList<Sector> sectores = this.modeloSector.getAll();
 		if ( sectores.size() > 6 ){
 			sectores = new ArrayList<Sector>(sectores.subList(0, 6));
 		}

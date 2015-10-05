@@ -7,104 +7,116 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
- * Clase especializada en trabajar con la Base Datos
- * La usaran los DAOs para abrir y cerrar conexiones
+ * Clase especializada en trabajar con la Base Datos La usaran los DAOs para
+ * abrir y cerrar conexiones
+ * 
  * @author Curso
  *
  */
 public class DataBaseHelper {
-	
-	//Parametros configuracion base datos
-	static final public String DRIVER    = "com.mysql.jdbc.Driver";
-	static final public String SERVER    = "localhost";
-	static final public String DATA_BASE = "eskalada";
-	static final public String USER      = "root";
-	static final public String PASS      = "";
-	
-	//Conexion
-	private static Connection con;
-	
-	/**
-	 * Metodo para realizar la conexion
-	 * implementa un patron singleton (solo existira un unico objeto)
-	 * @return {@code Connection} la conexion abierta
-	 * @throws Exception
-	 */
-	public static Connection getConnection() throws Exception{
 
-		/* Conexion usando DataSource y PoolConexiones*/
+	// Parametros configuracion base datos
+	static final public String DRIVER = "com.mysql.jdbc.Driver";
+	static final public String SERVER = "localhost";
+	static final public String DATA_BASE = "eskalada";
+	static final public String USER = "root";
+	static final public String PASS = "";
+
+	// Conexion
+	private static Connection con;
+
+	/**
+	 * Metodo para realizar la conexion implementa un patron singleton (solo
+	 * existira un unico objeto)
+	 * 
+	 * @throws Exception
+	 * @return {@code Connection} la conexion abierta
+	 * @autor Javi
+	 */
+	public static Connection getConnection() throws Exception {
+
+		/* Conexion usando DataSource y PoolConexiones */
 		InitialContext ctx = new InitialContext();
 		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/skaladaDB");
-		con = ds.getConnection();
-
-		if ( ds == null ) {
+		if (ds == null) {
 			throw new Exception("Data source no encontrado!");
-		}else{
-			con=ds.getConnection();
+		} else {
+			con = ds.getConnection();
 		}
-		
-		if( con==null ){
-			throw new Exception("No se ha podido establecer conexión!");
+
+		if (con == null) {
+			throw new Exception("No se ha podido establecer conexion");
 		}
+
 		return con;
-		/* Conexion usando el DriverManager
-		if ( con == null ){
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection ("jdbc:mysql://" + SERVER + "/" + DATA_BASE, USER, PASS);
-		}
-		return con;
-		*/
+		/*
+		 * con = ds.getConnection();
+		 * 
+		 * if ( ds == null ) { throw new
+		 * Exception("Data source no encontrado!"); }else{
+		 * con=ds.getConnection(); }
+		 * 
+		 * if( con==null ){ throw new
+		 * Exception("No se ha podido establecer conexión!"); } return con;
+		 */
+		/*
+		 * Conexion usando el DriverManager if ( con == null ){
+		 * Class.forName(DRIVER); con = DriverManager.getConnection
+		 * ("jdbc:mysql://" + SERVER + "/" + DATA_BASE, USER, PASS); } return
+		 * con;
+		 */
 	}
-	
+
 	/**
-	 * Metodo para cerrar la conexion.
-	 * Cuidado porque al cerrar una conexion con el metodo .close() no la pone a null
-	 * @return
+	 * Metodo para cerrar la conexion. Cuidado porque al cerrar una conexion con
+	 * el metodo .close() no la pone a null
+	 * 
+	 * @return boolean
 	 */
-	public static boolean closeConnection(){
+	public static boolean closeConnection() {
 		boolean resul = false;
-		try{
+		try {
 			con.close();
 			con = null;
 			resul = true;
-		} catch ( SQLException e){
+		} catch (SQLException e) {
 			con = null;
 			e.printStackTrace();
 			resul = false;
 		}
 		return resul;
 	}
-	
+
 	/**
 	 * Crea la Base Datos ejecutando un Script
-	 * @return {@code Boolean}
+	 * 
 	 */
-	void crear(){
-		
+	void crear() {
+
 	}
-	
+
 	/**
 	 * Elimina la Base Datos con sentencia DROP
 	 */
-	void eliminar(){
-	
+	void eliminar() {
+
 	}
-	
+
 	/**
 	 * Crea las tablas necesarias:
 	 * <ol>
-	 * 	<li>test</li>
+	 * <li>test</li>
 	 * </ol>
 	 */
-	void crearTablas(){
-		
+	void crearTablas() {
+
 	}
-	
+
 	/**
 	 * Insertar en las tablas un juego de datos para testear
 	 */
-	void insertarDatosPrueba(){
-		
+	void insertarDatosPrueba() {
+
 	}
-	
+
 }
