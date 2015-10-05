@@ -1,6 +1,5 @@
 package com.ipartek.formacion.utilidades;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,10 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-
-import com.ipartek.formacion.skalada.Constantes;
 
 public class EnviarEmails {
 	

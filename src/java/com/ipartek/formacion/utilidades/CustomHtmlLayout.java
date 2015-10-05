@@ -1,12 +1,6 @@
 package com.ipartek.formacion.utilidades;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
 
 /**
  * This HTML Log Formatter is a simple replacement for the standard Log4J

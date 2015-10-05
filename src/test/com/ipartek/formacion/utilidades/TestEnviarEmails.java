@@ -1,13 +1,10 @@
 package com.ipartek.formacion.utilidades;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import junit.framework.Assert;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
 

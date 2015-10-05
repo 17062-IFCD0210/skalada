@@ -46,6 +46,8 @@ public class Constantes {
 	public static final String VIEW_BACK_USUARIOS_INDEX = "backoffice/pages/usuarios/index.jsp";
 	public static final String VIEW_BACK_USUARIOS_FORM = "backoffice/pages/usuarios/form.jsp";
 	
+	public static final String VIEW_BACK_ERROR_PAGE = "backoffice/pages/error.jsp";
+	
 	//controladores
 	public static final String CONTROLLER_LOGIN           = ROOT_APP + "login";
 	public static final String CONTROLLER_LOGOUT          = ROOT_APP + "logout";	

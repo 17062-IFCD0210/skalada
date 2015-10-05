@@ -3,9 +3,7 @@ package com.ipartek.formacion.skalada.controladores;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -15,18 +13,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Servlet implementation class SectoresController
@@ -211,10 +209,12 @@ public class SectoresController extends HttpServlet {
 	 * 
 	 * @param request
 	 */
+	/*
 	private void uploadFile(HttpServletRequest request) {
-		//TODO realizar comprobaciones y guardar imagen en PC
+		// realizar comprobaciones y guardar imagen en PC
 	}
-
+	 */
+	
 	/**
 	 * Crea un Objeto {@code Sector} Con los parametros recibidos
 	 */
@@ -261,16 +261,17 @@ public class SectoresController extends HttpServlet {
 			
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			// maximum size that will be stored in memory
-			//TODO cambiar este valor para que falle
+
 			factory.setSizeThreshold( Constantes.MAX_MEM_SIZE );
 			// Location to save data that is larger than maxMemSize.
+
 			//TODO comprobar si no existe carpeta
 			factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));
 			
 			// Create a new file upload handler
 		    ServletFileUpload upload = new ServletFileUpload(factory);
 		    // maximum file size to be uploaded.
-		    //TODO cambiar valor no dejar subir mas 1Mb
+		    
 		    upload.setSizeMax( Constantes.MAX_FILE_SIZE );
 		    
 		    //Parametros de la request del formulario, NO la imagen
@@ -289,7 +290,7 @@ public class SectoresController extends HttpServlet {
 			            
 			            if ( Constantes.CONTENT_TYPES.contains(fileContentType)){
 			             		            
-				            long sizeInBytes    = item.getSize();				            
+				            //long sizeInBytes    = item.getSize();				            
 				            
 				            //TODO No repetir nombres imagenes
 				            

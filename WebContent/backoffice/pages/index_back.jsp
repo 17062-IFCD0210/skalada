@@ -112,7 +112,7 @@ Usuario usuario=(Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<%=Constantes.VIEW_BACK_CONTENT_LOG%>">
                             <div class="panel-footer">
                                 <span class="pull-left">Ver Detalles</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
