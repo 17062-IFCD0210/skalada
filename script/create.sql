@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `sector` (
   `imagen` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`,`zona`),
   KEY `fk_sector_zona1_idx` (`zona`),
-  CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`zona`) REFERENCES `zona` (`zona`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`zona`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla eskalada.sector: ~10 rows (aproximadamente)
@@ -173,16 +173,16 @@ INSERT INTO `via` (`id`, `nombre`, `longitud`, `descripcion`, `id_grado`, `id_ti
 
 -- Volcando estructura para tabla eskalada.zona
 CREATE TABLE IF NOT EXISTS `zona` (
-  `zona` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  PRIMARY KEY (`zona`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla eskalada.zona: ~4 rows (aproximadamente)
 DELETE FROM `zona`;
 /*!40000 ALTER TABLE `zona` DISABLE KEYS */;
-INSERT INTO `zona` (`zona`, `nombre`) VALUES
+INSERT INTO `zona` (`id`, `nombre`) VALUES
 	(1, 'Atxarte'),
 	(4, 'Cabo Ogoño\r\n'),
 	(3, 'Naranjo de Bulnes\r\n'),
