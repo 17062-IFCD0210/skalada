@@ -3,18 +3,30 @@
 
 
 #cuerpoError {
-    background-color: lime;
+    /*background-color: lime;*/
 }
 
 img{
-	position:relative;
-	top:8%;
 	
-	
-	width:50%;
-	height: 50%;
+    position: absolute;
+  
+    right: 27%;
+    top: 1px;
+    top: 22%;
+    width: 50%;
+    height: 50%;
 	
 }
+
+
+#imagen{}
+
+
+#texto{}
+
+
+#titulo{}
+
 
 
 h1{}

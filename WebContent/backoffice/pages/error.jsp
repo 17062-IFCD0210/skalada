@@ -22,30 +22,49 @@
 
 <body id="cuerpoError">
 
-<h1>500 - Error</h1>
 
- 
-<blockquote>
-<img  src="../../img/500Error.jpg">
+	<div id="titulo">
+	
+		<h1>500 - Error</h1>
+	
+	</div>
+	
+	
+	
+	
+	<div id="imagen">
+	
+		<img  src="../../img/500Error.jpg">
+	
+	
+	
+	</div>
+	
+	
+	
+	
+	
+	<div id="texto">
+	
+	
+		<p>Lo sentimos mucho pero hay un error interno, lo solucionaremos 
+		lo antes posible
+		
+		Puede contactarnos para informar del error</p>
+		<a href="#"> contactenos</a>
+		
+		<p>o tambien puede volver a la pagina principal</p>
+		<a href="#"> index</a>
+		
+		<p>o Volver a google</p>
+		<a href="#"> google</a>
 
-<p>Lo sentimos mucho pero hay un error interno, lo solucionaremos 
-lo antes posible
-
-Puede contactarnos para informar del error</p>
-<a href="#"> contactenos</a>
-
-<p>o tambien puede volver a la pagina principal</p>
-<a href="#"> index</a>
-
-<p>o Volver a google</p>
-<a href="#"> google</a>
+		<p>
+	
+	
+	</div>
 
 
-
- 
-<p>
-
-</blockquote>
 
 </body>            
 </html>            
