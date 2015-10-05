@@ -1,11 +1,12 @@
+<%@page contentType="text/html"%> 
+<%@page pageEncoding="UTF-8"%>
+ 
 <%@page import="com.ipartek.formacion.skalada.bean.Rol"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
-<%@page contentType="text/html"%> 
-<%@page pageEncoding="UTF-8"%> 
-
 <%@page import="com.ipartek.formacion.skalada.bean.Zona"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@page import="java.util.ArrayList"%>
+
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
@@ -40,7 +41,7 @@
     <div class="row">
     
     <!-- tabla -->
-    	<table id="tabla" class="display" cellspacing="0" width="100%">
+    	<table id="tabla" class="display">
 	        <thead>
 	            <tr>
 	                <th>ID</th>
