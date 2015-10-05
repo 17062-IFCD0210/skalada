@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
@@ -29,10 +28,6 @@ public class LugaresController extends HttpServlet {
 	
 	//parametros
 	private int pAccion = Constantes.ACCION_LISTAR;	
-	private int pID	= -1;		//ID no valido	
-	private String pNombre;
-	
-	private Mensaje msg;
        
     /**
      * Este metodo se ejecuta solo la primera vez que se llama al servlet
@@ -69,9 +64,7 @@ public class LugaresController extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			pAccion = Integer.parseInt(request.getParameter("accion"));		
-			if(request.getParameter("id") != null && !"".equalsIgnoreCase(request.getParameter("id"))){
-				pID = Integer.parseInt(request.getParameter("id"));
-			}
+			
 		} catch(Exception e){
 			e.printStackTrace();
 		}		

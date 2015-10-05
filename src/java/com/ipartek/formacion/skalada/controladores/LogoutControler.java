@@ -3,7 +3,6 @@ package com.ipartek.formacion.skalada.controladores;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,9 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Usuario;
-import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LogoutControler
@@ -29,11 +26,7 @@ public class LogoutControler extends HttpServlet {
 	
 	public static final String KEY_SESSION_USER = "ss_user";
     
-	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
-	
-	private ModeloUsuario modeloUsuario = null;
-	private Usuario usuario = null;
 	
 	
 	/**
@@ -42,7 +35,6 @@ public class LogoutControler extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modeloUsuario = new ModeloUsuario();
 		try {
 			//Fichero de configuracion de Log4jv 
 			Properties props = new Properties();

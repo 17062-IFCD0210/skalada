@@ -106,27 +106,22 @@ public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
 		String[] s = event.getThrowableStrRep();
 		if (s != null) {
 			sbuf.append("<tr><td bgcolor=\"#993300\" style=\"color:White; font-size : xx-small;\" colspan=\"6\">");
-			appendThrowableAsHTML(s, sbuf);
+			if (s != null) {
+				int len = s.length;
+				if (len != 0){					
+					sbuf.append(Transform.escapeTags(s[0]));
+					sbuf.append(Layout.LINE_SEP);
+					for (int i = 1; i < len; i++) {
+						sbuf.append(TRACE_PREFIX);
+						sbuf.append(Transform.escapeTags(s[i]));
+						sbuf.append(Layout.LINE_SEP);
+					}
+				}
+			}
 			sbuf.append("</td></tr>" + Layout.LINE_SEP);
 		}
 
 		return sbuf.toString();
-	}
-
-	
-	void appendThrowableAsHTML(String[] s, StringBuffer sbuf) {
-		if (s != null) {
-			int len = s.length;
-			if (len == 0)
-				return;
-			sbuf.append(Transform.escapeTags(s[0]));
-			sbuf.append(Layout.LINE_SEP);
-			for (int i = 1; i < len; i++) {
-				sbuf.append(TRACE_PREFIX);
-				sbuf.append(Transform.escapeTags(s[i]));
-				sbuf.append(Layout.LINE_SEP);
-			}
-		}
 	}
 
 	

@@ -223,8 +223,8 @@ public class SectoresController extends HttpServlet {
 			            if(!Constantes.IMG_CONTENT_TYPES.contains(fileContentType)){
 			            	msg = new Mensaje(Mensaje.MSG_DANGER, "Error al guardar el nuevo registro. Extension de imagen no valida (.jpg, .png)");
 			            }
-			            boolean isInMemory  = item.isInMemory();
-			            long sizeInBytes    = item.getSize();
+//			            boolean isInMemory  = item.isInMemory();
+//			            long sizeInBytes    = item.getSize();
 			            
 			            
 			            file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName );

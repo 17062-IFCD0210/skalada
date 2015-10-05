@@ -18,7 +18,6 @@ import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloRol;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.skalada.util.SendMail;
-import com.ipartek.formacion.skalada.util.Utilidades;
 
 /**
  * Servlet implementation class RegistroController
@@ -33,7 +32,6 @@ public class RegistroController extends HttpServlet {
 	private Rol rol = null;
 	
 	//parametros
-	private int pAccion = Constantes.ACCION_VALIDAR;
 	private int pID	= -1;		//ID no valido	
 	private String pNombre;
 	private String pEmail;
@@ -42,7 +40,6 @@ public class RegistroController extends HttpServlet {
 	private int pIDRol = 2;	//Rol Usuario predefinido
 	
 	private SendMail mail;
-	private String asunto;
 	private String cuerpo;
 	private HashMap<String, String> hmParametros;
 

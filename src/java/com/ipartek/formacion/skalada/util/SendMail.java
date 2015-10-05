@@ -88,6 +88,7 @@ public class SendMail {
 	 * @param parametros {@code HashMap } con key-value a reemplazar en el email
 	 * @return {@code String} con el cuerpo del email presonalizado
 	 */
+	@SuppressWarnings("rawtypes")
 	public String mailTemplateToString(String fileUrl, HashMap<String, String> parametros ){
 		String resul = "";
 	    try{
@@ -96,7 +97,7 @@ public class SendMail {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}	    
-	    Iterator it = parametros.entrySet().iterator();
+		Iterator it = parametros.entrySet().iterator();
 	    while (it.hasNext()) {
 	    	Map.Entry e = (Map.Entry)it.next();
 	    	resul = resul.replace(e.getKey().toString(), e.getValue().toString());

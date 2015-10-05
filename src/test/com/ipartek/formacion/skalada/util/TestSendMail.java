@@ -28,6 +28,7 @@ public class TestSendMail {
 		mail = null;
 	}
 
+	
 	@Test
 	public void testSendMail() throws IOException {
 		
@@ -36,8 +37,8 @@ public class TestSendMail {
 		String asunto  = "prueba";
 		
 		String usuario = "Antton Gorriti";
-		String email   = "ander.ipartek@gmail.com";
-		String url     = Constantes.SERVER + Constantes.CONTROLLER_REGISTRO+"?accion="+Constantes.ACCION_VALIDAR+"&email="+email;
+//		String email   = "ander.ipartek@gmail.com";
+//		String url     = Constantes.SERVER + Constantes.CONTROLLER_REGISTRO+"?accion="+Constantes.ACCION_VALIDAR+"&email="+email;
 		
 		String cuerpo;
 		
@@ -48,9 +49,12 @@ public class TestSendMail {
 		ClassLoader classLoader = getClass().getClassLoader();
 		cuerpo = IOUtils.toString(classLoader.getResourceAsStream(Constantes.MAIL_TEMPLATE_RECUPERAR_PASS), "UTF-8");
 		
+		
+		@SuppressWarnings("rawtypes")
 		Iterator it = hmParametros.entrySet().iterator();
 	    while (it.hasNext()) {
-	    	Map.Entry e = (Map.Entry)it.next();
+	    	@SuppressWarnings("rawtypes")
+			Map.Entry e = (Map.Entry)it.next();
 	    	cuerpo = cuerpo.replace(e.getKey().toString(), e.getValue().toString());
 	    }
 	         

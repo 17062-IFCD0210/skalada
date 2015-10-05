@@ -1,7 +1,6 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -10,10 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
@@ -27,10 +23,7 @@ public class HomeBackController extends HttpServlet {
 	public static final String KEY_SESSION_USER = "ss_user";
        
 	private RequestDispatcher dispatcher = null;
-	private HttpSession session = null;
-	
 	private ModeloUsuario modeloUsuario = null;
-	private Usuario usuario = null;
 	
 	private ModeloSector modeloSector = null;
 	
