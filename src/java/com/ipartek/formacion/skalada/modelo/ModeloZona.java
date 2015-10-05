@@ -198,7 +198,13 @@ public class ModeloZona implements Persistable<Zona>{
 		return resul;
 	}
 	
-	//TODO OBTENER SECTORES DE UNA VIA
+	
+	/**
+	 *  OBTENER SECTORES DE UNA VIA
+	 * @param id de la via
+	 * @return arraylist
+	 */
+
 	public ArrayList<Object> getSectores(int id){
 		ArrayList<Object> resul = new ArrayList<Object>();
 		

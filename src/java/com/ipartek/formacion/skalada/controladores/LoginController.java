@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
@@ -31,7 +30,6 @@ public class LoginController extends HttpServlet {
        
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
-	private ModeloUsuario modelUsuario=null;
 	
 	private final String EMAIL = "admin@admin.com";
 	private final String PASS = "admin";

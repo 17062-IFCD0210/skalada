@@ -22,14 +22,6 @@ import com.ipartek.formacion.skalada.bean.Zona;
  */
 public class ModeloVia implements Persistable<Via> {
 	
-	private static final String TABLA_VIA = "via";
-	private static final String TABLA_GRADO = "grado";
-	private static final String TABLA_TIPO_ESCALADA = "tipo_escalada";
-	private static final String TABLA_ZONA = "zona";
-	private static final String TABLA_SECTOR = "sector";
-	
-	
-	
 	
 	private static final String SQL_INSERT = "";
 	
