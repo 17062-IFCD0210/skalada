@@ -50,7 +50,7 @@ public class HomeController extends HttpServlet {
 		
 		
 		//recuperar las ultimas 6 sectores del modelo
-		//TODO usar LIMIT en la select y order bu id desc
+		//TODO usar LIMIT en la select y order by id desc
 		ArrayList<Sector> sectores = modeloSector.getAll();
 		if ( sectores.size() > 6 ){
 			sectores = new ArrayList<Sector>(sectores.subList(0, 6));

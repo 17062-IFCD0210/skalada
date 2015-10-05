@@ -5,13 +5,21 @@
 <jsp:include page="includes/head.jsp"></jsp:include>
 <jsp:include page="includes/nav.jsp"></jsp:include>
 
+<!-- Recoger parametros para los usuarios y sectores -->
+<%
+	String sectoresPublicados="";
+if(request.getAttribute("sectoresPublicados")!=null){
+	sectoresPublicados=(String)request.getAttribute("sectoresPublicados");
+}
 
+
+%>
 
         <div id="page-wrapper">
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Control de Usuarios</h1>
+                    <h1 class="page-header">CONTROL</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -76,7 +84,7 @@
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">X</div>
                                     
-                                    <div>Numero de sectores</div>
+                                    <div><%=sectoresPublicados%></div>
                                 </div>
                             </div>
                         </div>

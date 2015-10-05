@@ -31,6 +31,7 @@ public class ModeloSector implements Persistable<Sector>{
 	
 	
 	private static final String SQL_GETALL_BY_ZONA = "select `id`,`nombre`,`imagen` from `sector` where `id_zona` = ?"; 
+	private static final String SQL_COUNT_PUBLICADOS = "select count(`id`) from `sector`";
 	
 	@Override
 	public int save(Sector o) {
@@ -258,6 +259,38 @@ public class ModeloSector implements Persistable<Sector>{
 		}	
 		return resul;
 	}
-	
+
+	/**
+	 * Numero de sectores publicados
+	 * @return el numero de sectores
+	 */
+	public int sectoresPublicados(){
+		int resul = 0;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_COUNT_PUBLICADOS);
+	    	rs = pst.executeQuery();	      	   	
+	    	while(rs.next()){
+	    		resul = rs.getInt(1);
+	    	}	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}		
+		return resul;				
+	}
 
 }

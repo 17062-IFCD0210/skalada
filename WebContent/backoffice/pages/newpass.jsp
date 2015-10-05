@@ -15,7 +15,7 @@
                         <h3 class="panel-title">Nueva Contraseña</h3>
                     </div>
                     <div class="panel-body">
-                    <% 
+          <% 
             
             //Parametros
             String email = (String)request.getParameter("email");
