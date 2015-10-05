@@ -46,21 +46,21 @@ public class RolesController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//recoger parametros
-		getParameters(request,response);
+		getParameters(request, response);
 		
 		//realizar accion solicitada
 		switch (pAccion) {
 		case Constantes.ACCION_NUEVO:
-			nuevo(request,response);
+			nuevo(request, response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			eliminar(request,response);
+			eliminar(request, response);
 			break;
 		default:
-			listar(request,response);
+			listar(request, response);
 			break;
 		}
 			

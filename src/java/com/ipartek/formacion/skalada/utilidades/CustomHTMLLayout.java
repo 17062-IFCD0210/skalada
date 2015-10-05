@@ -1,4 +1,4 @@
-package com.ipartek.formacion.utilidades;
+package com.ipartek.formacion.skalada.utilidades;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

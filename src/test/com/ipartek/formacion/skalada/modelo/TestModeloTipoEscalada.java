@@ -18,9 +18,9 @@ public class TestModeloTipoEscalada {
 	static ModeloTipoEscalada modelo = null;
 	
 	static String nombreTipoEscalada = "TipoEscaladaMock";
-	static String descripcionTipoEscalada = "Lorem impsu ÑéÁ";	
+	static String descripcionTipoEscalada = "Lorem impsu Ã‘Ã©Ã�";	
 	static String nombreTipoEscalada_updated = "updated";
-	static String descripcionTipoEscalada_updated = "Updated Lorem impsun ÑñéÁ";
+	static String descripcionTipoEscalada_updated = "Updated Lorem impsun Ã‘Ã±Ã©Ã�";
 	
 	static int id;	
 	static TipoEscalada te_get;
@@ -66,7 +66,7 @@ public class TestModeloTipoEscalada {
 		//Test para comprobar que al insertar un nuevo registro aumenta el ID
 		total_despues = modelo.getAll().size();	// total = total_despues + 1	
 		
-		assertTrue("al insertar un nuevo registro aumenta el ID"+ total + total_despues, total == total_despues-1);
+		assertTrue("al insertar un nuevo registro aumenta el ID"+ total + total_despues, total == total_despues - 1);
 		assertTrue("save(o) devuelve siempre un id positivo",(id != -1) && (id > 0));
 		
 		//Intentar insertar un null 

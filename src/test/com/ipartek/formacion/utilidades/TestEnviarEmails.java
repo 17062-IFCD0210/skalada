@@ -11,6 +11,7 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.utilidades.EnviarEmails;
 
 public class TestEnviarEmails {
 	

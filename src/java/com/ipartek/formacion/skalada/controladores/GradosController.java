@@ -141,7 +141,7 @@ public class GradosController extends HttpServlet {
 			}
 		}
 		
-		listar(request,response);
+		listar(request, response);
 		
 		dispatcher.forward(request, response);
 		

@@ -55,7 +55,7 @@ public class TestModeloZona {
 		id = modelo.save(z_insert);
 		total_despues = modelo.getAll().size();	// total = total_despues + 1	
 		
-		assertTrue(total == total_despues-1);
+		assertTrue(total == total_despues - 1);
 		assertTrue((id != -1) && (id > 0));
 		
 		
