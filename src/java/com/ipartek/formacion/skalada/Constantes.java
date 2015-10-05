@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Constantes {
+	/**
+	 * 
+	 */
 	
 	public static final String SERVER   = "http://localhost:8080";
 	public static final String ROOT_APP = "/skalada/";
@@ -67,16 +70,20 @@ public class Constantes {
 	public static final int ACCION_LISTAR	= 2;
 	public static final int ACCION_ELIMINAR = 3;
 	public static final int ACCION_VALIDAR  = 4;
-	public static final int ACCION_RECUPERAR= 5;
+	public static final int ACCION_RECUPERAR = 5;
 	
 	//Imagenes y Ficheros
-	public static final String IMG_UPLOAD_FOLDER        = "C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
-	public static final String IMG_UPLOAD_TEMP_FOLDER   = "C:\\desarrollo\\apache-tomcat-6.0.44\\temp";
-	public static final String IMG_WEP_PATH             = "http://localhost:8080/uploads/"; 
+	public static final String IMG_UPLOAD_FOLDER        = 
+			"C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
+	public static final String IMG_UPLOAD_TEMP_FOLDER   = 
+			"C:\\desarrollo\\apache-tomcat-6.0.44\\temp";
+	public static final String IMG_WEP_PATH             = 
+			"http://localhost:8080/uploads/"; 
 	public static final int    MAX_FILE_SIZE            = 1000 * 1024;
 	public static final int    MAX_MEM_SIZE             = 40 * 1024;
 	public static final String IMG_DEFAULT_SECTOR       = "default_sector.jpg";
-	public static final ArrayList<String> CONTENT_TYPES =  new ArrayList<String>( Arrays.asList("image/jpeg", "image/png"));
+	public static final ArrayList<String> CONTENT_TYPES =  
+			new ArrayList<String>(Arrays.asList("image/jpeg", "image/png"));
 
 	//ROLES
 	public static final String ROLE_USER = "usuario";

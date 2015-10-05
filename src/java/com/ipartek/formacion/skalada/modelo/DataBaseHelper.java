@@ -30,7 +30,7 @@ public class DataBaseHelper {
 	 * @return {@code Connection} la conexion abierta
 	 * @throws Exception
 	 */
-	public static Connection getConnection() throws Exception{
+	public static Connection getConnection() throws Exception {
 		
 		/* 
 		 *  Conexion usando DriverManager
@@ -38,7 +38,8 @@ public class DataBaseHelper {
 		 * 
 		if ( con == null ){
 			Class.forName(DRIVER);
-			con = DriverManager.getConnection ("jdbc:mysql://" + SERVER + "/" + DATA_BASE, USER, PASS);
+			con = DriverManager.getConnection 
+			("jdbc:mysql://" + SERVER + "/" + DATA_BASE, USER, PASS);
 		}
 		return con;
 		*/
@@ -47,13 +48,13 @@ public class DataBaseHelper {
 		
 		InitialContext ctx = new InitialContext();
 		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/skaladaDB");
-		if ( ds == null ) {
+		if (ds == null) {
 			throw new Exception("Data source no encontrado!");
-		}else{	
+		} else {	
 			con = ds.getConnection();
 		}	
 		
-		if ( con == null ) {
+		if (con == null) {
 			throw new Exception("No se ha podido establecer conexion");
 		}	
 		
@@ -65,13 +66,13 @@ public class DataBaseHelper {
 	 * Cuidado porque al cerrar una conexion con el metodo .close() no la pone a null
 	 * @return
 	 */
-	public static boolean closeConnection(){
+	public static boolean closeConnection() {
 		boolean resul = false;
-		try{
+		try {
 			con.close();
 			con = null;
 			resul = true;
-		} catch ( SQLException e){
+		} catch (SQLException e) {
 			con = null;
 			e.printStackTrace();
 			resul = false;
@@ -83,14 +84,14 @@ public class DataBaseHelper {
 	 * Crea la Base Datos ejecutando un Script
 	 * @return {@code Boolean}
 	 */
-	void crear(){
+	void crear() {
 		
 	}
 	
 	/**
 	 * Elimina la Base Datos con sentencia DROP
 	 */
-	void eliminar(){
+	void eliminar() {
 	
 	}
 	
@@ -100,14 +101,14 @@ public class DataBaseHelper {
 	 * 	<li>test</li>
 	 * </ol>
 	 */
-	void crearTablas(){
+	void crearTablas() {
 		
 	}
 	
 	/**
 	 * Insertar en las tablas un juego de datos para testear
 	 */
-	void insertarDatosPrueba(){
+	void insertarDatosPrueba() {
 		
 	}
 	

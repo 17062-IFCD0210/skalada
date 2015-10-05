@@ -15,7 +15,7 @@ import com.ipartek.formacion.skalada.bean.Via;
 import com.ipartek.formacion.skalada.bean.Zona;
 
 /**
- * Clase encargada de persistir los objetos de tipo {@code Via} 
+ * Clase encargada de persistir los objetos de tipo {@code Via}.
  * en ficheros serializando y des-serializando
  * @author ur00
  *
@@ -24,7 +24,16 @@ public class ModeloVia implements Persistable<Via> {
 	
 	private static final String SQL_INSERT = "";
 	
-	private static final String SQL_GETALL = "SELECT v.`id`, v.`nombre`,`longitud`, v.`descripcion`, `id_grado`, g.`nombre` as `nombre_grado` , `id_sector`, s.`nombre` as `nombre_sector`, `id_tipo_escalada`, t.`nombre` as `nombre_tipo_escalada`, s.`id_zona`, z.`nombre` as `nombre_zona` FROM `via` as v INNER JOIN `grado` as g ON `id_grado` = g.`id` INNER JOIN `sector` as s ON `id_sector` = s.`id` INNER JOIN `tipo_escalada` as t ON `id_tipo_escalada` = t.`id` INNER JOIN `zona` as z ON s.`id_zona` = z.`id`";
+	private static final String SQL_GETALL = "SELECT v.`id`,"
+			+ " v.`nombre`,`longitud`, v.`descripcion`, `id_grado`,"
+			+ " g.`nombre` as `nombre_grado` , `id_sector`, s.`nombre`"
+			+ " as `nombre_sector`, `id_tipo_escalada`, t.`nombre` as"
+			+ " `nombre_tipo_escalada`, s.`id_zona`, z.`nombre` as"
+			+ " `nombre_zona` FROM `via` as v INNER JOIN `grado` as"
+			+ " g ON `id_grado` = g.`id` INNER JOIN `sector` as"
+			+ " s ON `id_sector` = s.`id` INNER JOIN `tipo_escalada` as"
+			+ " t ON `id_tipo_escalada` = t.`id` INNER JOIN `zona`"
+			+ " as z ON s.`id_zona` = z.`id`";
 	/*	  
 	  SELECT 
 		  v.`id`, v.`nombre`,`longitud`, v.`descripcion`,
@@ -52,12 +61,13 @@ public class ModeloVia implements Persistable<Via> {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if(via != null){
-			try{
+		if (via != null) {
+			try {
 				Connection con = DataBaseHelper.getConnection();
-				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+				pst = con.prepareStatement(SQL_INSERT,
+						Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, via.getNombre());	
-		    	if ( pst.executeUpdate() != 1 ){
+		    	if (pst.executeUpdate() != 1) {
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
 					rsKeys = pst.getGeneratedKeys();
@@ -68,18 +78,18 @@ public class ModeloVia implements Persistable<Via> {
 						throw new Exception("No se ha podido generar ID");
 					}
 				}	    		    		
-			} catch (Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if(rsKeys != null){
+					if (rsKeys != null) {
 						rsKeys.close();
 					}
-					if(pst != null){
+					if (pst != null) {
 						pst.close();
 					}
 					DataBaseHelper.closeConnection();			
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}			
 			}	
@@ -92,26 +102,26 @@ public class ModeloVia implements Persistable<Via> {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
-		try{
+		try {
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_GETONE);
 			pst.setInt(1, id);
 	    	rs = pst.executeQuery();	      	   	
-	    	while(rs.next()){
-	    		resul = mapeo(rs);
+	    	while (rs.next()) {
+	    		resul = this.mapeo(rs);
 	    	}	
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if(pst != null){
+				if (pst != null) {
 					pst.close();
 				}
 				DataBaseHelper.closeConnection();			
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}		
@@ -123,25 +133,25 @@ public class ModeloVia implements Persistable<Via> {
 		ArrayList<Via> resul = new ArrayList<Via>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
-		try{
+		try {
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_GETALL);
 	    	rs = pst.executeQuery();   	   	
-	    	while(rs.next()){
-	    		resul.add(mapeo(rs));
+	    	while (rs.next()) {
+	    		resul.add(this.mapeo(rs));
 	    	}	
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if(pst != null){
+				if (pst != null) {
 					pst.close();
 				}
 				DataBaseHelper.closeConnection();			
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}			
 		}	
@@ -152,25 +162,26 @@ public class ModeloVia implements Persistable<Via> {
 	public boolean update(Via via) {
 		boolean resul = false;
 		PreparedStatement pst = null;
-		if (via != null){
-			try{
+		if (via != null) {
+			try {
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
 				pst.setString(1, via.getNombre());
 				pst.setInt(2, via.getId());				
-		    	if ( pst.executeUpdate() == 1 ){
+		    	if (pst.executeUpdate() == 1) {
 		    		resul = true;	    		
 				}
-			} catch (Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				try {
-					if(pst != null){
+					if (pst != null) {
 						pst.close();
 					}				
-					DataBaseHelper.closeConnection();									
-				}catch(Exception e){
+					DataBaseHelper
+					.closeConnection();									
+				} catch (Exception e) {
 					e.printStackTrace();
 				}			
 			}	
@@ -182,23 +193,23 @@ public class ModeloVia implements Persistable<Via> {
 	public boolean delete(int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
-		try{
+		try {
 			Connection con = DataBaseHelper.getConnection();
 			pst = con.prepareStatement(SQL_DELETE);
 			pst.setInt(1, id);			
-			if ( pst.executeUpdate() == 1 ){
+			if (pst.executeUpdate() == 1) {
 				resul = true;
 			}			
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
-				if(pst != null){
+				if (pst != null) {
 					pst.close();
 				}
 				DataBaseHelper.closeConnection();	
 				return resul;
-			}catch(Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}		
@@ -206,28 +217,29 @@ public class ModeloVia implements Persistable<Via> {
 	}
 	
 	/**
-	 * Mapea un ResultSet a Via
+	 * Mapea un ResultSet a Via.
 	 * @param rs
 	 * @return
 	 * @throws SQLException 
 	 */
-	private Via mapeo (ResultSet rs) throws SQLException{
+	private Via mapeo(ResultSet rs) throws SQLException {
 		Via resul = null;  
 		
 		//Tipo Escalada
-		TipoEscalada tipoEscalada = new TipoEscalada( rs.getString("nombre_tipo_escalada") );
+		TipoEscalada tipoEscalada = new TipoEscalada(
+				rs.getString("nombre_tipo_escalada"));
 		tipoEscalada.setId(rs.getInt("id_tipo_escalada"));
 
 		//Zona
-		Zona zona = new Zona( rs.getString("nombre_zona")  );
+		Zona zona = new Zona(rs.getString("nombre_zona"));
 		zona.setId(rs.getInt("id_zona"));
 		
 		//Sector
-		Sector sector = new Sector( rs.getString("nombre_sector") , zona);
+		Sector sector = new Sector(rs.getString("nombre_sector"), zona);
 		sector.setId(rs.getInt("id_sector"));
 		
 		//Grado
-		Grado grado = new Grado( rs.getString("nombre_grado") );
+		Grado grado = new Grado(rs.getString("nombre_grado"));
 		grado.setId(rs.getInt("id_grado"));
 		
 		//nombre
@@ -241,7 +253,7 @@ public class ModeloVia implements Persistable<Via> {
 		
 		//creamos la Via
 		resul = new Via(nombre, longitud, grado, tipoEscalada, sector);
-		resul.setId( rs.getInt("id") );
+		resul.setId(rs.getInt("id"));
 		resul.setDescripcion(descripcion);
 
 		//inicializar a null		

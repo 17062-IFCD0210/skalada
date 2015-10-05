@@ -42,50 +42,51 @@ public class SignupController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modeloUsuario = new ModeloUsuario();
-		modeloRol = new ModeloRol();
+		this.modeloUsuario = new ModeloUsuario();
+		this.modeloRol = new ModeloRol();
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			msg.setTexto("Error sin definir");
-			msg.setTipo(Mensaje.MSG_DANGER);
-			pEmail = request.getParameter("email");
+			this.msg.setTexto("Error sin definir");
+			this.msg.setTipo(Mensaje.MSG_DANGER);
+			this.pEmail = request.getParameter("email");
 
-			usuario = (Usuario) modeloUsuario.getByEmail(pEmail);
+			this.usuario = (Usuario) this.modeloUsuario.getByEmail(this.pEmail);
 			//usuario  no existe
-			if (usuario == null){ 
-				msg.setTexto("Email no registrado: "+ pEmail);
-				dispatcher = request
+			if (this.usuario == null) { 
+				this.msg.setTexto("Email no registrado: " + this.pEmail);
+				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 			//usuario encpontrado
 			} else {	
-				if( usuario.getValidado() == Constantes.USER_VALIDATE ){
-					msg.setTexto("Ya estabas registrado");
-					msg.setTipo(Mensaje.MSG_WARNING);
+				if (this.usuario.getValidado() == Constantes.USER_VALIDATE) {
+					this.msg.setTexto("Ya estabas registrado");
+					this.msg.setTipo(Mensaje.MSG_WARNING);
 					
-				}else{
+				} else {
 					
-					usuario.setValidado( Constantes.USER_VALIDATE );
-					if( modeloUsuario.update(usuario) ){
-						msg.setTexto("Eskerrik asko por registrarte");
-						msg.setTipo(Mensaje.MSG_SUCCESS);
+					this.usuario.setValidado(Constantes.USER_VALIDATE);
+					if (this.modeloUsuario.update(this.usuario)) {
+						this.msg.setTexto("Eskerrik asko por registrarte");
+						this.msg.setTipo(Mensaje.MSG_SUCCESS);
 					}
 				}
-				dispatcher = request
+				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();	
-		}finally{
-			request.setAttribute("msg", msg);
-			dispatcher.forward(request, response);
+		} finally {
+			request.setAttribute("msg", this.msg);
+			this.dispatcher.forward(request, response);
 		}
 
 	}
@@ -94,82 +95,92 @@ public class SignupController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
 
 			// recoger parametros
-			pNombre = (String) request.getParameter("nombre");
-			pEmail = (String) request.getParameter("email");
-			pPass = (String) request.getParameter("password");
+			this.pNombre = request.getParameter("nombre");
+			this.pEmail = request.getParameter("email");
+			this.pPass = request.getParameter("password");
 
 			// Comprobamos si existe el usuario
-			if (!modeloUsuario.checkUser(pNombre, pEmail)) {
+			if (!this.modeloUsuario.checkUser(this.pNombre, this.pEmail)) {
 
 				// Creamos el objeto Usuario
-				rol = (Rol) modeloRol.getById(pIdRol);
-				usuario = new Usuario(pNombre, pEmail, pPass, rol);
+				this.rol = (Rol) this.modeloRol.getById(this.pIdRol);
+				this.usuario = new Usuario(this.pNombre, this.pEmail, this.pPass, this.rol);
 
 				// Guardar en Base Datos
-				if (modeloUsuario.save(usuario) == -1) {
-					msg = new Mensaje(Mensaje.MSG_DANGER,
+				if (this.modeloUsuario.save(this.usuario) == -1) {
+					this.msg = new Mensaje(Mensaje.MSG_DANGER,
 							"Ha habido un error al guardar el usuario");
-					dispatcher = request
+					this.dispatcher = request
 							.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 				} else {
 					// Enviar email de validación
-					if (enviarEmail()) {
-						msg = new Mensaje(Mensaje.MSG_SUCCESS,
-								"Por favor revisa tu Email para validar tu registro");
+					if (this.enviarEmail()) {
+						this.msg = new Mensaje(Mensaje.MSG_SUCCESS,
+								"Por favor revisa tu Email "
+								+ "para validar tu registro");
 					} else {
-						msg = new Mensaje(Mensaje.MSG_DANGER,
-								"Error al enviar email, por favor ponte en contacto con nosotros "
-										+ EnviarEmails.direccionOrigen);
+						this.msg = new Mensaje(Mensaje.MSG_DANGER,
+								"Error al enviar email, por favor "
+								+ "ponte en contacto con nosotros "
+										+ EnviarEmails.DIRECIONORIGEN);
 					}
-					dispatcher = request
+					this.dispatcher = request
 							.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 				}
 			} else {
-				msg = new Mensaje(Mensaje.MSG_DANGER,
+				this.msg = new Mensaje(Mensaje.MSG_DANGER,
 						"El usuario o email ya existe");
-				dispatcher = request
+				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			msg = new Mensaje(Mensaje.MSG_WARNING,
+			this.msg = new Mensaje(Mensaje.MSG_WARNING,
 					"Ha habido un error al guardar el usuario."
 							+ e.getMessage());
-			request.setAttribute("msg", msg);
+			request.setAttribute("msg", this.msg);
 		} finally {
-			request.setAttribute("msg", msg);
-			dispatcher.forward(request, response);
+			request.setAttribute("msg", this.msg);
+			this.dispatcher.forward(request, response);
 		}
 	}
-
-	private boolean enviarEmail(){
+/**
+ * 
+ * @return resul
+ */
+	private boolean enviarEmail() {
 		boolean resul = false;
-		try{
+		try {
 			EnviarEmails correo = new EnviarEmails();
 			
 			//url para validar el registro del usuario
-			//llamara a este mismo controlador por GET pasando el email del usuario
-			String url = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP + "?email=" + usuario.getEmail();
+			//llamara a este mismo controlador por 
+			//GET pasando el email del usuario
+			String url = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP 
+					+ "?email=" + this.usuario.getEmail();
 			
 			//parametros para la plantilla
 			HashMap<String, String> parametros = new HashMap<String, String>();
-			parametros.put("{usuario}", usuario.getNombre());
+			parametros.put("{usuario}", this.usuario.getNombre());
 			parametros.put("{url}", url);
-			parametros.put("{contenido}", "Gracias por registrarte. Para activar el usuario y verificar el email, clica en el enlace de debajo.");
-			parametros.put("{btn_submit_text}", "Activa tu cuenta" );
+			parametros.put("{contenido}", "Gracias por registrarte. "
+					+ "Para activar el usuario y verificar el email,"
+					+ " clica en el enlace de debajo.");
+			parametros.put("{btn_submit_text}", "Activa tu cuenta");
 			
 			//configurar correo electronico
 			correo.setDireccionFrom("skalada.ipartek@gmail.com");
-			correo.setDireccionDestino(usuario.getEmail());			
-			correo.setMessageContent( 
-						correo.generarPlantilla( 
+			correo.setDireccionDestino(this.usuario.getEmail());			
+			correo.setMessageContent(
+						correo.generarPlantilla(
 								Constantes.EMAIL_TEMPLATE_REGISTRO ,	
 								parametros	
 							)					
@@ -178,7 +189,7 @@ public class SignupController extends HttpServlet {
 			//enviar correo electronico
 			resul = correo.enviar();
 						
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}	
 		

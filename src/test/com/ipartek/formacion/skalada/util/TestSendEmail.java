@@ -23,7 +23,8 @@ public class TestSendEmail {
 		Session session = Session.getDefaultInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("skalada.ipartek@gmail.com","123ABC123");
+					return new PasswordAuthentication(
+							"skalada.ipartek@gmail.com", "123ABC123");
 				}
 			});
 
@@ -32,10 +33,16 @@ public class TestSendEmail {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("auraga@ipartek.com"));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("auraga@ipartek.com,mikelalonsorojo@gmail.com,unaiperea@gmail.com,ieltxuorue@gmail.com,andertxo777@gmail.com,javi70@gmail.com,degar00@gmail.com,raulgf1992@gmail.com,laragonzalez.bm@gmail.com"));
+					InternetAddress.parse("auraga@ipartek.com,"
+							+ "mikelalonsorojo@gmail.com,unaiperea@gmail.com,"
+							+ "ieltxuorue@gmail.com,andertxo777@gmail.com,"
+							+ "javi70@gmail.com,degar00@gmail.com,"
+							+ "raulgf1992@gmail.com,"
+							+ "laragonzalez.bm@gmail.com"));
 			message.setSubject("Email enviado desde Skalada App");
-			message.setText("No es Spam," +
-					"\n\n Enviado email desde Java, dentro de poco el codigo en tu GIT!");
+			message.setText("No es Spam," 
+			+ "\n\n Enviado email desde Java,"
+			+ " dentro de poco el codigo en tu GIT!");
 
 			Transport.send(message);
 

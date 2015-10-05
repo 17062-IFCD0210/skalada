@@ -15,9 +15,9 @@ public class TipoEscalada implements Serializable {
 	/**
 	 * Constructor
 	 */
-	public TipoEscalada(String nombre) {
+	public TipoEscalada(String sNombre) {
 		super();
-		this.setNombre(nombre);;
+		this.setNombre(sNombre);;
 		this.setId(-1);
 	}
 	
@@ -25,22 +25,22 @@ public class TipoEscalada implements Serializable {
 	 * Getters y Setters
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int iId) {
+		this.id = iId;
 	}
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombre(String sNombre) {
+		this.nombre = sNombre;
 	}
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescripcion(String sDescripcion) {
+		this.descripcion = sDescripcion;
 	}
 		
 }

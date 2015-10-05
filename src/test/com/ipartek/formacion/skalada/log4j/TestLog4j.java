@@ -43,11 +43,11 @@ public class TestLog4j {
 	}
 	@Test
 	public void testProperties() {
-		try{
+		try {
 			
 			// Cargar properties
 			Properties props = new Properties();		
-			props.load( getClass().getResourceAsStream(PATH));
+			props.load(getClass().getResourceAsStream(PATH));
 			PropertyConfigurator.configure(props);
 			
 			// Escribir linea
@@ -56,7 +56,7 @@ public class TestLog4j {
 			
 			assertTrue("No encontrado log4j.properties", true);
 					
-		}catch( Exception e ){
+		} catch (Exception e) {
 			fail("No encontrado log4j.properties " + PATH);
 		}
 	}

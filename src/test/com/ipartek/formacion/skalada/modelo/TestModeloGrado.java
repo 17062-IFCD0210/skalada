@@ -12,6 +12,11 @@ import org.junit.Test;
 
 import com.ipartek.formacion.skalada.bean.Grado;
 
+/**
+ * 
+ * @author Curso
+ *
+ */
 
 public class TestModeloGrado {
 	
@@ -60,10 +65,11 @@ public class TestModeloGrado {
 		assertTrue((id != -1) && (id > 0));
 		
 		
-		//Test para comprobar que al obtener un registro por su ID lo devuelve correctamente
+		//Test para comprobar que al obtener un
+		//registro por su ID lo devuelve correctamente
 		Grado g_get;		
-		g_get = (Grado)modelo.getById(id);	
-		assertTrue(id==g_get.getId());
+		g_get = (Grado) modelo.getById(id);	
+		assertTrue(id == g_get.getId());
 		assertEquals(nombreGrado, g_get.getNombre());
 		assertEquals(descripcionGrado, g_get.getDescripcion());
 		
@@ -75,8 +81,8 @@ public class TestModeloGrado {
 		
 		assertTrue(modelo.update(g_update));
 		
-		g_get = (Grado)modelo.getById(g_update.getId());	
-		assertTrue(id==g_get.getId());
+		g_get = (Grado) modelo.getById(g_update.getId());	
+		assertTrue(id == g_get.getId());
 		assertEquals(nombreGrado_updated, g_get.getNombre());
 		assertEquals(descripcionGrado_updated, g_get.getDescripcion());
 		
@@ -85,10 +91,11 @@ public class TestModeloGrado {
 		assertTrue(modelo.delete(id));
 		assertTrue(total == modelo.getAll().size());	
 	}
-	
+
 	@Test
 	public void testCasosError() {
-		//Intentar obtener un grado cuyo identificador no exista en la base de datos 
+		//Intentar obtener un grado cuyo identificador
+		//no exista en la base de datos 
 		id = -1;
 		assertNull(modelo.getById(id));
 		assertNull(modelo.getById(0));
@@ -113,10 +120,10 @@ public class TestModeloGrado {
 		Grado g_2 = new Grado(nombreGrado);
 		g_2.setId(id);
 		
-		assertTrue((id+1) == modelo.save(g_2));
+		assertTrue((id + 1) == modelo.save(g_2));
 		
 		assertTrue(modelo.delete(id));
-		assertTrue(modelo.delete(id+1));
+		assertTrue(modelo.delete(id + 1));
 		
 		
 		

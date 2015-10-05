@@ -3,7 +3,7 @@ package com.ipartek.formacion.skalada.bean;
 import java.io.Serializable;
 
 /**
- * Grado de dificultd para las vias
+ * Grado de dificultd para las vias.
  * @author Curso
  *
  */
@@ -11,41 +11,41 @@ public class Grado implements Serializable {
 	private static final long serialVersionUID = -7009856922950747575L;
 	
 	/**
-	 * Atributos
+	 * Atributos.
 	 */
 	private int id;
 	private String nombre;
 	private String descripcion;
 	
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
-	public Grado(String nombre) {
+	public Grado(String sNombre) {
 		super();
-		this.setNombre(nombre);
+		this.setNombre(sNombre);
 		this.setId(-1);
 	}
 	
 	/**
-	 * Getters y Setters
+	 * Getters y Setters.
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int iId) {
+		this.id = iId;
 	}
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombre(String sNombre) {
+		this.nombre = sNombre;
 	}
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescripcion(String sDescripcion) {
+		this.descripcion = sDescripcion;
 	}
 	
 }

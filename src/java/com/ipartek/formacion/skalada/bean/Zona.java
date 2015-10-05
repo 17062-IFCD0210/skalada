@@ -4,46 +4,46 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Zona implements Serializable{
+public class Zona implements Serializable {
 	private static final long serialVersionUID = 2585448916481098409L;
 	
 	/**
-	 * Atributos
+	 * Atributos.
 	 */
 	private int id;
 	private String nombre;
 	private List<Sector> sectores;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
-	public Zona(String nombre) {
+	public Zona(String sNombre) {
 		super();
 		this.setId(-1);
-		this.setNombre(nombre);
+		this.setNombre(sNombre);
 		this.setSectores(new ArrayList<Sector>());		
 	}
 
 	/**
-	 * Getters y Setters
+	 * Getters y Setters.
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int iId) {
+		this.id = iId;
 	}
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombre(String sNombre) {
+		this.nombre = sNombre;
 	}
 	public List<Sector> getSectores() {
-		return sectores;
+		return this.sectores;
 	}
-	public void setSectores(List<Sector> sectores) {
-		this.sectores = sectores;
+	public void setSectores(List<Sector> sSectores) {
+		this.sectores = sSectores;
 	}
 
 	

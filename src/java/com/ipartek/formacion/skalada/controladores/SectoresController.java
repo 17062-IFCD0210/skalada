@@ -2,7 +2,6 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,8 +20,8 @@ import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.FileUploadBase.
+FileSizeLimitExceededException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -128,7 +127,8 @@ public class SectoresController extends HttpServlet {
 		listar(request, response);
 	}
 
-	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
+	private void nuevo(HttpServletRequest request,
+			HttpServletResponse response) {
 		zona = new Zona("");
 		sector = new Sector("", zona);
 		request.setAttribute("sector", sector);
@@ -157,9 +157,10 @@ public class SectoresController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		Mensaje msg = new Mensaje( Mensaje.MSG_DANGER , "Error sin identificar");
+		Mensaje msg = new Mensaje(
+				Mensaje.MSG_DANGER , "Error sin identificar");
 		
-		try{
+		try {
 				// recoger parametros del formulario
 				getParametersForm(request);
 		
@@ -174,28 +175,36 @@ public class SectoresController extends HttpServlet {
 						
 					} else {
 						msg.setTipo(Mensaje.MSG_DANGER);
-						msg.setTexto("Error al guardar el nuevo registro");														
+						msg.setTexto(
+								"Error al guardar el nuevo registro");														
 					}
 				} else {
 					if (modeloSector.update(sector)) {
 						msg.setTipo(Mensaje.MSG_SUCCESS);
-						msg.setTexto("Modificado correctamente el registro [id(" + pID
+						msg.setTexto(
+								"Modificado correctamente el registro "
+								+ "[id(" + pID
 								+ ")]");						
 					} else {
 						msg.setTipo(Mensaje.MSG_DANGER);
-						msg.setTexto("Error al modificar el registro [id(" + pID + ")]");			
+						msg.setTexto("Error al modificar el registro"
+								+ " [id(" + pID + ")]");			
 					}
 				}
 				
 				request.setAttribute("msg", msg);
 
-		}catch( FileSizeLimitExceededException e){		
+		} catch (FileSizeLimitExceededException e) {		
 			e.printStackTrace();
-			msg = new Mensaje( Mensaje.MSG_DANGER , "La imagen excede del tamaño maximo permitido " + Constantes.MAX_FILE_SIZE + " bytes" );
+			msg = new Mensaje(
+					Mensaje.MSG_DANGER , "La imagen excede del tamaño"
+							+ " maximo permitido " + Constantes.MAX_FILE_SIZE 
+							+ " bytes");
 			request.setAttribute("msg", msg);	
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			msg = new Mensaje( Mensaje.MSG_DANGER , e.getMessage() );
+			msg = new Mensaje(
+					Mensaje.MSG_DANGER , e.getMessage());
 			request.setAttribute("msg", msg);
 		}	
 		
@@ -221,7 +230,7 @@ public class SectoresController extends HttpServlet {
 			sector = (Sector) modeloSector.getById(pID);
 			sector.setNombre(pNombre);
 			sector.setZona(zona);
-			if ( file != null ){
+			if (file != null) {
 				sector.setImagen(file.getName());
 			}	
 
@@ -229,7 +238,7 @@ public class SectoresController extends HttpServlet {
 		} else {
 			sector = new Sector(pNombre, zona);
 			sector.setId(pID);
-			if ( file != null ){
+			if (file != null) {
 				sector.setImagen(file.getName());
 			}	
 		}
@@ -244,14 +253,15 @@ public class SectoresController extends HttpServlet {
 	 * @throws UnsupportedEncodingException
 	 * @throws FileUploadException 
 	 */
-	private void getParametersForm(HttpServletRequest request) throws Exception {
+	private void getParametersForm(HttpServletRequest request)
+			throws Exception {
 	
 			request.setCharacterEncoding("UTF-8");		
 			
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			// maximum size that will be stored in memory
 			//TODO cambiar este valor para que falle
-			factory.setSizeThreshold( Constantes.MAX_MEM_SIZE );
+			factory.setSizeThreshold(Constantes.MAX_MEM_SIZE);
 			// Location to save data that is larger than maxMemSize.
 			//TODO comprobar si no existe carpeta
 			factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));
@@ -260,40 +270,45 @@ public class SectoresController extends HttpServlet {
 		    ServletFileUpload upload = new ServletFileUpload(factory);
 		    // maximum file size to be uploaded.
 		    //TODO cambiar valor no dejar subir mas 1Mb
-		    upload.setSizeMax( Constantes.MAX_FILE_SIZE );
+		    upload.setSizeMax(Constantes.MAX_FILE_SIZE);
 		    
 		    //Parametros de la request del formulario, NO la imagen
-		    HashMap<String, String> dataParameters = new HashMap<String, String>();
+		    HashMap<String, String> dataParameters =
+		    		new HashMap<String, String>();
 			// Parse the request to get file items.		   
 		    List<FileItem> items = upload.parseRequest(request);		   
 		    for (FileItem item : items) {		    	
 		    	//parametro formulario
-		    	if ( item.isFormField() ){		    		
-		    		dataParameters.put( item.getFieldName(), item.getString("UTF-8") );
+		    	if (item.isFormField()) {		    		
+		    		dataParameters.put(item.getFieldName(),
+		    				item.getString("UTF-8"));
 		    	//Imagen	
-		    	}else{		    		
+		    	} else {		    		
 		    		String fileName     = item.getName();		    		
-		    		if ( !"".equals(fileName)){		    		
+		    		if (!"".equals(fileName)) {		    		
 			            String fileContentType  = item.getContentType();
 			            
-			            if ( Constantes.CONTENT_TYPES.contains(fileContentType)){
+			            if (Constantes.CONTENT_TYPES.contains(
+			            		fileContentType)) {
 			             		            
 				            				            
 				            
 				            //TODO No repetir nombres imagenes
 				            
-				            file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName );
-				            item.write( file ) ;
-			            }else{
-			            	throw new Exception( "[" + fileContentType + "] extensión de imagen no permitida");
-			            }//end: content-type no permitido    
-		    		}else{
+				            file = new File(Constantes.IMG_UPLOAD_FOLDER 
+				            		+ "\\" + fileName);
+				            item.write(file);
+			            } else {
+			            	throw new Exception("[" + fileContentType + "]"
+			            			+ " extensión de imagen no permitida");
+			            } //end: content-type no permitido    
+		    		} else {
 		    			file = null;
 		    		}   
 		    	}	
-		    }//End: for List<FileItem>
+		    } //End: for List<FileItem>
 		    
-		   	pID = Integer.parseInt( dataParameters.get("id"));
+		   	pID = Integer.parseInt(dataParameters.get("id"));
 			pNombre = dataParameters.get("nombre");
 			pIDZona = Integer.parseInt(dataParameters.get("zona"));
 		

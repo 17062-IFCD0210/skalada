@@ -18,13 +18,13 @@ import org.apache.commons.io.IOUtils;
 
 public class EnviarEmails {
 
-	public  static final String direccionOrigen = "skalada.ipartek@gmail.com";
+	public  static final String DIRECIONORIGEN = "skalada.ipartek@gmail.com";
 	private String passwordOrigen   = "123ABC123";
-	private String direccionFrom    ="";
-	private String direccionDestino ="";
-	private String messageSubject   =""; //Asunto	
-	private String messageText      =""; //Cuerpo Texto Plano
-	private String messageContent   =""; //Cuerpo Html
+	private String direccionFrom    = "";
+	private String direccionDestino = "";
+	private String messageSubject   = ""; //Asunto	
+	private String messageText      = ""; //Cuerpo Texto Plano
+	private String messageContent   = ""; //Cuerpo Html
 
 	private Session session;
 	
@@ -40,11 +40,14 @@ public class EnviarEmails {
 					  "javax.net.ssl.SSLSocketFactory");
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.port", "465");
-			session = Session.getDefaultInstance(props,
+			this.session = Session.getDefaultInstance(props,
 					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
+						@Override
+						protected PasswordAuthentication 
+							getPasswordAuthentication() {
 							return new PasswordAuthentication(
-									direccionOrigen, passwordOrigen);
+									DIRECIONORIGEN, 
+									EnviarEmails.this.passwordOrigen);
 						}
 					});			
 		}
@@ -54,7 +57,7 @@ public class EnviarEmails {
 	/*********************** GETTERS Y SETTERS. **********************/
 
 	public String getDireccionOrigen() {
-		return direccionOrigen;
+		return DIRECIONORIGEN;
 	}
 
 
@@ -65,7 +68,7 @@ public class EnviarEmails {
 
 
 	public String getPasswordOrigen() {
-		return passwordOrigen;
+		return this.passwordOrigen;
 	}
 
 	/*
@@ -76,65 +79,66 @@ public class EnviarEmails {
 
 
 	public String getDireccionFrom() {
-		return direccionFrom;
+		return this.direccionFrom;
 	}
 
 
-	public void setDireccionFrom(String direccionFrom) {
-		this.direccionFrom = direccionFrom;
+	public void setDireccionFrom(String sDireccionFrom) {
+		this.direccionFrom = sDireccionFrom;
 	}
 
 
 	public String getDireccionDestino() {
-		return direccionDestino;
+		return this.direccionDestino;
 	}
 
 
-	public void setDireccionDestino(String direccionDestino) {
-		this.direccionDestino = direccionDestino;
+	public void setDireccionDestino(String sDireccionDestino) {
+		this.direccionDestino = sDireccionDestino;
 	}
 
 
 	public String getMessageContent() {
-		return messageContent;
+		return this.messageContent;
 	}
 
 
 
-	public void setMessageContent(String messageContent) {
-		this.messageContent = messageContent;
+	public void setMessageContent(String sMessageContent) {
+		this.messageContent = sMessageContent;
 	}
 
 
 
 	public String getMessageSubject() {
-		return messageSubject;
+		return this.messageSubject;
 	}
 
 
-	public void setMessageSubject(String messageSubject) {
-		this.messageSubject = messageSubject;
+	public void setMessageSubject(String sMessageSubject) {
+		this.messageSubject = sMessageSubject;
 	}
 
 
 	public String getMessageText() {
-		return messageText;
+		return this.messageText;
 	}
 
 
-	public void setMessageText(String messageText) {
-		this.messageText = messageText;
+	public void setMessageText(String sMessageText) {
+		this.messageText = sMessageText;
 	}
 
 	
 	
 	@Override
 	public String toString() {
-		return "EnviarEmails [direccionOrigen=" + direccionOrigen
-				+ ", passwordOrigen=" + passwordOrigen + ", direccionFrom="
-				+ direccionFrom + ", direccionDestino=" + direccionDestino
-				+ ", messageSubject=" + messageSubject + ", messageText="
-				+ messageText + ", session=" + session + "]";
+		return "EnviarEmails [direccionOrigen=" + DIRECIONORIGEN
+				+ ", passwordOrigen=" + this.passwordOrigen + ", direccionFrom="
+				+ this.direccionFrom + ", direccionDestino=" 
+				+ this.direccionDestino
+				+ ", messageSubject=" + this.messageSubject + ", messageText="
+				+ this.messageText + ", session=" + this.session + "]";
 	}
 
 	
@@ -144,18 +148,19 @@ public class EnviarEmails {
 	
 		boolean resul = false;
 		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(direccionFrom));
+			Message message = new MimeMessage(this.session);
+			message.setFrom(new InternetAddress(this.direccionFrom));
 			message.setRecipients(
 					Message.RecipientType.TO, 
-					InternetAddress.parse(direccionDestino));
+					InternetAddress.parse(this.direccionDestino));
 			message.setSubject(
-					MimeUtility.encodeText(messageSubject, "UTF-8", "B"));
+					MimeUtility.encodeText(this.messageSubject, "UTF-8", "B"));
 			
-			if (!"".equals(messageText)) {
-				message.setText(messageText);
+			if (!"".equals(this.messageText)) {
+				message.setText(this.messageText);
 			} else {
-				message.setContent(messageContent, "text/html; charset=utf-8");
+				message.setContent(this.messageContent,
+						"text/html; charset=utf-8");
 			}	
 			Transport.send(message);
 			resul = true;
@@ -165,8 +170,8 @@ public class EnviarEmails {
 		return resul;
 	}
 	
-	/**.
-	 * Genera un String a partir de una plantilla y un HashMap de parametros
+	/**
+	 * Genera un String a partir de una plantilla y un HashMap de parametros.
 	 * @param plantilla Ruta donde se encuentra la plantilla del email,
 	 *  debe estar en "src/resources"
 	 * @param parametros HashMap con variables a sustituir en la plantilla
@@ -174,18 +179,19 @@ public class EnviarEmails {
 	 * @throws IOException 
 	 */
 	
-	public String generarPlantilla(String plantilla, HashMap<String, String> parametros)
+	public String generarPlantilla(String plantilla,
+			HashMap<String, String> parametros)
 			throws IOException {
 		String resul = "";
 
-		ClassLoader classLoader = getClass().getClassLoader();
+		ClassLoader classLoader = this.getClass().getClassLoader();
 		resul = (IOUtils.toString(classLoader
 				.getResourceAsStream(plantilla), "UTF-8"));
 
 		Iterator<Map.Entry<String, String>> it =
 				parametros.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry<String, String> e = (Map.Entry<String, String>) it.next();
+			Map.Entry<String, String> e = it.next();
 			resul = resul.replace(e.getKey(), e.getValue());
 		
 		}

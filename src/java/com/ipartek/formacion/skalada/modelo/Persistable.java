@@ -13,19 +13,21 @@ import java.util.ArrayList;
  * @author Curso
  *
  */
-// Al poner T le estamos pasando "algo", pero no le especificamos el que (Objeto Generico)
-public interface Persistable <T>{
+// Al poner T le estamos pasando "algo", 
+//pero no le especificamos el que (Objeto Generico)
+public interface Persistable<T> {
 
 	/**
-	 **** 		CREATE		****
+	 **** 		CREATE.		****
 	 * Persiste el Objeto y lo guarda
 	 * @param o {@code Object} objeto a guardar
-	 * @return {@code int} Identificador del objeto guardado, -1 en caso de error
+	 * @return {@code int} Identificador del 
+	 * objeto guardado, -1 en caso de error
 	 */
 	int save(T t);
 	
 	/**
-	 ****		READ I		****
+	 ****		READ I.		****
 	 * Recupera Objeto por su Identificador
 	 * @param id {@code int} identificador del objeto a recuperar
 	 * @return {@code Object} objeto encontrado o null en caso contrario
@@ -33,14 +35,15 @@ public interface Persistable <T>{
 	Object getById(int id);
 	
 	/**
-	 ****		READ II		****
+	 ****		READ II.		****
 	 * Recupera una coleccion de  Objetos
-	 * @return {@code Object} coleccion de objetos, si no existen coleccion vacia
+	 * @return {@code Object} coleccion de objetos,
+	 *  si no existen coleccion vacia
 	 */
 	ArrayList<T> getAll();
 	
 	/**
-	 ****		UPDATE		****
+	 ****		UPDATE.		****
 	 * Modificar un Objeto el cual debe tener un identificador definido
 	 * @param o {@code Object} Objeto a modificar
 	 * @return true si se modificaba bien, false en caso contrario
@@ -48,8 +51,8 @@ public interface Persistable <T>{
 	boolean update(T t);
 	
 	/**
-	 ****		DELETE		****
-	 * Eliminar un Objeto por su identificador
+	 ****		DELETE.		****
+	 * Eliminar un Objeto por su identificador.
 	 * @param o {@code int} identificador del recurso a eliminar
 	 * @return true si se elimina, false en caso contrario
 	 */

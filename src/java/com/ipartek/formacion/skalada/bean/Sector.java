@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.ipartek.formacion.skalada.Constantes;
 
-public class Sector implements Serializable{
+public class Sector implements Serializable {
 	private static final long serialVersionUID = -2537948970066821711L;
 	
 	/**
@@ -18,11 +18,11 @@ public class Sector implements Serializable{
 	/**
 	 * Constructor
 	 */
-	public Sector(String nombre, Zona zona) {
+	public Sector(String sNombre, Zona zZona) {
 		super();
 		this.setId(-1);
-		this.setNombre(nombre);
-		this.setZona(zona);
+		this.setNombre(sNombre);
+		this.setZona(zZona);
 		this.setImagen(Constantes.IMG_DEFAULT_SECTOR);
 	}
 
@@ -30,36 +30,37 @@ public class Sector implements Serializable{
 	 * Getters y Setters
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int iId) {
+		this.id = iId;
 	}
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombre(String sNombre) {
+		this.nombre = sNombre;
 	}
 	public Zona getZona() {
-		return zona;
+		return this.zona;
 	}
-	public void setZona(Zona zona) {
-		this.zona = zona;
+	public void setZona(Zona zZona) {
+		this.zona = zZona;
 	}
 
 	public String getImagen() {
-		return imagen;
+		return this.imagen;
 	}
 
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
+	public void setImagen(String sImagen) {
+		this.imagen = sImagen;
 	}
 
 	@Override
 	public String toString() {
-		return "Sector [id=" + id + ", nombre=" + nombre + ", zona=" + zona
-				+ ", imagen=" + imagen + "]";
+		return "Sector [id=" + this.id + ", nombre=" 
+				+ this.nombre + ", zona=" + this.zona
+				+ ", imagen=" + this.imagen + "]";
 	}
 	
 	

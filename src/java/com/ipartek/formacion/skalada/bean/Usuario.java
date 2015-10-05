@@ -3,8 +3,12 @@ package com.ipartek.formacion.skalada.bean;
 import java.io.Serializable;
 
 import com.ipartek.formacion.skalada.Constantes;
-
-public class Usuario implements Serializable{
+/**
+ * 
+ * @author Curso
+ *
+ */
+public class Usuario implements Serializable {
 	private static final long serialVersionUID = -6253794296547129164L;
 	
 	//**********************************
@@ -28,14 +32,14 @@ public class Usuario implements Serializable{
 	 * @param password
 	 * @param rol
 	 */
-	public Usuario(String nombre, String email, String password, Rol rol) {
+	public Usuario(String sNombre, String sEmail, String sPassword, Rol rRol) {
 		super();
 		this.setId(-1);
-		this.setNombre(nombre);
-		this.setEmail(email);
-		this.setPassword(password);
-		if (rol != null){
-			this.setRol(rol);
+		this.setNombre(sNombre);
+		this.setEmail(sEmail);
+		this.setPassword(sPassword);
+		if (this.rol != null) {
+			this.setRol(rRol);
 		} else {
 			this.setRol(new Rol(Constantes.ROLE_USER));
 		}
@@ -46,48 +50,48 @@ public class Usuario implements Serializable{
 	//****		Getters/Setters		****
 	//**********************************	
 	public int getId() {
-		return id;
+		return this.id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int iId) {
+		this.id = iId;
 	}
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombre(String sNombre) {
+		this.nombre = sNombre;
 	}
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String sEmail) {
+		this.email = sEmail;
 	}
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String sPassword) {
+		this.password = sPassword;
 	}
 	public int getValidado() {
-		return validado;
+		return this.validado;
 	}
-	public void setValidado(int validado) {
-		this.validado = validado;
+	public void setValidado(int iValidado) {
+		this.validado = iValidado;
 	}
 	public Rol getRol() {
-		return rol;
+		return this.rol;
 	}
-	public void setRol(Rol rol) {
-		this.rol = rol;
+	public void setRol(Rol rRol) {
+		this.rol = rRol;
 	}
 	
 	public String getToken() {
-		return token;
+		return this.token;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setToken(String sToken) {
+		this.token = sToken;
 	}
 
 
@@ -96,9 +100,10 @@ public class Usuario implements Serializable{
 	//**********************************	
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", email=" + email
-				+ ", password=" + password + ", validado=" + validado
-				+ ", rol=" + rol + "]";
+		return "Usuario [id=" + this.id + ", nombre=" 
+				+ this.nombre + ", email=" + this.email
+				+ ", password=" + this.password + ", validado=" + this.validado
+				+ ", rol=" + this.rol + "]";
 	}
 	
 }

@@ -33,131 +33,152 @@ public class ForgotPassController extends HttpServlet {
      */
     public ForgotPassController() {
         super();
-        modeloUsuario = new ModeloUsuario();
+        this.modeloUsuario = new ModeloUsuario();
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		msg = new Mensaje(Mensaje.MSG_DANGER,"Error sin definir");
-		try{
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		this.msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin definir");
+		try {
 			
-			pEmail = request.getParameter("email");
+			this.pEmail = request.getParameter("email");
 			//recuperar usuario por su email
-			usuario = (Usuario) modeloUsuario.getByEmail(pEmail);
+			this.usuario = (Usuario) this.modeloUsuario.getByEmail(this.pEmail);
 			//usuario no existe
-			if (usuario == null){ 
-				msg.setTexto("Email no registrado: "+ pEmail);
-				dispatcher = request
+			if (this.usuario == null) { 
+				this.msg.setTexto("Email no registrado: " + this.pEmail);
+				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 			//usuario encontrado
-			}else{
+			} else {
 				
 				// Generar TOKEN para el usuario
 				String token = Utilidades.getCadenaAlfanumAleatoria(250);
-				usuario.setToken(token);;
-				modeloUsuario.update(usuario);			
+				this.usuario.setToken(token);
+				this.modeloUsuario.update(this.usuario);			
 				
 				//Enviar email de validacion
-				if ( enviarEmail() ){
-					msg = new Mensaje( Mensaje.MSG_SUCCESS , "Por favor revisa tu Email para reestablecer las contraseñas");						
-				}else{
-					msg = new Mensaje( Mensaje.MSG_DANGER , "Error al enviar email, por favor ponte en contacto con nosotros " + EnviarEmails.direccionOrigen);						
+				if (this.enviarEmail()) {
+					this.msg = new Mensaje(
+							Mensaje.MSG_SUCCESS ,
+							"Por favor revisa tu Email"
+							+ "para reestablecer "
+							+ "las contraseñas");						
+				} else {
+					this.msg = new Mensaje(
+							Mensaje.MSG_DANGER , "Error al enviar email, "
+									+ "por favor ponte en contacto "
+									+ "con nosotros "
+					+ EnviarEmails.DIRECIONORIGEN);						
 				}	
 			} 
 			
-			dispatcher = request
+			this.dispatcher = request
 					.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			
-			request.setAttribute("msg", msg);
-			dispatcher.forward(request, response);
+			request.setAttribute("msg", this.msg);
+			this.dispatcher.forward(request, response);
 			
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		msg = new Mensaje(Mensaje.MSG_DANGER,"Error sin definir");
-		try{
+		this.msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin definir");
+		try {
 			
 			//recoger parametros
-			pEmail= (String) request.getParameter("email");
-			String ptoken = (String) request.getParameter("token"); // recibo el token desde la JSP
-			String pass =  (String) request.getParameter("password");
+			this.pEmail = request.getParameter("email");
+			String ptoken = request.getParameter(
+					"token"); // recibo el token desde la JSP
+			String pass = request.getParameter("password");
 			
 			//buscar usuario en BBDD
-			usuario = (Usuario) modeloUsuario.getByEmail(pEmail);
+			this.usuario = (Usuario) this.modeloUsuario.getByEmail(this.pEmail);
 			
 			//usuario existe
-			if(usuario!=null){
+			if (this.usuario != null) {
 				
-				// Comprobar que no se haya cambiado el email, para enviar el nuevo password
-				if ( ptoken.equals(usuario.getToken() )){
+				// Comprobar que no se haya cambiado el email
+				// para enviar el nuevo password
+				if (ptoken.equals(this.usuario.getToken())) {
 					
-					usuario.setPassword(pass);
-					if( modeloUsuario.update(usuario)) {
-						msg.setTexto("Contraseñas modificadas correctamente");
-						msg.setTipo(Mensaje.MSG_SUCCESS);
+					this.usuario.setPassword(pass);
+					if (this.modeloUsuario.update(this.usuario)) {
+						this.msg.setTexto("Contraseñas modificadas correctamente");
+						this.msg.setTipo(Mensaje.MSG_SUCCESS);
 					}
 				}
 				
-			}else{
+			} else {
 				//usuario no existe
-				msg.setTexto("usuario no existe");
-				msg.setTipo(Mensaje.MSG_WARNING);
+				this.msg.setTexto("usuario no existe");
+				this.msg.setTipo(Mensaje.MSG_WARNING);
 				
 			}
 				
 			
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			request.setAttribute("msg", msg);
-			dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN );			
-			dispatcher.forward(request, response);
+		} finally {
+			request.setAttribute("msg", this.msg);
+			this.dispatcher = request.getRequestDispatcher(
+					Constantes.VIEW_BACK_LOGIN);			
+			this.dispatcher.forward(request, response);
 		}
 	}
-	private boolean enviarEmail()  {
+	private boolean enviarEmail() {
 		
 		boolean resul = false;
 		
-		try{
+		try {
 			EnviarEmails correo = new EnviarEmails();
 				
 			//url para validar el registro del usuario, 
-			//llamara a este mismo controlador por Get pasando el email del usuario
-			//mas una accion para ahora
-			String url = Constantes.SERVER + Constantes.ROOT_BACK + Constantes.VIEW_BACK_NEWPASS +"?email="+usuario.getEmail()+"&token="+usuario.getToken();
+			//llamara a este mismo controlador por Get pasando 
+			//el email del usuario mas una accion para ahora
+			String url = Constantes.SERVER 
+					+ Constantes.ROOT_BACK + Constantes.VIEW_BACK_NEWPASS 
+					+ "?email=" + this.usuario.getEmail() + "&token=" 
+					+ this.usuario.getToken();
 			
 			//parametros para la plantilla			
 			HashMap<String, String> parametros = new HashMap<String, String>();
-			parametros.put("{usuario}", usuario.getNombre());
+			parametros.put("{usuario}", this.usuario.getNombre());
 			parametros.put("{url}", url);
-			parametros.put("{contenido}", "Has solicitado cambiar la contraseña, si no ha sido usted por favor pongase en bla BLA BLA....");
+			parametros.put("{contenido}", "Has solicitado "
+					+ "cambiar la contraseña, si no ha sido usted por "
+					+ "favor pongase en bla BLA BLA....");
 			parametros.put("{btn_submit_text}", "Solicitar nuevo Password");
 			
 			//configurar correo electronico
 			correo.setDireccionFrom("skalada.ipartek@gmail.com");
-			correo.setDireccionDestino( usuario.getEmail() );
+			correo.setDireccionDestino(this.usuario.getEmail());
 			correo.setMessageSubject("Recuperar Password");
 			
 			//generamos la plantilla			
-			correo.setMessageContent( correo.generarPlantilla
-										(Constantes.EMAIL_TEMPLATE_REGISTRO,
+			correo.setMessageContent(correo.generarPlantilla(
+										Constantes.EMAIL_TEMPLATE_REGISTRO,
 					 						parametros 
 					 						)
 					 				);
 			//enviar
 			resul = correo.enviar();
 			
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return resul;

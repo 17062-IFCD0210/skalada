@@ -11,7 +11,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 
 public class TestModeloTipoEscalada {
 	
@@ -27,8 +31,10 @@ public class TestModeloTipoEscalada {
 	static TipoEscalada te_insert;
 	static TipoEscalada te_update;
 	
-	static int total;				//Cantidad de registros iniciales en la tabla `tipo_escalada`
-	static int total_despues;		//Cantidad de registros en la tabla `tipo_escalada` tras insertar uno nuevo	
+	static int total;		//Cantidad de registros 
+							//iniciales en la tabla `tipo_escalada`
+	static int total_despues; //Cantidad de registros en la tabla 
+							//tipo_escalada` tras insertar uno nuevo	
 	
 	
 	@BeforeClass
@@ -66,8 +72,10 @@ public class TestModeloTipoEscalada {
 		//Test para comprobar que al insertar un nuevo registro aumenta el ID
 		total_despues = modelo.getAll().size();	// total = total_despues + 1	
 		
-		assertTrue("al insertar un nuevo registro aumenta el ID"+ total + total_despues, total == total_despues - 1);
-		assertTrue("save(o) devuelve siempre un id positivo",(id != -1) && (id > 0));
+		assertTrue("al insertar un nuevo registro aumenta el ID"
+				+ total + total_despues, total == total_despues - 1);
+		assertTrue("save(o) devuelve siempre un id positivo",
+				(id != -1) && (id > 0));
 		
 		//Intentar insertar un null 
 		assertTrue(-1 == modelo.save(null));
@@ -76,20 +84,22 @@ public class TestModeloTipoEscalada {
 		TipoEscalada te_2 = new TipoEscalada(nombreTipoEscalada);
 		te_2.setId(id);
 		
-		assertTrue((id+1) == modelo.save(te_2));
+		assertTrue((id + 1) == modelo.save(te_2));
 		
-		modelo.delete(id+1);
+		modelo.delete(id + 1);
 	}
 		
 	@Test
 	public void testGetById() {	
-		//Test para comprobar que al obtener un registro por su ID lo devuelve correctamente				
-		te_get = (TipoEscalada)modelo.getById(id);	
-		assertTrue(id==te_get.getId());
+		//Test para comprobar que al obtener
+		//un registro por su ID lo devuelve correctamente				
+		te_get = (TipoEscalada) modelo.getById(id);	
+		assertTrue(id == te_get.getId());
 		assertEquals(nombreTipoEscalada, te_get.getNombre());
 		assertEquals(descripcionTipoEscalada, te_get.getDescripcion());
 		
-		//Intentar obtener un TipoEscalada cuyo identificador no exista en la base de datos 
+		//Intentar obtener un TipoEscalada
+		//cuyo identificador no exista en la base de datos 
 		assertNull(modelo.getById(-1));
 		assertNull(modelo.getById(0));
 	}
@@ -103,8 +113,8 @@ public class TestModeloTipoEscalada {
 		
 		assertTrue(modelo.update(te_update));
 		
-		te_get = (TipoEscalada)modelo.getById(te_update.getId());	
-		assertTrue(id==te_get.getId());
+		te_get = (TipoEscalada) modelo.getById(te_update.getId());	
+		assertTrue(id == te_get.getId());
 		assertEquals(nombreTipoEscalada_updated, te_get.getNombre());
 		assertEquals(descripcionTipoEscalada_updated, te_get.getDescripcion());
 		
@@ -122,7 +132,8 @@ public class TestModeloTipoEscalada {
 		TipoEscalada te_2 = new TipoEscalada(nombreTipoEscalada);
 		assertTrue(modelo.delete(modelo.save(te_2)));
 		
-		assertTrue(total + 1 == modelo.getAll().size());	// (total + 1) Porque en el set app se inserta un registro 
+		// (total + 1) Porque en el set app se inserta un registro
+		assertTrue(total + 1 == modelo.getAll().size()); 
 		
 		//Intentar eliminar un TipoEscalada con un id inexistente
 		assertTrue(!modelo.delete(0));

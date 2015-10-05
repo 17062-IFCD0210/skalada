@@ -20,31 +20,31 @@ public class Mensaje {
 	 * @param tipo
 	 * @param texto
 	 */
-	public Mensaje(String tipo, String texto) {
+	public Mensaje(String sTipo, String sTexto) {
 		super();
-		this.tipo = tipo;
-		this.texto = texto;
+		this.tipo = sTipo;
+		this.texto = sTexto;
 	}
 
 	public String getTipo() {
-		return tipo;
+		return this.tipo;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setTipo(String sTipo) {
+		this.tipo = sTipo;
 	}
 
 	public String getTexto() {
-		return texto;
+		return this.texto;
 	}
 
-	public void setTexto(String texto) {
-		this.texto = texto;
+	public void setTexto(String sTexto) {
+		this.texto = sTexto;
 	}
 
 	@Override
 	public String toString() {
-		return "Mensaje [tipo=" + tipo + ", texto=" + texto + "]";
+		return "Mensaje [tipo=" + this.tipo + ", texto=" + this.texto + "]";
 	}
 	
 	

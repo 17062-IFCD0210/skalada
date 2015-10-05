@@ -3,6 +3,7 @@ package com.ipartek.formacion.skalada.controladores;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,29 +26,34 @@ public class HomeController extends HttpServlet {
     /**
 	 * @see Servlet#init(ServletConfig)
 	 */
+	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modeloSector = new ModeloSector();
+		this.modeloSector = new ModeloSector();
 	}
 
 	/**
-	 * Se puentea al doPost()
+	 * Se puentea al doPost().
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		this.doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		
 		
 		//recuperar las ultimas 6 sectores del modelo
 		//TODO usar LIMIT en la select y order bu id desc
-		ArrayList<Sector> sectores = modeloSector.getAll();
-		if ( sectores.size() > 6 ){
+		ArrayList<Sector> sectores = this.modeloSector.getAll();
+		if (sectores.size() > 6) {
 			sectores = new ArrayList<Sector>(sectores.subList(0, 6));
 		}
 		
@@ -55,7 +61,8 @@ public class HomeController extends HttpServlet {
 		request.setAttribute("ultimos_sectores", sectores);
 		
 		//ir a index
-		request.getRequestDispatcher(Constantes.VIEW_PUBLIC_INDEX).forward(request, response);
+		request.getRequestDispatcher(
+				Constantes.VIEW_PUBLIC_INDEX).forward(request, response);
 		
 		
 		

@@ -12,6 +12,11 @@ import org.junit.Test;
 
 import com.ipartek.formacion.skalada.bean.Zona;
 
+/**
+ * 
+ * @author Curso
+ *
+ */
 
 public class TestModeloZona {
 	
@@ -44,8 +49,10 @@ public class TestModeloZona {
 	@Test
 	//@Ignore
 	public void testCRUD() {
-		int total;				//Cantidad de registros iniciales en la tabla `test`
-		int total_despues;		//Cantidad de registros en la tabla `test` tras insertar uno nuevo	
+		int total;				//Cantidad de registros iniciales
+								//en la tabla `test`
+		int total_despues;		//Cantidad de registros en la 
+								//tabla `test` tras insertar uno nuevo	
 			
 		
 		//Test para comprobar que al insertar un nuevo registro aumenta el ID
@@ -59,10 +66,11 @@ public class TestModeloZona {
 		assertTrue((id != -1) && (id > 0));
 		
 		
-		//Test para comprobar que al obtener un registro por su ID lo devuelve correctamente
+		//Test para comprobar que al obtener un registro
+		//por su ID lo devuelve correctamente
 		Zona z_get;		
-		z_get = (Zona)modelo.getById(id);	
-		assertTrue(id==z_get.getId());
+		z_get = (Zona) modelo.getById(id);	
+		assertTrue(id == z_get.getId());
 		assertEquals(nombreZona, z_get.getNombre());
 		
 		
@@ -72,8 +80,8 @@ public class TestModeloZona {
 		
 		assertTrue(modelo.update(z_update));
 		
-		z_get = (Zona)modelo.getById(z_update.getId());	
-		assertTrue(id==z_get.getId());
+		z_get = (Zona) modelo.getById(z_update.getId());	
+		assertTrue(id == z_get.getId());
 		assertEquals(nombreZona_updated, z_get.getNombre());
 		
 		
@@ -84,7 +92,8 @@ public class TestModeloZona {
 	
 	@Test
 	public void testCasosError() {
-		//Intentar obtener un grado cuyo identificador no exista en la base de datos 
+		//Intentar obtener un grado cuyo identificador 
+		//no exista en la base de datos 
 		id = -1;
 		assertNull(modelo.getById(id));
 		assertNull(modelo.getById(0));
@@ -109,10 +118,10 @@ public class TestModeloZona {
 		Zona z_2 = new Zona(nombreZona);
 		z_2.setId(id);
 		
-		assertTrue((id+1) == modelo.save(z_2));
+		assertTrue((id + 1) == modelo.save(z_2));
 		
 		assertTrue(modelo.delete(id));
-		assertTrue(modelo.delete(id+1));
+		assertTrue(modelo.delete(id + 1));
 		
 		
 		
