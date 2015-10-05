@@ -3,9 +3,7 @@ package com.ipartek.formacion.skalada.controladores;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -207,15 +205,6 @@ public class SectoresController extends HttpServlet {
 	}
 
 	/**
-	 * Se encarga de guardar la imagen del formulario en la carpeta de subidas
-	 * 
-	 * @param request
-	 */
-	private void uploadFile(HttpServletRequest request) {
-		//TODO realizar comprobaciones y guardar imagen en PC
-	}
-
-	/**
 	 * Crea un Objeto {@code Sector} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
@@ -289,7 +278,7 @@ public class SectoresController extends HttpServlet {
 			            
 			            if ( Constantes.CONTENT_TYPES.contains(fileContentType)){
 			             		            
-				            long sizeInBytes    = item.getSize();				            
+				            				            
 				            
 				            //TODO No repetir nombres imagenes
 				            

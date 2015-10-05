@@ -43,7 +43,7 @@
     <div class="row">
     
     <!-- tabla -->
-    	<table id="tabla" class="display" cellspacing="0" width="100%">
+    	<table id="tabla" class="display" style="cellspacing:0; width:100%">
 	        <thead>
 	            <tr>
 	                <th>ID</th>
@@ -57,6 +57,7 @@
 	        	 
 	        <tbody>	           
 	           <%
+	          		@SuppressWarnings("unchecked")
 	           		// recoger el atributo "vias" que nos llegara del Servlet con una coleccion de vias(ArrayList<Via>)
 	           		ArrayList<Via> vias = (ArrayList<Via>)request.getAttribute("vias");
 	           		

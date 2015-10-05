@@ -10,15 +10,18 @@
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
-
 <%
 	//recojer atributos de la request
 	String titulo = request.getAttribute("titulo").toString();
-
+	
 	Via via = (Via)request.getAttribute("via");
+	@SuppressWarnings("unchecked")
 	ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
+	@SuppressWarnings("unchecked")
 	ArrayList<TipoEscalada> tipoEscaladas = (ArrayList<TipoEscalada>)request.getAttribute("tipoEscaladas");
+	@SuppressWarnings("unchecked")
  	ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
+	@SuppressWarnings("unchecked")
 	ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("sectores");
 	
 %>

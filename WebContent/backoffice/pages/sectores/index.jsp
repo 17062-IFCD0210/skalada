@@ -41,7 +41,7 @@
     <div class="row">
     
     <!-- tabla -->
-    	<table id="tabla" class="display" cellspacing="0" width="100%">
+    	<table id="tabla" class="display" style="cellspacing:0; width:100%">
 	        <thead>
 	            <tr>
 	                <th>ID</th>
@@ -52,6 +52,7 @@
 	        	 
 	        <tbody>	           
 	           <%
+	          		@SuppressWarnings("unchecked")
 	           		// recoger el atributo "sectores" que nos llegara del Servlet con una coleccion de sectores(ArrayList<Sector>)
 	           		ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("sectores");
 	           		

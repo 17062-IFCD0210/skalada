@@ -11,6 +11,7 @@
 
 <%
 	Usuario usuario = (Usuario)request.getAttribute("usuario");
+	@SuppressWarnings("unchecked")
 	ArrayList<Rol> roles = (ArrayList<Rol>)request.getAttribute("roles");
 	String titulo = request.getAttribute("titulo").toString();
 %>
@@ -29,9 +30,7 @@
 	<!-- Formulario -->
 	
 		<form action="<%=Constantes.CONTROLLER_USUARIOS%>" method="post" role="form">
-			
-			<div class="row col-lg-12">
-				
+							
 				<div class="form-group">			
 					<!-- Mostramon el input text, pero se submita el hidden -->
 					<label for="id">ID</label>

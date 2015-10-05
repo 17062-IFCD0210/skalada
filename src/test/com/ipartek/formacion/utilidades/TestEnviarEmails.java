@@ -40,7 +40,6 @@ public class TestEnviarEmails {
 	@Test
 	public void testEnviarRegistro() {
 		
-		String email   			  = "laragonzalez.bm@gmail.com";
 		String url     			  = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP+"?email=+email";
 		String usuario 			  = "Antton Gorriti";
 		String contenido 		  = "Gracias por registrarte. Para activar el usuario y verificar el email, clica en el enlace de debajo";

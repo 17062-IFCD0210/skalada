@@ -13,7 +13,8 @@ import java.util.ArrayList;
  * @author Curso
  *
  */
-public interface Persistable {
+// Al poner T le estamos pasando "algo", pero no le especificamos el que (Objeto Generico)
+public interface Persistable <T>{
 
 	/**
 	 **** 		CREATE		****
@@ -21,7 +22,7 @@ public interface Persistable {
 	 * @param o {@code Object} objeto a guardar
 	 * @return {@code int} Identificador del objeto guardado, -1 en caso de error
 	 */
-	int save(Object o);
+	int save(T t);
 	
 	/**
 	 ****		READ I		****
@@ -36,7 +37,7 @@ public interface Persistable {
 	 * Recupera una coleccion de  Objetos
 	 * @return {@code Object} coleccion de objetos, si no existen coleccion vacia
 	 */
-	ArrayList<Object> getAll();
+	ArrayList<T> getAll();
 	
 	/**
 	 ****		UPDATE		****
@@ -44,7 +45,7 @@ public interface Persistable {
 	 * @param o {@code Object} Objeto a modificar
 	 * @return true si se modificaba bien, false en caso contrario
 	 */
-	boolean update(Object o);
+	boolean update(T t);
 	
 	/**
 	 ****		DELETE		****

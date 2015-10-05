@@ -11,8 +11,8 @@
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
 <%
-
 	Sector sector = (Sector)request.getAttribute("sector");
+	@SuppressWarnings("unchecked")
 	ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
 	String titulo = request.getAttribute("titulo").toString();
 %>

@@ -56,9 +56,10 @@
         <!-- Ultimas Vias -->
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="page-header">Ultimas Sectores</h2>
+                <h2 class="page-header">Ultimos Sectores</h2>
             </div>
             <%
+           		@SuppressWarnings("unchecked")
             	ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("ultimos_sectores");            	
             	Sector s = null;
        			for(int i = 0 ; i < sectores.size() ; i++){

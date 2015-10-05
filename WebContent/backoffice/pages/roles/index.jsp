@@ -40,7 +40,7 @@
     <div class="row">
     
     <!-- tabla -->
-    	<table id="tabla" class="display" cellspacing="0" width="100%">
+    	<table id="tabla" class="display" style="cellspacing:0; width:100%">
 	        <thead>
 	            <tr>
 	                <th>ID</th>
@@ -51,6 +51,7 @@
 	        	 
 	        <tbody>	           
 	           <%
+	           		@SuppressWarnings("unchecked")
 	           		// recoger el atributo "zonas" que nos llegara del Servlet con una coleccion de zonas(ArrayList<Zona>)
 	           		ArrayList<Rol> roles = (ArrayList<Rol>)request.getAttribute("roles");
 	   				if ( roles == null ){

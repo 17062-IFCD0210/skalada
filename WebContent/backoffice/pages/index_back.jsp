@@ -11,7 +11,7 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard2</h1>
+                    <h1 class="page-header">Dashboard</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -47,11 +47,27 @@
                                     <i class="fa fa-area-chart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
+                                    <div class="huge">10</div>
                                     <div>Sectores Publicados</div>
                                 </div>
                             </div>
                         </div>
+                        
+                      <%
+                      /*
+                        private Sector (ResultSet rs){
+                        	
+	                        ResultSet res; 
+	                        int nSector; 
+	                        res=s.executeQuery("SELECT COUNT(*) AS numero_sector FROM `eskalada`.`sector`"); 
+	                        if(res.next()) 
+	                        nSector=Integer.parseInt(res.getString("total")); 
+	                        else 
+	                        nSectores=0; 
+                        }
+                       */
+                        %>
+                                   
                         <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
@@ -69,7 +85,7 @@
                                     <i class="fa fa-user-times fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
+                                    <div class="huge"></div>
                                     <div>Usuarios Sin Validar</div>
                                 </div>
                             </div>
