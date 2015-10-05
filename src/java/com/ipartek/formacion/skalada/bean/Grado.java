@@ -18,7 +18,8 @@ public class Grado implements Serializable {
 	private String descripcion;
 	
 	/**
-	 * Constructor
+	 * 
+	 * @param nombre
 	 */
 	public Grado(String nombre) {
 		super();
@@ -27,23 +28,51 @@ public class Grado implements Serializable {
 	}
 	
 	/**
-	 * Getters y Setters
+	 * 
+	 * @return id
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
+	/**
+	 * 
+	 * @param id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
+	
+	/**
+	 * 
+	 * @param nombre
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	
+	/**
+	 * 
+	 * @return descripcion
+	 */
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
+	/**
+	 * 
+	 * @param descripcion
+	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}

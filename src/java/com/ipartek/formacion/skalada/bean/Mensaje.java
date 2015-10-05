@@ -2,6 +2,7 @@ package com.ipartek.formacion.skalada.bean;
 
 /**
  * Bean para contener la informacion de los mensajes a mostrar en FrontEnd
+ * 
  * @author ur00
  *
  */
@@ -9,13 +10,13 @@ public class Mensaje {
 
 	private String tipo;
 	private String texto;
-	
-	//tipos de mensajes
+
+	// tipos de mensajes
 	public static final String MSG_SUCCESS = "success";
-	public static final String MSG_INFO    = "info";
+	public static final String MSG_INFO = "info";
 	public static final String MSG_WARNING = "warning";
-	public static final String MSG_DANGER  = "danger";
-	
+	public static final String MSG_DANGER = "danger";
+
 	/**
 	 * @param tipo
 	 * @param texto
@@ -27,7 +28,7 @@ public class Mensaje {
 	}
 
 	public String getTipo() {
-		return tipo;
+		return this.tipo;
 	}
 
 	public void setTipo(String tipo) {
@@ -35,7 +36,7 @@ public class Mensaje {
 	}
 
 	public String getTexto() {
-		return texto;
+		return this.texto;
 	}
 
 	public void setTexto(String texto) {
@@ -44,10 +45,7 @@ public class Mensaje {
 
 	@Override
 	public String toString() {
-		return "Mensaje [tipo=" + tipo + ", texto=" + texto + "]";
+		return "Mensaje [tipo=" + this.tipo + ", texto=" + this.texto + "]";
 	}
-	
-	
-	
-	
+
 }

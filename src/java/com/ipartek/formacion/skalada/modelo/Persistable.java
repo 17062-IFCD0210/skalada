@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * 		- Delete
  * 
  * @author Curso
- *
+ *  @param  
  */
 public interface Persistable<T>{
 

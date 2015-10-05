@@ -9,6 +9,11 @@ import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.Zona;
 
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloZona implements Persistable<Zona>{
 	
 	private static final String TABLA = "zona";
@@ -185,8 +190,8 @@ public class ModeloZona implements Persistable<Zona>{
 	
 	/**
 	 * Mapea un ResultSet a Zona
-	 * @param rs
-	 * @return
+	 * @param rs 
+	 * @return la zona
 	 * @throws SQLException 
 	 */
 	private Zona mapeo (ResultSet rs) throws SQLException{

@@ -24,6 +24,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloVia;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
+ * @author Curso
  * Servlet implementation class ViasController
  */
 public class ViasController extends HttpServlet {

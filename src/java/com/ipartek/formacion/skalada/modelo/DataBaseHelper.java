@@ -63,7 +63,7 @@ public class DataBaseHelper {
 	/**
 	 * Metodo para cerrar la conexion.
 	 * Cuidado porque al cerrar una conexion con el metodo .close() no la pone a null
-	 * @return
+	 * @return 
 	 */
 	public static boolean closeConnection(){
 		boolean resul = false;
@@ -78,6 +78,7 @@ public class DataBaseHelper {
 		}
 		return resul;
 	}
+	
 	
 	/**
 	 * Crea la Base Datos ejecutando un Script

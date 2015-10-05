@@ -8,6 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import com.ipartek.formacion.skalada.bean.Rol;
 
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloRol implements Persistable<Rol> {
 	
 	private static final String TABLA = "rol";
@@ -186,8 +191,8 @@ public class ModeloRol implements Persistable<Rol> {
 	
 	/**
 	 * Mapea un ResultSet a Rol
-	 * @param rs
-	 * @return
+	 * @param rs 
+	 * @return objeto rol
 	 * @throws SQLException 
 	 */
 	private Rol mapeo (ResultSet rs) throws SQLException{

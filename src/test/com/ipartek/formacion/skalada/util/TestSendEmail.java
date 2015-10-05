@@ -1,6 +1,7 @@
 package com.ipartek.formacion.skalada.util;
 
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -9,8 +10,24 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
+
+import com.ipartek.formacion.skalada.controladores.LoginController;
+
+/**
+ *
+ * @author Curso
+ *
+ */
 public class TestSendEmail {
-	
+
+	private final static Logger LOG = Logger.getLogger(LoginController.class);
+
+	/**
+	 *
+	 * @param args
+	 *            argumentos
+	 */
 	public static void main(String[] args) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -21,25 +38,29 @@ public class TestSendEmail {
 		props.put("mail.smtp.port", "465");
 
 		Session session = Session.getDefaultInstance(props,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("skalada.ipartek@gmail.com","123ABC123");
-				}
-			});
+				new javax.mail.Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(
+								"skalada.ipartek@gmail.com", "123ABC123");
+					}
+				});
 
 		try {
 
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("auraga@ipartek.com"));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("auraga@ipartek.com,mikelalonsorojo@gmail.com,unaiperea@gmail.com,ieltxuorue@gmail.com,andertxo777@gmail.com,javi70@gmail.com,degar00@gmail.com,raulgf1992@gmail.com,laragonzalez.bm@gmail.com"));
+			message.setRecipients(
+					Message.RecipientType.TO,
+					InternetAddress
+							.parse("auraga@ipartek.com,mikelalonsorojo@gmail.com,unaiperea@gmail.com,ieltxuorue@gmail.com,andertxo777@gmail.com,javi70@gmail.com,degar00@gmail.com,raulgf1992@gmail.com,laragonzalez.bm@gmail.com"));
 			message.setSubject("Email enviado desde Skalada App");
-			message.setText("No es Spam," +
-					"\n\n Enviado email desde Java, dentro de poco el codigo en tu GIT!");
+			message.setText("No es Spam,"
+					+ "\n\n Enviado email desde Java, dentro de poco el codigo en tu GIT!");
 
 			Transport.send(message);
 
-			System.out.println("Done");
+			LOG.info("Done");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);

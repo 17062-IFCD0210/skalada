@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloUsuario implements Persistable<Usuario>{
 
 	private static final String SQL_INSERT = "INSERT INTO `usuario` (`email`, `nombre`, `password`, `id_rol`) VALUES (?, ?, ?, ?);";
@@ -102,7 +107,7 @@ public class ModeloUsuario implements Persistable<Usuario>{
 	
 	/**
 	 * Busca un usuario por su email
-	 * @param email
+	 * @param email pasa el email en un string
 	 * @return objeto usuario creado si lo encuentra. null en caso contrario
 	 */
 	public Usuario getByEmail(String email) {
@@ -231,8 +236,8 @@ public class ModeloUsuario implements Persistable<Usuario>{
 	
 	/**
 	 * Mapea un ResultSet a Usuario
-	 * @param rs
-	 * @return
+	 * @param rs 
+	 * @return Usuario
 	 * @throws SQLException 
 	 */
 	private Usuario mapeo (ResultSet rs) throws SQLException{

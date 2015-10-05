@@ -32,6 +32,7 @@ public class TipoEscaladaController extends HttpServlet {
 	
     
     /**
+     * @author Curso
      * Este metodo se ejecuta solo la primera vez que se llama al servlet
      * Se usa para crear el modelo
      */

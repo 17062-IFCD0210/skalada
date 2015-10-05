@@ -36,6 +36,9 @@ public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {
 
 	private SimpleDateFormat sdf = new SimpleDateFormat(timestampFormat);
 
+	/**
+	 * 
+	 */
 	public CustomHTMLLayout() {
 		super();
 	}

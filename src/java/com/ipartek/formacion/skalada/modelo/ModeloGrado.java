@@ -9,6 +9,11 @@ import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.Grado;
 
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloGrado implements Persistable<Grado>{
 	
 	private static final String TABLA = "grado";
@@ -187,8 +192,8 @@ public class ModeloGrado implements Persistable<Grado>{
 	
 	/**
 	 * Mapea un ResultSet a Grado
-	 * @param rs
-	 * @return
+	 * @param rs resulset
+	 * @return objeto grado
 	 * @throws SQLException 
 	 */
 	private Grado mapeo (ResultSet rs) throws SQLException{

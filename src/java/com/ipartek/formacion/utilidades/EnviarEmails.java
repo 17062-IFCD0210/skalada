@@ -16,170 +16,234 @@ import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ *
+ * @author Curso
+ *
+ */
 public class EnviarEmails {
-	
-	public  static final String direccionOrigen = "skalada.ipartek@gmail.com";
-	private String passwordOrigen   = "123ABC123";
-	private String direccionFrom    ="";
-	private String direccionDestino ="";
-	private String messageSubject   =""; //Asunto	
-	private String messageText      ="";    //Cuerpo Texto Plano
-	private String messageContent   ="";    //Cuerpo Html
-	
+
+	public static final String direccionOrigen = "skalada.ipartek@gmail.com";
+	private String passwordOrigen = "123ABC123";
+	private String direccionFrom = "";
+	private String direccionDestino = "";
+	private String messageSubject = ""; // Asunto
+	private String messageText = ""; // Cuerpo Texto Plano
+	private String messageContent = ""; // Cuerpo Html
+
 	private Session session;
-	
-		/**	Construye el objeto {@code EnviarEmails} 
-		*
-		*/
-		public EnviarEmails() {
-			super();
-			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.socketFactory.port", "465");
-			props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
-			session = Session.getDefaultInstance(props,
-					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(direccionOrigen,passwordOrigen);
-						}
-					});			
-		}
-	
-	 	
-	
+
+	/**
+	 * Construye el objeto {@code EnviarEmails}
+	 *
+	 */
+	public EnviarEmails() {
+		super();
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+		this.session = Session.getDefaultInstance(props,
+				new javax.mail.Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(direccionOrigen,
+								EnviarEmails.this.passwordOrigen);
+					}
+				});
+	}
+
 	/*********************** GETTERS Y SETTERS **************************************************/
 
+	/**
+	 * 
+	 * @author Curso
+	 * @return direccionOrigen
+	 */
 	public String getDireccionOrigen() {
-		return direccionOrigen;
-	}
-
-
-	/*public void setDireccionOrigen(String direccionOrigen) {
-		this.direccionOrigen = direccionOrigen;
-	}
-	*/
-
-
-	public String getPasswordOrigen() {
-		return passwordOrigen;
+		return this.direccionOrigen;
 	}
 
 	/*
-	public void setPasswordOrigen(String passwordOrigen) {
-		this.passwordOrigen = passwordOrigen;
+	 * public void setDireccionOrigen(String direccionOrigen) {
+	 * this.direccionOrigen = direccionOrigen; }
+	 */
+
+	/**
+	 *
+	 * @author Curso
+	 * @return passwordOrigen
+	 */
+	public String getPasswordOrigen() {
+		return this.passwordOrigen;
 	}
-	*/
 
+	/*
+	 * public void setPasswordOrigen(String passwordOrigen) {
+	 * this.passwordOrigen = passwordOrigen; }
+	 */
 
+	/**
+	 *
+	 * @author Curso
+	 * @return direccionFrom
+	 */
 	public String getDireccionFrom() {
-		return direccionFrom;
+		return this.direccionFrom;
 	}
 
-
+	/**
+	 *
+	 * @author Curso
+	 * @param direccionFrom
+	 */
 	public void setDireccionFrom(String direccionFrom) {
 		this.direccionFrom = direccionFrom;
 	}
 
-
+	/**
+	 *
+	 * @author Curso
+	 * @return direcciondestino
+	 */
 	public String getDireccionDestino() {
-		return direccionDestino;
+		return this.direccionDestino;
 	}
 
-
+	/**
+	 *
+	 * @author Curso
+	 * @param direccionDestino
+	 */
 	public void setDireccionDestino(String direccionDestino) {
 		this.direccionDestino = direccionDestino;
 	}
 
-
+	/**
+	 *
+	 * @author Curso
+	 * @return messageContent
+	 */
 	public String getMessageContent() {
-		return messageContent;
+		return this.messageContent;
 	}
 
-
-
+	/**
+	 *
+	 * @author Curso
+	 * @param messageContent
+	 */
 	public void setMessageContent(String messageContent) {
 		this.messageContent = messageContent;
 	}
 
-
-
+	/**
+	 *
+	 * @author Curso
+	 * @return messageSubject
+	 */
 	public String getMessageSubject() {
-		return messageSubject;
+		return this.messageSubject;
 	}
 
-
+	/**
+	 *
+	 * @author Curso
+	 * @param messageSubject
+	 */
 	public void setMessageSubject(String messageSubject) {
 		this.messageSubject = messageSubject;
 	}
 
-
+	/**
+	 *
+	 * @author Curso
+	 * @return messageText
+	 */
 	public String getMessageText() {
-		return messageText;
+		return this.messageText;
 	}
 
-
+	/**
+	 *
+	 * @author Curso
+	 * @param messageText
+	 */
 	public void setMessageText(String messageText) {
 		this.messageText = messageText;
 	}
 
-	
-	
 	@Override
 	public String toString() {
 		return "EnviarEmails [direccionOrigen=" + direccionOrigen
-				+ ", passwordOrigen=" + passwordOrigen + ", direccionFrom="
-				+ direccionFrom + ", direccionDestino=" + direccionDestino
-				+ ", messageSubject=" + messageSubject + ", messageText="
-				+ messageText + ", session=" + session + "]";
+				+ ", passwordOrigen=" + this.passwordOrigen
+				+ ", direccionFrom=" + this.direccionFrom
+				+ ", direccionDestino=" + this.direccionDestino
+				+ ", messageSubject=" + this.messageSubject + ", messageText="
+				+ this.messageText + ", session=" + this.session + "]";
 	}
 
-	
 	/*************************** METODO PUBLICO ****************************************************/
-	
-	public boolean enviar(){
-	
+
+	/**
+	 *
+	 * @author Curso
+	 * @return reesul con el resultadpo si se ha enviado o nbo
+	 */
+	public boolean enviar() {
+
 		boolean resul = false;
 		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(direccionFrom));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(direccionDestino));
-			message.setSubject(MimeUtility.encodeText(messageSubject,"UTF-8","B"));
-			
-			if ( !"".equals(messageText) ){
-				message.setText(messageText);
-			}else{
-				message.setContent(messageContent,"text/html; charset=utf-8");
-			}	
+			Message message = new MimeMessage(this.session);
+			message.setFrom(new InternetAddress(this.direccionFrom));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(this.direccionDestino));
+			message.setSubject(MimeUtility.encodeText(this.messageSubject,
+					"UTF-8", "B"));
+
+			if (!"".equals(this.messageText)) {
+				message.setText(this.messageText);
+			} else {
+				message.setContent(this.messageContent,
+						"text/html; charset=utf-8");
+			}
 			Transport.send(message);
 			resul = true;
-		} catch ( Exception e) {
-			e.printStackTrace();						
-		}	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return resul;
 	}
-	
+
 	/**
-	 * Genera un String a partir de una plantilla y un hashMap de parametros 
-	 * @param plantilla Ruta donde se encuentra la plantilla del email debe estar en "src/resources"
-	 * @param parametros hashMap con variables a sustituir en la plantilla
+	 * Genera un String a partir de una plantilla y un hashMap de parametros
+	 * 
+	 * @param plantilla
+	 *            Ruta donde se encuentra la plantilla del email debe estar en
+	 *            "src/resources"
+	 * @param parametros
+	 *            hashMap con variables a sustituir en la plantilla
 	 * @return String con HTML listo para enviar
 	 * @throws IOException
+	 *             excepcion
 	 */
-	public String generarPlantilla(String plantilla, HashMap<String,String> parametros)
-			throws IOException {
+	public String generarPlantilla(String plantilla,
+			HashMap<String, String> parametros) throws IOException {
 		String resul = "";
 
-		ClassLoader classLoader = getClass().getClassLoader();
-		resul = (IOUtils.toString(classLoader
-				.getResourceAsStream(plantilla),"UTF-8"));
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		resul = (IOUtils.toString(classLoader.getResourceAsStream(plantilla),
+				"UTF-8"));
 
-		Iterator<Map.Entry<String, String>> it = parametros.entrySet().iterator();
+		Iterator<Map.Entry<String, String>> it = parametros.entrySet()
+				.iterator();
 		while (it.hasNext()) {
-			Map.Entry<String,String> e = (Map.Entry<String,String>)it.next();
+			Map.Entry<String, String> e = it.next();
 			resul = resul.replace(e.getKey(), e.getValue());
-		
+
 		}
 		return resul;
 	}

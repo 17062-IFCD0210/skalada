@@ -4,6 +4,12 @@ import java.io.Serializable;
 
 import com.ipartek.formacion.skalada.Constantes;
 
+
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class Sector implements Serializable{
 	private static final long serialVersionUID = -2537948970066821711L;
 	
@@ -16,7 +22,9 @@ public class Sector implements Serializable{
 	private String imagen; // path + nombre de la imagen a mostrar
 
 	/**
-	 * Constructor
+	 * 
+	 * @param nombre nombre del sector 
+	 * @param zona la zona
 	 */
 	public Sector(String nombre, Zona zona) {
 		super();
@@ -27,31 +35,60 @@ public class Sector implements Serializable{
 	}
 
 	/**
-	 * Getters y Setters
+	 * 
+	 * @return id
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
+	/**
+	 * 
+	 * @param id 
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+	/**
+	 * 
+	 * @return nombre
+	 */
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
+	/**
+	 * 
+	 * @param nombre 
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	/**
+	 * 
+	 * @return la zona
+	 */
 	public Zona getZona() {
-		return zona;
+		return this.zona;
 	}
+	/**
+	 * 
+	 * @param zona 
+	 */
 	public void setZona(Zona zona) {
 		this.zona = zona;
 	}
 
+	/**
+	 * 
+	 * @return imagen
+	 */
 	public String getImagen() {
-		return imagen;
+		return this.imagen;
 	}
 
+	/**
+	 * 
+	 * @param imagen string con la imagen
+	 */
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}

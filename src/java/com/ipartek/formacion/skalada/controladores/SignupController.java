@@ -19,6 +19,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.utilidades.EnviarEmails;
 
 /**
+ * @author Curso
  * Servlet implementation class RegistroController
  */
 public class SignupController extends HttpServlet {
@@ -149,6 +150,10 @@ public class SignupController extends HttpServlet {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean enviarEmail(){
 		boolean resul = false;
 		try{
