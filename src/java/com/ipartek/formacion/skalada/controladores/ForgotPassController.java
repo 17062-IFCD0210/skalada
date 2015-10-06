@@ -17,7 +17,7 @@ import com.ipartek.formacion.skalada.utilidades.EnviarEmails;
 import com.ipartek.formacion.skalada.utilidades.Utilidades;
 
 /**
- * Servlet implementation class forgotPassController
+ * Servlet implementation class forgotPassController.
  */
 public class ForgotPassController extends HttpServlet {
 	//parametros
@@ -41,8 +41,10 @@ public class ForgotPassController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) 
 			throws ServletException, IOException {
+
 		this.msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin definir");
 		try {
 			
@@ -96,7 +98,8 @@ public class ForgotPassController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		this.msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin definir");
 		try {
 			
@@ -118,7 +121,8 @@ public class ForgotPassController extends HttpServlet {
 					
 					this.usuario.setPassword(pass);
 					if (this.modeloUsuario.update(this.usuario)) {
-						this.msg.setTexto("Contraseñas modificadas correctamente");
+						this.msg.setTexto("Contraseñas"
+								+ " modificadas correctamente");
 						this.msg.setTipo(Mensaje.MSG_SUCCESS);
 					}
 				}
@@ -140,6 +144,10 @@ public class ForgotPassController extends HttpServlet {
 			this.dispatcher.forward(request, response);
 		}
 	}
+	/**
+	 * 
+	 * @return resul
+	 */
 	private boolean enviarEmail() {
 		
 		boolean resul = false;

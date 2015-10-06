@@ -9,7 +9,7 @@ import java.util.Random;
 public class Utilidades {
 
 	/**
-	 * Nos genera un password aleatorio
+	 * Nos genera un password aleatorio.
 	 * @param longitud
 	 * @return resul
 	 */

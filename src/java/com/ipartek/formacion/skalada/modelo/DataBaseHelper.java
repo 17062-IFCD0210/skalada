@@ -7,7 +7,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
- * Clase especializada en trabajar con la Base Datos
+ * Clase especializada en trabajar con la Base Datos.
  * La usaran los DAOs para abrir y cerrar conexiones
  * @author Curso
  *
@@ -25,7 +25,7 @@ public class DataBaseHelper {
 	private static Connection con;
 	
 	/**
-	 * Metodo para realizar la conexion
+	 * Metodo para realizar la conexion.
 	 * implementa un patron singleton (solo existira un unico objeto)
 	 * @return {@code Connection} la conexion abierta
 	 * @throws Exception
@@ -63,7 +63,8 @@ public class DataBaseHelper {
 	
 	/**
 	 * Metodo para cerrar la conexion.
-	 * Cuidado porque al cerrar una conexion con el metodo .close() no la pone a null
+	 * Cuidado porque al cerrar una conexion 
+	 * con el metodo .close() no la pone a null
 	 * @return
 	 */
 	public static boolean closeConnection() {
@@ -81,7 +82,7 @@ public class DataBaseHelper {
 	}
 	
 	/**
-	 * Crea la Base Datos ejecutando un Script
+	 * Crea la Base Datos ejecutando un Script.
 	 * @return {@code Boolean}
 	 */
 	void crear() {
@@ -89,14 +90,14 @@ public class DataBaseHelper {
 	}
 	
 	/**
-	 * Elimina la Base Datos con sentencia DROP
+	 * Elimina la Base Datos con sentencia DROP.
 	 */
 	void eliminar() {
 	
 	}
 	
 	/**
-	 * Crea las tablas necesarias:
+	 * Crea las tablas necesarias.
 	 * <ol>
 	 * 	<li>test</li>
 	 * </ol>
@@ -106,7 +107,7 @@ public class DataBaseHelper {
 	}
 	
 	/**
-	 * Insertar en las tablas un juego de datos para testear
+	 * Insertar en las tablas un juego de datos para testear.
 	 */
 	void insertarDatosPrueba() {
 		

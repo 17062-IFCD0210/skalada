@@ -46,7 +46,8 @@ public class GradosController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		//recoger parametros
 		this.getParameters(request, response);
 		
@@ -68,12 +69,17 @@ public class GradosController extends HttpServlet {
 			
 		this.dispatcher.forward(request, response);
 	}
-		
+		/**
+		 * 
+		 * @param request
+		 * @param response
+		 */
 	private void getParameters(HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		try {
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));		
+			this.pAccion = Integer.parseInt(
+					request.getParameter("accion"));		
 			if (request.getParameter("id") != null && !""
 					.equalsIgnoreCase(request.getParameter("id"))) {
 				this.pID = Integer.parseInt(request.getParameter("id"));
@@ -84,16 +90,23 @@ public class GradosController extends HttpServlet {
 		
 	}
 	/**
-	 * Obtiene todas los grados del modelo y carga dispatch con index.jsp
+	 * Obtiene todas los grados del modelo y carga dispatch con index.jsp.
 	 * @see backoffice/pages/grados/index.jsp
 	 * @param request
 	 * @param response
 	 */
-	private void listar(HttpServletRequest request, HttpServletResponse response) {
+	private void listar(HttpServletRequest request,
+			HttpServletResponse response) {
 		request.setAttribute("grados", this.modelo.getAll());
-		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_INDEX);		
+		this.dispatcher = request.getRequestDispatcher(
+				Constantes.VIEW_BACK_GRADOS_INDEX);		
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
 		if (this.modelo.delete(this.pID)) {
@@ -105,7 +118,11 @@ public class GradosController extends HttpServlet {
 		}
 		this.listar(request, response);
 	}
-
+/**
+ * 
+ * @param request
+ * @param response
+ */
 	private void nuevo(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.grado = new Grado("");
@@ -116,7 +133,11 @@ public class GradosController extends HttpServlet {
 				Constantes.VIEW_BACK_GRADOS_FORM);
 		
 	}
-	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
 	private void detalle(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.grado = (Grado) this.modelo.getById(this.pID);
@@ -128,7 +149,8 @@ public class GradosController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request,

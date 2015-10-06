@@ -19,24 +19,53 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.skalada.utilidades.EnviarEmails;
 
 /**
- * Servlet implementation class RegistroController
+ * Servlet implementation class RegistroController.
  */
 public class SignupController extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
 	private RequestDispatcher dispatcher = null;
-
+	/**
+	 * 
+	 */
 	private String pNombre;
+	/**
+	 * 
+	 */
 	private String pEmail;
+	/**
+	 * 
+	 */
 	private String pPass;
-
+	/**
+	 * 
+	 */
 	// Valor por defecto de un nuevo usuario (Rol = Usuario)
 	private int pIdRol = 2;
-
+	/**
+	 * 
+	 */
 	private Usuario usuario = null;
+		/**
+		 * 
+		 */
 	private Rol rol = null;
+	/**
+	 * 
+	 */
 	private ModeloUsuario modeloUsuario = null;
+	/**
+	 * 
+	 */
 	private ModeloRol modeloRol = null;
+	/**
+	 * 
+	 */
 	private Mensaje msg = null;
 
 	@Override
@@ -111,7 +140,8 @@ public class SignupController extends HttpServlet {
 
 				// Creamos el objeto Usuario
 				this.rol = (Rol) this.modeloRol.getById(this.pIdRol);
-				this.usuario = new Usuario(this.pNombre, this.pEmail, this.pPass, this.rol);
+				this.usuario = new Usuario(
+						this.pNombre, this.pEmail, this.pPass, this.rol);
 
 				// Guardar en Base Datos
 				if (this.modeloUsuario.save(this.usuario) == -1) {

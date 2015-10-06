@@ -24,39 +24,96 @@ import com.ipartek.formacion.skalada.modelo.ModeloVia;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
- * Servlet implementation class ViasController
+ * Servlet implementation class ViasController.
  */
 public class ViasController extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-    
+    /**
+     * 
+     */
 	private RequestDispatcher dispatcher = null;
+	/**
+	 * 
+	 */
 	private ModeloVia modeloVia = null;
+	/**
+	 * 
+	 */
 	private Via via = null;
-	
+	/**
+	 * 
+	 */
 	private ModeloGrado modeloGrado = null;
+	/**
+	 * 
+	 */
 	private Grado grado = null;
+	/**
+	 * 
+	 */
 	private ModeloTipoEscalada modeloTipoEscalada = null;
+	/**
+	 * 
+	 */
 	private TipoEscalada tipoEscalada = null;
+	/**
+	 * 
+	 */
 	private ModeloSector modeloSector = null;
+	/**
+	 * 
+	 */
 	private Sector sector = null;
+	/**
+	 * 
+	 */
 	private ModeloZona modeloZona = null;
 
-	
+	/**
+	 * 
+	 */
 	//parametros
 	private int pAccion = Constantes.ACCION_LISTAR;		//Accion por defecto
+	/**
+	 * 
+	 */
 	private int pID	= -1;		//ID no valido	
+	/**
+	 * 
+	 */
 	private String pNombre;
+	/**
+	 * 
+	 */
 	private int pLongitud;
+	/**
+	 * 
+	 */
 	private String pDescripcion;
+	/**
+	 * 
+	 */
 	private int pIDGrado;
+	/**
+	 * 
+	 */
 	private int pIDTipoEscalada;
+	/**
+	 * 
+	 */
 	private int pIDSector;
+	/**
+	 * 
+	 */
 	
 	private Mensaje msg;
 	
     
     /**
-     * Este metodo se ejecuta solo la primera vez que se llama al servlet
+     * Este metodo se ejecuta solo la primera vez que se llama al servlet.
      * Se suele usar para crear el modelo
      */
     @Override
@@ -71,7 +128,8 @@ public class ViasController extends HttpServlet {
 
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -98,13 +156,18 @@ public class ViasController extends HttpServlet {
 			
 		this.dispatcher.forward(request, response);
 	}
-	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
 	private void getParameters(HttpServletRequest request,
 			HttpServletResponse response) {
 		
 		try {
 			request.setCharacterEncoding("UTF-8");
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));		
+			this.pAccion = Integer.parseInt(
+					request.getParameter("accion"));		
 			if (request.getParameter("id") != null 
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {
 				this.pID = Integer.parseInt(request.getParameter("id"));
@@ -116,7 +179,7 @@ public class ViasController extends HttpServlet {
 	}
 	
 	/**
-	 * Obtiene todas las vias del modelo y carga dispatch con index.jsp
+	 * Obtiene todas las vias del modelo y carga dispatch con index.jsp.
 	 * @see backoffice/pages/via/index.jsp
 	 * @param request
 	 * @param response
@@ -127,7 +190,11 @@ public class ViasController extends HttpServlet {
 		this.dispatcher = request.getRequestDispatcher(
 				Constantes.VIEW_BACK_VIAS_INDEX);		
 	}
-
+/**
+ * 
+ * @param request
+ * @param response
+ */
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
 		if (this.modeloVia.delete(this.pID)) {			
@@ -154,10 +221,12 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("via", this.via);
 		request.setAttribute("titulo", "Crear nueva Via");
 		request.setAttribute("metodo", "Guardar");
+		request.setAttribute("zonas", this.modeloZona.getAll());
 		request.setAttribute("grados", this.modeloGrado.getAll());
 		request.setAttribute("tipoEscaladas", this.modeloTipoEscalada.getAll());
 		request.setAttribute("sectores", this.modeloSector.getAll());
-		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
+		this.dispatcher = request.getRequestDispatcher(
+				Constantes.VIEW_BACK_VIAS_FORM);
 		
 	}
 	/**
@@ -211,7 +280,8 @@ public class ViasController extends HttpServlet {
 						+ "[id(" + this.pID + ")]");
 			} else {
 				this.msg = new Mensaje(Mensaje.MSG_DANGER,
-						"Error al modificar el registro [id(" + this.pID + ")]");
+						"Error al modificar el registro "
+						+ "[id(" + this.pID + ")]");
 			}
 		}
 		
@@ -223,7 +293,7 @@ public class ViasController extends HttpServlet {
 	}
 	
 	/**
-	 * Crea un Objeto {@code Via} Con los parametros recibidos
+	 * Crea un Objeto {@code Via} Con los parametros recibidos.
 	 */
 	private void crearObjetoVia() {
 		this.grado = (Grado) this.modeloGrado.getById(this.pIDGrado);
@@ -246,10 +316,10 @@ public class ViasController extends HttpServlet {
 
 
 	/**
-	* Recoger los parametros enviados desde el formulario
+	* Recoger los parametros enviados desde el formulario.
 	* @see backoffice\pages\vias\form.jsp
 	* @param request
-	 * @throws UnsupportedEncodingException 
+	* @throws UnsupportedEncodingException 
 	*/
 	private void getParametersForm(HttpServletRequest request)
 			throws UnsupportedEncodingException {

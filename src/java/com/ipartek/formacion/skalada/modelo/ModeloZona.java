@@ -8,25 +8,53 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.Zona;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloZona implements Persistable<Zona> {
-	
+	/**
+	 * 
+	 */
 	private static final String TABLA = "zona";
+	/**
+	 * 
+	 */
 	private static final String COL_ID = "id";
+	/**
+	 * 
+	 */
 	private static final String COL_NOMBRE = "nombre";
-	
+	/**
+	 * 
+	 */
 	private static final String SQL_INSERT = "INSERT INTO `" 
 				+ TABLA + "` (`" + COL_NOMBRE + "`) VALUES (?);";
+	/**
+	 * 
+	 */
 	private static final String SQL_DELETE = "DELETE FROM `" 
 				+ TABLA + "` WHERE `" + COL_ID + "`= ?;";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETONE = "SELECT * FROM `" 
 				+ TABLA + "` WHERE `" + COL_ID + "`= ?;";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	/**
+	 * 
+	 */
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA 
 			+ "` SET `" + COL_NOMBRE + "`= ? WHERE `" + COL_ID + "`= ? ;";
-	
+	/**
+	 * 
+	 */
 	@Override
-	public int save(Zona zona) {
+	public final int save(final Zona zona) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -67,7 +95,7 @@ public class ModeloZona implements Persistable<Zona> {
 	}
 
 	@Override
-	public Object getById(int id) {
+	public final Object getById(final int id) {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -98,7 +126,7 @@ public class ModeloZona implements Persistable<Zona> {
 	}
 
 	@Override
-	public ArrayList<Zona> getAll() {
+	public final ArrayList<Zona> getAll() {
 		ArrayList<Zona> resul = new ArrayList<Zona>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -128,7 +156,7 @@ public class ModeloZona implements Persistable<Zona> {
 	}
 
 	@Override
-	public boolean update(Zona zona) {
+	public final boolean update(final Zona zona) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		if (zona != null) {
@@ -159,7 +187,7 @@ public class ModeloZona implements Persistable<Zona> {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public final boolean delete(final int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		try {
@@ -191,7 +219,7 @@ public class ModeloZona implements Persistable<Zona> {
 	 * @return resul
 	 * @throws SQLException 
 	 */
-	private Zona mapeo(ResultSet rs) throws SQLException {
+	private Zona mapeo(final ResultSet rs) throws SQLException {
 		Zona resul = null;    
 		
 		resul = new Zona(rs.getString(COL_NOMBRE));
@@ -200,8 +228,13 @@ public class ModeloZona implements Persistable<Zona> {
 		return resul;
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return resul
+	 */
 	//TODO OBTENER SECTORES DE UNA VIA
-	public ArrayList<Zona> getSectores(int id) {
+	public final ArrayList<Zona> getSectores(final int id) {
 		ArrayList<Zona> resul = new ArrayList<Zona>();
 		
 		

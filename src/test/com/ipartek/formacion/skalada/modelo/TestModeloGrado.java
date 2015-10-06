@@ -19,38 +19,71 @@ import com.ipartek.formacion.skalada.bean.Grado;
  */
 
 public class TestModeloGrado {
-	
-	static ModeloGrado modelo = null;
-	
-	static String nombreGrado = "gradoMock";
-	static String descripcionGrado = "Lorem impsun —·…";
-	static String descripcionGrado_updated = "Updated Lorem impsun —·…";	
-	static String nombreGrado_updated = "updated";
-	static int id;	
-
+	/**
+	 * 
+	 */
+	private static ModeloGrado modelo = null;
+	/**
+	 * 
+	 */
+	private static String nombreGrado = "gradoMock";
+	/**
+	 * 
+	 */
+	private static String descripcionGrado = "Lorem impsun —·…";
+	/**
+	 * 
+	 */
+	private static String descripcionGrado_updated = "Updated Lorem impsun";
+	/**
+	 * 
+	 */
+	private static String nombreGrado_updated = "updated";
+	/**
+	 * 
+	 */
+	private static int id;	
+/**
+ * 
+ * @throws Exception
+ */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		modelo = new ModeloGrado();
 	}
-
+/**
+ * @throws Exception
+ * 
+ */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		modelo = null;
 	}
-
+/**
+ * 
+ * @throws Exception
+ */
 	@Before
 	public void setUp() throws Exception {
 	}
-
+/**
+ * 
+ * @throws Exception
+ */
 	@After
 	public void tearDown() throws Exception {
 	}
-
-	@Test
+/**
+ * 
+ */
+	
 	//@Ignore
-	public void testCRUD() {
-		int total;				//Cantidad de registros iniciales en la tabla `test`
-		int total_despues;		//Cantidad de registros en la tabla `test` tras insertar uno nuevo	
+	@Test
+	public final void testCRUD() {
+		int total;				
+		//Cantidad de registros iniciales en la tabla `test`
+		int total_despues;
+		//Cantidad de registros en la tabla `test` tras insertar uno nuevo	
 			
 		
 		//Test para comprobar que al insertar un nuevo registro aumenta el ID
@@ -67,7 +100,7 @@ public class TestModeloGrado {
 		
 		//Test para comprobar que al obtener un
 		//registro por su ID lo devuelve correctamente
-		Grado g_get;		
+		Grado g_get;
 		g_get = (Grado) modelo.getById(id);	
 		assertTrue(id == g_get.getId());
 		assertEquals(nombreGrado, g_get.getNombre());
@@ -91,9 +124,11 @@ public class TestModeloGrado {
 		assertTrue(modelo.delete(id));
 		assertTrue(total == modelo.getAll().size());	
 	}
-
+/**
+ * 
+ */
 	@Test
-	public void testCasosError() {
+	public final void testCasosError() {
 		//Intentar obtener un grado cuyo identificador
 		//no exista en la base de datos 
 		id = -1;

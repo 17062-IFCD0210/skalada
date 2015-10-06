@@ -21,9 +21,13 @@ import com.ipartek.formacion.skalada.bean.Zona;
  *
  */
 public class ModeloVia implements Persistable<Via> {
-	
+	/**
+	 * 
+	 */
 	private static final String SQL_INSERT = "";
-	
+	/**
+	 * 
+	 */
 	private static final String SQL_GETALL = "SELECT v.`id`,"
 			+ " v.`nombre`,`longitud`, v.`descripcion`, `id_grado`,"
 			+ " g.`nombre` as `nombre_grado` , `id_sector`, s.`nombre`"
@@ -50,14 +54,22 @@ public class ModeloVia implements Persistable<Via> {
 		 INNER JOIN `zona` as z ON s.`id_zona` = z.`id`
 	  
 	 */
+	/**
+	 * 
+	 */
 	private static final String SQL_GETONE = SQL_GETALL + " where v.`id` = ? ";
-	
+	/**
+	 * 
+	 */
 	private static final String SQL_UPDATE = "";
+	/**
+	 * 
+	 */
 	private static final String SQL_DELETE = "";
 	
 
 	@Override
-	public int save(Via via) {
+	public final int save(final Via via) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -98,7 +110,7 @@ public class ModeloVia implements Persistable<Via> {
 	}
 
 	@Override
-	public Object getById(int id) {
+	public final Object getById(final int id) {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -129,7 +141,7 @@ public class ModeloVia implements Persistable<Via> {
 	}
 
 	@Override
-	public ArrayList<Via> getAll() {
+	public final ArrayList<Via> getAll() {
 		ArrayList<Via> resul = new ArrayList<Via>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -159,7 +171,7 @@ public class ModeloVia implements Persistable<Via> {
 	}
 
 	@Override
-	public boolean update(Via via) {
+	public final boolean update(final Via via) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		if (via != null) {
@@ -190,7 +202,7 @@ public class ModeloVia implements Persistable<Via> {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public final boolean delete(final int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		try {
@@ -219,10 +231,10 @@ public class ModeloVia implements Persistable<Via> {
 	/**
 	 * Mapea un ResultSet a Via.
 	 * @param rs
-	 * @return
+	 * @return resul
 	 * @throws SQLException 
 	 */
-	private Via mapeo(ResultSet rs) throws SQLException {
+	private Via mapeo(final ResultSet rs) throws SQLException {
 		Via resul = null;  
 		
 		//Tipo Escalada

@@ -9,17 +9,41 @@ import com.ipartek.formacion.skalada.Constantes;
  *
  */
 public class Usuario implements Serializable {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -6253794296547129164L;
 	
 	//**********************************
 	//****		Atributos			****
 	//**********************************
+	/**
+	 * 
+	 */
 	private int id;
+	/**
+	 * 
+	 */
 	private String nombre;
+	/**
+	 * 
+	 */
 	private String email;
+	/**
+	 * 
+	 */
 	private String password;
+	/**
+	 * 
+	 */
 	private int validado;
+	/**
+	 * 
+	 */
 	private Rol rol;
+	/**
+	 * 
+	 */
 	private String token;
 	
 	
@@ -27,12 +51,13 @@ public class Usuario implements Serializable {
 	//****		Constructor			****
 	//**********************************
 	/**
-	 * @param nombre
-	 * @param email
-	 * @param password
-	 * @param rol
+	 * @param sNombre
+	 * @param sEmail
+	 * @param sPassword
+	 * @param rRol
 	 */
-	public Usuario(String sNombre, String sEmail, String sPassword, Rol rRol) {
+	public Usuario(final String sNombre, final String sEmail,
+			final String sPassword, final Rol rRol) {
 		super();
 		this.setId(-1);
 		this.setNombre(sNombre);
@@ -49,48 +74,105 @@ public class Usuario implements Serializable {
 	//**********************************
 	//****		Getters/Setters		****
 	//**********************************	
-	public int getId() {
+	/**
+	 * 
+	 * @return resul
+	 */
+	public final int getId() {
 		return this.id;
 	}
-	public void setId(int iId) {
+
+	/**
+	 * 
+	 * @param iId
+	 */
+	public final void setId(final int iId) {
 		this.id = iId;
 	}
-	public String getNombre() {
+	/**
+	 * 
+	 * @return nomrbe
+	 */
+	public final String getNombre() {
 		return this.nombre;
 	}
-	public void setNombre(String sNombre) {
+	/**
+	 * 
+	 * @param sNombre
+	 */
+	public final void setNombre(final String sNombre) {
 		this.nombre = sNombre;
 	}
-	public String getEmail() {
+	/**
+	 * 
+	 * @return email
+	 */
+	public final String getEmail() {
 		return this.email;
 	}
-	public void setEmail(String sEmail) {
+	/**
+	 * 
+	 * @param sEmail
+	 */
+	public final void setEmail(final String sEmail) {
 		this.email = sEmail;
 	}
-	public String getPassword() {
+	/**
+	 * 
+	 * @return password
+	 */
+	public final String getPassword() {
 		return this.password;
 	}
-	public void setPassword(String sPassword) {
+	/**
+	 * 
+	 * @param sPassword
+	 */
+	public final void setPassword(final String sPassword) {
 		this.password = sPassword;
 	}
-	public int getValidado() {
+	/**
+	 * 
+	 * @return validado
+	 */
+	public final int getValidado() {
 		return this.validado;
 	}
-	public void setValidado(int iValidado) {
+	/**
+	 * 
+	 * @param iValidado
+	 */
+	public final void setValidado(final int iValidado) {
 		this.validado = iValidado;
 	}
-	public Rol getRol() {
+	/**
+	 * 
+	 * @return rol
+	 */
+	public final Rol getRol() {
 		return this.rol;
 	}
-	public void setRol(Rol rRol) {
+	/**
+	 * 
+	 * @param rRol
+	 */
+	public final void setRol(final Rol rRol) {
 		this.rol = rRol;
 	}
+	/**
+	 * 
+	 * @return token
+	 */
 	
-	public String getToken() {
+	public final String getToken() {
 		return this.token;
 	}
 
-	public void setToken(String sToken) {
+	/**
+	 * 
+	 * @param sToken
+	 */
+	public final void setToken(final String sToken) {
 		this.token = sToken;
 	}
 
@@ -99,7 +181,7 @@ public class Usuario implements Serializable {
 	//****		ToString()			****
 	//**********************************	
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "Usuario [id=" + this.id + ", nombre=" 
 				+ this.nombre + ", email=" + this.email
 				+ ", password=" + this.password + ", validado=" + this.validado

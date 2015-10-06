@@ -12,27 +12,53 @@ import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 
 public class ModeloUsuario implements Persistable<Usuario> {
+	/**
+	 * 
+	 */
 
 	private static final String SQL_INSERT = "INSERT INTO `usuario`"
 			+ " (`email`, `nombre`, `password`, `id_rol`) VALUES (?, ?, ?, ?);";
+	/**
+	 * 
+	 */
 	private static final String SQL_DELETE = "DELETE FROM "
+	/**
+	 * 
+	 */
 			+ "`usuario` WHERE `id`= ? ;";
 	private static final String SQL_GETALL = "SELECT u.`id`, u.`token`,"
 			+ " u.`email`, u.`nombre`, u.`password`, u.`validado`, u.`id_rol`,"
 			+ " r.`nombre` AS nombre_rol " + "FROM `usuario` AS u "
 			+ "INNER JOIN `rol` as r ON "
 			+ "(u.`id_rol` = r.`id`)";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETONE  = SQL_GETALL + " WHERE u.`id`= ?;";
+	/**
+	 * 
+	 */
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?,"
 			+ " `nombre`= ?, `password`= ?, `validado`= ?,"
 			+ " `id_rol`= ?, `token`= ? WHERE `id`= ?;";
-	private static final String SQL_GETONE_BY_MAIL = SQL_GETALL 
+	/**
+	 * 
+	 */
+	private static final String SQL_GETONE_BY_MAIL = SQL_GETALL
 			+ " WHERE u.`email`= ?;";
-	
+	/**
+	 * 
+	 */
 	private static final String SQL_CHECK_USER  = "SELECT * FROM "
 			+ "`usuario` WHERE `nombre` = ? OR `email` = ?";
+	/**
+	 * 
+	 */
 	private static final String SQL_CHECK_EMAIL  = "SELECT * "
 			+ "FROM `usuario` WHERE `email` = ?";
+	/**
+	 * 
+	 */
 	private static final String SQL_VALIDADO  = "SELECT * FROM "
 			+ "`usuario` WHERE `email` = ? and `validado` = " 
 			+ Constantes.USER_NO_VALIDATE;
@@ -117,7 +143,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	 * @param email
 	 * @return objeto usuario creado si lo encuentra. null en caso contrario
 	 */
-	public Object getByEmail(String email) {
+	public final Object getByEmail(final String email) {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -149,7 +175,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	
 
 	@Override
-	public ArrayList<Usuario> getAll() {
+	public final ArrayList<Usuario> getAll() {
 		ArrayList<Usuario> resul = new ArrayList<Usuario>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -179,7 +205,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	}
 
 	@Override
-	public boolean update(Usuario usuario) {
+	public final boolean update(final Usuario usuario) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		if (usuario != null) {
@@ -215,7 +241,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public final boolean delete(final int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		try {
@@ -244,10 +270,10 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	/**
 	 * Mapea un ResultSet a Usuario.
 	 * @param rs
-	 * @return
+	 * @return resul
 	 * @throws SQLException 
 	 */
-	private Usuario mapeo(ResultSet rs) throws SQLException {
+	private Usuario mapeo(final ResultSet rs) throws SQLException {
 		Usuario resul = null;    
 		
 		Rol rol = new Rol(rs.getString("nombre_rol"));
@@ -270,7 +296,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	 * @return {@code boolean} true si existe en la tabla, 
 	 * 						   false en caso de que este libre
 	 */
-	public boolean checkUser(String nombre, String email) {
+	public final boolean checkUser(final String nombre, final String email) {
 		boolean resul = true;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -303,11 +329,10 @@ public class ModeloUsuario implements Persistable<Usuario> {
 
 	/**
 	 * Comprueba si existe ese email en la tabla usuario.
-	 * @param email {@code String} email del {@code Usuario}
 	 * @return {@code boolean} true si existe en la tabla, 
 	 * 						   false en caso de que este libre
 	 */
-	public boolean checkEmail(String pEmail) {
+	public final boolean checkEmail(final String pEmail) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -341,7 +366,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	 * @param email
 	 * @return true si esta validado false en caso contrario
 	 */
-	public boolean isValidado(String email) {
+	public final boolean isValidado(final String email) {
 		boolean resul = true;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		

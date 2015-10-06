@@ -19,36 +19,67 @@ import com.ipartek.formacion.skalada.bean.Zona;
  */
 
 public class TestModeloZona {
-	
-	static ModeloZona modelo = null;
-	
-	static String nombreZona = "gradoMock";
-	static String descripcionZona = "Lorem impsun ���";
-	static String descripcionZona_updated = "Updated Lorem impsun ���";	
-	static String nombreZona_updated = "updated";
-	static int id;	
-
+	/**
+	 * 
+	 */
+	private static ModeloZona modelo = null;
+	/**
+	 * 
+	 */
+	private static String nombreZona = "gradoMock";
+	/**
+	 * 
+	 */
+	private static String descripcionZona = "Lorem impsun";
+	/**
+	 * 
+	 */
+	private static String descripcionZona_updated = "Updated Lorem impsun";
+	/**
+	 * 
+	 */
+	private static String nombreZona_updated = "updated";
+	/**
+	 * 
+	 */
+	private static int id;	
+/**
+ * 
+ * @throws Exception
+ */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		modelo = new ModeloZona();
 	}
-
+/**
+ * 
+ * @throws Exception
+ */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		modelo = null;
 	}
-
+/**
+ * 
+ * @throws Exception
+ */
 	@Before
 	public void setUp() throws Exception {
 	}
-
+/**
+ * 
+ * @throws Exception
+ */
 	@After
 	public void tearDown() throws Exception {
 	}
-
-	@Test
+/**
+ * 
+ */
+	
 	//@Ignore
-	public void testCRUD() {
+	@Test
+	public final void testCRUD() {
 		int total;				//Cantidad de registros iniciales
 								//en la tabla `test`
 		int total_despues;		//Cantidad de registros en la 
@@ -68,7 +99,7 @@ public class TestModeloZona {
 		
 		//Test para comprobar que al obtener un registro
 		//por su ID lo devuelve correctamente
-		Zona z_get;		
+		Zona z_get;
 		z_get = (Zona) modelo.getById(id);	
 		assertTrue(id == z_get.getId());
 		assertEquals(nombreZona, z_get.getNombre());
@@ -89,9 +120,11 @@ public class TestModeloZona {
 		assertTrue(modelo.delete(id));
 		assertTrue(total == modelo.getAll().size());	
 	}
-	
+	/**
+	 * 
+	 */
 	@Test
-	public void testCasosError() {
+	public final void testCasosError() {
 		//Intentar obtener un grado cuyo identificador 
 		//no exista en la base de datos 
 		id = -1;

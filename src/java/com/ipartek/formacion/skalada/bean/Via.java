@@ -1,8 +1,15 @@
 package com.ipartek.formacion.skalada.bean;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class Via implements Serializable {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 3869513622336875450L;
 
 //**********************************
@@ -49,13 +56,15 @@ public class Via implements Serializable {
 //**********************************	
 	/**
 	 * @param id
-	 * @param nombre
-	 * @param grado
-	 * @param longitud
-	 * @param tipoEscalada
-	 * @param sector
+	 * @param sNombre
+	 * @param sGrado
+	 * @param ilongitud
+	 * @param tTipoEscalada
+	 * @param sSector
 	 */
-	public Via(String sNombre, int iLongitud, Grado sGrado, TipoEscalada tTipoEscalada, Sector sSector) {
+	public Via(final String sNombre, final int iLongitud,
+			final Grado sGrado, final TipoEscalada tTipoEscalada,
+			final Sector sSector) {
 		super();
 		this.setId(-1);
 		this.setNombre(sNombre);
@@ -67,9 +76,9 @@ public class Via implements Serializable {
 
 	
 	/**
-	 * @param nombre
+	 * @param sNombre
 	 */
-	public Via(String sNombre) {
+	public Via(final String sNombre) {
 		super();
 		this.setId(-1);
 		this.setNombre(sNombre);
@@ -82,46 +91,102 @@ public class Via implements Serializable {
 //**********************************
 //****		Getters/Setters		****
 //**********************************	
-	public int getId() {
+	/**
+	 * 
+	 * @return resul
+	 */
+	public final int getId() {
 		return this.id;
 	}
-	public void setId(int iId) {
+	/**
+	 * 
+	 * @param iId
+	 */
+	public final void setId(int iId) {
 		this.id = iId;
 	}
-	public String getNombre() {
+	/**
+	 * 
+	 * @return resul
+	 */
+	public final String getNombre() {
 		return this.nombre;
 	}
-	public void setNombre(String sNombre) {
+	/**
+	 * 
+	 * @param sNombre
+	 */
+	public final void setNombre(final String sNombre) {
 		this.nombre = sNombre;
 	}
-	public Grado getGrado() {
+	/**
+	 * 
+	 * @return grado
+	 */
+	public final Grado getGrado() {
 		return this.grado;
 	}
-	public void setGrado(Grado sGrado) {
+	/**
+	 * 
+	 * @param sGrado
+	 */
+	public final void setGrado(final Grado sGrado) {
 		this.grado = sGrado;
 	}
-	public int getLongitud() {
+	/**
+	 * 
+	 * @return longitud
+	 */
+	public final int getLongitud() {
 		return this.longitud;
 	}
-	public void setLongitud(int iLongitud) {
+	/**
+	 * 
+	 * @param iLongitud
+	 */
+	public final void setLongitud(final int iLongitud) {
 		this.longitud = iLongitud;
 	}
-	public String getDescripcion() {
+	/**
+	 * 
+	 * @return descripcion
+	 */
+	public final String getDescripcion() {
 		return this.descripcion;
 	}
-	public void setDescripcion(String sDescripcion) {
+	/**
+	 * 
+	 * @param sDescripcion
+	 */
+	public final void setDescripcion(final String sDescripcion) {
 		this.descripcion = sDescripcion;
 	}
-	public TipoEscalada getTipoEscalada() {
+	/**
+	 * 
+	 * @return tipoescalada
+	 */
+	public final TipoEscalada getTipoEscalada() {
 		return this.tipoEscalada;
 	}
-	public void setTipoEscalada(TipoEscalada tTipoEscalada) {
+	/**
+	 * 
+	 * @param tTipoEscalada
+	 */
+	public final void setTipoEscalada(final TipoEscalada tTipoEscalada) {
 		this.tipoEscalada = tTipoEscalada;
 	}
-	public Sector getSector() {
+	/**
+	 * 
+	 * @return sector
+	 */
+	public final Sector getSector() {
 		return this.sector;
 	}
-	public void setSector(Sector sSector) {
+	/**
+	 * 
+	 * @param sSector
+	 */
+	public final void setSector(final Sector sSector) {
 		this.sector = sSector;
 	}
 
@@ -129,7 +194,7 @@ public class Via implements Serializable {
 //****		ToString()			****
 //**********************************		
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "Via [id=" + this.id + ", nombre=" 
 	+ this.nombre + ", grado=" + this.grado
 				+ ", longitud=" + this.longitud

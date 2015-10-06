@@ -21,20 +21,43 @@ import com.ipartek.formacion.skalada.Constantes;
  * Servlet implementation class LoginController.
  */
 public class LoginController extends HttpServlet {
-	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOG = Logger.getLogger(LoginController.class);
+	/**
+	 * 
+	 */
+	private static final  Logger LOG = Logger.getLogger(LoginController.class);
 	
-	//Key oara guardar el usuario en la session
+	//Key para guardar el usuario en la session
+	/**
+	 * 
+	 */
 	public static final String KEY_SESSION_USER = "ss_user";
-       
+       /**
+        * 
+        */
 	private RequestDispatcher dispatcher = null;
+	/**
+	 * 
+	 */
 	private HttpSession session = null;
-	
+	/**
+	 * 
+	 */
 	private final String EMAIL = "admin@admin.com";
+	/**
+	 * 
+	 */
 	private final String PASS = "admin";
-	
+	/**
+	 * 
+	 */
 	private String pEmail;
+	/**
+	 * 
+	 */
 	private String pPassword;
 
 		
@@ -68,7 +91,8 @@ public class LoginController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request,

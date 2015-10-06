@@ -3,22 +3,40 @@ package com.ipartek.formacion.skalada.bean;
 import java.io.Serializable;
 
 import com.ipartek.formacion.skalada.Constantes;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class Sector implements Serializable {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -2537948970066821711L;
 	
 	/**
-	 * Atributos
+	 * Atributos.
 	 */
 	private int id;
+	/**
+	 * 
+	 */
 	private String nombre;
+	/**
+	 * 
+	 */
 	private Zona zona;
+	/**
+	 * 
+	 */
 	private String imagen; // path + nombre de la imagen a mostrar
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 * @param zZona
+	 * @param sNombre
 	 */
-	public Sector(String sNombre, Zona zZona) {
+	public Sector(final String sNombre, final Zona zZona) {
 		super();
 		this.setId(-1);
 		this.setNombre(sNombre);
@@ -27,37 +45,64 @@ public class Sector implements Serializable {
 	}
 
 	/**
-	 * Getters y Setters
+	 * Getters y Setters.
+	 * @return id
 	 */
-	public int getId() {
+	public final int getId() {
 		return this.id;
 	}
-	public void setId(int iId) {
+	/**
+	 * 
+	 * @param iId
+	 */
+	public final void setId(final int iId) {
 		this.id = iId;
 	}
-	public String getNombre() {
+	/**
+	 * 
+	 * @return nombre
+	 */
+	public final String getNombre() {
 		return this.nombre;
 	}
-	public void setNombre(String sNombre) {
+	/**
+	 * 
+	 * @param sNombre
+	 */
+	public final void setNombre(final String sNombre) {
 		this.nombre = sNombre;
 	}
-	public Zona getZona() {
+	/**
+	 * 
+	 * @return zona
+	 */
+	public final Zona getZona() {
 		return this.zona;
 	}
-	public void setZona(Zona zZona) {
+	/**
+	 * 
+	 * @param zZona
+	 */
+	public final void setZona(final Zona zZona) {
 		this.zona = zZona;
 	}
-
-	public String getImagen() {
+/**
+ * 
+ * @return imagen
+ */
+	public final String getImagen() {
 		return this.imagen;
 	}
-
-	public void setImagen(String sImagen) {
+/**
+ * 
+ * @param sImagen
+ */
+	public final void setImagen(final String sImagen) {
 		this.imagen = sImagen;
 	}
 
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "Sector [id=" + this.id + ", nombre=" 
 				+ this.nombre + ", zona=" + this.zona
 				+ ", imagen=" + this.imagen + "]";

@@ -15,16 +15,43 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.io.IOUtils;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class EnviarEmails {
-
+/**
+ * 
+ */
 	public  static final String DIRECIONORIGEN = "skalada.ipartek@gmail.com";
+	/**
+	 * 
+	 */
 	private String passwordOrigen   = "123ABC123";
+	/**
+	 * 
+	 */
 	private String direccionFrom    = "";
+	/**
+	 * 
+	 */
 	private String direccionDestino = "";
+	/**
+	 * 
+	 */
 	private String messageSubject   = ""; //Asunto	
+	/**
+	 * 
+	 */
 	private String messageText      = ""; //Cuerpo Texto Plano
+	/**
+	 * 
+	 */
 	private String messageContent   = ""; //Cuerpo Html
+	/**
+	 * 
+	 */
 
 	private Session session;
 	
@@ -55,8 +82,11 @@ public class EnviarEmails {
 	 	
 	
 	/*********************** GETTERS Y SETTERS. **********************/
-
-	public String getDireccionOrigen() {
+/**
+ * 
+ * @return direccionorigen
+ */
+	public final String getDireccionOrigen() {
 		return DIRECIONORIGEN;
 	}
 
@@ -66,8 +96,11 @@ public class EnviarEmails {
 	}
 	*/
 
-
-	public String getPasswordOrigen() {
+/**
+ * 
+ * @return passwordorigen
+ */
+	public final String getPasswordOrigen() {
 		return this.passwordOrigen;
 	}
 
@@ -77,62 +110,92 @@ public class EnviarEmails {
 	}
 	*/
 
-
-	public String getDireccionFrom() {
+/**
+ * 
+ * @return direccionfrom
+ */
+	public final String getDireccionFrom() {
 		return this.direccionFrom;
 	}
+/**
+ * 
+ * @param sDireccionFrom
+ */
 
-
-	public void setDireccionFrom(String sDireccionFrom) {
+	public final void setDireccionFrom(String sDireccionFrom) {
 		this.direccionFrom = sDireccionFrom;
 	}
 
-
-	public String getDireccionDestino() {
+/**
+ * 
+ * @return direcciondestino
+ */
+	public final String getDireccionDestino() {
 		return this.direccionDestino;
 	}
+/**
+ * 
+ * @param sDireccionDestino
+ */
 
-
-	public void setDireccionDestino(String sDireccionDestino) {
+	public final void setDireccionDestino(String sDireccionDestino) {
 		this.direccionDestino = sDireccionDestino;
 	}
+/**
+ * 
+ * @return messagecontent
+ */
 
-
-	public String getMessageContent() {
+	public final String getMessageContent() {
 		return this.messageContent;
 	}
 
+/**
+ * 
+ * @param sMessageContent
+ */
 
-
-	public void setMessageContent(String sMessageContent) {
+	public final void setMessageContent(String sMessageContent) {
 		this.messageContent = sMessageContent;
 	}
 
+/**
+ * 
+ * @return message subject
+ */
 
-
-	public String getMessageSubject() {
+	public final String getMessageSubject() {
 		return this.messageSubject;
 	}
+/**
+ * 
+ * @param sMessageSubject
+ */
 
-
-	public void setMessageSubject(String sMessageSubject) {
+	public final void setMessageSubject(final String sMessageSubject) {
 		this.messageSubject = sMessageSubject;
 	}
+/**
+ * 
+ * @return message text
+ */
 
-
-	public String getMessageText() {
+	public final String getMessageText() {
 		return this.messageText;
 	}
+/**
+ * 
+ * @param sMessageText
+ */
 
-
-	public void setMessageText(String sMessageText) {
+	public final void setMessageText(final String sMessageText) {
 		this.messageText = sMessageText;
 	}
 
 	
 	
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "EnviarEmails [direccionOrigen=" + DIRECIONORIGEN
 				+ ", passwordOrigen=" + this.passwordOrigen + ", direccionFrom="
 				+ this.direccionFrom + ", direccionDestino=" 
@@ -143,8 +206,11 @@ public class EnviarEmails {
 
 	
 	/************************ METODO PUBLICO. ***************************/
-	
-	public boolean enviar() {
+	/**
+	 * 
+	 * @return resul
+	 */
+	public final boolean enviar() {
 	
 		boolean resul = false;
 		try {
@@ -179,8 +245,8 @@ public class EnviarEmails {
 	 * @throws IOException 
 	 */
 	
-	public String generarPlantilla(String plantilla,
-			HashMap<String, String> parametros)
+	public final String generarPlantilla(final String plantilla,
+			final HashMap<String, String> parametros)
 			throws IOException {
 		String resul = "";
 

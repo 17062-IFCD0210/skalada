@@ -18,57 +18,106 @@ import com.ipartek.formacion.skalada.bean.TipoEscalada;
  */
 
 public class TestModeloTipoEscalada {
+	/**
+	 * 
+	 */
+	private static ModeloTipoEscalada modelo = null;
+	/**
+	 * 
+	 */
+	private static String nombreTipoEscalada = "TipoEscaladaMock";
+	/**
+	 * 
+	 */
+	private static String descripcionTipoEscalada = "Lorem impsum";
+	/**
+	 * 
+	 */
+	private static String nombreTipoEscalada_updated = "updated";
+	/**
+	 * 
+	 */
+	private static String descripcionTipoEscalada_updated =
+					"Updated Lorem impsun";
+	/**
+	 * 
+	 */
+	private static int id;
+	/**
+	 * 
+	 */
+	private static TipoEscalada te_get;
+	/**
+	 * 
+	 */
+	private static TipoEscalada te_insert;
+	/**
+	 * 
+	 */
+	private static TipoEscalada te_update;
+	/**
+	 * 
+	 */
 	
-	static ModeloTipoEscalada modelo = null;
-	
-	static String nombreTipoEscalada = "TipoEscaladaMock";
-	static String descripcionTipoEscalada = "Lorem impsu Ã‘Ã©Ã�";	
-	static String nombreTipoEscalada_updated = "updated";
-	static String descripcionTipoEscalada_updated = "Updated Lorem impsun Ã‘Ã±Ã©Ã�";
-	
-	static int id;	
-	static TipoEscalada te_get;
-	static TipoEscalada te_insert;
-	static TipoEscalada te_update;
-	
-	static int total;		//Cantidad de registros 
-							//iniciales en la tabla `tipo_escalada`
-	static int total_despues; //Cantidad de registros en la tabla 
+	private static int total;		//Cantidad de registros 
+									//iniciales en la tabla `tipo_escalada`
+	/**
+	 * 
+	 */
+	private static int total_despues; //Cantidad de registros en la tabla 
 							//tipo_escalada` tras insertar uno nuevo	
 	
-	
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		modelo = new ModeloTipoEscalada();
 		total = modelo.getAll().size();	
 	}
+	 /**
+	  * 
+	  * @throws Exception
+	  */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		assertTrue(total == modelo.getAll().size());
 		modelo = null;
 	}
-	
+	/**
+	 * 
+	 * @throws Exception
+	 */
 
 	@Before
-	public void setUp() throws Exception {		
+	public final void setUp() throws Exception {
 		te_insert = new TipoEscalada(nombreTipoEscalada);
 		te_insert.setDescripcion(descripcionTipoEscalada);
 		id = modelo.save(te_insert);
 	}
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@After
-	public void tearDown() throws Exception {
+	public final void tearDown() throws Exception {
 		te_insert = null;
 		modelo.delete(id);
 	}
 
-	
+	/**
+	 * 
+	 */
 	@Test
-	public void testGetAll() {		
+	public final void testGetAll() {		
 		assertTrue("getAll() devuelve siempre un numero positivo", total > 0);
 	}
-	
+	/**
+	 * 
+	 */
 	@Test
-	public void testInsertar() {
+	public final void testInsertar() {
 		//Test para comprobar que al insertar un nuevo registro aumenta el ID
 		total_despues = modelo.getAll().size();	// total = total_despues + 1	
 		
@@ -88,9 +137,11 @@ public class TestModeloTipoEscalada {
 		
 		modelo.delete(id + 1);
 	}
-		
+	/**	
+	 * 
+	 */
 	@Test
-	public void testGetById() {	
+	public final void testGetById() {	
 		//Test para comprobar que al obtener
 		//un registro por su ID lo devuelve correctamente				
 		te_get = (TipoEscalada) modelo.getById(id);	
@@ -103,9 +154,11 @@ public class TestModeloTipoEscalada {
 		assertNull(modelo.getById(-1));
 		assertNull(modelo.getById(0));
 	}
-	
+	/**
+	 * 
+	 */
 	@Test
-	public void testUpdate() {		
+	public final void testUpdate() {		
 		//Test para comprobar que actualiza el registro indentificado por su ID
 		te_update = new TipoEscalada(nombreTipoEscalada_updated);
 		te_update.setDescripcion(descripcionTipoEscalada_updated);
@@ -125,9 +178,11 @@ public class TestModeloTipoEscalada {
 		//Intentar actualizar un null
 		assertTrue(!modelo.update(null));
 	}
-	
+	/**
+	 * 
+	 */
 	@Test
-	public void testdelete() {
+	public final void testdelete() {
 		//Test para comprobar que elimina el registro
 		TipoEscalada te_2 = new TipoEscalada(nombreTipoEscalada);
 		assertTrue(modelo.delete(modelo.save(te_2)));

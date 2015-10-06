@@ -8,7 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 	
 	private static final String TABLA = "tipo_escalada";
@@ -192,8 +196,8 @@ public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 	/**
 	 * Mapea un ResultSet a TipoEscalada.
 	 * @param rs
-	 * @return
-	 * @throws SQLException 
+	 * @return resul
+	 * @throws SQLException
 	 */
 	private TipoEscalada mapeo(ResultSet rs) throws SQLException {
 		TipoEscalada resul = null;    

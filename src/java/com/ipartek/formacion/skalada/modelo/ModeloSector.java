@@ -15,25 +15,56 @@ import com.ipartek.formacion.skalada.bean.Zona;
  *
  */
 public class ModeloSector implements Persistable<Sector> {
-	
+	/**
+	 * 
+	 */
 	private static final String TABLA_SECTOR    = "sector";
+	/**
+	 * 
+	 */
 	private static final String TABLA_ZONA      = "zona";
+	/**
+	 * 
+	 */
 	private static final String COL_ID          = "id";
+	/**
+	 * 
+	 */
 	private static final String COL_NOMBRE      = "nombre";
+	/**
+	 * 
+	 */
 	private static final String COL_ZONA_ID     = "id_zona";
+	/**
+	 * 
+	 */
 	private static final String COL_ZONA_NOMBRE = "nombre_zona";
+	/**
+	 * 
+	 */
 	private static final String COL_IMAGEN      = "imagen";
-	
+	/**
+	 * 
+	 */
 	private static final String SQL_INSERT = "INSERT INTO `" 
 			+ TABLA_SECTOR + "` (`" + COL_NOMBRE + "`, `" 
 			+ COL_ZONA_ID + "` , `" + COL_IMAGEN + "`) VALUES (?,?,?);";
+	/**
+	 * 
+	 */
 	private static final String SQL_DELETE = "DELETE FROM `" 
 			+ TABLA_SECTOR + "` WHERE `" + COL_ID + "`= ?;";
+	/**
+	 * 
+	 */
 
 	private static final String SQL_GETONE = "SELECT  s.id,"
 			+ " s.imagen, s.nombre, id_zona, z.nombre AS "
 			+ "nombre_zona FROM sector AS s INNER JOIN zona AS z ON"
 			+ " (s.id_zona = z.id) WHERE s.id = ?";
+	/**
+	 * 
+	 */
 
 	private static final String SQL_GETALL = "SELECT  s." + COL_ID 
 			+ ", s." + COL_IMAGEN + " , s." + COL_NOMBRE 
@@ -41,17 +72,22 @@ public class ModeloSector implements Persistable<Sector> {
 			+ " AS " + COL_ZONA_NOMBRE + " FROM " + TABLA_SECTOR 
 			+ " AS s, " + TABLA_ZONA + " AS z WHERE s." 
 			+ COL_ZONA_ID + "= z." + COL_ID; 
+	/**
+	 * 
+	 */
 	private static final String SQL_UPDATE = "UPDATE `" 
 			+ TABLA_SECTOR + "` SET `" + COL_NOMBRE + "`= ? , `" 
 			+ COL_ZONA_ID + "`= ? , `" + COL_IMAGEN + "`= ? WHERE `" 
 			+ COL_ID + "`= ? ;";
 	
-	
+	/**
+	 * 
+	 */
 	private static final String SQL_GETALL_BY_ZONA = "select `id`"
 			+ ",`nombre`,`imagen` from `sector` where `id_zona` = ?"; 
 	
 	@Override
-	public int save(Sector sector) {
+	public int save(final Sector sector) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -94,7 +130,7 @@ public class ModeloSector implements Persistable<Sector> {
 	}
 
 	@Override
-	public Object getById(int id) {
+	public final Object getById(final int id) {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -125,7 +161,7 @@ public class ModeloSector implements Persistable<Sector> {
 	}
 
 	@Override
-	public ArrayList<Sector> getAll() {
+	public final ArrayList<Sector> getAll() {
 		ArrayList<Sector> resul = new ArrayList<Sector>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -155,7 +191,7 @@ public class ModeloSector implements Persistable<Sector> {
 	}
 
 	@Override
-	public boolean update(Sector sector) {
+	public final boolean update(final Sector sector) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		if (sector != null) {
@@ -188,7 +224,7 @@ public class ModeloSector implements Persistable<Sector> {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public final boolean delete(final int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		try {
@@ -217,10 +253,10 @@ public class ModeloSector implements Persistable<Sector> {
 	/**
 	 * Mapea un ResultSet a Sector.
 	 * @param rs
-	 * @return
+	 * @return resul
 	 * @throws SQLException 
 	 */
-	private Sector mapeo(ResultSet rs) throws SQLException {
+	private Sector mapeo(final ResultSet rs) throws SQLException {
 		Sector resul = null;    
 		
 		Zona zona = new Zona(rs.getString(COL_ZONA_NOMBRE));
@@ -242,7 +278,7 @@ public class ModeloSector implements Persistable<Sector> {
 	 *  si no existe ninguno coleccion inicializada con new()
 	 * 
 	 */
-	public ArrayList<Sector> getAllByZona(int id_zona) {
+	public final ArrayList<Sector> getAllByZona(final int id_zona) {
 		ArrayList<Sector> resul = new ArrayList<Sector>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		

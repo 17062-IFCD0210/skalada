@@ -15,12 +15,16 @@ import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
- * Servlet implementation class ZonasJsonController
+ * Servlet implementation class ZonasJsonController.
  */
 public class ZonasJsonController extends HttpServlet {
-	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-       
+       /**
+        * 
+        */
 	private static ModeloSector modeloSectores = null;
    	
 	@Override
@@ -30,9 +34,12 @@ public class ZonasJsonController extends HttpServlet {
 	}
 	
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 
 		//recoger parametros

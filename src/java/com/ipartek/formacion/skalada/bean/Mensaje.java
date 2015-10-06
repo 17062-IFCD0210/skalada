@@ -6,44 +6,72 @@ package com.ipartek.formacion.skalada.bean;
  *
  */
 public class Mensaje {
-
+/**
+ * 
+ */
 	private String tipo;
+	/**
+	 * 
+	 */
 	private String texto;
-	
+	/**
+	 * 
+	 */
 	// Tipos de mensajes
 	public static final String MSG_SUCCESS = "success";
+	/**
+	 * 
+	 */
 	public static final String MSG_INFO    = "info";
+	/**
+	 * 
+	 */
 	public static final String MSG_WARNING = "warning";
+	/**
+	 * 
+	 */
 	public static final String MSG_DANGER  = "danger";
 	
 	/**
-	 * @param tipo
-	 * @param texto
+	 * @param sTipo
+	 * @param sTexto
 	 */
-	public Mensaje(String sTipo, String sTexto) {
+	public Mensaje(final String sTipo, final String sTexto) {
 		super();
 		this.tipo = sTipo;
 		this.texto = sTexto;
 	}
-
-	public String getTipo() {
+/**
+ * 
+ * @return tipo
+ */
+	public final String getTipo() {
 		return this.tipo;
 	}
-
-	public void setTipo(String sTipo) {
+/**
+ * 
+ * @param sTipo
+ */
+	public final void setTipo(final String sTipo) {
 		this.tipo = sTipo;
 	}
-
-	public String getTexto() {
+/**
+ * 
+ * @return texto
+ */
+	public final String getTexto() {
 		return this.texto;
 	}
-
-	public void setTexto(String sTexto) {
+/**
+ * 
+ * @param sTexto
+ */
+	public final void setTexto(final String sTexto) {
 		this.texto = sTexto;
 	}
 
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "Mensaje [tipo=" + this.tipo + ", texto=" + this.texto + "]";
 	}
 	
