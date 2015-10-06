@@ -36,7 +36,7 @@ if(request.getAttribute("usuariosConectados")!=null){
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-map-o fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge"><%=sectoresPublicados%></div>
@@ -59,7 +59,7 @@ if(request.getAttribute("usuariosConectados")!=null){
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-map-o fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge"><%=sectoresPublicados%></div>
@@ -82,7 +82,7 @@ if(request.getAttribute("usuariosConectados")!=null){
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-globe fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">ZZZ</div>
@@ -101,11 +101,11 @@ if(request.getAttribute("usuariosConectados")!=null){
                 </div>
 <!--  Zonas por validar -->            
             <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-yellow">
+                    <div class="panel panel-success">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-globe fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">XXX</div>

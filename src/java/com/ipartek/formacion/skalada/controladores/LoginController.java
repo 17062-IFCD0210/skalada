@@ -30,14 +30,8 @@ public class LoginController extends HttpServlet {
 	// necesario para usar logs
 	private final static Logger LOG = Logger.getLogger(LoginController.class);
 
-	// Key para guardar el usuario en la session
-	public static final String KEY_SESSION_USER = "ss_user";
-
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
-
-	// private final String EMAIL = "admin@admin.com";
-	// private final String PASS = "admin";
 
 	// Parametros
 	private String pEmail;
@@ -75,7 +69,7 @@ public class LoginController extends HttpServlet {
 						this.session = request.getSession();
 						// session.setAttribute(KEY_SESSION_USER,
 						// usuario.getNombre());
-						this.session.setAttribute(KEY_SESSION_USER,
+						this.session.setAttribute(Constantes.KEY_SESSION_USER,
 								this.usuario);
 
 						msg.setTipo(Mensaje.MSG_SUCCESS);

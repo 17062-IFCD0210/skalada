@@ -30,25 +30,21 @@ public class SessionListener implements HttpSessionListener,
 
 	@Override
 	public void attributeAdded(HttpSessionBindingEvent se) {
+		LOG.trace("usuario conectado: "+ se.getSession().getAttribute(Constantes.KEY_SESSION_USER));
 		if (Constantes.KEY_SESSION_USER.equals(se.getName())) {
 			synchronized (this) {
 				this.sessionCount++;
 			}
-			LOG.info("Usuarios Conectados: " + this.sessionCount);
-			LOG.info("USUARIO:"
-					+ se.getSession().getAttribute(Constantes.KEY_SESSION_USER));
 		}
 	}
 
 	@Override
 	public void attributeRemoved(HttpSessionBindingEvent se) {
+		LOG.trace("usuario desconectado: "+ se.getSession().getAttribute(Constantes.KEY_SESSION_USER));
 		if (Constantes.KEY_SESSION_USER.equals(se.getName())) {
 			synchronized (this) {
 				this.sessionCount--;
 			}
-			LOG.info("Usuarios Conectados: " + this.sessionCount);
-			LOG.info("USUARIO:"
-					+ se.getSession().getAttribute(Constantes.KEY_SESSION_USER));
 		}
 
 	}
