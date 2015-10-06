@@ -5,6 +5,15 @@
 <%@page import="com.ipartek.formacion.skalada.controladores.LoginController"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
+<%
+
+	Usuario usuario= null;
+	usuario = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER);
+	//TODO si casca que vaya al login
+	int rol = usuario.getRol().getId(); //1 es admin 2 usuario normal
+
+%>
+
  <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -23,12 +32,6 @@
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    	<%
-                    	
-                    	//	Usuario usuario = (Usuario)session.getAttribute(LoginController.KEY_SESSION_USER);
-                    	//	out.print(usuario.getNombre()+" ("+usuario.getRol().getNombre()+")");
- 						                   		
-                    		%>
                     	${sessionScope.ss_user.nombre} (${sessionScope.ss_user.rol.nombre})	
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
@@ -49,52 +52,10 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        
-                        <li>
-                        	<a href="<%=Constantes.CONTROLLER_HOME%>"><i class="fa fa-globe fa-fw"></i> Web Publica</a>
-                        </li>                        	
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_BACK_INDEX_BACK%>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-map-signs fa-fw"></i> Vias</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-graduation-cap fa-fw"></i> Grados</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_TIPO_ESCALADA%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-bar-chart-o fa-fw"></i> Tipos Escalada</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Zonas</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Sectores</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_USUARIOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Usuarios</a>
-                        </li> 
-                        <li> 
-                          <a href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Roles</a> 
-                        </li>
-                        <li> 
-                          <a href="<%=Constantes.VIEW_BACK_CONTENT_LOG%>"><i class="fa fa-picture-o fa-fw"></i> Logs</a> 
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
+                
+                <% if (rol== Constantes.ROLE_ADMIN_ID){ %>
+                	<jsp:include page="nav-admin.jsp"></jsp:include>
+                <%}else{ %>
+                	<jsp:include page="nav-user.jsp"></jsp:include>
+                <%} %>
+  
