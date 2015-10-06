@@ -2,7 +2,6 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Usuario;
@@ -49,15 +47,14 @@ public class LoginController extends HttpServlet {
 
 		super.init(config);
 		this.modeloUsuario = new ModeloUsuario();
-		try {
-			// Fichero configuracion de Log4j
-			Properties props = new Properties();
-			props.load(this.getClass().getResourceAsStream("/log4j.properties"));
-			PropertyConfigurator.configure(props);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		/*
+		 * try { // Fichero configuracion de Log4j Properties props = new
+		 * Properties();
+		 * props.load(this.getClass().getResourceAsStream("/log4j.properties"));
+		 * PropertyConfigurator.configure(props);
+		 * 
+		 * } catch (IOException e) { e.printStackTrace(); }
+		 */
 
 	}
 
@@ -119,6 +116,11 @@ public class LoginController extends HttpServlet {
 				// salvar session
 				this.session.setAttribute(KEY_SESSION_USER, user);
 				// Ir a => index_back.jsp
+				// tenemos que pasar por un nuevo controlador para cargar el
+				// numero de sectores
+				// y etc controladro que controla el INDEX_BACK
+				// desde ese controlador deberiamos ir a
+				// Constantes.VIEW_BACK_INDEX
 				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			} else {
