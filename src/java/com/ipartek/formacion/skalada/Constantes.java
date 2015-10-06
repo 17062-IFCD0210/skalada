@@ -74,6 +74,7 @@ public final class Constantes {
 	public static final String CONTROLLER_SIGNUP = ROOT_APP + "signup";
 	public static final String CONTROLLER_FORGOT_PASS = ROOT_APP
 			+ "forgot-pass";
+	public static final String CONTROLLER_INDEXBACK = "indexBack";
 
 	// acciones
 	public static final int ACCION_NUEVO = 0;
@@ -96,10 +97,13 @@ public final class Constantes {
 	// ROLES
 	public static final String ROLE_USER = "usuario";
 	public static final String ROLE_ADMIN = "administrador";
+	public static final int ROLE_ID_USER = 2;
+	public static final int ROLE_ID_ADMIN = 1;
 
 	// Usuarios
 	public static final int USER_VALIDATE = 1;
 	public static final int USER_NO_VALIDATE = 0;
+	public static final String KEY_SESSION_USER = "ss_user";
 
 	// Plantillas emails
 	public static final String EMAIL_TEMPLATE_REGISTRO = "emails/registro.html";

@@ -52,7 +52,7 @@ public class LoginController extends HttpServlet {
 		 * Properties();
 		 * props.load(this.getClass().getResourceAsStream("/log4j.properties"));
 		 * PropertyConfigurator.configure(props);
-		 * 
+		 *
 		 * } catch (IOException e) { e.printStackTrace(); }
 		 */
 
@@ -122,7 +122,7 @@ public class LoginController extends HttpServlet {
 				// desde ese controlador deberiamos ir a
 				// Constantes.VIEW_BACK_INDEX
 				this.dispatcher = request
-						.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+						.getRequestDispatcher(Constantes.CONTROLLER_INDEXBACK);
 			} else {
 				// Ir a => login.jsp
 				/*

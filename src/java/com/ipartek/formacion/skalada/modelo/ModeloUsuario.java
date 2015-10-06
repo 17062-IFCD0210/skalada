@@ -23,6 +23,8 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ? , `token`= ? WHERE `id`= ?;";
 
 	private static final String SQL_CHECK_USER = "SELECT `id`,`email`,`nombre`,`password`,`id_rol`,`validado` FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
+	private static final String SQL_VALIDATE = "UPDATE `usuario` SET `validado`= ? WHERE `id`= ?;";
+	private static final String SQL_USUARIOS_NO_VALIDADOS = "SELECT COUNT(`id`) AS `noValidados` FROM `usuario` WHERE `validado`=0;";
 
 	@Override()
 	public int save(Usuario o) {
@@ -103,7 +105,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 
 	/**
 	 * Busca un usuario por su email
-	 * 
+	 *
 	 * @param email
 	 * @return objeto usuario creado si lo encuentra. null en caso contrario
 	 */
@@ -233,7 +235,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 
 	/**
 	 * Mapea un ResultSet a Usuario
-	 * 
+	 *
 	 * @param rs
 	 * @return
 	 * @throws SQLException
@@ -255,7 +257,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 
 	/**
 	 * Comprueba si existe ese nombre o email en la tabla usuario
-	 * 
+	 *
 	 * @param nombre
 	 *            {@code String} nombre del {@code Usuario}
 	 * @param email
@@ -275,6 +277,64 @@ public class ModeloUsuario implements Persistable<Usuario> {
 			rs = pst.executeQuery();
 			if (!rs.next()) {
 				resul = false; // Nombre y email libres
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pst != null) {
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return resul;
+	}
+
+	public boolean validate(int id) {
+		boolean resul = false;
+
+		PreparedStatement pst = null;
+		try {
+			Connection con = DataBaseHelper.getConnection();
+			String sql = SQL_VALIDATE;
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, 1);
+			pst.setInt(2, id);
+			if (pst.executeUpdate() == 1) {
+				resul = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pst != null) {
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return resul;
+	}
+
+	public int usuariosNoValidados() {
+		int resul = 0;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_USUARIOS_NO_VALIDADOS);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				resul = rs.getInt("noValidados");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

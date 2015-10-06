@@ -3,6 +3,16 @@
 
 <%@page import="com.ipartek.formacion.skalada.controladores.LoginController"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
+<%
+	Usuario usuario = null;
+	//TODO controlar el usaurio
+	usuario =(Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
+	int rol = usuario.getRol().getId();
+
+%>
+
+
 
  <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -44,7 +54,15 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
+                
+                <%if(rol==Constantes.ROLE_ID_ADMIN){ %>
+                	<jsp:include page="nav-admin.jsp"></jsp:include>
+                
+                <%}else{ %>
+                	<jsp:include page="nav-user.jsp"></jsp:include>
+                
+                <%} %>
+                   <%-- <%--  <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
@@ -84,14 +102,12 @@
                         <li> 
                           <a href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Roles</a> 
                         </li>
-                        <li> 
-                          <a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>"><i class="fa fa-picture-o fa-fw"></i>Logs</a> 
-                        </li>
+                       
                          <li> 
                           <a href="../backoffice/pages/error.jsp"><i class="fa fa-picture-o fa-fw"></i>Error</a> 
                         </li>
                                                   
-                    </ul>
+                    </ul> --%> 
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>

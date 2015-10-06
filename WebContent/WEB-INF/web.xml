@@ -153,7 +153,20 @@
   <session-config>
     <session-timeout>5</session-timeout>
   </session-config>
+  <servlet>
+    <description>Controlador del Index Back</description>
+    <display-name>IndexBackController</display-name>
+    <servlet-name>IndexBackController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.IndexBackController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndexBackController</servlet-name>
+    <url-pattern>/indexBack</url-pattern>
+  </servlet-mapping>
   <listener>
     <listener-class>com.ipartek.formacion.skalada.listener.ListenerInit</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.ipartek.formacion.skalada.listener.SessionListener</listener-class>
   </listener>
 </web-app>

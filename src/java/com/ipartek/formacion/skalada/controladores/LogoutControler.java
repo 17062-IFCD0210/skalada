@@ -7,13 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet implementation class LogoutControler
- * 
+ *
  * @author ander
  */
 public class LogoutControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final static Logger LOG = Logger.getLogger(LoginController.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -57,6 +60,7 @@ public class LogoutControler extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		//
+		LOG.info("Logout");
 
 		request.getSession().invalidate();
 		request.getRequestDispatcher("home").forward(request, response);

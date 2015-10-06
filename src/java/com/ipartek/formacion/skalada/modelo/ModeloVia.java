@@ -44,6 +44,8 @@ public class ModeloVia implements Persistable<Via> {
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_VIA
 			+ "` WHERE `" + COL_ID + "`= ?;";
 
+	private static final String SQL_VIAS_PUBLICADOS = "SELECT COUNT(`id`) as `via` FROM `VIA`;";
+
 	@Override()
 	public int save(Via v) {
 		int resul = -1;
@@ -259,4 +261,32 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;
 	}
 
+	public int viasPublicados() {
+		int resul = 0;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_VIAS_PUBLICADOS);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				resul = rs.getInt("vias");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pst != null) {
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return resul;
+	}
 }
