@@ -2,6 +2,7 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -12,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
@@ -25,33 +26,38 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
  */
 public class LoginController extends HttpServlet {
 
-	private static final Logger LOG = Logger.getLogger(LoginController.class);
-
 	private static final long serialVersionUID = 1L;
+	private final static Logger LOG = Logger.getLogger(LoginController.class);
 
-	// Key oara guardar el usuario en la session
+	// Key para guardar el usuario en la session
 	public static final String KEY_SESSION_USER = "ss_user";
-	private static final ModeloUsuario MODELOUSUARIO = new ModeloUsuario();
 
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
+	private ModeloUsuario modelUsuario = null;
 
-	private String pEmail = "";
-	private String pPassword = "";
+	private final String EMAIL = "admin@admin.com";
+	private final String PASS = "admin";
 
-	private Usuario usuario = null;
-	private Mensaje msg = null;
+	private String pEmail;
+	private String pPassword;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LoginController() {
-		super();
-	}
-
-	@Override()
+	@Override
 	public void init(ServletConfig config) throws ServletException {
+
 		super.init(config);
+		try {
+			// Fichero configuracion de Log4j
+			Properties props = new Properties();
+			props.load(this.getClass().getResourceAsStream("/log4j.properties"));
+			PropertyConfigurator.configure(props);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		this.modelUsuario = new ModeloUsuario();
+
 	}
 
 	/**
@@ -75,61 +81,49 @@ public class LoginController extends HttpServlet {
 		LOG.info("Entrando....");
 
 		// recoger la sesion
-		this.session = request.getSession(true);
-		Usuario user_session = (Usuario) this.session
-				.getAttribute(KEY_SESSION_USER);
+		this.session = request.getSession();
+		String usuario = (String) this.session.getAttribute(KEY_SESSION_USER);
 
 		// Usuario logeado
-		if ((user_session != null) && "".equals(user_session.getNombre())) {
+		if (usuario != null && "".equals(usuario)) {
+
 			// Ir a => index_back.jsp
 			this.dispatcher = request
 					.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 
 			// Usuario No logeado o caducada session
 		} else {
+
 			// recoger parametros del formulario
 			this.getParameters(request);
 
-			// validar los datos
-			// comprobamos con la BBDD
+			// Obtener usuario por email
+			Usuario user = (Usuario) this.modelUsuario.getByEmail(this.pEmail);
 
-			this.usuario = (Usuario) MODELOUSUARIO.getByEmail(this.pEmail);
-			if (this.usuario != null) {
-				if (this.usuario.getEmail().equals(this.pEmail)
-						&& this.usuario.getPassword().equals(this.pPassword)) {
-					if (this.usuario.getValidado() != 0) {
-						// salvar session
-						this.session.setAttribute(KEY_SESSION_USER,
-								this.usuario);
-						// Ir a => index_back.jsp
-						this.dispatcher = request
-								.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
-					} else {
-						this.msg = new Mensaje(
-								Mensaje.MSG_WARNING,
-								"El usuario no ha sido validado todavia, por favor revise su correo electronico");
-						this.dispatcher = request
-								.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-					}
-				} else {
-					// Ir a => login.jsp
-					this.msg = new Mensaje(Mensaje.MSG_WARNING,
-							"El email o la contraseña proporcionados no son validos.");
-					this.dispatcher = request
-							.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
-				}
-			} else {
-				this.msg = new Mensaje(Mensaje.MSG_WARNING,
-						"El usuario no existe, si lo desea registrese.");
+			// validar los datos
+
+			// comprobamos con la BBDD
+			if (this.EMAIL.equals(this.pEmail)
+					&& this.PASS.equals(this.pPassword)) {
+
+				// salvar session
+				this.session.setAttribute(KEY_SESSION_USER, user);
+
+				// Ir a => index_back.jsp
 				this.dispatcher = request
-						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
+						.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+			} else {
+				// Ir a => login.jsp
+				request.setAttribute("msg",
+						"El email y/o contrase&ntilde;a incorrecta");
+				this.dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
 
 		}
 
-		LOG.info("Saliendo...");
+		LOG.info("Saliendo....");
 
-		request.setAttribute("msg", this.msg);
 		this.dispatcher.forward(request, response);
 
 	}
