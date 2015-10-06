@@ -28,7 +28,8 @@ public class ZonasJsonController extends HttpServlet {
 	private static ModeloSector modeloSectores = null;
    	
 	@Override
-	public void init(ServletConfig config) throws ServletException {		
+	public final void init(final ServletConfig config)
+			throws ServletException {		
 		super.init(config);
 		modeloSectores = new ModeloSector();
 	}
@@ -38,12 +39,14 @@ public class ZonasJsonController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response)
+					throws ServletException, IOException {
 
 
 		//recoger parametros
-		int id_zona = Integer.parseInt(request.getParameter("id_zona"));
+		int id_zona = Integer.parseInt(
+				request.getParameter("id_zona"));
 		
 		//llamar al modelo
 		ArrayList<Sector> sectores = modeloSectores.getAllByZona(id_zona);

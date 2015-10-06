@@ -14,25 +14,51 @@ import com.ipartek.formacion.skalada.bean.TipoEscalada;
  *
  */
 public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
-	
+	/**
+	 * 
+	 */
 	private static final String TABLA = "tipo_escalada";
+	/**
+	 * 
+	 */
 	private static final String COL_ID = "id";
+	/**
+	 * 
+	 */
 	private static final String COL_NOMBRE = "nombre";
+	/**
+	 * 
+	 */
 	private static final String COL_DESCRIPCION = "descripcion";
+	/**
+	 * 
+	 */
 	
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` "
 			+ "(`" + COL_NOMBRE + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
+	/**
+	 * 
+	 */
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA 
 			+ "` WHERE `" + COL_ID + "`= ?;";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETONE = "SELECT * FROM `" 
 			+ TABLA + "` WHERE `" + COL_ID + "`= ?;";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	/**
+	 * 
+	 */
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" 
 			+ COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION 
 			+ "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
-	public int save(TipoEscalada tipoescalada) {
+	public final int save(final TipoEscalada tipoescalada) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -74,7 +100,7 @@ public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 	}
 
 	@Override
-	public Object getById(int id) {
+	public final Object getById(final int id) {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -105,7 +131,7 @@ public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 	}
 
 	@Override
-	public ArrayList<TipoEscalada> getAll() {
+	public final ArrayList<TipoEscalada> getAll() {
 		ArrayList<TipoEscalada> resul = new ArrayList<TipoEscalada>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -135,7 +161,7 @@ public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 	}
 
 	@Override
-	public boolean update(TipoEscalada tipoescalada) {
+	public final boolean update(final TipoEscalada tipoescalada) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		if (tipoescalada != null) {
@@ -145,7 +171,7 @@ public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 				pst = con.prepareStatement(sql);
 				pst.setString(1, tipoescalada.getNombre());
 				pst.setString(2, tipoescalada.getDescripcion());
-				pst.setInt(3, tipoescalada.getId());				
+				pst.setInt(3, tipoescalada.getId());
 		    	if (pst.executeUpdate() == 1) {
 		    		resul = true;	    		
 				}
@@ -167,7 +193,7 @@ public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public final boolean delete(final int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		try {
@@ -199,7 +225,7 @@ public class ModeloTipoEscalada implements Persistable<TipoEscalada> {
 	 * @return resul
 	 * @throws SQLException
 	 */
-	private TipoEscalada mapeo(ResultSet rs) throws SQLException {
+	private TipoEscalada mapeo(final ResultSet rs) throws SQLException {
 		TipoEscalada resul = null;    
 		
 		resul = new TipoEscalada(rs.getString(COL_NOMBRE));

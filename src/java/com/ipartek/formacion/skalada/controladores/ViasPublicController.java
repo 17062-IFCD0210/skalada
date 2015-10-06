@@ -14,31 +14,43 @@ import com.ipartek.formacion.skalada.bean.Via;
 import com.ipartek.formacion.skalada.modelo.ModeloVia;
 
 /**
- * Servlet implementation class ViasPublicController
+ * Servlet implementation class ViasPublicController.
  */
 public class ViasPublicController extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
-	private ModeloVia modelo = null;	
-	Via via = null;
-	
+	/**
+	 * 
+	 */
+	private ModeloVia modelo = null;
+	/**
+	 * 
+	 */
+	private Via via = null;
+	/**
+	 * 
+	 */
 	private int pID;
     
     /**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	@Override
-	public void init(ServletConfig config) throws ServletException {
+	public final void init(final ServletConfig config) throws ServletException {
 		super.init(config);
 		this.modelo = new ModeloVia();
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request,
+	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response)
+					throws ServletException, IOException {
 		
 		this.getParameters(request);
 		
@@ -48,8 +60,11 @@ public class ViasPublicController extends HttpServlet {
 		request.getRequestDispatcher(Constantes.VIEW_PUBLIC_VIA).
 			forward(request, response);
 	}
-
-	private void getParameters(HttpServletRequest request) {
+/**
+ * 
+ * @param request
+ */
+	private void getParameters(final HttpServletRequest request) {
 		try {
 			if (request.getParameter("id") != null 
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {

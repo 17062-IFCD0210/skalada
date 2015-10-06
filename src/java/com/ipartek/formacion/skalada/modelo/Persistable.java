@@ -20,7 +20,6 @@ public interface Persistable<T> {
 	/**
 	 **** 		CREATE.		****
 	 * Persiste el Objeto y lo guarda
-	 * @param o {@code Object} objeto a guardar
 	 * @return {@code int} Identificador del 
 	 * objeto guardado, -1 en caso de error
 	 */
@@ -45,7 +44,6 @@ public interface Persistable<T> {
 	/**
 	 ****		UPDATE.		****
 	 * Modificar un Objeto el cual debe tener un identificador definido
-	 * @param o {@code Object} Objeto a modificar
 	 * @return true si se modificaba bien, false en caso contrario
 	 */
 	boolean update(T t);
@@ -53,7 +51,6 @@ public interface Persistable<T> {
 	/**
 	 ****		DELETE.		****
 	 * Eliminar un Objeto por su identificador.
-	 * @param o {@code int} identificador del recurso a eliminar
 	 * @return true si se elimina, false en caso contrario
 	 */
 	boolean delete(int id);

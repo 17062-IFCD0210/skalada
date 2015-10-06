@@ -1,27 +1,35 @@
 package com.ipartek.formacion.utilidades;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
-
-
 import java.util.HashMap;
 
 import org.junit.AfterClass;
 import org.junit.Test;
 
 import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.skalada.utilidades.EnviarEmails;
-
+import com.ipartek.formacion.utilidades.EnviarEmails;
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class TestEnviarEmails {
 	
-
+/**
+ * 
+ * @throws Exception
+ */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
-
+/**
+ * 
+ */
 	@Test
-	public void testEnviar() {
+	public final void testEnviar() {
 		
 		EnviarEmails correo = new EnviarEmails();
 		
@@ -37,9 +45,11 @@ public class TestEnviarEmails {
 		
 		
 	}
-	
+/**	
+ * 
+ */
 	@Test
-	public void testEnviarRegistro() {
+	public final void testEnviarRegistro() {
 		
 		String url     			  = Constantes.SERVER 
 				+ Constantes.CONTROLLER_SIGNUP + "?email=+email";

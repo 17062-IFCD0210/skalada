@@ -1,4 +1,4 @@
-package com.ipartek.formacion.skalada.utilidades;
+package com.ipartek.formacion.utilidades;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -122,7 +122,7 @@ public class EnviarEmails {
  * @param sDireccionFrom
  */
 
-	public final void setDireccionFrom(String sDireccionFrom) {
+	public final void setDireccionFrom(final String sDireccionFrom) {
 		this.direccionFrom = sDireccionFrom;
 	}
 
@@ -138,7 +138,7 @@ public class EnviarEmails {
  * @param sDireccionDestino
  */
 
-	public final void setDireccionDestino(String sDireccionDestino) {
+	public final void setDireccionDestino(final String sDireccionDestino) {
 		this.direccionDestino = sDireccionDestino;
 	}
 /**
@@ -155,7 +155,7 @@ public class EnviarEmails {
  * @param sMessageContent
  */
 
-	public final void setMessageContent(String sMessageContent) {
+	public final void setMessageContent(final String sMessageContent) {
 		this.messageContent = sMessageContent;
 	}
 

@@ -21,20 +21,54 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
  * Servlet implementation class UserController.
  */
 public class UserController extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-       
+	/**
+	 * 
+	 */ 
 	private RequestDispatcher dispatcher = null;
+	/**
+	 * 
+	 */
 	private ModeloUsuario modeloUsuario = null;
+	/**
+	 * 
+	 */
 	private ModeloRol modeloRol = null;
+	/**
+	 * 
+	 */
 	private Usuario usuario = null;
-	
+	/**
+	 * 
+	 */
 	//parametros
 	private int pAccion = Constantes.ACCION_LISTAR;		//Accion por defecto
-	private int pID	= -1;		//ID no valido	
+	/**
+	 * 
+	 */
+	private int pID	= -1;		//ID no valido
+	/**
+	 * 
+	 */
 	private String pNombre = "";
+	/**
+	 * 
+	 */
 	private String pEmail = "";
+	/**
+	 * 
+	 */
 	private String pPassword = "";
+	/**
+	 * 
+	 */
 	private int pValidado = Constantes.USER_NO_VALIDATE;
+	/**
+	 * 
+	 */
 	private int pRolId = -1; // Identificador del Rol
 	
 	 /**
@@ -42,7 +76,7 @@ public class UserController extends HttpServlet {
      * Se usa para crear el modelo
      */
     @Override
-    public void init(ServletConfig config) throws ServletException {
+	public final void init(final ServletConfig config) throws ServletException {
     	super.init(config);
     	this.modeloUsuario = new ModeloUsuario();   
     	this.modeloRol     = new ModeloRol();
@@ -53,8 +87,8 @@ public class UserController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response)
+	protected final void doGet(final HttpServletRequest request,
+			final HttpServletResponse response)
 			throws ServletException, IOException {
 		//recoger parametros
 		this.getParameters(request, response);
@@ -77,9 +111,13 @@ public class UserController extends HttpServlet {
 			
 		this.dispatcher.forward(request, response);
 	}
-
-	private void getParameters(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void getParameters(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		
 		try {
 			this.pAccion = Integer.parseInt(
@@ -99,15 +137,19 @@ public class UserController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void listar(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void listar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		request.setAttribute("usuarios", this.modeloUsuario.getAll());
 		this.dispatcher = request.getRequestDispatcher(
 				Constantes.VIEW_BACK_USUARIOS_INDEX);		
 	}
-
-	private void eliminar(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void eliminar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		Mensaje  msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin determinar");
 		if (this.modeloUsuario.delete(this.pID)) {
 			msg.setTipo(Mensaje.MSG_SUCCESS);
@@ -119,9 +161,13 @@ public class UserController extends HttpServlet {
 		request.setAttribute("msg", msg);
 		this.listar(request, response);
 	}
-
-	private void nuevo(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void nuevo(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		
 		Rol rol = new Rol(Constantes.ROLE_USER);
 		this.usuario = new Usuario(this.pNombre,
@@ -134,9 +180,13 @@ public class UserController extends HttpServlet {
 				Constantes.VIEW_BACK_USUARIOS_FORM);
 		
 	}
-	
-	private void detalle(HttpServletRequest request,
-			HttpServletResponse response) {
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	private void detalle(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.usuario = (Usuario) this.modeloUsuario.getById(this.pID);
 		request.setAttribute("usuario", this.usuario);
 		request.setAttribute("titulo", this.usuario.getNombre().toUpperCase());
@@ -151,8 +201,9 @@ public class UserController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		//recoger parametros del formulario
 		this.getParametersForm(request);
 		
@@ -204,7 +255,7 @@ public class UserController extends HttpServlet {
 	* @param request
 	* @throws UnsupportedEncodingException 
 	*/
-	private void getParametersForm(HttpServletRequest request)
+	private void getParametersForm(final HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
 		this.pID = Integer.parseInt(request.getParameter("id"));

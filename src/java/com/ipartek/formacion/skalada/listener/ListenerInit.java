@@ -13,15 +13,20 @@ import org.apache.log4j.PropertyConfigurator;
  *
  */
 public class ListenerInit implements ServletContextListener {
-
+	/**
+	 * 
+	 */
 	private Properties props;
+	/**
+	 * 
+	 */
 	private static final  Logger LOG = Logger.getLogger(ListenerInit.class);
 	
 	/**
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     @Override
-	public void contextInitialized(ServletContextEvent arg0)  { 
+	public final void contextInitialized(final ServletContextEvent arg0)  { 
     	// Inicializar Log4j
 
     	try {
@@ -41,7 +46,7 @@ public class ListenerInit implements ServletContextListener {
      * @see ServletContextListener#contextDestroyed(ServletContextEvent)
      */
     @Override
-	public void contextDestroyed(ServletContextEvent arg0)  { 
+	public final void contextDestroyed(final ServletContextEvent arg0)  { 
 
     	LOG.info("Destruyendo contexto Aplicacion");
 

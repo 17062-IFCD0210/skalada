@@ -58,7 +58,7 @@ public class ModeloGrado implements Persistable<Grado> {
 			+ COL_ID + "`= ? ;";
 	
 	@Override
-	public int save(Grado grado) {
+	public final int save(final Grado grado) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -100,7 +100,7 @@ public class ModeloGrado implements Persistable<Grado> {
 	}
 
 	@Override
-	public Object getById(int id) {
+	public final Object getById(final int id) {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -131,7 +131,7 @@ public class ModeloGrado implements Persistable<Grado> {
 	}
 
 	@Override
-	public ArrayList<Grado> getAll() {
+	public final ArrayList<Grado> getAll() {
 		ArrayList<Grado> resul = new ArrayList<Grado>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -161,7 +161,7 @@ public class ModeloGrado implements Persistable<Grado> {
 	}
 
 	@Override
-	public boolean update(Grado grado) {
+	public final boolean update(final Grado grado) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		if (grado != null) {
@@ -194,7 +194,7 @@ public class ModeloGrado implements Persistable<Grado> {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public final boolean delete(final int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		try {
@@ -223,10 +223,10 @@ public class ModeloGrado implements Persistable<Grado> {
 	/**
 	 * Mapea un ResultSet a Grado.
 	 * @param rs
-	 * @return
+	 * @return resul
 	 * @throws SQLException 
 	 */
-	private Grado mapeo(ResultSet rs) throws SQLException {
+	private Grado mapeo(final ResultSet rs) throws SQLException {
 		Grado resul = null;    
 		
 		resul = new Grado(rs.getString(COL_NOMBRE));

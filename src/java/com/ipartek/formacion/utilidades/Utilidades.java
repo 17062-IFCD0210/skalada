@@ -1,4 +1,4 @@
-package com.ipartek.formacion.skalada.utilidades;
+package com.ipartek.formacion.utilidades;
 
 import java.util.Random;
 /**
@@ -13,7 +13,7 @@ public class Utilidades {
 	 * @param longitud
 	 * @return resul
 	 */
-	public static String getCadenaAlfanumAleatoria(int longitud) {
+	public static String getCadenaAlfanumAleatoria(final int longitud) {
 		String cadenaAleatoria = "";
 		long milis = new java.util.GregorianCalendar().getTimeInMillis();
 		Random r = new Random(milis);

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class LogoutControler.
  */
 public class LogoutControler extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -25,8 +28,9 @@ public class LogoutControler extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		this.doPost(request, response);
 	}
 
@@ -35,10 +39,10 @@ public class LogoutControler extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		
-		//
 		System.out.println("Logout.... ");
 		
 		request.getSession().invalidate();

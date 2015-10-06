@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloUsuario implements Persistable<Usuario> {
 	/**
 	 * 
@@ -26,6 +30,9 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	 * 
 	 */
 			+ "`usuario` WHERE `id`= ? ;";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETALL = "SELECT u.`id`, u.`token`,"
 			+ " u.`email`, u.`nombre`, u.`password`, u.`validado`, u.`id_rol`,"
 			+ " r.`nombre` AS nombre_rol " + "FROM `usuario` AS u "
@@ -64,7 +71,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 			+ Constantes.USER_NO_VALIDATE;
 
 	@Override
-	public int save(Usuario usuario) {
+	public final int save(final Usuario usuario) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -108,7 +115,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	}
 
 	@Override
-	public Object getById(int id) {
+	public final Object getById(final int id) {
 		Object resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -219,7 +226,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 				pst.setInt(4, usuario.getValidado());
 				pst.setInt(5, usuario.getRol().getId());
 				pst.setString(6, usuario.getToken());
-				pst.setInt(7, usuario.getId());				
+				pst.setInt(7, usuario.getId());
 		    	if (pst.executeUpdate() == 1) {
 		    		resul = true;	    		
 				}

@@ -28,8 +28,9 @@ public class Rol implements Serializable {
 	
 	/**
 	 * Constructor.
+	 * @param sNombre
 	 */
-	public Rol(String sNombre) {
+	public Rol(final String sNombre) {
 		super();
 		this.setNombre(sNombre);
 		this.setId(-1);
@@ -40,42 +41,42 @@ public class Rol implements Serializable {
 	 * @param id
 	 * @return resul
 	 */
-	public int getId() {
+	public final int getId() {
 		return this.id;
 	}
 	/**
 	 * 
 	 * @param iId
 	 */
-	public void setId(int iId) {
+	public final void setId(final int iId) {
 		this.id = iId;
 	}
 	/**
 	 * 
-	 * @return
+	 * @return nombre
 	 */
-	public String getNombre() {
+	public final String getNombre() {
 		return this.nombre;
 	}
 	/**
 	 * 
 	 * @param sNombre
 	 */
-	public void setNombre(String sNombre) {
+	public final void setNombre(final String sNombre) {
 		this.nombre = sNombre;
 	}
 	/**
 	 * 
-	 * @return
+	 * @return descripcion
 	 */
-	public String getDescripcion() {
+	public final String getDescripcion() {
 		return this.descripcion;
 	}
 	/**
 	 * 
 	 * @param sDescripcion
 	 */
-	public void setDescripcion(String sDescripcion) {
+	public final void setDescripcion(final String sDescripcion) {
 		this.descripcion = sDescripcion;
 	}
 	

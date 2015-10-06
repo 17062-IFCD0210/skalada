@@ -18,15 +18,35 @@ import com.ipartek.formacion.skalada.modelo.ModeloZona;
  * Servlet implementation class ZonaController.
  */
 public class ZonasController extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
 	private RequestDispatcher dispatcher = null;
+	/**
+	 * 
+	 */
 	private ModeloZona modelo = null;
+	/**
+	 * 
+	 */
 	private Zona zona = null;
+	/**
+	 * 
+	 */
 
 	// parametros
 	private int pAccion = Constantes.ACCION_LISTAR; // Accion por defecto
+	/**
+	 * 
+	 */
 	private int pID = -1; // ID no valido
+	/**
+	 * 
+	 */
 	private String pNombre;
 
 	/**
@@ -34,7 +54,7 @@ public class ZonasController extends HttpServlet {
 	 * usa para crear el modelo
 	 */
 	@Override
-	public void init(ServletConfig config) throws ServletException {
+	public final void init(final ServletConfig config) throws ServletException {
 		super.init(config);
 		this.modelo = new ModeloZona();
 	}
@@ -44,8 +64,9 @@ public class ZonasController extends HttpServlet {
 	 *      response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response)
+					throws ServletException, IOException {
 		// recoger parametros
 		this.getParameters(request, response);
 
@@ -67,9 +88,13 @@ public class ZonasController extends HttpServlet {
 
 		this.dispatcher.forward(request, response);
 	}
-
-	private void getParameters(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void getParameters(final HttpServletRequest request,
+			final HttpServletResponse response) {
 
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -91,14 +116,19 @@ public class ZonasController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void listar(HttpServletRequest request, HttpServletResponse response) {
+	private void listar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		request.setAttribute("zonas", this.modelo.getAll());
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_INDEX);
 	}
-
-	private void eliminar(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void eliminar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		if (this.modelo.delete(this.pID)) {
 			request.setAttribute("msg-danger",
 					"Registro eliminado correctamente");
@@ -114,7 +144,8 @@ public class ZonasController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
+	private void nuevo(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.zona = new Zona("");
 		request.setAttribute("zona", this.zona);
 		request.setAttribute("titulo", "Crear nuevo Zona");
@@ -123,9 +154,13 @@ public class ZonasController extends HttpServlet {
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_FORM);
 
 	}
-
-	private void detalle(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void detalle(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.zona = (Zona) this.modelo.getById(this.pID);
 		request.setAttribute("zona", this.zona);
 		request.setAttribute("titulo", this.zona.getNombre().toUpperCase());
@@ -139,8 +174,9 @@ public class ZonasController extends HttpServlet {
 	 *      response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response)
+					throws ServletException, IOException {
 		// recoger parametros del formulario
 		this.getParametersForm(request);
 
@@ -189,7 +225,7 @@ public class ZonasController extends HttpServlet {
 	 * @param request
 	 * @throws UnsupportedEncodingException
 	 */
-	private void getParametersForm(HttpServletRequest request)
+	private void getParametersForm(final HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
 		this.pID = Integer.parseInt(request.getParameter("id"));

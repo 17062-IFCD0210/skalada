@@ -117,7 +117,7 @@ public class ViasController extends HttpServlet {
      * Se suele usar para crear el modelo
      */
     @Override
-    public void init(ServletConfig config) throws ServletException {
+	public final void init(final ServletConfig config) throws ServletException {
     	super.init(config);
     	this.modeloVia = new ModeloVia();
     	this.modeloGrado = new ModeloGrado();
@@ -132,8 +132,9 @@ public class ViasController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		
 		//recoger parametros
 		this.getParameters(request, response);
@@ -161,8 +162,8 @@ public class ViasController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void getParameters(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void getParameters(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -184,8 +185,8 @@ public class ViasController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void listar(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void listar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		request.setAttribute("vias", this.modeloVia.getAll());
 		this.dispatcher = request.getRequestDispatcher(
 				Constantes.VIEW_BACK_VIAS_INDEX);		
@@ -195,8 +196,8 @@ public class ViasController extends HttpServlet {
  * @param request
  * @param response
  */
-	private void eliminar(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void eliminar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		if (this.modeloVia.delete(this.pID)) {			
 			this.msg = new Mensaje(Mensaje.MSG_DANGER,
 					"Registro eliminado correctamente");			
@@ -212,8 +213,8 @@ public class ViasController extends HttpServlet {
  * @param request
  * @param response
  */
-	private void nuevo(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void nuevo(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.via = new Via("");
 		this.via.setGrado(new Grado(""));
 		this.via.setTipoEscalada(new TipoEscalada(""));
@@ -234,8 +235,8 @@ public class ViasController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void detalle(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void detalle(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.via = (Via) this.modeloVia.getById(this.pID);
 		request.setAttribute("via", this.via);
 		request.setAttribute("titulo", this.via.getNombre().toUpperCase());		
@@ -255,8 +256,9 @@ public class ViasController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		
 		//recoger parametros del formulario
 		this.getParametersForm(request);
@@ -307,7 +309,8 @@ public class ViasController extends HttpServlet {
 			this.via.setTipoEscalada(this.tipoEscalada);
 			this.via.setSector(this.sector);
 		} else {			
-			this.via = new Via(this.pNombre, this.pLongitud, this.grado, this.tipoEscalada, this.sector);
+			this.via = new Via(this.pNombre, this.pLongitud,
+					this.grado, this.tipoEscalada, this.sector);
 			this.via.setId(this.pID);
 			this.via.setDescripcion(this.pDescripcion);
 		}
@@ -321,7 +324,7 @@ public class ViasController extends HttpServlet {
 	* @param request
 	* @throws UnsupportedEncodingException 
 	*/
-	private void getParametersForm(HttpServletRequest request)
+	private void getParametersForm(final HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		
 		request.setCharacterEncoding("UTF-8");

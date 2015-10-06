@@ -3,21 +3,34 @@ package com.ipartek.formacion.skalada.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class Zona implements Serializable {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 2585448916481098409L;
 	
 	/**
 	 * Atributos.
 	 */
 	private int id;
+	/**
+	 * 
+	 */
 	private String nombre;
+	/**
+	 * 
+	 */
 	private List<Sector> sectores;
 
 	/**
 	 * Constructor.
 	 */
-	public Zona(String sNombre) {
+	public Zona(final String sNombre) {
 		super();
 		this.setId(-1);
 		this.setNombre(sNombre);
@@ -26,23 +39,44 @@ public class Zona implements Serializable {
 
 	/**
 	 * Getters y Setters.
+	 * @return id
 	 */
-	public int getId() {
+	public final int getId() {
 		return this.id;
 	}
-	public void setId(int iId) {
+	/**
+	 * 
+	 * @param iId
+	 */
+	public final void setId(final int iId) {
 		this.id = iId;
 	}
-	public String getNombre() {
+	/**
+	 * 
+	 * @return nombre
+	 */
+	public final String getNombre() {
 		return this.nombre;
 	}
-	public void setNombre(String sNombre) {
+	/**
+	 * 
+	 * @param sNombre
+	 */
+	public final void setNombre(final String sNombre) {
 		this.nombre = sNombre;
 	}
-	public List<Sector> getSectores() {
+	/**
+	 * 
+	 * @return sectores
+	 */
+	public final List<Sector> getSectores() {
 		return this.sectores;
 	}
-	public void setSectores(List<Sector> sSectores) {
+	/**
+	 * 
+	 * @param sSectores
+	 */
+	public final void setSectores(final List<Sector> sSectores) {
 		this.sectores = sSectores;
 	}
 

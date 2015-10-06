@@ -87,7 +87,7 @@ public class ModeloSector implements Persistable<Sector> {
 			+ ",`nombre`,`imagen` from `sector` where `id_zona` = ?"; 
 	
 	@Override
-	public int save(final Sector sector) {
+	public final int save(final Sector sector) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -202,7 +202,7 @@ public class ModeloSector implements Persistable<Sector> {
 				pst.setString(1, sector.getNombre());
 				pst.setInt(2, sector.getZona().getId());
 				pst.setString(3, sector.getImagen());
-				pst.setInt(4, sector.getId());				
+				pst.setInt(4, sector.getId());
 		    	if (pst.executeUpdate() == 1) {
 		    		resul = true;	    		
 				}

@@ -1,7 +1,7 @@
 package com.ipartek.formacion.skalada.bean;
 
 /**
- * Bean para contener la informacion de los mensajes a mostrar en FrontEnd
+ * Bean para contener la informacion de los mensajes a mostrar en FrontEnd.
  * @author ur00
  *
  */

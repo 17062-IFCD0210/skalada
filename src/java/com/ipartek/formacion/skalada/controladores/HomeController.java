@@ -32,7 +32,7 @@ public class HomeController extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	@Override
-	public void init(ServletConfig config) throws ServletException {
+	public final void init(final ServletConfig config) throws ServletException {
 		super.init(config);
 		this.modeloSector = new ModeloSector();
 	}
@@ -43,8 +43,9 @@ public class HomeController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		this.doPost(request, response);
 	}
 
@@ -53,8 +54,9 @@ public class HomeController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		
 		
 		//recuperar las ultimas 6 sectores del modelo

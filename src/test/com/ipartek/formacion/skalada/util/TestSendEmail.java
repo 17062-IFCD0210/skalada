@@ -1,6 +1,7 @@
 package com.ipartek.formacion.skalada.util;
 
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -8,10 +9,17 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class TestSendEmail {
-	
-	public static void main(String[] args) {
+/**	
+ * 
+ * @param args
+ */
+	public static void main(final String[] args) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -22,6 +30,7 @@ public class TestSendEmail {
 
 		Session session = Session.getDefaultInstance(props,
 			new javax.mail.Authenticator() {
+				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(
 							"skalada.ipartek@gmail.com", "123ABC123");

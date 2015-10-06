@@ -13,14 +13,30 @@ import javax.sql.DataSource;
  *
  */
 public class DataBaseHelper {
-	
+	/**
+	 * 
+	 */
 	//Parametros configuracion base datos
-	static final public String DRIVER    = "com.mysql.jdbc.Driver";
-	static final public String SERVER    = "localhost";
-	static final public String DATA_BASE = "eskalada";
-	static final public String USER      = "root";
-	static final public String PASS      = "";
-	
+	public static final String DRIVER    = "com.mysql.jdbc.Driver";
+	/**
+	 * 
+	 */
+	public static final String SERVER    = "localhost";
+	/**
+	 * 
+	 */
+	public static final String DATA_BASE = "eskalada";
+	/**
+	 * 
+	 */
+	public static final String USER      = "root";
+	/**
+	 * 
+	 */
+	public static final String PASS      = "";
+	/**
+	 * 
+	 */
 	//Conexion
 	private static Connection con;
 	
@@ -65,7 +81,7 @@ public class DataBaseHelper {
 	 * Metodo para cerrar la conexion.
 	 * Cuidado porque al cerrar una conexion 
 	 * con el metodo .close() no la pone a null
-	 * @return
+	 * @return resul
 	 */
 	public static boolean closeConnection() {
 		boolean resul = false;
@@ -83,7 +99,6 @@ public class DataBaseHelper {
 	
 	/**
 	 * Crea la Base Datos ejecutando un Script.
-	 * @return {@code Boolean}
 	 */
 	void crear() {
 		

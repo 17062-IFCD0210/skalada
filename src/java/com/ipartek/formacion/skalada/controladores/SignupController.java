@@ -16,7 +16,7 @@ import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloRol;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
-import com.ipartek.formacion.skalada.utilidades.EnviarEmails;
+import com.ipartek.formacion.utilidades.EnviarEmails;
 
 /**
  * Servlet implementation class RegistroController.
@@ -69,7 +69,7 @@ public class SignupController extends HttpServlet {
 	private Mensaje msg = null;
 
 	@Override
-	public void init(ServletConfig config) throws ServletException {
+	public final void init(final ServletConfig config) throws ServletException {
 		super.init(config);
 		this.modeloUsuario = new ModeloUsuario();
 		this.modeloRol = new ModeloRol();
@@ -80,8 +80,9 @@ public class SignupController extends HttpServlet {
 	 *      response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response)
+					throws ServletException, IOException {
 		
 		try {
 			this.msg.setTexto("Error sin definir");
@@ -125,8 +126,9 @@ public class SignupController extends HttpServlet {
 	 *      response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
 

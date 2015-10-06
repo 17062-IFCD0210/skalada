@@ -8,28 +8,58 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.Rol;
-
+/**
+ * 
+ * @author Curso
+ *
+ */
 public class ModeloRol implements Persistable<Rol> {
-	
+	/**
+	 * 
+	 */
 	private static final String TABLA = "rol";
+	/**
+	 * 
+	 */
 	private static final String COL_ID = "id";
+	/**
+	 * 
+	 */
 	private static final String COL_NOMBRE = "nombre";
+	/**
+	 * 
+	 */
 	private static final String COL_DESCRIPCION = "descripcion";
+	/**
+	 * 
+	 */
 	
 	private static final String SQL_INSERT = "INSERT INTO `" 
 				+ TABLA + "` (`" + COL_NOMBRE + "`, `" + COL_DESCRIPCION 
 				+ "`) VALUES (?,?);";
+	/**
+	 * 
+	 */
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA 
 				+ "` WHERE `" + COL_ID + "`= ?;";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETONE = "SELECT * FROM `" 
 				+ TABLA + "` WHERE `" + COL_ID + "`= ?;";
+	/**
+	 * 
+	 */
 	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	/**
+	 * 
+	 */
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA 
 			+ "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION 
 			+ "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
-	public int save(Rol rol) {
+	public final int save(final Rol rol) {
 		int resul = -1;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
@@ -71,7 +101,7 @@ public class ModeloRol implements Persistable<Rol> {
 	}
 
 	@Override
-	public Object getById(int id) {
+	public final Object getById(final int id) {
 		Rol resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -102,7 +132,7 @@ public class ModeloRol implements Persistable<Rol> {
 	}
 
 	@Override
-	public ArrayList<Rol> getAll() {
+	public final ArrayList<Rol> getAll() {
 		ArrayList<Rol> resul = new ArrayList<Rol>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -132,7 +162,7 @@ public class ModeloRol implements Persistable<Rol> {
 	}
 
 	@Override
-	public boolean update(Rol rol) {
+	public final boolean update(final Rol rol) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		if (rol != null) {
@@ -142,7 +172,7 @@ public class ModeloRol implements Persistable<Rol> {
 				pst = con.prepareStatement(sql);
 				pst.setString(1, rol.getNombre());
 				pst.setString(2, rol.getDescripcion());
-				pst.setInt(3, rol.getId());				
+				pst.setInt(3, rol.getId());
 		    	if (pst.executeUpdate() == 1) {
 		    		resul = true;	    		
 				}
@@ -164,7 +194,7 @@ public class ModeloRol implements Persistable<Rol> {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public final boolean delete(final int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
 		try {
@@ -196,7 +226,7 @@ public class ModeloRol implements Persistable<Rol> {
 	 * @return resul
 	 * @throws SQLException 
 	 */
-	private Rol mapeo(ResultSet rs) throws SQLException {
+	private Rol mapeo(final ResultSet rs) throws SQLException {
 		Rol resul = null;    
 		
 		resul = new Rol(rs.getString(COL_NOMBRE));

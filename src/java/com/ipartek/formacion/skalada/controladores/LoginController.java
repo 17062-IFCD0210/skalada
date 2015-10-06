@@ -14,62 +14,49 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
+import com.ipartek.formacion.skalada.bean.Usuario;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
- * Servlet implementation class LoginController.
+ * Servlet implementation class LoginController
+ *
+ * @author Curso
  */
 public class LoginController extends HttpServlet {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
-	private static final  Logger LOG = Logger.getLogger(LoginController.class);
-	
-	//Key para guardar el usuario en la session
-	/**
-	 * 
-	 */
-	public static final String KEY_SESSION_USER = "ss_user";
-       /**
-        * 
-        */
-	private RequestDispatcher dispatcher = null;
-	/**
-	 * 
-	 */
-	private HttpSession session = null;
-	/**
-	 * 
-	 */
-	private final String EMAIL = "admin@admin.com";
-	/**
-	 * 
-	 */
-	private final String PASS = "admin";
-	/**
-	 * 
-	 */
-	private String pEmail;
-	/**
-	 * 
-	 */
-	private String pPassword;
 
-		
-    
-	@Override
+	private static final Logger LOG = Logger.getLogger(LoginController.class);
+
+	private static final long serialVersionUID = 1L;
+
+	// Key oara guardar el usuario en la session
+	public static final String KEY_SESSION_USER = "ss_user";
+	private static final ModeloUsuario MODELOUSUARIO = new ModeloUsuario();
+
+	private RequestDispatcher dispatcher = null;
+	private HttpSession session = null;
+
+	private String pEmail = "";
+	private String pPassword = "";
+
+	private Usuario usuario = null;
+	private Mensaje msg = null;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoginController() {
+		super();
+	}
+
+	@Override()
 	public void init(ServletConfig config) throws ServletException {
-		
 		super.init(config);
 	}
-	
-	
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request,
-	 *  HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -78,79 +65,87 @@ public class LoginController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request,
-	 *  HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		LOG.info("Entrando....");
-		
-		//recoger la sesion
-		this.session = request.getSession();
-		String usuario = (String) this.session.getAttribute(KEY_SESSION_USER);
-		
-		//Usuario logeado
-		if (usuario != null && "".equals(usuario)) {
-			
-			//
-			LOG.info("    Usuario YA logueado");
-			
-			//Ir a => index_back.jsp		
-			this.dispatcher = request.getRequestDispatcher(
-					Constantes.VIEW_BACK_INDEX);
-			
-//Usuario No logeado o caducada session
-		} else {
-			
-			//
-			LOG.info("    Usuario NO logueado");
-			
-			//recoger parametros del formulario
-			this.getParameters(request);
-					
-			//validar los datos
 
-			//comprobamos con la BBDD			
-			if (this.EMAIL.equals(this.pEmail) 
-					&& this.PASS.equals(this.pPassword)) {
-				
-				//salvar session
-				this.session.setAttribute(KEY_SESSION_USER, this.pEmail);
-				
-				//Ir a => index_back.jsp		
-				this.dispatcher = request.getRequestDispatcher(
-						Constantes.VIEW_BACK_INDEX);
+		// recoger la sesion
+		this.session = request.getSession(true);
+		Usuario user_session = (Usuario) this.session
+				.getAttribute(KEY_SESSION_USER);
+
+		// Usuario logeado
+		if ((user_session != null) && "".equals(user_session.getNombre())) {
+			// Ir a => index_back.jsp
+			this.dispatcher = request
+					.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+
+			// Usuario No logeado o caducada session
+		} else {
+			// recoger parametros del formulario
+			this.getParameters(request);
+
+			// validar los datos
+			// comprobamos con la BBDD
+
+			this.usuario = (Usuario) MODELOUSUARIO.getByEmail(this.pEmail);
+			if (this.usuario != null) {
+				if (this.usuario.getEmail().equals(this.pEmail)
+						&& this.usuario.getPassword().equals(this.pPassword)) {
+					if (this.usuario.getValidado() != 0) {
+						// salvar session
+						this.session.setAttribute(KEY_SESSION_USER,
+								this.usuario);
+						// Ir a => index_back.jsp
+						this.dispatcher = request
+								.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+					} else {
+						this.msg = new Mensaje(
+								Mensaje.MSG_WARNING,
+								"El usuario no ha sido validado todavia, por favor revise su correo electronico");
+						this.dispatcher = request
+								.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+					}
+				} else {
+					// Ir a => login.jsp
+					this.msg = new Mensaje(Mensaje.MSG_WARNING,
+							"El email o la contraseña proporcionados no son validos.");
+					this.dispatcher = request
+							.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+				}
 			} else {
-				//Ir a => login.jsp
-				request.setAttribute("msg", "El email "
-						+ "y/o contrase&ntilde;a incorrecta");			
-				this.dispatcher = request.getRequestDispatcher(
-						Constantes.VIEW_BACK_LOGIN);
+				this.msg = new Mensaje(Mensaje.MSG_WARNING,
+						"El usuario no existe, si lo desea registrese.");
+				this.dispatcher = request
+						.getRequestDispatcher(Constantes.VIEW_BACK_SIGNUP);
 			}
-			
+
 		}
-		
-		LOG.info("Saliendo....");
-				
+
+		LOG.info("Saliendo...");
+
+		request.setAttribute("msg", this.msg);
 		this.dispatcher.forward(request, response);
-		
+
 	}
-	
+
 	/**
-	* Recoger los parametros enviados.
-	* @param request
-	 * @throws UnsupportedEncodingException 
-	*/
+	 * Recoger los parametros enviados
+	 *
+	 * @param request
+	 * @throws UnsupportedEncodingException
+	 */
 	private void getParameters(HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
 		this.pEmail = request.getParameter("email");
 		this.pPassword = request.getParameter("password");
-		
+
 	}
-	
+
 }
-
-

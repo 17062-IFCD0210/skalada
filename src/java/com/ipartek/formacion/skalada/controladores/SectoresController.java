@@ -26,32 +26,63 @@ import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
- * Servlet implementation class SectoresController
+ * Servlet implementation class SectoresController.
  */
 public class SectoresController extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
 	private RequestDispatcher dispatcher = null;
+	/**
+	 * 
+	 */
 	private ModeloSector modeloSector = null;
+	/**
+	 * 
+	 */
 	private Sector sector = null;
+	/**
+	 * 
+	 */
 	private ModeloZona modeloZona = null;
+	/**
+	 * 
+	 */
 	private Zona zona = null;
-
+	/**
+	 * 
+	 */
 	// parametros
 	private int pAccion = Constantes.ACCION_LISTAR; // Accion por defecto
+	/**
+	 * 
+	 */
 	private int pID = -1; // ID no valido
+	/**
+	 * 
+	 */
 	private String pNombre;
+	/**
+	 * 
+	 */
 	private int pIDZona;
-
+	/**
+	 * 
+	 */
 	//Imagen File	
 	private File file;
 
 	/**
-	 * Este metodo se ejecuta solo la primera vez que se llama al servlet Se usa
+	 * Este metodo se ejecuta solo la primera vez 
+	 * que se llama al servlet Se usa.
 	 * para crear el modeloSector
 	 */
 	@Override
-	public void init(ServletConfig config) throws ServletException {
+	public final void init(final ServletConfig config) throws ServletException {
 		super.init(config);
 		this.modeloSector = new ModeloSector();
 		this.modeloZona = new ModeloZona();
@@ -62,8 +93,9 @@ public class SectoresController extends HttpServlet {
 	 *      response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		// recoger parametros
 		this.getParameters(request, response);
 
@@ -85,9 +117,13 @@ public class SectoresController extends HttpServlet {
 
 		this.dispatcher.forward(request, response);
 	}
-
-	private void getParameters(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void getParameters(final HttpServletRequest request,
+			final HttpServletResponse response) {
 
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -110,15 +146,19 @@ public class SectoresController extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void listar(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void listar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		request.setAttribute("sectores", this.modeloSector.getAll());
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_INDEX);
 	}
-
-	private void eliminar(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void eliminar(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		if (this.modeloSector.delete(this.pID)) {
 			request.setAttribute("msg-danger",
 					"Registro eliminado correctamente");
@@ -128,9 +168,13 @@ public class SectoresController extends HttpServlet {
 		}
 		this.listar(request, response);
 	}
-
-	private void nuevo(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void nuevo(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.zona = new Zona("");
 		this.sector = new Sector("", this.zona);
 		request.setAttribute("sector", this.sector);
@@ -140,9 +184,13 @@ public class SectoresController extends HttpServlet {
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 
 	}
-
-	private void detalle(HttpServletRequest request,
-			HttpServletResponse response) {
+/**
+ * 
+ * @param request
+ * @param response
+ */
+	private void detalle(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.sector = (Sector) this.modeloSector.getById(this.pID);
 		request.setAttribute("sector", this.sector);
 		request.setAttribute("titulo", this.sector.getNombre().toUpperCase());
@@ -157,8 +205,9 @@ public class SectoresController extends HttpServlet {
 	 *      response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		
 		Mensaje msg = new Mensaje(
 				Mensaje.MSG_DANGER , "Error sin identificar");
@@ -257,7 +306,7 @@ public class SectoresController extends HttpServlet {
 	 * @throws UnsupportedEncodingException
 	 * @throws FileUploadException 
 	 */
-	private void getParametersForm(HttpServletRequest request)
+	private void getParametersForm(final HttpServletRequest request)
 			throws Exception {
 	
 			request.setCharacterEncoding("UTF-8");		

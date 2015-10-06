@@ -102,7 +102,7 @@ public class Via implements Serializable {
 	 * 
 	 * @param iId
 	 */
-	public final void setId(int iId) {
+	public final void setId(final int iId) {
 		this.id = iId;
 	}
 	/**

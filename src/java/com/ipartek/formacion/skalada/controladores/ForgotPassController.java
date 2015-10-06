@@ -13,19 +13,37 @@ import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
-import com.ipartek.formacion.skalada.utilidades.EnviarEmails;
-import com.ipartek.formacion.skalada.utilidades.Utilidades;
+import com.ipartek.formacion.utilidades.EnviarEmails;
+import com.ipartek.formacion.utilidades.Utilidades;
 
 /**
  * Servlet implementation class forgotPassController.
  */
 public class ForgotPassController extends HttpServlet {
 	//parametros
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private RequestDispatcher dispatcher = null;
+	/**
+	 * 
+	 */
 	private String pEmail;
+	/**
+	 * 
+	 */
 	private Usuario usuario = null;
+	/**
+	 * 
+	 */
 	private ModeloUsuario modeloUsuario = null;
+	/**
+	 * 
+	 */
 	private Mensaje msg = null;
        
     /**
@@ -41,8 +59,8 @@ public class ForgotPassController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) 
+	protected final void doGet(final HttpServletRequest request,
+			final HttpServletResponse response) 
 			throws ServletException, IOException {
 
 		this.msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin definir");
@@ -98,8 +116,9 @@ public class ForgotPassController extends HttpServlet {
 	 *  HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request,
+					final HttpServletResponse response) 
+					throws ServletException, IOException {
 		this.msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin definir");
 		try {
 			
