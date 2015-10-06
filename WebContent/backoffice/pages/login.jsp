@@ -93,4 +93,3 @@
     </div>
 
 <jsp:include page="includes/foot.jsp"></jsp:include>
-

@@ -16,11 +16,11 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Usuario;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
- *
- * @author
  */
 public class LoginController extends HttpServlet {
 
@@ -32,6 +32,7 @@ public class LoginController extends HttpServlet {
 
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
+	private ModeloUsuario modelUsuario = null;
 
 	private final String EMAIL = "admin@admin.com";
 	private final String PASS = "admin";
@@ -52,6 +53,8 @@ public class LoginController extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		this.modelUsuario = new ModeloUsuario();
 
 	}
 
@@ -80,10 +83,10 @@ public class LoginController extends HttpServlet {
 		String usuario = (String) this.session.getAttribute(KEY_SESSION_USER);
 
 		// Usuario logeado
-		if (usuario != null && "".equals(usuario)) {
+		if (usuario != null) {
 
 			//
-			LOG.info("    Usuario YA logueado");
+			LOG.info("Usuario YA logueado");
 
 			// Ir a => index_back.jsp
 			this.dispatcher = request
@@ -93,10 +96,13 @@ public class LoginController extends HttpServlet {
 		} else {
 
 			//
-			LOG.info("    Usuario NO logueado");
+			LOG.info("Usuario NO logueado");
 
 			// recoger parametros del formulario
 			this.getParameters(request);
+
+			// obtener usuario por email
+			Usuario user = this.modelUsuario.getByEmail(this.pEmail);
 
 			// validar los datos
 
@@ -105,7 +111,7 @@ public class LoginController extends HttpServlet {
 					&& this.PASS.equals(this.pPassword)) {
 
 				// salvar session
-				this.session.setAttribute(KEY_SESSION_USER, this.pEmail);
+				this.session.setAttribute(KEY_SESSION_USER, user);
 
 				// Ir a => index_back.jsp
 				this.dispatcher = request
@@ -120,7 +126,7 @@ public class LoginController extends HttpServlet {
 
 		}
 
-		LOG.info("Saliendo....");
+		// LOG.info("Saliendo....");
 
 		this.dispatcher.forward(request, response);
 
