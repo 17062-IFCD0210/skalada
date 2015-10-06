@@ -123,8 +123,10 @@ public class LoginController extends HttpServlet {
 						.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 			} else {
 				// Ir a => login.jsp
-				request.setAttribute("msg",
-						"El email y/o contrase&ntilde;a incorrecta");
+				/*
+				 * request.setAttribute("msg",
+				 * "El email y/o contrase&ntilde;a incorrecta");
+				 */
 				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
