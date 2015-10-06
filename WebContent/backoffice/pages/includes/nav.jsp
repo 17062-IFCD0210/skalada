@@ -42,6 +42,15 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
+                
+<%--                 <% --%>
+<%--                 	if (rol == Constantes.ROLE_ID_ADMIN){ %> --%>
+<%--                 	<jsp:include page = "nav-admin.jsp"></jsp:include> --%>
+<%--                 <% --%>
+<%--                 	if (rol == Constantes.ROLE_ID_USER){%> --%>
+<%--                 	<jsp:include page = "nav-user.jsp"></jsp:include> --%>
+
+                
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">

@@ -4,6 +4,13 @@
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <body>
 
+
+		<%
+// 		Usuario usuario = null;
+// 		usuario = (Usuario) session.getAttribute(Constantes.KEY_SESSION);
+// 		int rol = usuario.getRol().getId();
+		%>
+		
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">

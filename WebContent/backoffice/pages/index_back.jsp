@@ -52,21 +52,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                      <%
-                      /*
-                        private Sector (ResultSet rs){
-                        	
-	                        ResultSet res; 
-	                        int nSector; 
-	                        res=s.executeQuery("SELECT COUNT(*) AS numero_sector FROM `eskalada`.`sector`"); 
-	                        if(res.next()) 
-	                        nSector=Integer.parseInt(res.getString("total")); 
-	                        else 
-	                        nSectores=0; 
-                        }
-                       */
-                        %>
                                    
                         <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>">
                             <div class="panel-footer">

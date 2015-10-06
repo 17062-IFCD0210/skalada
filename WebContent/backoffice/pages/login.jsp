@@ -25,7 +25,7 @@
 									out.print("</button>");
 									out.print("<strong>"+ msg.getTexto() +"</strong>");
 								out.print("</div>");
-							} 
+							}
 						%>             
                     
                         <form role="form" action="<%=Constantes.CONTROLLER_LOGIN%>" method="post">

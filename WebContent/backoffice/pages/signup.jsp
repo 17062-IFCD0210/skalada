@@ -14,7 +14,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Registrate</h3>
                     </div>
-                    <div class="panel-body">                    
+                    <div class="panel-body">
 
 						<% 
 				            Mensaje msg = (Mensaje)request.getAttribute("msg");	
@@ -29,7 +29,7 @@
 						%>
 			    
                         <form role="form" 
-                              action="<%=Constantes.CONTROLLER_SIGNUP%>" 
+                              action="<%=Constantes.CONTROLLER_SIGNUP%>"
                               method="post"
                               onSubmit="return validar();"                               
                             >
