@@ -167,7 +167,7 @@ public class TipoEscaladaController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		pID = Integer.parseInt(request.getParameter("id"));
 		pNombre = request.getParameter("nombre");	
-		pDescripcion = request.getParameter("descripcion");
+		this.pDescripcion = request.getParameter("descripcion");
 	}
 
 

@@ -1,6 +1,5 @@
 package com.ipartek.formacion.skalada.modelo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**

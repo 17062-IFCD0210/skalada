@@ -3,8 +3,18 @@ package com.ipartek.formacion.skalada;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Constantes {
+/**
+ * 
+ */
 	
+public class Constantes {
+	/**
+	 * 	
+	 */
+	private Constantes() {
+		super();		
+	}
+
 	public static final String SERVER   = "http://localhost:8080";
 	public static final String ROOT_APP = "/skalada/";
 	public static final String APP_NAME = "skalada";

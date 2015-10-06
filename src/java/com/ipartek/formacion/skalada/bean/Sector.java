@@ -42,7 +42,7 @@ public class Sector implements Serializable{
 		this.nombre = nombre;
 	}
 	public Zona getZona() {
-		return zona;
+		return this.zona;
 	}
 	public void setZona(Zona zona) {
 		this.zona = zona;
@@ -58,7 +58,7 @@ public class Sector implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Sector [id=" + id + ", nombre=" + nombre + ", zona=" + zona
+		return "Sector [id=" + id + ", nombre=" + nombre + ", zona=" + this.zona
 				+ ", imagen=" + imagen + "]";
 	}
 	

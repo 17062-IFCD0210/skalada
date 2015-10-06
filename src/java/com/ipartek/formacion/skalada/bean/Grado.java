@@ -4,19 +4,20 @@ import java.io.Serializable;
 
 /**
  * Grado de dificultd para las vias
+ * 
  * @author Curso
  *
  */
 public class Grado implements Serializable {
 	private static final long serialVersionUID = -7009856922950747575L;
-	
+
 	/**
 	 * Atributos
 	 */
 	private int id;
 	private String nombre;
 	private String descripcion;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -25,27 +26,32 @@ public class Grado implements Serializable {
 		this.setNombre(nombre);
 		this.setId(-1);
 	}
-	
+
 	/**
 	 * Getters y Setters
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
-	public void setId(int id) {
+
+	public final void setId(int id) {
 		this.id = id;
 	}
+
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
+
 }

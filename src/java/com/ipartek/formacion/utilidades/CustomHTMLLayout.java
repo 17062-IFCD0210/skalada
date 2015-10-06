@@ -26,7 +26,7 @@ static String TRACE_PREFIX = "<br>&nbsp;&nbsp;&nbsp;&nbsp;";
 	 * using the same format string as would be specified with SimpleDateFormat.
 	 */
 	private String timestampFormat = "dd-MMM-yyyy HH:mm:ss"; // Default format. Example: 2008-11-21-18:35:21.472-0800
-	private SimpleDateFormat sdf = new SimpleDateFormat(timestampFormat);
+	private SimpleDateFormat sdf = new SimpleDateFormat(this.timestampFormat);
 	/**
 	 * Setter for timestamp format. Called if
 	 * log4j.appender.<category>.layout.TimestampFormat property is specfied
