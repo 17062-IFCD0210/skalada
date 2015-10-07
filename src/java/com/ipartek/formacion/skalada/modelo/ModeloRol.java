@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Rol;
 
 public class ModeloRol implements Persistable<Rol>{
@@ -18,8 +19,8 @@ public class ModeloRol implements Persistable<Rol>{
 	
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETONE = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	private static final String SQL_GETALL = "SELECT id, nombre, descripcion FROM `" + TABLA;
+	private static final String SQL_GETONE = SQL_GETALL + "` WHERE `" + COL_ID + "`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
@@ -135,7 +136,7 @@ public class ModeloRol implements Persistable<Rol>{
 				pst = con.prepareStatement(sql);
 				pst.setString(1, rol.getNombre());
 				pst.setString(2, rol.getDescripcion());
-				pst.setInt(3, rol.getId());				
+				pst.setInt(Constantes.TERCERO, rol.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}

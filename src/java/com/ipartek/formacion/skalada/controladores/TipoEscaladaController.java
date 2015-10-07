@@ -17,6 +17,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloTipoEscalada;
 
 /**
  * Servlet implementation class TipoEscaladaController
+ * @author Curso
  */
 public class TipoEscaladaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -57,7 +58,7 @@ public class TipoEscaladaController extends HttpServlet {
 			nuevo(request,response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
 			eliminar(request,response);
@@ -129,7 +130,7 @@ public class TipoEscaladaController extends HttpServlet {
 		getParametersForm(request);
 		
 		//Crear Objeto Grado
-		crearObjeto();
+		this.crearObjeto();
 		
 		//Guardar/Modificar Objeto TipoEscalada
 		if (pID == -1){

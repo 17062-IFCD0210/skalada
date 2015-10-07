@@ -14,6 +14,8 @@ import org.apache.log4j.spi.LoggingEvent;
  * HTMLLayout formatter and replaces the default timestamp (milliseconds,
  * relative to the start of the log) with a more readable timestamp (an example
  * of the default format is 2008-11-21-18:35:21.472-0800).
+ * 
+ * @author Curso
  * */
 
 public class CustomHTMLLayout extends org.apache.log4j.HTMLLayout {

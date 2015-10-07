@@ -19,6 +19,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class UsuarioController
+ * @author Curso
  */
 public class UsuariosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -64,7 +65,7 @@ public class UsuariosController extends HttpServlet {
 			nuevo(request,response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
 			eliminar(request,response);
@@ -143,7 +144,7 @@ public class UsuariosController extends HttpServlet {
 		if(!modeloUsuario.checkUser(pNombre, pEmail)){	
 		//Esta libre			
 			//Crear Objeto Grado
-			crearObjeto();
+			this.crearObjeto();
 			
 			//Guardar/Modificar Objeto Usuario
 			if (pID == -1){

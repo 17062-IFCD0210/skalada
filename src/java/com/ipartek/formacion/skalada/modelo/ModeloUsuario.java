@@ -21,7 +21,7 @@ public class ModeloUsuario implements Persistable<Usuario>{
 	private static final String SQL_GETONE  = SQL_GETALL + " WHERE u.`id`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ? WHERE `id`= ?;";
 	
-	private static final String SQL_CHECK_USER  = "SELECT * FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
+	private static final String SQL_CHECK_USER  = "SELECT id, nombre FROM `usuario` WHERE `nombre` = ? OR `email` = ?";
 	private static final String SQL_GET_ID_BY_EMAIL  = "SELECT id FROM `usuario` WHERE `email` = ?";
 	private static final String SQL_LOGIN_USER  = SQL_GETALL + " WHERE u.`nombre` = ? OR u.`email` = ?";
 	
@@ -38,8 +38,8 @@ public class ModeloUsuario implements Persistable<Usuario>{
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, usuario.getEmail());
 				pst.setString(2, usuario.getNombre());
-				pst.setString(3, usuario.getPassword());
-				pst.setInt(4, usuario.getRol().getId());
+				pst.setString(Constantes.TERCERO, usuario.getPassword());
+				pst.setInt(Constantes.CUARTO, usuario.getRol().getId());
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
@@ -142,10 +142,10 @@ public class ModeloUsuario implements Persistable<Usuario>{
 				pst = con.prepareStatement(sql);
 				pst.setString(1, usuario.getEmail());
 				pst.setString(2, usuario.getNombre());
-				pst.setString(3, usuario.getPassword());
-				pst.setInt(4, usuario.getValidado());
-				pst.setInt(5, usuario.getRol().getId());
-				pst.setInt(6, usuario.getId());				
+				pst.setString(Constantes.TERCERO, usuario.getPassword());
+				pst.setInt(Constantes.CUARTO, usuario.getValidado());
+				pst.setInt(Constantes.QUINTO, usuario.getRol().getId());
+				pst.setInt(Constantes.SEXTO, usuario.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}

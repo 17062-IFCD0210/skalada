@@ -21,6 +21,7 @@ import com.ipartek.formacion.skalada.util.SendMail;
 
 /**
  * Servlet implementation class RegistroController
+ * @author Curso
  */
 public class RegistroController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -115,7 +116,7 @@ public class RegistroController extends HttpServlet {
 		
 		//Esta libre			
 			//Crear Objeto Usuario
-			crearObjeto();
+			this.crearObjeto();
 			
 			//Guardar Objeto Usuario			
 			if( modeloUsuario.save(usuario) != -1){	

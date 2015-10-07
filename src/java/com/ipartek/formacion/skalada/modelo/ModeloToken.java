@@ -12,7 +12,7 @@ public class ModeloToken{
 	private static final String TABLA = "usuario";
 	
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `token`= ? WHERE `email`= ? ;";
-	private static final String SQL_GETONE =  "SELECT * FROM `" + TABLA + "` WHERE `email`= ?;";
+	private static final String SQL_GETONE =  "SELECT email, token FROM `" + TABLA + "` WHERE `email`= ?;";
 
 	
 	public Token getByEmail(String email) {

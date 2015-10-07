@@ -5,6 +5,10 @@ import java.util.Arrays;
 
 public class Constantes {
 	
+	private Constantes(){
+		super();
+	}
+	
 	public static final String SERVER = "http://localhost:8080";
 	public static final String ROOT_APP = "/skalada/";
 	public static final String APP_NAME = "skalada";
@@ -14,7 +18,7 @@ public class Constantes {
 	public static final String VIEW_PUBLIC_VIA 	 = "/pages/via_detalle.jsp";
 	
 	//vistas backoffice
-	public static final String ROOT_BACK 		 = ROOT_APP + "backoffice/";
+	public static final String ROOT_BACK = ROOT_APP + "backoffice/";
 	
 	public static final String VIEW_BACK_CONTENT_LOGS = "pages/log-content.jsp";
 	public static final String VIEW_BACK_LOGS = "/logs/trazas.jsp";
@@ -108,6 +112,16 @@ public class Constantes {
 	public static final String MAIL_TEMPLATE_VALIDAR_REGISTRO = "file/validar_registro.html"; 
 	public static final String MAIL_TEMPLATE_RECUPERAR_PASS = "file/recuperar_pass.html"; 
 	
+	
+	//SQL parametros pst (?)
+
+	public static final int PRIMERO = 1;
+	public static final int SEGUNDO = 2;
+	public static final int TERCERO = 3;
+	public static final int CUARTO = 4;
+	public static final int QUINTO = 5;
+	public static final int SEXTO = 6;
+	public static final int SEPTIMO = 7;
 	
 	
 }

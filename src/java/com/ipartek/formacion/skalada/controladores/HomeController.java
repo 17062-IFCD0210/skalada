@@ -16,11 +16,14 @@ import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
  * Servlet implementation class HomeController
+ * @author Curso
  */
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private ModeloSector modeloSector = null;
+	
+	private static final int SECTORES_CANTIDAD = 6;
 	
        
     /**
@@ -36,7 +39,7 @@ public class HomeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		this.doPost(request, response);
 	}
 
 	/**
@@ -48,8 +51,8 @@ public class HomeController extends HttpServlet {
 		ArrayList<Sector> sectores = modeloSector.getAll();
 		
 		//TODO usar LIMIT en la select y ORDER BY id desc
-		if ( sectores.size() > 6 ){
-			sectores = new ArrayList<Sector>(sectores.subList(0, 6));
+		if ( sectores.size() > SECTORES_CANTIDAD ){
+			sectores = new ArrayList<Sector>(sectores.subList(0, SECTORES_CANTIDAD));
 		}
 		
 		//enviarlas como atributo en la request

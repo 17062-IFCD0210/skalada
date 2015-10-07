@@ -28,6 +28,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
  * Servlet implementation class SectoresController
+ * @author Curso
  */
 public class SectoresController extends HttpServlet {
 	private static final long serialVersionUID = 1L;       
@@ -75,7 +76,7 @@ public class SectoresController extends HttpServlet {
 			nuevo(request,response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
 			eliminar(request,response);
@@ -157,7 +158,7 @@ public class SectoresController extends HttpServlet {
 		
 		if(msg == null){
 			//Crear Objeto Sector
-			crearObjeto();
+			this.crearObjeto();
 			
 			//Guardar/Modificar Objeto Via
 			if (pID == -1){

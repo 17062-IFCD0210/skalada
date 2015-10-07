@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Grado;
 
 public class ModeloGrado implements Persistable<Grado>{
@@ -18,8 +19,8 @@ public class ModeloGrado implements Persistable<Grado>{
 	
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`" + COL_NOMBRE + "`, `" + COL_DESCRIPCION + "`) VALUES (?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETONE = "SELECT * FROM `" + TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT * FROM " + TABLA;
+	private static final String SQL_GETALL = "SELECT id, nombre, descripcion FROM `" + TABLA;
+	private static final String SQL_GETONE = SQL_GETALL + "` WHERE `" + COL_ID + "`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_DESCRIPCION + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
 	@Override
@@ -133,9 +134,9 @@ public class ModeloGrado implements Persistable<Grado>{
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
-				pst.setString(1, grado.getNombre());
-				pst.setString(2, grado.getDescripcion());
-				pst.setInt(3, grado.getId());				
+				pst.setString(Constantes.PRIMERO, grado.getNombre());
+				pst.setString(Constantes.SEGUNDO, grado.getDescripcion());
+				pst.setInt(Constantes.TERCERO, grado.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}

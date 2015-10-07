@@ -10,6 +10,8 @@ public class Token implements Serializable{
 	private String email;
 	private String token;
 	
+	private static final int LONGITUD_CADENA = 30;
+	
 	/**
 	 * @param email
 	 * @param token
@@ -17,7 +19,7 @@ public class Token implements Serializable{
 	public Token(String email) {
 		super();
 		this.setEmail(email);
-		this.setToken(Utilidades.getCadenaAlfanumAleatoria(30));
+		this.setToken(Utilidades.getCadenaAlfanumAleatoria(LONGITUD_CADENA));
 	}
 	
 	public String getEmail() {

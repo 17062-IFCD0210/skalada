@@ -45,37 +45,37 @@ public class Usuario implements Serializable{
 	//****		Getters/Setters		****
 	//**********************************	
 	public int getId() {
-		return id;
+		return this.id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	public int getValidado() {
-		return validado;
+		return this.validado;
 	}
 	public void setValidado(int validado) {
 		this.validado = validado;
 	}
 	public Rol getRol() {
-		return rol;
+		return this.rol;
 	}
 	public void setRol(Rol rol) {
 		this.rol = rol;
@@ -87,9 +87,9 @@ public class Usuario implements Serializable{
 	//**********************************	
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", email=" + email
-				+ ", password=" + password + ", validado=" + validado
-				+ ", rol=" + rol + "]";
+		return "Usuario [id=" + this.id + ", nombre=" + this.nombre + ", email=" + this.email
+				+ ", password=" + this.password + ", validado=" + this.validado
+				+ ", rol=" + this.rol + "]";
 	}
 	
 }

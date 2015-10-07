@@ -43,7 +43,7 @@ public class SendMail {
 		sendProperties();
 			
 		//Crear Sesion
-		crearSesion();		
+		this.crearSesion();		
 	}
 	
 	

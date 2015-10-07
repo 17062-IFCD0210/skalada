@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.Zona;
 
@@ -44,7 +45,7 @@ public class ModeloSector implements Persistable<Sector>{
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, sector.getNombre());
 				pst.setString(2, sector.getImagen());
-				pst.setInt(3, sector.getZona().getId());		
+				pst.setInt(Constantes.TERCERO, sector.getZona().getId());		
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
@@ -147,8 +148,8 @@ public class ModeloSector implements Persistable<Sector>{
 				pst = con.prepareStatement(sql);
 				pst.setString(1, sector.getNombre());
 				pst.setString(2, sector.getImagen());
-				pst.setInt(3, sector.getZona().getId());
-				pst.setInt(4, sector.getId());				
+				pst.setInt(Constantes.TERCERO, sector.getZona().getId());
+				pst.setInt(Constantes.CUARTO, sector.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}

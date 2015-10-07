@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Grado;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
@@ -60,10 +61,10 @@ public class ModeloVia implements Persistable<Via> {
 				pst = con.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, via.getNombre());
 				pst.setInt(2, via.getLongitud());
-				pst.setString(3, via.getDescripcion());
-				pst.setInt(4, via.getGrado().getId());
-				pst.setInt(5, via.getTipoEscalada().getId());
-				pst.setInt(6, via.getSector().getId());				
+				pst.setString(Constantes.TERCERO, via.getDescripcion());
+				pst.setInt(Constantes.CUARTO, via.getGrado().getId());
+				pst.setInt(Constantes.QUINTO, via.getTipoEscalada().getId());
+				pst.setInt(Constantes.SEXTO, via.getSector().getId());				
 		    	if ( pst.executeUpdate() != 1 ){
 					throw new Exception("No se ha realizado la insercion");
 				} else {		
@@ -105,7 +106,7 @@ public class ModeloVia implements Persistable<Via> {
 			pst.setInt(1, id);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
-	    		resul = mapeo(rs);
+	    		resul = this.mapeo(rs);
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -166,11 +167,11 @@ public class ModeloVia implements Persistable<Via> {
 				pst = con.prepareStatement(sql);
 				pst.setString(1, via.getNombre());
 				pst.setInt(2, via.getLongitud());
-				pst.setString(3, via.getDescripcion());
-				pst.setInt(4, via.getGrado().getId());
-				pst.setInt(5, via.getTipoEscalada().getId());
-				pst.setInt(6, via.getSector().getId());	
-				pst.setInt(7, via.getId());				
+				pst.setString(Constantes.TERCERO, via.getDescripcion());
+				pst.setInt(Constantes.CUARTO, via.getGrado().getId());
+				pst.setInt(Constantes.QUINTO, via.getTipoEscalada().getId());
+				pst.setInt(Constantes.SEXTO, via.getSector().getId());	
+				pst.setInt(Constantes.SEPTIMO, via.getId());				
 		    	if ( pst.executeUpdate() == 1 ){
 		    		resul = true;	    		
 				}

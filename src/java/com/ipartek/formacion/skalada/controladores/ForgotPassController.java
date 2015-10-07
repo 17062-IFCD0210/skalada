@@ -21,6 +21,7 @@ import com.ipartek.formacion.skalada.util.SendMail;
 
 /**
  * Servlet implementation class ForgotPasswordController
+ * @author Curso
  */
 public class ForgotPassController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

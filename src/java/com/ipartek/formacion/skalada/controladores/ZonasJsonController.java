@@ -16,6 +16,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
  * Servlet implementation class ZonasJsonController
+ * @author Curso
  */
 public class ZonasJsonController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

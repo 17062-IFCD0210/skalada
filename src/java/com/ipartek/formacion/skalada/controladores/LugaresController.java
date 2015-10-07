@@ -17,6 +17,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
  * Servlet implementation class LugaresController
+ * @author Curso
  */
 public class LugaresController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,7 +51,7 @@ public class LugaresController extends HttpServlet {
 		//realizar accion solicitada
 		switch (pAccion) {
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request, response);
 			break;
 		default:
 			listar(request,response);

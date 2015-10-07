@@ -17,6 +17,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloGrado;
 
 /**
  * Servlet implementation class GradosController
+ * @author Curso
  */
 public class GradosController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -57,10 +58,10 @@ public class GradosController extends HttpServlet {
 			nuevo(request,response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			eliminar(request,response);
+			this.eliminar(request, response);
 			break;
 		default:
 			listar(request,response);
@@ -129,7 +130,7 @@ public class GradosController extends HttpServlet {
 		getParametersForm(request);
 		
 		//Crear Objeto Grado
-		crearObjeto();
+		this.crearObjeto();
 		
 		//Guardar/Modificar Objeto Grado
 		if (pID == -1){

@@ -15,6 +15,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class HomeBackController
+ * @author Curso
  */
 public class HomeBackController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -55,7 +56,7 @@ public class HomeBackController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		this.doGet(request, response);
 	}
 
 }

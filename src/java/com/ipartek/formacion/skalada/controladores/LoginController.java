@@ -22,6 +22,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
+ * @author Curso
  */
 public class LoginController extends HttpServlet {
 	
@@ -67,7 +68,7 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		this.doPost(request, response);
 	}
 
 	/**
@@ -76,11 +77,11 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//recoger la sesion
-		session = request.getSession();
-		usuario = (Usuario)session.getAttribute(KEY_SESSION_USER);
+		this.session = request.getSession();
+		this.usuario = (Usuario)session.getAttribute(KEY_SESSION_USER);
 		
 //Usuario logeado
-		if ( usuario != null || "".equals(usuario) ){	
+		if ( this.usuario != null || "".equals(usuario) ){	
 //			if(sessionKey.getRol().getNombre().equalsIgnoreCase(Constantes.ROLE_ADMIN)){
 				dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_BACK_HOME);
 //			} else {

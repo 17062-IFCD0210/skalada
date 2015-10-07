@@ -16,6 +16,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloRol;
 
 /**
  * Servlet implementation class RolesController
+ * @author Curso
  */
 public class RolesController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -54,7 +55,7 @@ public class RolesController extends HttpServlet {
 			nuevo(request,response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
 			eliminar(request,response);
@@ -124,7 +125,7 @@ public class RolesController extends HttpServlet {
 		getParametersForm(request);
 		
 		//Crear Objeto Grado
-		crearObjeto();
+		this.crearObjeto();
 		
 		//Guardar/Modificar Objeto Via
 		if (pID == -1){

@@ -43,7 +43,7 @@ public class Sector implements Serializable{
 		this.nombre = nombre;
 	}
 	public Zona getZona() {
-		return zona;
+		return this.zona;
 	}
 	public void setZona(Zona zona) {
 		this.zona = zona;

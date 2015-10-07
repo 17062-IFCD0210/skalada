@@ -25,6 +25,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
  * Servlet implementation class ViasController
+ * @author Curso
  */
 public class ViasController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -84,7 +85,7 @@ public class ViasController extends HttpServlet {
 			nuevo(request,response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request,response);
+			this.detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
 			eliminar(request,response);
@@ -172,7 +173,7 @@ public class ViasController extends HttpServlet {
 		getParametersForm(request);
 		
 		//Crear Objeto Via
-		crearObjetoVia();
+		this.crearObjetoVia();
 		
 		//Guardar/Modificar Objeto Via
 		if (pID == -1){

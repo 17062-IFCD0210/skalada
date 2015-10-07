@@ -12,6 +12,7 @@ import com.ipartek.formacion.skalada.Constantes;
 
 /**
  * Servlet implementation class Controller
+ * @author Curso
  */
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +23,7 @@ public class Controller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		this.doPost(request, response);
 	}
 
 	/**

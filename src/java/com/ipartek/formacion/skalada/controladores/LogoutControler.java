@@ -18,6 +18,7 @@ import com.ipartek.formacion.skalada.bean.Usuario;
 
 /**
  * Servlet implementation class LogoutControler
+ * @author Curso
  */
 public class LogoutControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -49,7 +50,7 @@ public class LogoutControler extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		this.doPost(request, response);
 	}
 
 	/**
