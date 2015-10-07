@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.modelo.ModeloUsuario"%>
 <%@page import="com.ipartek.formacion.skalada.modelo.ModeloSector"%>
 <%@page import="com.ipartek.formacion.skalada.listener.ListenerUserCounter"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
@@ -20,6 +21,7 @@
 
 	<div class="row">
 		<div class="col-md-6">
+				<a href="<%=Constantes.CONTROLLER_USUARIOS+ "?accion="	+ Constantes.ACCION_LISTAR%>">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<div class="row">
@@ -69,6 +71,7 @@
 			</div>
 		</div>
 		<div class="col-md-6">
+		<a href="<%=Constantes.CONTROLLER_USUARIOS+ "?accion="+ Constantes.ACCION_NO_VALIDADOS%>">
 			<div class="panel panel-red">
 				<div class="panel-heading">
 					<div class="row">
@@ -79,7 +82,7 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge"><%=request.getAttribute("noValidados")%></div>
+							<div class="huge"><%=ModeloUsuario.usuariosNoValidados()%></div>
 							<div class="huge">Usuarios sin validar</div>
 						</div>
 					</div>
@@ -94,6 +97,7 @@
 			</div>
 		</div>
 		<div class="col-md-6">
+		<a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>">
 			<div class="panel panel-yellow">
 				<div class="panel-heading">
 					<div class="row">
@@ -103,12 +107,11 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge">.</div>
 							<div class="huge">Logs</div>
 						</div>
 					</div>
 				</div>
-				<a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>">
+				
 					<div class="panel-footer">
 						<span class="pull-left">View Details</span> <span
 							class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

@@ -20,7 +20,7 @@
 	                                    <i class="fa fa-users fa-5x"></i>
 	                                </div>
 	                                <div class="col-xs-9 text-right">
-	                                    <div class="huge"><%=ListenerSession.session_users.size()%></div>
+	                                    <div class="huge"><%=ListenerSession.contadorSession()%></div>
 	                                    <div>Usuarios Conectados</div>
 	                                </div>
 	                            </div>

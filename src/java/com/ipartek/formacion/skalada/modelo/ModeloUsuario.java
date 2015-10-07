@@ -29,7 +29,9 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	private static final String SQL_GET_BY_EMAIL = SQL_GETALL
 			+ " WHERE u.`EMAIL` LIKE ?;";
 	private static final String SQL_USUARIOS_NO_VALIDADOS = "SELECT COUNT(`id`) AS `noValidados` FROM `usuario` WHERE `validado`=0;";
-
+	private static final String SQL_GETNOVALIDADOS = SQL_GETALL
+			+ "WHERE `validado`=0";
+	
 	@Override()
 	public int save(Usuario usuario) {
 		int resul = -1;
@@ -166,8 +168,37 @@ public class ModeloUsuario implements Persistable<Usuario> {
 		}
 		return resul;
 	}
+	
+	public ArrayList<Object> getNoValidados() {
+		ArrayList<Object> resul = new ArrayList<Object>();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETNOVALIDADOS);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				resul.add(this.mapeo(rs));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pst != null) {
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return resul;
+	}
 
-	public int usuariosNoValidados() {
+	public static int usuariosNoValidados() {
 		int resul = 0;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
