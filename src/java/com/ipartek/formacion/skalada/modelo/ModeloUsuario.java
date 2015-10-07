@@ -11,15 +11,14 @@ import java.util.HashMap;
 import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 
-public class ModeloUsuario implements Persistable {
+public class ModeloUsuario implements Persistable<Usuario> {
 
 	private static final String SQL_INSERT = "INSERT INTO `usuario` (`email`, `nombre`, `password`, `id_rol`,`token`) VALUES (?, ?, ?, ?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `usuario` WHERE `id`= ? ;";
 	private static final String SQL_GETALL = "SELECT u.`id`, u.`email`, u.`nombre`, u.`password`, u.`validado`, u.`token`, u.`id_rol`, r.`nombre` AS nombre_rol "
 			+ "FROM `usuario` AS u "
 			+ "INNER JOIN `rol` as r ON (u.`id_rol` = r.`id`)";
-	private static final String SQL_GETNOVALIDADOS = SQL_GETALL
-			+ "WHERE `validado`=0";
+
 	private static final String SQL_GETONE = SQL_GETALL + " WHERE u.`id`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `usuario` SET `email`= ?, `nombre`= ?, `password`= ?, `validado`= ?, `id_rol`= ?, `token`=? WHERE `id`= ?;";
 
@@ -32,14 +31,12 @@ public class ModeloUsuario implements Persistable {
 	private static final String SQL_USUARIOS_NO_VALIDADOS = "SELECT COUNT(`id`) AS `noValidados` FROM `usuario` WHERE `validado`=0;";
 
 	@Override()
-	public int save(Object o) {
+	public int save(Usuario usuario) {
 		int resul = -1;
-		Usuario usuario = null;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if (o != null) {
+		if (usuario  != null) {
 			try {
-				usuario = (Usuario) o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT,
 						Statement.RETURN_GENERATED_KEYS);
@@ -138,10 +135,11 @@ public class ModeloUsuario implements Persistable {
 		}
 		return resul;
 	}
+	
 
 	@Override()
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Usuario> getAll() {
+		ArrayList<Usuario> resul = new ArrayList<Usuario>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
@@ -169,16 +167,16 @@ public class ModeloUsuario implements Persistable {
 		return resul;
 	}
 
-	public ArrayList<Object> getNoValidados() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public int usuariosNoValidados() {
+		int resul = 0;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
 			Connection con = DataBaseHelper.getConnection();
-			pst = con.prepareStatement(SQL_GETNOVALIDADOS);
+			pst = con.prepareStatement(SQL_USUARIOS_NO_VALIDADOS);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				resul.add(this.mapeo(rs));
+				resul = rs.getInt("noValidados");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -199,13 +197,11 @@ public class ModeloUsuario implements Persistable {
 	}
 
 	@Override()
-	public boolean update(Object o) {
+	public boolean update(Usuario usuario) {
 		boolean resul = false;
-		Usuario usuario = null;
 		PreparedStatement pst = null;
-		if (o != null) {
+		if (usuario != null) {
 			try {
-				usuario = (Usuario) o;
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
@@ -425,33 +421,5 @@ public class ModeloUsuario implements Persistable {
 		return resul;
 	}
 
-	public static int usuariosNoValidados() {
-		int resul = 0;
-		PreparedStatement pst = null;
-		ResultSet rs = null;
-		try {
-			Connection con = DataBaseHelper.getConnection();
-			pst = con.prepareStatement(SQL_USUARIOS_NO_VALIDADOS);
-			rs = pst.executeQuery();
-			while (rs.next()) {
-				resul = rs.getInt("noValidados");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pst != null) {
-					pst.close();
-				}
-				DataBaseHelper.closeConnection();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return resul;
-	}
 
 }

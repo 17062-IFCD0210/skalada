@@ -1,26 +1,84 @@
+<%@page import="com.ipartek.formacion.skalada.modelo.ModeloUsuario"%>
+<%@page import="com.ipartek.formacion.skalada.modelo.ModeloSector"%>
+<%@page import="com.ipartek.formacion.skalada.listener.ListenerSession"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
-<li><a href="<%=Constantes.CONTROLLER_HOME%>"><i
-		class="fa fa-globe fa-fw"></i> Web Publica</a></li>
-<li><a href="<%=Constantes.VIEW_BACK_DASHBOARD%>"><i
-		class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
-<li><a
-	href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i
-		class="fa fa-map-signs fa-fw"></i> Vias</a></li>
-<li><a
-	href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i
-		class="fa fa-graduation-cap fa-fw"></i> Grados</a></li>
-<li><a
-	href="<%=Constantes.CONTROLLER_TIPO_ESCALADA%>?accion=<%=Constantes.ACCION_LISTAR%>"><i
-		class="fa fa-bar-chart-o fa-fw"></i> Tipos Escalada</a></li>
-<li><a
-	href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i
-		class="fa fa-globe fa-fw"></i> Zonas</a></li>
-<li><a
-	href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i
-		class="fa fa-map-o fa-fw"></i> Sectores</a></li>
-<li><a
-	href="<%=Constantes.CONTROLLER_USUARIOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i
-		class="fa fa-users fa-fw"></i> Usuarios</a></li>
-<li><a
-	href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i
-		class="fa fa-cogs fa-fw"></i> Roles</a></li>
+
+<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Panel de control Admin</h1>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+<div class="row"><!-- Panel de control -->
+                <div class="col-lg-6 col-md-6">
+                	<a href="<%=Constantes.CONTROLLER_USUARIOS+ "?accion="+ Constantes.ACCION_CONECTADOS%>">
+                    	<div class="panel panel-success">
+	                        <div class="panel-heading">
+	                            <div class="row">
+	                                <div class="col-xs-3">
+	                                    <i class="fa fa-users fa-5x"></i>
+	                                </div>
+	                                <div class="col-xs-9 text-right">
+	                                    <div class="huge"><%=ListenerSession.session_users.size()%></div>
+	                                    <div>Usuarios Conectados</div>
+	                                </div>
+	                            </div>
+	                        </div>
+                    	</div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                	<a href="<%=Constantes.CONTROLLER_SECTORES+ "?accion="	+ Constantes.ACCION_LISTAR%>">
+	                    <div class="panel panel-info">
+	                        <div class="panel-heading">
+	                            <div class="row">
+	                                <div class="col-xs-3">
+	                                    <i class="fa fa-picture-o fa-5x"></i>
+	                                </div>
+	                                <div class="col-xs-9 text-right">
+	                                    <div class="huge"><%=ModeloSector.sectoresPublicados()%></div>
+	                                    <div>Sectores Publicados</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+					</a>
+                </div>
+                <div class="col-lg-6 col-md-6">
+	            	<a href="<%=Constantes.CONTROLLER_USUARIOS+ "?accion="+ Constantes.ACCION_NO_VALIDADOS%>">
+	                    <div class="panel panel-danger">
+	                        <div class="panel-heading">
+	                            <div class="row">
+	                                <div class="col-xs-3">
+	                                    <i class="fa fa-user-times fa-5x"></i>
+	                                </div>
+	                                <div class="col-xs-9 text-right">
+	                                    <div class="huge"><%=ModeloUsuario.usuariosNoValidados()%></div>
+	                                    <div>Usuarios no validados</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+					</a>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                	<a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>">
+	                    <div class="panel panel-warning">
+	                        <div class="panel-heading">
+	                            <div class="row">
+	                                <div class="col-xs-3">
+	                                    <i class="fa fa-file-text-o fa-5x"></i>
+	                                </div>
+	                                <div class="col-xs-9 text-right">
+	                                    <div class="huge">LOGS</div>
+	                                    <div>Entre para ver los logs</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </a>
+	            </div>
+				
+            </div>
+            <!-- /.row -->

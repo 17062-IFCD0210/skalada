@@ -1,6 +1,5 @@
 package com.ipartek.formacion.skalada.listener;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
@@ -9,31 +8,45 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.ipartek.formacion.skalada.controladores.LoginController;
-
 /**
  * Application Lifecycle Listener implementation class ListenerInit
  *
  */
 public class ListenerInit implements ServletContextListener {
 
-	private static final Logger LOG = Logger.getLogger(LoginController.class);
+	//Se pone el nombre de la clase (LOG)
+	private final static Logger LOG = Logger.getLogger(ListenerInit.class);
+
 	Properties props = null;
+
+	/**
+	 * Default constructor.
+	 */
+	public ListenerInit() {
+		// Cuando arranca la aplicación
+	}
 
 	/**
 	 * @see ServletContextListener#contextInitialized(ServletContextEvent)
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		// Fichero configuracion de Log4j
+		// Cuando se despliega la aplicación
+		// Inicializar log4j
+
 		try {
+			// Fichero configuracion de Log4j
 			this.props = new Properties();
 			this.props.load(this.getClass().getResourceAsStream(
 					"/log4j.properties"));
 			PropertyConfigurator.configure(this.props);
-			LOG.info("Log4j cargado con exito");
-		} catch (IOException e) {
+
+			LOG.info("Cargado con éxito");
+
+		} catch (Exception e) {
 			e.printStackTrace();
+			// No se puede sobreescribir este método
+			// throw new Exception("No se puede cargar log4j");
 		}
 	}
 
@@ -42,7 +55,9 @@ public class ListenerInit implements ServletContextListener {
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		LOG.info("Destruyendo contexto aplicacion");
+		// Cuando se elimina se destruye
+
+		LOG.info("Destruyendo conexto aplicación");
 		this.props = null;
 	}
 

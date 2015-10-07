@@ -1,6 +1,7 @@
+<%@page import="com.ipartek.formacion.skalada.modelo.ModeloSector"%>
 <%@page import="com.ipartek.formacion.skalada.listener.ListenerUserCounter"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
-<%@page import="com.ipartek.formacion.skalada.listener;"%>
+<%@page import="com.ipartek.formacion.skalada.listener.ListenerInit"%>
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
@@ -43,6 +44,7 @@
 			</div>
 		</div>
 		<div class="col-md-6">
+		<a href="<%=Constantes.CONTROLLER_SECTORES+ "?accion="	+ Constantes.ACCION_LISTAR%>">
 			<div class="panel panel-green">
 				<div class="panel-heading">
 					<div class="row">
@@ -52,7 +54,7 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge"><%=request.getAttribute("num_sectores")%></div>
+							<div class="huge"><%=ModeloSector.sectoresPublicados()%></div>
 							<div class="huge">Sectores publicados</div>
 						</div>
 					</div>
@@ -77,7 +79,7 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge"><%=request.getAttribute("num_user_invalid")%></div>
+							<div class="huge"><%=request.getAttribute("noValidados")%></div>
 							<div class="huge">Usuarios sin validar</div>
 						</div>
 					</div>
