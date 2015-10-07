@@ -29,7 +29,7 @@ public class Constantes {
 	public static final String VIEW_BACK_INDEX   =
 										"backoffice/pages/index_back.jsp";
 
-	public static final String VIEW_BACK_SIGNUP  = "pages/signup.jsp";
+	public static final String VIEW_BACK_SIGNUP  = "backoffice/pages/signup.jsp";
 	public static final String VIEW_BACK_NEWPASS = "pages/newpass.jsp";
 	public static final String VIEW_BACK_VIAS_INDEX = 
 										"backoffice/pages/vias/index.jsp";
@@ -74,6 +74,8 @@ public class Constantes {
 	public static final String CONTROLLER_USUARIOS        = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_SIGNUP          = ROOT_APP + "signup";
 	public static final String CONTROLLER_FORGOT_PASS     = ROOT_APP + "forgot-pass";
+	public static final String CONTROLLER_INDEXBACK = "indexBack";
+	
 	//acciones
 	public static final int ACCION_NUEVO	= 0;
 	public static final int ACCION_DETALLE	= 1;
@@ -106,4 +108,7 @@ public class Constantes {
 
 	//Plantillas emails
 	public static final String EMAIL_TEMPLATE_REGISTRO = "emails/registro.html";
+	
+	// Key para guardar el usuario en la session
+		public static final String KEY_SESSION_USER = "ss_user";
 }

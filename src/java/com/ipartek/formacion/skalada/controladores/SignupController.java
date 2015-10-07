@@ -67,6 +67,18 @@ public class SignupController extends HttpServlet {
 	 * 
 	 */
 	private Mensaje msg = null;
+	
+	// Por Get
+	private Usuario usuarioParaValidar = null;
+	private String pEmailParaValidar = "";
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SignupController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public final void init(final ServletConfig config) throws ServletException {
@@ -89,7 +101,7 @@ public class SignupController extends HttpServlet {
 			this.msg.setTipo(Mensaje.MSG_DANGER);
 			this.pEmail = request.getParameter("email");
 
-			this.usuario = (Usuario) this.modeloUsuario.getByEmail(this.pEmail);
+			this.usuario = this.modeloUsuario.getByEmail(this.pEmail);
 			//usuario  no existe
 			if (this.usuario == null) { 
 				this.msg.setTexto("Email no registrado: " + this.pEmail);
@@ -161,7 +173,7 @@ public class SignupController extends HttpServlet {
 						this.msg = new Mensaje(Mensaje.MSG_DANGER,
 								"Error al enviar email, por favor "
 								+ "ponte en contacto con nosotros "
-										+ EnviarEmails.DIRECIONORIGEN);
+										+ EnviarEmails.DIRECION_ORIGEN);
 					}
 					this.dispatcher = request
 							.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
@@ -190,42 +202,50 @@ public class SignupController extends HttpServlet {
  */
 	private boolean enviarEmail() {
 		boolean resul = false;
-		try {
-			EnviarEmails correo = new EnviarEmails();
 			
 			//url para validar el registro del usuario
 			//llamara a este mismo controlador por 
 			//GET pasando el email del usuario
 			String url = Constantes.SERVER + Constantes.CONTROLLER_SIGNUP 
 					+ "?email=" + this.usuario.getEmail();
+			String contenido = "Gracias por registrarte. Para activar el usuario y verificar el email, clica en el enlace de debajo.";
+			String submitButtonText = "Activa tu cuenta y logeate";
 			
-			//parametros para la plantilla
-			HashMap<String, String> parametros = new HashMap<String, String>();
-			parametros.put("{usuario}", this.usuario.getNombre());
-			parametros.put("{url}", url);
-			parametros.put("{contenido}", "Gracias por registrarte. "
-					+ "Para activar el usuario y verificar el email,"
-					+ " clica en el enlace de debajo.");
-			parametros.put("{btn_submit_text}", "Activa tu cuenta");
-			
-			//configurar correo electronico
-			correo.setDireccionFrom("skalada.ipartek@gmail.com");
-			correo.setDireccionDestino(this.usuario.getEmail());			
-			correo.setMessageContent(
-						correo.generarPlantilla(
-								Constantes.EMAIL_TEMPLATE_REGISTRO ,	
-								parametros	
-							)					
-					);
-			
-			//enviar correo electronico
-			resul = correo.enviar();
-						
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-		
-		return resul;
-	}
+			try {
+				EnviarEmails correo = new EnviarEmails();
 
+				// Parámetros para la plantilla
+				HashMap<String, String> parametros = new HashMap<String, String>();
+				parametros.put("{usuario}", this.usuario.getNombre());
+				parametros.put("{url}", url);
+				parametros.put("{contenido}", contenido);
+				parametros.put("{btn_submit_text}", submitButtonText);
+
+				// Configurar correo electrónico
+				correo.setDireccionFrom("skalada.ipartek@gmail.com"); // Sin
+																		// espacios
+				correo.setDireccionDestino(this.usuario.getEmail()); // unaiperea@gmail.com
+				correo.setMessageSubject("Confirmar registro usuario");
+				correo.setMessageContent(correo.generarPlantilla(
+						Constantes.EMAIL_TEMPLATE_REGISTRO, parametros)); // Le paso
+				// correo.setMessageText(cuerpo); //Para texto plano
+
+				/*
+				 * O DE ESTA FORMA leyendo el fichero directamente desde una
+				 * ubicación dentro de Webcontent archivo = new File
+				 * (Constantes.EMAIL_TEMPLATE_REGISTRO); cuerpo =
+				 * FileUtils.readFileToString(archivo, "UTF-8"); cuerpo =
+				 * cuerpo.replace("{usuario}", usuario); //Los {} pueden ser $ &,
+				 * cualquier símbolo cuerpo = cuerpo.replace("{url}", url);
+				 */
+
+				// Enviar correo correo electrónico
+				resul = correo.enviar();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return resul;
+	}
 }

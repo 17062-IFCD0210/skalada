@@ -51,7 +51,7 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	/**
 	 * 
 	 */
-	private static final String SQL_GETONE_BY_MAIL = SQL_GETALL
+	private static final String SQL_GETONE_BY_EMAIL = SQL_GETALL
 			+ " WHERE u.`email`= ?;";
 	/**
 	 * 
@@ -150,13 +150,13 @@ public class ModeloUsuario implements Persistable<Usuario> {
 	 * @param email
 	 * @return objeto usuario creado si lo encuentra. null en caso contrario
 	 */
-	public final Object getByEmail(final String email) {
-		Object resul = null;
+	public final Usuario getByEmail(final String email) {
+		Usuario resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		try {
 			Connection con = DataBaseHelper.getConnection();
-			pst = con.prepareStatement(SQL_GETONE_BY_MAIL);
+			pst = con.prepareStatement(SQL_GETONE_BY_EMAIL);
 			pst.setString(1, email);
 	    	rs = pst.executeQuery();	      	   	
 	    	while (rs.next()) {

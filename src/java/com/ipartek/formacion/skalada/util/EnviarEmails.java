@@ -24,7 +24,7 @@ public class EnviarEmails {
 /**
  * 
  */
-	public  static final String DIRECIONORIGEN = "skalada.ipartek@gmail.com";
+	public  static final String DIRECION_ORIGEN = "skalada.ipartek@gmail.com";
 	/**
 	 * 
 	 */
@@ -73,7 +73,7 @@ public class EnviarEmails {
 						protected PasswordAuthentication 
 							getPasswordAuthentication() {
 							return new PasswordAuthentication(
-									DIRECIONORIGEN, 
+									DIRECION_ORIGEN, 
 									EnviarEmails.this.passwordOrigen);
 						}
 					});			
@@ -87,7 +87,7 @@ public class EnviarEmails {
  * @return direccionorigen
  */
 	public final String getDireccionOrigen() {
-		return DIRECIONORIGEN;
+		return DIRECION_ORIGEN;
 	}
 
 
@@ -196,7 +196,7 @@ public class EnviarEmails {
 	
 	@Override
 	public final String toString() {
-		return "EnviarEmails [direccionOrigen=" + DIRECIONORIGEN
+		return "EnviarEmails [direccionOrigen=" + DIRECION_ORIGEN
 				+ ", passwordOrigen=" + this.passwordOrigen + ", direccionFrom="
 				+ this.direccionFrom + ", direccionDestino=" 
 				+ this.direccionDestino

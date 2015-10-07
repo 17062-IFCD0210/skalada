@@ -1,8 +1,6 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,50 +11,40 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 
 /**
  * Servlet implementation class LoginController
- *
- * @author Curso
  */
 public class LoginController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+
+	// @Unai: Se pone el nombre de la clase (LOG)
 	private final static Logger LOG = Logger.getLogger(LoginController.class);
 
-	// Key para guardar el usuario en la session
-	public static final String KEY_SESSION_USER = "ss_user";
+	private static final String ROL_ADMIN = "Administrador";
 
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
-	private ModeloUsuario modelUsuario = null;
 
-	private final String EMAIL = "admin@admin.com";
-	private final String PASS = "admin";
+	private Mensaje msg = null;
+
+	private ModeloUsuario modeloUsuario = null;
+	private Usuario usuario = null;
 
 	private String pEmail;
 	private String pPassword;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-
 		super.init(config);
-		try {
-			// Fichero configuracion de Log4j
-			Properties props = new Properties();
-			props.load(this.getClass().getResourceAsStream("/log4j.properties"));
-			PropertyConfigurator.configure(props);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		this.modelUsuario = new ModeloUsuario();
+		this.modeloUsuario = new ModeloUsuario();
 
 	}
 
@@ -67,7 +55,7 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		this.doPost(request, response);
+
 	}
 
 	/**
@@ -78,14 +66,17 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		LOG.info("Entrando....");
+		this.msg = new Mensaje(Mensaje.MSG_WARNING, "");
+		LOG.info("Login entrando"); // (LOG)
 
 		// recoger la sesion
 		this.session = request.getSession();
-		String usuario = (String) this.session.getAttribute(KEY_SESSION_USER);
+		this.usuario = (Usuario) this.session
+				.getAttribute(Constantes.KEY_SESSION_USER);
 
 		// Usuario logeado
-		if (usuario != null && "".equals(usuario)) {
+		if (this.usuario != null && this.usuario instanceof Usuario) {
+			LOG.info("Usuario YA logueado");
 
 			// Ir a => index_back.jsp
 			this.dispatcher = request
@@ -93,53 +84,41 @@ public class LoginController extends HttpServlet {
 
 			// Usuario No logeado o caducada session
 		} else {
+			LOG.info("Usuario NO logueado");
 
 			// recoger parametros del formulario
-			this.getParameters(request);
+			this.pEmail = request.getParameter("email");
+			this.pPassword = request.getParameter("password");
 
-			// Obtener usuario por email
-			Usuario user = (Usuario) this.modelUsuario.getByEmail(this.pEmail);
-
-			// validar los datos
-
-			// comprobamos con la BBDD
-			if (this.EMAIL.equals(this.pEmail)
-					&& this.PASS.equals(this.pPassword)) {
+			// validar los datos comprobando en la BBDD
+			// @Unai: No hace falta castearlo ya que el método nos devuelve un
+			// objeto de tipo Usuario ya porque en la interface lo declaramos
+			// como objeto genérico
+			this.usuario = this.modeloUsuario.getByEmail(this.pEmail);
+			if (this.usuario != null && this.usuario.getValidado() == 1
+					&& this.pPassword.equals(this.usuario.getPassword())) {
 
 				// salvar session
-				this.session.setAttribute(KEY_SESSION_USER, user);
+				this.session.setAttribute(Constantes.KEY_SESSION_USER,
+						this.usuario);
 
 				// Ir a => index_back.jsp
 				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+
 			} else {
 				// Ir a => login.jsp
-				request.setAttribute("msg",
-						"El email y/o contrase&ntilde;a incorrecta");
+				this.msg.setTipo(Mensaje.MSG_WARNING);
+				this.msg.setTexto("El email y/o contrase&ntilde;a incorrecta");
 				this.dispatcher = request
 						.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 			}
-
 		}
 
-		LOG.info("Saliendo....");
+		LOG.info("Login saliendo"); // (LOG)
 
+		request.setAttribute("msg", this.msg);
 		this.dispatcher.forward(request, response);
-
-	}
-
-	/**
-	 * Recoger los parametros enviados
-	 *
-	 * @param request
-	 * @throws UnsupportedEncodingException
-	 */
-	private void getParameters(HttpServletRequest request)
-			throws UnsupportedEncodingException {
-		request.setCharacterEncoding("UTF-8");
-		this.pEmail = request.getParameter("email");
-		this.pPassword = request.getParameter("password");
-
 	}
 
 }

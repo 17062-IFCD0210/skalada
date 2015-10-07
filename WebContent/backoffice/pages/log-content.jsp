@@ -6,7 +6,7 @@
 <jsp:include page="includes/nav.jsp"></jsp:include>
 
 <div id="page-wrapper">
-    <div class="row">
+    <div class="row embed-responsive embed-responsive-4by3">
     
     	<h1>Logs</h1> 
     	<div class="embed-responsive embed-responsive-4by3">   	

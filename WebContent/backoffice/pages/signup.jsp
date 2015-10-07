@@ -85,7 +85,7 @@
 									   				//dm.classList.remove("hide");
 									   				resul = true;
 											   	}else{
-											   		sm.value = "Las dos claves han de ser iguales";
+											   		sm.innerHTML = "Las dos claves han de ser iguales";
 											   		dm.classList.remove("hide");
 											   	}
 									   		}else{
@@ -99,13 +99,7 @@
 								   	}else{
 								   		sm.innerHTML = "El campo Nombre ha de tener 4 caracteres mínimo";
 								   		dm.classList.remove("hide");
-								   	}
-									/*
-								   	if (resul){
-								   		sm.innerHTML = "";
-							   			dm.classList.add("hide");
-								   	}
-									*/								   	
+								   	}						   	
 								    return resul;
 								}
 								
