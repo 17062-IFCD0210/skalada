@@ -1,4 +1,4 @@
-﻿-- --------------------------------------------------------
+-- --------------------------------------------------------
 -- Host:                         127.0.0.1
 -- Versión del servidor:         5.6.12-log - MySQL Community Server (GPL)
 -- SO del servidor:              Win64
@@ -10,22 +10,22 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Volcando estructura de base de datos para eskalada
-DROP DATABASE IF EXISTS `eskalada`;
-CREATE DATABASE IF NOT EXISTS `eskalada` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `eskalada`;
+-- Volcando estructura de base de datos para eskalada_javi
+DROP DATABASE IF EXISTS `eskalada_javi`;
+CREATE DATABASE IF NOT EXISTS `eskalada_javi` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `eskalada_javi`;
 
 
--- Volcando estructura para tabla eskalada.grado
+-- Volcando estructura para tabla eskalada_javi.grado
 DROP TABLE IF EXISTS `grado`;
 CREATE TABLE IF NOT EXISTS `grado` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(10) NOT NULL COMMENT 'Grado de dificultad de la via de escalada, por ejemplo: ',
   `descripcion` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.grado: ~41 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_javi.grado: ~41 rows (aproximadamente)
 DELETE FROM `grado`;
 /*!40000 ALTER TABLE `grado` DISABLE KEYS */;
 INSERT INTO `grado` (`id`, `nombre`, `descripcion`) VALUES
@@ -69,11 +69,11 @@ INSERT INTO `grado` (`id`, `nombre`, `descripcion`) VALUES
 	(38, 'A4 o C4', 'Artificial serio. Muchos emplazamientos seguidos que solo aguantan el peso de nuestro cuerpo (de seis a ocho). De 20 a 30 metros de caida potencial con peligro de chocar contra repisas y salientes. Finalizar el largo nos puede llevar mas de tres horas'),
 	(39, 'A5 o C5', 'Artificial extremo. Mas de diez emplazamientos seguidos que solo aguantan el peso de nuestro cuerpo y no una caida. Practicamente podriamos descoser todo el largo en caso de caida. Es preciso comprobar cada seguro con mucha precisión. Finalizar un largo nos puede llevar mas de cuatro horas.'),
 	(40, 'A6', 'Artificial extremo. Igual que el de A5 pero con la posibilidad de que la reunión no aguante el impacto de una caida. El riesgo de caida mortal es real.'),
-	(41, 'gradoMock', 'Lorem impsun ');
+	(42, 'Ej1', 'Grado de ejemplo1');
 /*!40000 ALTER TABLE `grado` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.rol
+-- Volcando estructura para tabla eskalada_javi.rol
 DROP TABLE IF EXISTS `rol`;
 CREATE TABLE IF NOT EXISTS `rol` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `rol` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.rol: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_javi.rol: ~2 rows (aproximadamente)
 DELETE FROM `rol`;
 /*!40000 ALTER TABLE `rol` DISABLE KEYS */;
 INSERT INTO `rol` (`id`, `nombre`, `descripcion`) VALUES
@@ -91,7 +91,7 @@ INSERT INTO `rol` (`id`, `nombre`, `descripcion`) VALUES
 /*!40000 ALTER TABLE `rol` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.sector
+-- Volcando estructura para tabla eskalada_javi.sector
 DROP TABLE IF EXISTS `sector`;
 CREATE TABLE IF NOT EXISTS `sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -101,9 +101,9 @@ CREATE TABLE IF NOT EXISTS `sector` (
   PRIMARY KEY (`id`,`id_zona`),
   KEY `fk_sector_zona1_idx` (`id_zona`),
   CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`id_zona`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.sector: ~11 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_javi.sector: ~12 rows (aproximadamente)
 DELETE FROM `sector`;
 /*!40000 ALTER TABLE `sector` DISABLE KEYS */;
 INSERT INTO `sector` (`id`, `nombre`, `id_zona`, `imagen`) VALUES
@@ -116,20 +116,21 @@ INSERT INTO `sector` (`id`, `nombre`, `id_zona`, `imagen`) VALUES
 	(7, 'Lauretazpe', 2, 'default_sector.jpg'),
 	(8, 'Ogoño', 3, 'default_sector.jpg'),
 	(9, 'Cara Sur', 4, 'default_sector.jpg'),
-	(10, 'Cara Oeste', 4, 'Penguins.jpg');
+	(10, 'Cara Oeste', 4, 'Penguins.jpg'),
+	(11, 'Ejemplo1', 7, 'Hydrangeas.jpg');
 /*!40000 ALTER TABLE `sector` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.tipo_escalada
+-- Volcando estructura para tabla eskalada_javi.tipo_escalada
 DROP TABLE IF EXISTS `tipo_escalada`;
 CREATE TABLE IF NOT EXISTS `tipo_escalada` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `descripcion` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.tipo_escalada: ~11 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_javi.tipo_escalada: ~12 rows (aproximadamente)
 DELETE FROM `tipo_escalada`;
 /*!40000 ALTER TABLE `tipo_escalada` DISABLE KEYS */;
 INSERT INTO `tipo_escalada` (`id`, `nombre`, `descripcion`) VALUES
@@ -143,11 +144,12 @@ INSERT INTO `tipo_escalada` (`id`, `nombre`, `descripcion`) VALUES
 	(8, 'Deportiva', 'Este tipo de escalada se caracteriza por que en la pared podemos encontrar anclajes fijos colocados estratégicamente para asegurar nuestros pasos. Podemos encontrar anclajes basados en sistemas mecánicos -de expansión- o químicos -resinas-. Por lo general, estas vías al equiparse, se limpian de maleza y de piedras sueltas o susceptibles de romperse, para ganar en la seguridad del escalador deportivo.'),
 	(9, 'Bloque o búlder', 'Es una escalada de solo integral en la que el escalador nunca sube suficientemente lejos como para que una caída pueda suponerle una caida grave, estando ésta asegurada con una colchoneta (crash pad) que evite golpes o un compañero atento a la caída.'),
 	(10, 'Psicobloc', 'Es como la escalada en bloque, pero cuando la pared es un acantilado y la caída se hace directamente en el agua. No se utiliza cuerda.'),
-	(11, 'Urbana', 'Se realiza en cualquier estructura que se encuentre en la ciudad. Mucha afición en Holanda.');
+	(11, 'Urbana', 'Se realiza en cualquier estructura que se encuentre en la ciudad. Mucha afición en Holanda.'),
+	(12, 'Ejemplo1', 'Tipo de escalada de ejemplo1');
 /*!40000 ALTER TABLE `tipo_escalada` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.usuario
+-- Volcando estructura para tabla eskalada_javi.usuario
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -161,17 +163,23 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   UNIQUE KEY `email` (`email`,`nombre`),
   KEY `fk_usuario_rol` (`id_rol`),
   CONSTRAINT `fk_usuario_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.usuario: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_javi.usuario: ~7 rows (aproximadamente)
 DELETE FROM `usuario`;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
 INSERT INTO `usuario` (`id`, `email`, `nombre`, `password`, `id_rol`, `validado`, `token`) VALUES
-	(1, 'admin@admin.com', 'admin', 'admin', 2, 0, '0')
+	(1, 'aaa@aaa.com', 'AAA', '1234', 1, 0, '0'),
+	(14, 'zzz@zzz.om', 'ZZZZZ', '111111', 2, 1, '0'),
+	(19, 'jav1i70@gmail.com', 'Javieeee', '444444', 2, 0, '0'),
+	(20, 'javi270@gmail.com', 'JAVIER', '111111', 2, 1, '0'),
+	(29, 'javi70@gmail.com', 'Javi', '000000', 1, 1, 'SFZ45ELAI2QURAY32R66BSWG0NJT6DK285VZTXT9TO8V4FB4VS52GOR7A0OEOETXR92NNS1CYRQRWR8D43VEZ8O83KIPWSZ5PONX7MHNO3RH31RF304YQUAZUP4IF2OD8AU5AP2MLYKDRURB0DXDIPMNI7M322F0KUMOEX4L92CC7PRFSG6STVLEGA9LBMTRZ70PFAPJY5ZTGGB4788SPYZTU6LWE3UMTABEXXM7UB1UILVF9ATESJF340'),
+	(30, 'pepe@pepe.com', 'Pepe', 'pepe12', 2, 1, '0'),
+	(32, 'prueba@prueba.com', 'Prueba', 'prueba12', 1, 0, NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.via
+-- Volcando estructura para tabla eskalada_javi.via
 DROP TABLE IF EXISTS `via`;
 CREATE TABLE IF NOT EXISTS `via` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -188,9 +196,9 @@ CREATE TABLE IF NOT EXISTS `via` (
   CONSTRAINT `fk_via_grado` FOREIGN KEY (`id_grado`) REFERENCES `grado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_via_sector1` FOREIGN KEY (`id_sector`) REFERENCES `sector` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_via_tipo_escalada1` FOREIGN KEY (`id_tipo_escalada`) REFERENCES `tipo_escalada` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.via: ~14 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_javi.via: ~15 rows (aproximadamente)
 DELETE FROM `via`;
 /*!40000 ALTER TABLE `via` DISABLE KEYS */;
 INSERT INTO `via` (`id`, `nombre`, `longitud`, `descripcion`, `id_grado`, `id_tipo_escalada`, `id_sector`) VALUES
@@ -207,25 +215,28 @@ INSERT INTO `via` (`id`, `nombre`, `longitud`, `descripcion`, `id_grado`, `id_ti
 	(11, 'Gaviotas', 1300, 'Escalar a partir de Septiembre por nidificación de aves\r\n', 9, 8, 8),
 	(12, 'Directa de los Martínez\r\n', 160, 'Material necesario: 8 cintas exprés, juego completo de friends desde el 0,3 de los camalot hasta el n2 (nº3 y empotradores opcionales) casco imprescindible\r\n', 8, 2, 9),
 	(13, 'Orbayu\r\n', 500, 'La vía clásica más dificil del mundo\r\n', 28, 3, 10),
-	(14, 'Murciana 78\r\n', 600, 'Dominar el 6b+ a vista. Pasos difíciles: A1\r\n', 21, 8, 10)
+	(14, 'Murciana 78\r\n', 600, 'Dominar el 6b+ a vista. Pasos difíciles: A1\r\n', 21, 8, 10),
+	(15, 'Ejemplo', 6, 'Via de ejemplo', 40, 12, 11);
 /*!40000 ALTER TABLE `via` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.zona
+-- Volcando estructura para tabla eskalada_javi.zona
 DROP TABLE IF EXISTS `zona`;
 CREATE TABLE IF NOT EXISTS `zona` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.zona: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_javi.zona: ~6 rows (aproximadamente)
 DELETE FROM `zona`;
 /*!40000 ALTER TABLE `zona` DISABLE KEYS */;
 INSERT INTO `zona` (`id`, `nombre`) VALUES
 	(1, 'Atxarte'),
 	(3, 'Cabo Ogoño'),
+	(7, 'Ejemplo1'),
+	(6, 'gradoMock'),
 	(4, 'Naranjo de Bulnes'),
 	(2, 'Untzillaitz Sur');
 /*!40000 ALTER TABLE `zona` ENABLE KEYS */;

@@ -12,9 +12,9 @@ import java.util.Arrays;
 public final class Constantes {
 
 	public static final String PORT = "8080";
-	public static final String SERVER = "http://localhost:" + PORT;
-	public static final String ROOT_APP = "/skalada/";
-	public static final String APP_NAME = "skalada";
+	public static final String SERVER = "http://192.168.1.75:" + PORT;
+	public static final String ROOT_APP = "/skaladaJavi/";
+	public static final String APP_NAME = "skaladaJavi";
 
 	// vistas publicas
 	public static final String VIEW_PUBLIC_INDEX = "index.jsp";

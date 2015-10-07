@@ -55,12 +55,16 @@ if(request.getAttribute("usuariosConectados")!=null){
                 
 <!-- Usuarios sin validar -->                
           	<div class="col-lg-6 col-md-6">
-                    <div class="panel panel-yellow">
+                    <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-user-secret fa-5x"></i>
-                                </div>
+								<div class="col-xs-3">
+									<span class="fa-stack fa-lg fa-3x">
+										<i class="fa fa-users fa-stack-1x"></i>
+										<i class="fa fa-ban fa-stack-2x text-danger fa-inverse"></i>
+									</span>
+									
+								</div>                   
                                 <div class="col-xs-9 text-right">
                                     <div class="huge"><%=usuariosSinValidar%></div>
                                     <div>Usuarios sin validar</div>
@@ -78,7 +82,7 @@ if(request.getAttribute("usuariosConectados")!=null){
             </div>                
 <!--  Sectores publicados -->            
             <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-green">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
@@ -105,10 +109,13 @@ if(request.getAttribute("usuariosConectados")!=null){
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-map-o fa-5x"></i>
+                                    <i class="fa-stack fa-lg fa-3x">
+										<i class="fa fa-map-o fa-stack-1x"></i>
+										<i class="fa fa-ban fa-stack-2x text-danger fa-inverse"></i>
+									</i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><%=sectoresPublicados%></div>
+                                    <div class="huge">SSS</div>
                                     <div>Sectores por validar</div>
                                 </div>
                             </div>
@@ -124,7 +131,7 @@ if(request.getAttribute("usuariosConectados")!=null){
                 </div>                
 <!--  Zonas publicados -->            
             <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-yellow">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
@@ -145,13 +152,17 @@ if(request.getAttribute("usuariosConectados")!=null){
                         </a>
                     </div>
                 </div>
+
 <!--  Zonas por validar -->            
             <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-success">
+                    <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-globe fa-5x"></i>
+                                <i class="fa-stack fa-lg fa-3x">
+										<i class="fa fa-globe fa-stack-1x"></i>
+										<i class="fa fa-ban fa-stack-2x text-danger fa-inverse"></i>
+								</i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">XXX</div>
@@ -167,10 +178,59 @@ if(request.getAttribute("usuariosConectados")!=null){
                             </div>
                         </a>
                     </div>
-                </div>                                
+                </div> 
+<!--  Vias publicadas -->            
+            <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-map-signs fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">ZZZ</div>
+                                    <div>Vias publicadas</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_LISTAR%>">
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver detalles</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+<!--  Vias por validar -->            
+            <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                	<i class="fa-stack fa-lg fa-3x">
+										<i class="fa fa-map-signs fa-stack-1x"></i>
+										<i class="fa fa-ban fa-stack-2x"></i>
+									</i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">XXX</div>
+                                    <div>Vias por validar</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="">
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver detalles</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>                                  
 <!--  Logs -->      
                 <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-danger">
+                    <div class="panel panel-success">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">

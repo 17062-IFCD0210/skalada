@@ -229,6 +229,9 @@ public class ViasController extends HttpServlet {
 			this.via.setGrado(this.grado);
 			this.via.setTipoEscalada(this.tipoEscalada);
 			this.via.setSector(this.sector);
+			this.via.setDescripcion(this.pDescripcion);
+			this.via.setNombre(this.pNombre);
+			this.via.setLongitud(this.pLongitud);
 		} else {
 			this.via = new Via(this.pNombre, this.pLongitud, this.grado,
 					this.tipoEscalada, this.sector);

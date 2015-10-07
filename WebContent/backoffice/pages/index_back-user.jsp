@@ -32,7 +32,7 @@ if(request.getAttribute("usuariosConectados")!=null){
             
 <!--  Sectores publicados -->            
             <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-green">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
@@ -59,10 +59,13 @@ if(request.getAttribute("usuariosConectados")!=null){
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-map-o fa-5x"></i>
+                                    <i class="fa-stack fa-lg fa-3x">
+										<i class="fa fa-map-o fa-stack-1x"></i>
+										<i class="fa fa-ban fa-stack-2x text-danger fa-inverse"></i>
+									</i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><%=sectoresPublicados%></div>
+                                    <div class="huge">SSS</div>
                                     <div>Sectores por validar</div>
                                 </div>
                             </div>
@@ -75,10 +78,10 @@ if(request.getAttribute("usuariosConectados")!=null){
                             </div>
                         </a>
                     </div>
-                </div>                
+                </div>                  
 <!--  Zonas publicados -->            
             <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-yellow">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
@@ -101,11 +104,14 @@ if(request.getAttribute("usuariosConectados")!=null){
                 </div>
 <!--  Zonas por validar -->            
             <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-success">
+                    <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-globe fa-5x"></i>
+                                <i class="fa-stack fa-lg fa-3x">
+										<i class="fa fa-globe fa-stack-1x"></i>
+										<i class="fa fa-ban fa-stack-2x text-danger fa-inverse"></i>
+								</i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">XXX</div>
@@ -121,7 +127,7 @@ if(request.getAttribute("usuariosConectados")!=null){
                             </div>
                         </a>
                     </div>
-                </div>                                
+                </div>                           
 
             </div>
         </div>

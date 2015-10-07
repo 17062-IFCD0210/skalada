@@ -61,6 +61,11 @@ public class ModeloVia implements Persistable<Via> {
 				pst = con.prepareStatement(SQL_INSERT,
 						Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, v.getNombre());
+				pst.setInt(2, v.getLongitud());
+				pst.setString(3, v.getDescripcion());
+				pst.setInt(4, v.getGrado().getId());
+				pst.setInt(5, v.getTipoEscalada().getId());
+				pst.setInt(6, v.getSector().getId());
 				if (pst.executeUpdate() != 1) {
 					throw new Exception("No se ha realizado la insercion");
 				} else {
@@ -162,8 +167,15 @@ public class ModeloVia implements Persistable<Via> {
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
 				pst.setString(1, v.getNombre());
-				pst.setInt(2, v.getId());
-				if (pst.executeUpdate() == 1) {
+				pst.setInt(2, v.getLongitud());
+				pst.setString(3, v.getDescripcion());
+				pst.setInt(4, v.getGrado().getId());
+				pst.setInt(5, v.getTipoEscalada().getId());
+				pst.setInt(6, v.getSector().getId());
+				pst.setInt(7, v.getId());
+				if (pst.executeUpdate() != 1) {
+					resul = false;
+				} else {
 					resul = true;
 				}
 			} catch (Exception e) {

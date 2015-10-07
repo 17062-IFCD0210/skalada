@@ -56,7 +56,7 @@
         <!-- Ultimas Vias -->
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="page-header">Ultimas Sectores</h2>
+                <h2 class="page-header">Ultimos Sectores</h2>
             </div>
             <%
             	ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("ultimos_sectores");            	
