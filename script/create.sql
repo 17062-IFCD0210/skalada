@@ -11,9 +11,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Volcando estructura de base de datos para eskalada
-DROP DATABASE IF EXISTS `eskalada`;
-CREATE DATABASE IF NOT EXISTS `eskalada` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `eskalada`;
+DROP DATABASE IF EXISTS `eskalada_ieltxu`;
+CREATE DATABASE IF NOT EXISTS `eskalada_ieltxu` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `eskalada_ieltxu`;
 
 
 -- Volcando estructura para tabla eskalada.grado
@@ -240,18 +240,16 @@ CREATE TABLE IF NOT EXISTS `zona` (
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla eskalada.zona: ~7 rows (aproximadamente)
 DELETE FROM `zona`;
 /*!40000 ALTER TABLE `zona` DISABLE KEYS */;
 INSERT INTO `zona` (`id`, `nombre`) VALUES
 	(1, 'Atxarte'),
+	(2, 'Untzillaitz Sur'),
 	(3, 'Cabo Ogoño'),
-	(7, 'gradoMock'),
-	(4, 'Naranjo de Bulnes'),
-	(5, 'sdf'),
-	(2, 'Untzillaitz Sur');
+	(4, 'Naranjo de Bulnes');
 /*!40000 ALTER TABLE `zona` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
