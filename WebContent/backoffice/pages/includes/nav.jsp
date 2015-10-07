@@ -19,13 +19,22 @@
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right panel-menu">
-                
+            
+            
+            <%
+				int user_rol = 0;
+				Usuario usuario = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER);
+				if (usuario != null){
+					user_rol = usuario.getRol().getId();
+				}
+			%>
+
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
 					<a href="#" class="dropdown-toggle account" data-toggle="dropdown">
 						<div class="avatar">
-<!-- 							<span class="img-circle"><i class="fa fa-user fa-3x"></i></span> -->
-							<img src="../uploads/avatar_admin.png" class="img-circle" alt="avatar">
+							<span class="img-circle"><i class="fa fa-user fa-3x"></i></span>
+<!-- 							<img src="../uploads/avatar_admin.png" class="img-circle" alt="avatar"> -->
 						</div>
 						<i class="fa fa-angle-down pull-right"></i>
 						<div class="user-mini pull-right">
@@ -69,27 +78,13 @@
                         <li>
                             <a href="home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-map-signs fa-fw"></i> Vias</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-graduation-cap fa-fw"></i> Grados</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_TIPO_ESCALADA%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-bar-chart-o fa-fw"></i> Tipos Escalada</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Zonas</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Sectores</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_USUARIOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Usuarios</a>
-                        </li>
-                        <li>
-                            <a href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Roles</a>
-                        </li>
+                        
+                        <%	if(user_rol == Constantes.ROLE_ADMIN_ID){	%>
+							<jsp:include page="nav-admin.jsp"></jsp:include>
+						<%	} else { %>
+							<jsp:include page="nav-user.jsp"></jsp:include>
+						<%	} %>
+
 
                         
                     </ul>

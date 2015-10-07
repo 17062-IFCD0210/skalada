@@ -97,6 +97,7 @@ final public class Constantes {
 	//ROLES
 	public static final String ROLE_USER = "usuario";
 	public static final String ROLE_ADMIN = "administrador";
+	public static final int ROLE_ADMIN_ID = 1;
 	
 	//Usuarios
 	public static final int USER_VALIDATE 	 = 1;
@@ -111,6 +112,10 @@ final public class Constantes {
 	//Plantillas emails
 	public static final String MAIL_TEMPLATE_VALIDAR_REGISTRO = "file/validar_registro.html"; 
 	public static final String MAIL_TEMPLATE_RECUPERAR_PASS = "file/recuperar_pass.html"; 
+	
+	
+	//Key oara guardar el usuario en la session
+	public static final String KEY_SESSION_USER = "ss_user";
 	
 	
 	//SQL parametros pst (?)

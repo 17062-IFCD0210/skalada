@@ -27,10 +27,7 @@ public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//Logs
 	private final static Logger LOG = Logger.getLogger(LoginController.class);
-	
-	//Key oara guardar el usuario en la session
-	public static final String KEY_SESSION_USER = "ss_user";
-       
+	      
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
 	
@@ -68,7 +65,7 @@ public class LoginController extends HttpServlet {
 		
 		//recoger la sesion
 		this.session = request.getSession();
-		usuario = (Usuario)session.getAttribute(KEY_SESSION_USER);
+		usuario = (Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
 		
 //Usuario logeado
 		if ( this.usuario != null || "".equals(usuario) ){	
@@ -108,7 +105,7 @@ public class LoginController extends HttpServlet {
 							
 							//Password correcto
 							//salvar session
-							session.setAttribute(KEY_SESSION_USER, usuario);						
+							session.setAttribute(Constantes.KEY_SESSION_USER, usuario);						
 							dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_BACK_HOME);
 							
 							LOG.info("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Inicio sesion.");
