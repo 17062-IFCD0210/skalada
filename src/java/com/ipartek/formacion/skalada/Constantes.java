@@ -9,9 +9,14 @@ final public class Constantes {
 		super();
 	}
 	
+	/* PREPRODUCCION */
+//	public static final String SERVER = "http://192.168.1.75:8080";	
+	/* DESARROLLO */
 	public static final String SERVER = "http://localhost:8080";
-	public static final String ROOT_APP = "/skalada/";
-	public static final String APP_NAME = "skalada";
+	
+	
+	public static final String ROOT_APP = "/skaladaIeltxu/";
+	public static final String APP_NAME = "skaladaIeltxu";
 	
 	//vistas publicas
 	public static final String VIEW_PUBLIC_INDEX = "index.jsp";

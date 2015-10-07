@@ -17,7 +17,7 @@ public class DataBaseHelper {
 	//Parametros configuracion base datos
 	static final public String DRIVER    = "com.mysql.jdbc.Driver";
 	static final public String SERVER    = "localhost";
-	static final public String DATA_BASE = "eskalada";
+	static final public String DATA_BASE = "eskalada_ieltxu";
 	static final public String USER      = "root";
 	static final public String PASS      = "";
 	
