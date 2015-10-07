@@ -1,6 +1,3 @@
-<%@page import="com.ipartek.formacion.skalada.modelo.ModeloVia"%>
-<%@page import="com.ipartek.formacion.skalada.modelo.ModeloZona"%>
-<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="com.ipartek.formacion.skalada.modelo.ModeloSector"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page pageEncoding="UTF-8"%> 
@@ -30,8 +27,8 @@
                                     <i class="fa fa-users fa-3x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">5</div>
-                                    <div>Usuarios conectados</div>
+                                    <div class="huge"></div>
+                                    <div>Perfil</div>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +47,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge" value="">2</div>
-                                    <div>Usuarios sin validar</div>
+                                    <div>Sectores sin validar</div>
                                 </div>
                             </div>
                         </div>
@@ -67,44 +64,8 @@
                                     <i class="fa fa-map fa-3x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><%=ModeloSector.totalSectores()%></div>
-                                    <div>Sectores</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </a>
-                
-                <a href="<%=Constantes.VIEW_BACK_ZONAS_INDEX%>">
-                <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-map fa-3x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge"><%=ModeloZona.totalZonas()%></div>
-                                    <div>Zonas</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </a>
-                
-                <a href="<%=Constantes.VIEW_BACK_VIAS_INDEX%>">
-                <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-map fa-3x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge"><%=ModeloVia.totalVias()%></div>
-                                    <div>Vias</div>
+                                    <div class="huge">1</div>
+                                    <div>Zonas sin validar</div>
                                 </div>
                             </div>
                         </div>
@@ -121,8 +82,8 @@
                                     <i class="fa fa-file-text-o fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"></div>
-                                    <div>Logs</div>
+                                    <div class="huge">3</div>
+                                    <div>Sectores validados</div>
                                 </div>
                             </div>
                         </div>

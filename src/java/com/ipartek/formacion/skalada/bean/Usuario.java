@@ -1,15 +1,17 @@
 package com.ipartek.formacion.skalada.bean;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 import com.ipartek.formacion.skalada.Constantes;
 
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
 	private static final long serialVersionUID = -6253794296547129164L;
-	
-	//**********************************
-	//****		Atributos			****
-	//**********************************
+
+	// **********************************
+	// **** Atributos ****
+	// **********************************
 	private int id;
 	private String nombre;
 	private String email;
@@ -17,11 +19,10 @@ public class Usuario implements Serializable{
 	private int validado;
 	private Rol rol;
 	private String token;
-	
-	
-	//**********************************
-	//****		Constructor			****
-	//**********************************
+
+	// **********************************
+	// **** Constructor ****
+	// **********************************
 	/**
 	 * @param nombre
 	 * @param email
@@ -34,72 +35,85 @@ public class Usuario implements Serializable{
 		this.setNombre(nombre);
 		this.setEmail(email);
 		this.setPassword(password);
-		if (rol != null){
+		if (rol != null) {
 			this.setRol(rol);
 		} else {
 			this.setRol(new Rol(Constantes.ROLE_USER));
 		}
 	}
 
-	
-	//**********************************
-	//****		Getters/Setters		****
-	//**********************************	
+	// **********************************
+	// **** Getters/Setters ****
+	// **********************************
 	public int getId() {
-		return id;
+		return this.id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public int getValidado() {
-		return validado;
+		return this.validado;
 	}
+
 	public void setValidado(int validado) {
 		this.validado = validado;
 	}
+
 	public Rol getRol() {
-		return rol;
+		return this.rol;
 	}
+
 	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
-	
+
 	public String getToken() {
-		return token;
+		return this.token;
 	}
 
-
-	public void setToken(String token) {
+	public final void setToken(String token) {
 		this.token = token;
 	}
 
+	public final void setToken() {
+		SecureRandom random = new SecureRandom();
+		this.token = new BigInteger(130, random).toString(32);
+	}
 
-	//**********************************
-	//****		ToString()			****
-	//**********************************	
+	// **********************************
+	// **** ToString() ****
+	// **********************************
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", email=" + email
-				+ ", password=" + password + ", validado=" + validado
-				+ ", rol=" + rol + "]";
+		return "Usuario [id=" + this.id + ", nombre=" + this.nombre
+				+ ", email=" + this.email + ", password=" + this.password
+				+ ", validado=" + this.validado + ", rol=" + this.rol + "]";
 	}
-	
+
 }
