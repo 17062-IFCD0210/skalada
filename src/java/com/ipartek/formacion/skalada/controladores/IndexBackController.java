@@ -45,7 +45,7 @@ public class IndexBackController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		this.doPost(request, response);
 	}
 
 	/**
@@ -59,10 +59,10 @@ public class IndexBackController extends HttpServlet {
 				Integer.toString(this.modeloSector.sectoresPublicados()));
 		request.setAttribute("usuariosSinValidar",
 				Integer.toString(this.modeloUsuario.usuariosNoValidados()));
-		request.setAttribute("zonasPublicados",
-				Integer.toString(this.modeloZona.zonasPublicados()));
-		request.setAttribute("viasPublicados",
-				Integer.toString(this.modeloVia.viasPublicados()));
+		request.setAttribute("zonasPublicadas",
+				Integer.toString(this.modeloZona.zonasPublicadas()));
+		request.setAttribute("viasPublicadas",
+				Integer.toString(this.modeloVia.viasPublicadas()));
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 		this.dispatcher.forward(request, response);

@@ -236,12 +236,11 @@ INSERT INTO `usuario` (`id`, `email`, `nombre`, `password`, `id_rol`, `validado`
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
-
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versi贸n del servidor:         5.6.12-log - MySQL Community Server (GPL)
+-- Versi髇 del servidor:         5.6.17 - MySQL Community Server (GPL)
 -- SO del servidor:              Win64
--- HeidiSQL Versi贸n:             9.1.0.4867
+-- HeidiSQL Versi髇:             9.1.0.4867
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -249,54 +248,23 @@ INSERT INTO `usuario` (`id`, `email`, `nombre`, `password`, `id_rol`, `validado`
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Volcando estructura para tabla eskalada.material
-DROP TABLE IF EXISTS `material`;
-CREATE TABLE IF NOT EXISTS `material` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL DEFAULT '0',
-  `descripcion` varchar(250) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+-- Volcando estructura para tabla eskalada.oferta
+DROP TABLE IF EXISTS `oferta`;
+CREATE TABLE IF NOT EXISTS `oferta` (
+  `id` int(11) NOT NULL COMMENT 'identificador de las ofertas',
+  `titulo` varchar(100) NOT NULL COMMENT 'titulo de las ofertas',
+  `descripcion` varchar(300) DEFAULT NULL COMMENT 'descripcion de las ofertas',
+  `precio` float NOT NULL COMMENT 'precio de las ofertas',
+  `fecha_alta` datetime NOT NULL COMMENT 'fecha de inicio de la oferta',
+  `fecha_baja` datetime NOT NULL COMMENT 'fecha de fin de oferta'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.material: ~2 rows (aproximadamente)
-DELETE FROM `material`;
-/*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `rmaterial` (`id`, `nombre`, `descripcion`) VALUES
-	(1, 'cuerda', 'Cuerda para la escalada'),
-	(2, 'zapatillas', 'Zapatillas para la escalada');
-		(3, 'arpones', 'Arpones');
-		(4, 'arpones', 'Arpones');
-		(5, 'arpones', 'Arpones');
-		
-/*!40000 ALTER TABLE `material` ENABLE KEYS */;
+-- Volcando datos para la tabla eskalada.oferta: ~1 rows (aproximadamente)
+/*!40000 ALTER TABLE `oferta` DISABLE KEYS */;
+INSERT INTO `oferta` (`id`, `titulo`, `descripcion`, `precio`, `fecha_alta`, `fecha_baja`) VALUES
+	(1, 'superoferta', 'la mejor', 100, '2015-10-07 08:42:58', '0000-00-00 00:00:00');
+/*!40000 ALTER TABLE `oferta` ENABLE KEYS */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Versi贸n del servidor:         5.6.12-log - MySQL Community Server (GPL)
--- SO del servidor:              Win64
--- HeidiSQL Versi贸n:             9.1.0.4867
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Volcando estructura para tabla eskalada.producto
-DROP TABLE IF EXISTS `producto`;
-CREATE TABLE IF NOT EXISTS `producto` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL DEFAULT '0',
-  `descripcion` varchar(250) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- Volcando datos para la tabla eskalada.producto: ~2 rows (aproximadamente)
-DELETE FROM `producto`;
-/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` (`id`, `nombre`, `descripcion`) VALUES
-	(1, 'Bebidas', 'Bebida que ofrecemos'),
-	(2, 'Comida', 'Comida estandar');
-	(3producto, 'Vehiculos', 'Vehiculos estandar');
-	(4, 'Viajes', 'Viajes estandar');
-/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
