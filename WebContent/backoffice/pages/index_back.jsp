@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.listener.ListenerSession"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
@@ -26,7 +27,7 @@
 							</span>
 						</div>
 						<div class="col-xs-9 text-right">
-							<div class="huge">...</div>
+							<div class="huge"><%=ListenerSession.session_users.size()%></div>
 							<div class="huge">Usuarios conectados</div>
 						</div>
 					</div>

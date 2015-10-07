@@ -1,7 +1,6 @@
 package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
@@ -28,7 +26,7 @@ public class LoginController extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	//Logs
-	private final static Logger log = Logger.getLogger(LoginController.class);
+	private final static Logger LOG = Logger.getLogger(LoginController.class);
 	
 	//Key oara guardar el usuario en la session
 	public static final String KEY_SESSION_USER = "ss_user";
@@ -52,15 +50,7 @@ public class LoginController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modeloUsuario = new ModeloUsuario();
-		try {
-			//Fichero de configuracion de Log4jv 
-			Properties props = new Properties();
-			props.load( getClass().getResourceAsStream("/log4j.properties"));
-			PropertyConfigurator.configure(props);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
+		modeloUsuario = new ModeloUsuario();	
 	}
 
 
@@ -109,7 +99,7 @@ public class LoginController extends HttpServlet {
 						request.setAttribute("msg", msg);
 						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 						
-						log.warn("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Usuario no validado.");
+						LOG.warn("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Usuario no validado.");
 						
 					} else {
 						
@@ -121,7 +111,7 @@ public class LoginController extends HttpServlet {
 							session.setAttribute(KEY_SESSION_USER, usuario);						
 							dispatcher = request.getRequestDispatcher(Constantes.CONTROLLER_BACK_HOME);
 							
-							log.info("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Inicio sesion.");
+							LOG.info("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Inicio sesion.");
 							
 						}else{
 							
@@ -130,7 +120,7 @@ public class LoginController extends HttpServlet {
 							request.setAttribute("msg", msg);
 							dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
 							
-							log.warn("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Contraseña incorrecta.");
+							LOG.warn("Usuario: " + usuario.getNombre() + "[id:" + usuario.getId() + "] Contraseña incorrecta.");
 						}
 					}			
 				} else {
@@ -140,7 +130,7 @@ public class LoginController extends HttpServlet {
 					request.setAttribute("msg", msg);
 					dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);	
 					
-					log.warn("Inicio de sesion usuario no registrado.");
+					LOG.warn("Inicio de sesion usuario no registrado.");
 				}	
 			} else {
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
