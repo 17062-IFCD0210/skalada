@@ -1,4 +1,4 @@
-package com.ipartek.formacion.utilidades;
+package com.ipartek.formacion.skalada.util;
 
 import java.io.IOException;
 import java.util.HashMap;

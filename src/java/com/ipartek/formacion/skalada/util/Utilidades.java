@@ -1,4 +1,4 @@
-package com.ipartek.formacion.utilidades;
+package com.ipartek.formacion.skalada.util;
 
 import java.util.Random;
 /**

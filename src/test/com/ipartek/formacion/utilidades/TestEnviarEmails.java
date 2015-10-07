@@ -10,7 +10,7 @@ import org.junit.AfterClass;
 import org.junit.Test;
 
 import com.ipartek.formacion.skalada.Constantes;
-import com.ipartek.formacion.utilidades.EnviarEmails;
+import com.ipartek.formacion.skalada.util.EnviarEmails;
 /**
  * 
  * @author Curso

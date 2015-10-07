@@ -13,8 +13,8 @@ import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
-import com.ipartek.formacion.utilidades.EnviarEmails;
-import com.ipartek.formacion.utilidades.Utilidades;
+import com.ipartek.formacion.skalada.util.EnviarEmails;
+import com.ipartek.formacion.skalada.util.Utilidades;
 
 /**
  * Servlet implementation class forgotPassController.

@@ -16,7 +16,7 @@ import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.modelo.ModeloRol;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
-import com.ipartek.formacion.utilidades.EnviarEmails;
+import com.ipartek.formacion.skalada.util.EnviarEmails;
 
 /**
  * Servlet implementation class RegistroController.
