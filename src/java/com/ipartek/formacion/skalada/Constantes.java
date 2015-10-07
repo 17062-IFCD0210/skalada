@@ -3,7 +3,7 @@ package com.ipartek.formacion.skalada;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Constantes {
+final public class Constantes {
 	
 	private Constantes(){
 		super();

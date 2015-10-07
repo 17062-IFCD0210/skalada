@@ -19,13 +19,13 @@ public class TestModeloTipoEscalada {
 	
 	static String nombreTipoEscalada = "TipoEscaladaMock";
 	static String descripcionTipoEscalada = "Lorem impsu ÑéÁ";	
-	static String nombreTipoEscalada_updated = "updated";
+	static String nombreTipoEscaladaUpdated = "updated";
 	static String descripcionTipoEscalada_updated = "Updated Lorem impsun ÑñéÁ";
 	
-	static int id;	
-	static TipoEscalada te_get;
-	static TipoEscalada te_insert;
-	static TipoEscalada te_update;
+	private int id;	
+	private TipoEscalada te_get;
+	private TipoEscalada te_insert;
+	private TipoEscalada te_update;
 	
 	static int total;				//Cantidad de registros iniciales en la tabla `tipo_escalada`
 	static int total_despues;		//Cantidad de registros en la tabla `tipo_escalada` tras insertar uno nuevo	
@@ -97,7 +97,7 @@ public class TestModeloTipoEscalada {
 	@Test
 	public void testUpdate() {		
 		//Test para comprobar que actualiza el registro indentificado por su ID
-		te_update = new TipoEscalada(nombreTipoEscalada_updated);
+		te_update = new TipoEscalada(nombreTipoEscaladaUpdated);
 		te_update.setDescripcion(descripcionTipoEscalada_updated);
 		te_update.setId(id);
 		
@@ -105,7 +105,7 @@ public class TestModeloTipoEscalada {
 		
 		te_get = (TipoEscalada)modelo.getById(te_update.getId());	
 		assertTrue(id==te_get.getId());
-		assertEquals(nombreTipoEscalada_updated, te_get.getNombre());
+		assertEquals(nombreTipoEscaladaUpdated, te_get.getNombre());
 		assertEquals(descripcionTipoEscalada_updated, te_get.getDescripcion());
 		
 		//Intentar actualizar un TipoEscalada inexistente en la base de datos

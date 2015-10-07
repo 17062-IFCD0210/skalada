@@ -18,10 +18,10 @@ public class TestModeloGrado {
 	static ModeloGrado modelo = null;
 	
 	static String nombreGrado = "gradoMock";
-	static String descripcionGrado = "Lorem impsun ÑáÉ";
-	static String descripcionGrado_updated = "Updated Lorem impsun ÑáÉ";	
+	static String descripcionGrado = "Lorem impsun ï¿½ï¿½ï¿½";
+	static String descripcionGrado_updated = "Updated Lorem impsun ï¿½ï¿½ï¿½";	
 	static String nombreGrado_updated = "updated";
-	static int id;	
+	private int id;	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

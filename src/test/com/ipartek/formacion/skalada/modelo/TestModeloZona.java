@@ -21,7 +21,7 @@ public class TestModeloZona {
 	static String descripcionZona = "Lorem impsun ���";
 	static String descripcionZona_updated = "Updated Lorem impsun ���";	
 	static String nombreZona_updated = "updated";
-	static int id;	
+	private int id;	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
