@@ -101,7 +101,7 @@ public class SignupController extends HttpServlet {
 			this.msg.setTipo(Mensaje.MSG_DANGER);
 			this.pEmail = request.getParameter("email");
 
-			this.usuario = this.modeloUsuario.getByEmail(this.pEmail);
+			this.usuario = (Usuario) this.modeloUsuario.getByEmail(this.pEmail);
 			//usuario  no existe
 			if (this.usuario == null) { 
 				this.msg.setTexto("Email no registrado: " + this.pEmail);

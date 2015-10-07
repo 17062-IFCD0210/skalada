@@ -68,7 +68,7 @@ public class ForgotPassController extends HttpServlet {
 			
 			this.pEmail = request.getParameter("email");
 			//recuperar usuario por su email
-			this.usuario = this.modeloUsuario.getByEmail(this.pEmail);
+			this.usuario = (Usuario) this.modeloUsuario.getByEmail(this.pEmail);
 			//usuario no existe
 			if (this.usuario == null) { 
 				this.msg.setTexto("Email no registrado: " + this.pEmail);
@@ -129,7 +129,7 @@ public class ForgotPassController extends HttpServlet {
 			String pass = request.getParameter("password");
 			
 			//buscar usuario en BBDD
-			this.usuario = this.modeloUsuario.getByEmail(this.pEmail);
+			this.usuario = (Usuario) this.modeloUsuario.getByEmail(this.pEmail);
 			
 			//usuario existe
 			if (this.usuario != null) {

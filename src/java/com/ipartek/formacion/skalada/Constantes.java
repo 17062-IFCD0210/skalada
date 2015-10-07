@@ -28,6 +28,8 @@ public class Constantes {
 	public static final String VIEW_BACK_LOGIN   = "backoffice/pages/login.jsp";
 	public static final String VIEW_BACK_INDEX   =
 										"backoffice/pages/index_back.jsp";
+	public static final String VIEW_BACK_DASHBOARD = "pages/index_back.jsp";
+
 
 	public static final String VIEW_BACK_SIGNUP  = "backoffice/pages/signup.jsp";
 	public static final String VIEW_BACK_NEWPASS = "pages/newpass.jsp";
@@ -83,6 +85,9 @@ public class Constantes {
 	public static final int ACCION_ELIMINAR = 3;
 	public static final int ACCION_VALIDAR  = 4;
 	public static final int ACCION_RECUPERAR = 5;
+	
+	public static final int ACCION_NO_VALIDADOS = 4;
+	public static final int ACCION_CONECTADOS = 5;
 
 	//Imagenes y Ficheros
 	public static final String IMG_UPLOAD_FOLDER        = 
@@ -113,5 +118,5 @@ public class Constantes {
 	public static final String EMAIL_TEMPLATE_REGISTRO = "emails/registro.html";
 	
 	// Key para guardar el usuario en la session
-		public static final String KEY_SESSION_USER = "ss_user";
+	public static final String KEY_SESSION_USER = "ss_user";
 }
