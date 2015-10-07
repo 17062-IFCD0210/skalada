@@ -86,9 +86,9 @@ public class Constantes {
 
 	//Imagenes y Ficheros
 	public static final String IMG_UPLOAD_FOLDER        = 
-			"C:\\desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
+			"C:\\Desarrollo\\apache-tomcat-6.0.44\\webapps\\uploads";
 	public static final String IMG_UPLOAD_TEMP_FOLDER   = 
-			"C:\\desarrollo\\apache-tomcat-6.0.44\\temp";
+			"C:\\Desarrollo\\apache-tomcat-6.0.44\\temp";
 	public static final String IMG_WEP_PATH             = 
 			"http://localhost:8080/uploads/"; 
 
@@ -99,8 +99,11 @@ public class Constantes {
 			new ArrayList<String>(Arrays.asList("image/jpeg", "image/png"));
 
 	//ROLES
+	
 	public static final String ROLE_USER = "usuario";
 	public static final String ROLE_ADMIN = "administrador";
+	public static final int ROLE_ID_USER = 2;
+	public static final int ROLE_ID_ADMIN = 1;
 
 	//Usuarios
 	public static final int USER_VALIDATE    = 1;

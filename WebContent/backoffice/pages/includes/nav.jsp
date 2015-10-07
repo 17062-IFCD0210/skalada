@@ -1,6 +1,4 @@
-<%@page contentType="text/html"%> 
-<%@page pageEncoding="UTF-8"%> 
-
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page import="com.ipartek.formacion.skalada.controladores.LoginController"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
@@ -19,10 +17,22 @@
 
             <ul class="nav navbar-top-links navbar-right">
                 
+                <%
+                Usuario usuario = null;
+                //usuario = (Usuario) request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
+                // o de esta manera
+                usuario = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER);
+                //En caso de que el usuario casque que al menos tenga el rol y que redirija a login
+                int rol = usuario.getRol().getId();
+                
+                %>
+                
                 <!-- Perfil del usuario -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    	<%=session.getAttribute(LoginController.KEY_SESSION_USER)%>
+                    	<!-- < %=session.getAttribute(LoginController.KEY_SESSION_USER)%>-->
+                    	<!-- < %=usuario.getNombre()+" ("+usuario.getRol().getNombre()+")"%> -->
+                    	${sessionScope.ss_user.nombre} (${sessionScope.ss_user.rol.nombre}) <!-- Da el nombre a traves del getNombre de Java mediante lenguaje de expresiones -->
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
@@ -43,13 +53,11 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                 
-<%--                 <% --%>
-<%--                 	if (rol == Constantes.ROLE_ID_ADMIN){ %> --%>
-<%--                 	<jsp:include page = "nav-admin.jsp"></jsp:include> --%>
-<%--                 <% --%>
-<%--                 	if (rol == Constantes.ROLE_ID_USER){%> --%>
-<%--                 	<jsp:include page = "nav-user.jsp"></jsp:include> --%>
-
+                	<% if (rol == Constantes.ROLE_ID_ADMIN){ %>
+                		Administrador
+                	<% }else{ %>
+                		Usuario
+                	<% } %>
                 
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
@@ -71,7 +79,7 @@
                             <a href="<%=Constantes.VIEW_BACK_INDEX%>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-map-signs fa-fw"></i> Vias</a>
+                            <a href="<%=Constantes.CONTROLLER_VIAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-random fa-fw fa-rotate"></i> Vias</a>
                         </li>
                         <li>
                             <a href="<%=Constantes.CONTROLLER_GRADOS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-graduation-cap fa-fw"></i> Grados</a>
@@ -92,9 +100,8 @@
                           <a href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Roles</a> 
                         </li>
                         <li> 
-                          <a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>"><i class="fa fa-picture-o fa-fw"></i>Logs</a>
+                          <a href="<%=Constantes.VIEW_BACK_CONTENT_LOGS%>"><i class="fa fa-picture-o fa-fw"></i> Logs</a> 
                         </li>
-                                                  
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
