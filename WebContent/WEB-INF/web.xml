@@ -170,6 +170,9 @@
     <servlet-name>HomeBackController</servlet-name>
     <url-pattern>/backoffice/home</url-pattern>
   </servlet-mapping>
+    <session-config>
+    <session-timeout>5</session-timeout>
+  </session-config>
   <listener>
     <listener-class>com.ipartek.formacion.skalada.listener.ListenerInit</listener-class>
   </listener>

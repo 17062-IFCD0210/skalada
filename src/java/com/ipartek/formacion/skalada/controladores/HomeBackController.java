@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
+import com.ipartek.formacion.skalada.modelo.ModeloVia;
+import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
  * Servlet implementation class HomeBackController
@@ -24,9 +26,10 @@ public class HomeBackController extends HttpServlet {
 	public static final String KEY_SESSION_USER = "ss_user";
        
 	private RequestDispatcher dispatcher = null;
-	private ModeloUsuario modeloUsuario = null;
-	
+	private ModeloUsuario modeloUsuario = null;	
 	private ModeloSector modeloSector = null;
+	private ModeloZona modeloZona = null;
+	private ModeloVia modeloVia = null;
 	
     /**
 	 * @see Servlet#init(ServletConfig)
@@ -35,6 +38,8 @@ public class HomeBackController extends HttpServlet {
 		super.init(config);	
 		modeloUsuario = new ModeloUsuario();
 		modeloSector = new ModeloSector();
+		modeloZona = new ModeloZona();
+		modeloVia = new ModeloVia();
 	}
 
 	/**
@@ -47,6 +52,10 @@ public class HomeBackController extends HttpServlet {
 		request.setAttribute("num_user_invalid", modeloUsuario.getUserInvalid());
 		
 		request.setAttribute("num_sectores", modeloSector.getSectorCant());
+		
+		request.setAttribute("num_zonas", modeloZona.getZonaCant());
+		
+		request.setAttribute("num_vias", modeloVia.getViaCant());
 		
 		dispatcher = request.getRequestDispatcher("pages/index_back.jsp");
 		dispatcher.forward(request, response);

@@ -21,6 +21,8 @@ public class ModeloZona implements Persistable<Zona>{
 	private static final String SQL_GETONE = SQL_GETALL + " WHERE `" + COL_ID + "`= ?;";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `" + COL_NOMBRE + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
+	private static final String SQL_ZONA_NUM = "SELECT COUNT(*) AS zonas FROM `zona`";
+	
 	@Override
 	public int save(Zona zona) {
 		int resul = -1;	
@@ -201,5 +203,37 @@ public class ModeloZona implements Persistable<Zona>{
 		
 		return resul;
 	}
+	
+	
+	public int getZonaCant(){
+		int resul = 0;
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_ZONA_NUM);
+	    	rs = pst.executeQuery(); 
+	    	while(rs.next()){
+	    		resul = rs.getInt("zonas");		    	
+	    	}	    	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
+	
+	
 
 }
