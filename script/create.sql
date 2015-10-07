@@ -60,17 +60,17 @@ INSERT INTO `rol` (`id`, `nombre`, `descripcion`) VALUES
 CREATE TABLE IF NOT EXISTS `sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `zona` int(11) NOT NULL,
+  `id_zona` int(11) NOT NULL,
   `imagen` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`zona`),
-  KEY `fk_sector_zona1_idx` (`zona`),
-  CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`zona`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`,`id_zona`),
+  KEY `fk_sector_zona1_idx` (`id_zona`),
+  CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`id_zona`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- Volcando datos para la tabla eskalada.sector: ~10 rows (aproximadamente)
 DELETE FROM `sector`;
 /*!40000 ALTER TABLE `sector` DISABLE KEYS */;
-INSERT INTO `sector` (`id`, `nombre`, `zona`, `imagen`) VALUES
+INSERT INTO `sector` (`id`, `nombre`, `id_zona`, `imagen`) VALUES
 	(2, 'Primer espolón', 1, NULL),
 	(3, 'Tercer espolón\r\n', 1, NULL),
 	(5, 'Alluitz', 1, NULL),
