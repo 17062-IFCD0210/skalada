@@ -16,6 +16,10 @@ Para instalar esta aplicación hay que configurar los siguientes parametros:
 		
 	En context.xml:
 		url="jdbc:mysql://192.168.1.75:3306/eskalada_javi"
+		
+	En log4j.propierties:
+	
+	
 
 	Para crear la base de datos existe un script en la carpeta script, llamado "eskalada_javi.sql"
 
