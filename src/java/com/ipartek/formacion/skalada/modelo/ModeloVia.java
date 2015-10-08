@@ -51,6 +51,7 @@ public class ModeloVia implements Persistable<Via> {
 	
 	private static final String SQL_VIA_NUM = "SELECT COUNT(*) AS vias FROM `via`";
 	
+	private static final String SQL_GETALL_BY_SECTOR = SQL_GETALL + "WHERE v.id_sector = ?";
 
 	@Override
 	public int save(Via via) {
@@ -286,6 +287,60 @@ public class ModeloVia implements Persistable<Via> {
 		}	
 		return resul;
 	}
+	
+	public ArrayList<Via> getAllBySector (int id_sector){
+		ArrayList<Via> resul = new ArrayList<Via>();		
+		PreparedStatement pst = null;
+		ResultSet rs = null;		
+		try{
+			Connection con = DataBaseHelper.getConnection();
+			pst = con.prepareStatement(SQL_GETALL_BY_SECTOR);
+			pst.setInt(1, id_sector);	
+	    	rs = pst.executeQuery();  
+	    	Via via = null;
+	    	while(rs.next()){	    		
+	    		via = new Via(rs.getString("v.nombre"));
+	    		via.setId( rs.getInt("v.id"));
+	    		via.setLongitud(rs.getInt("v.longitud"));
+	    		via.setDescripcion(rs.getString("v.descripcion"));
+	    		
+	    		Grado grado = new Grado(rs.getString("nombre_grado"));
+	    		grado.setId(rs.getInt("v.id_grado"));
+	    		via.setGrado(grado);
+	    		
+	    		TipoEscalada tipoEscalada = new TipoEscalada(rs.getString("nombre_tipo_escalada"));
+	    		tipoEscalada.setId(rs.getInt("v.id_tipo_escalada"));
+	    		via.setTipoEscalada(tipoEscalada);
+	    		
+	    		Zona zona = new Zona(rs.getString("nombre_zona"));
+	    		zona.setId(rs.getInt("s.id_zona"));    		
+	    		Sector sector = new Sector(rs.getString("nombre_sector"), zona);
+	    		sector.setId(rs.getInt("v.id_sector"));
+	    		via.setSector(sector);
+	    		
+	    		resul.add(via);
+	    		via = null;
+	    	}	
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null){
+					rs.close();
+				}
+				if(pst != null){
+					pst.close();
+				}
+				DataBaseHelper.closeConnection();			
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}	
+		return resul;
+	}
+	
+	
+	
 	
 
 }

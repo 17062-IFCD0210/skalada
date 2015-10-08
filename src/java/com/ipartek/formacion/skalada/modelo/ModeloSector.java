@@ -26,10 +26,10 @@ public class ModeloSector implements Persistable<Sector>{
 	private static final String SQL_GETALL = "SELECT  s.id, s.nombre, id_zona, z.nombre AS nombre_zona, s.imagen "
 											+ "FROM sector AS s "
 											+ "INNER JOIN zona AS z ON (s.id_zona = z.id)";
-	private static final String SQL_GETONE = SQL_GETALL + "WHERE s.id = ?";
+	private static final String SQL_GETONE = SQL_GETALL + " WHERE s.id = ?";
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR + "` SET `" + COL_NOMBRE + "`= ? , `" + COL_IMAGEN + "`= ? , `" + COL_ZONA_ID + "`= ? WHERE `" + COL_ID + "`= ? ;";
 	
-	private static final String SQL_GETALL_BY_ZONA = "SELECT `id`, `nombre`, `imagen` FROM sector WHERE `id_zona` = ?";
+	private static final String SQL_GETALL_BY_ZONA = SQL_GETALL + " WHERE `id_zona` = ?";
 	
 	private static final String SQL_SECTOR_NUM = "SELECT COUNT(*) AS sectores FROM `sector`";
 	
@@ -235,9 +235,9 @@ public class ModeloSector implements Persistable<Sector>{
 	    	rs = pst.executeQuery();  
 	    	Sector sector = null;
 	    	while(rs.next()){	    		
-	    		sector = new Sector( rs.getString(COL_NOMBRE), null );
+	    		sector = new Sector( rs.getString(COL_NOMBRE), new Zona(COL_ZONA_NOMBRE));
 	    		sector.setId( rs.getInt(COL_ID));
-	    		sector.setImagen(rs.getString(COL_IMAGEN));
+	    		sector.setImagen(rs.getString(COL_IMAGEN));	    		
 	    		resul.add(sector);
 	    		sector = null;
 	    	}	

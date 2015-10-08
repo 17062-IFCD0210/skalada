@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.controladores.LugaresController"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
 <li>
@@ -8,5 +9,8 @@
 </li>
 <li>
     <a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Sectores</a>
+</li>
+<li>
+    <a href="<%=Constantes.CONTROLLER_LUGARES%>?accion=<%=LugaresController.MOSTRAR_ZONAS%>"><i class="fa fa-search fa-fw"></i> Lugares</a>
 </li>
 

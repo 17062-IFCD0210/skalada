@@ -57,7 +57,9 @@ final public class Constantes {
 
 	
 	
-	public static final String VIEW_BACK_LUGARES_INDEX = "backoffice/pages/lugares/index.jsp";
+	public static final String VIEW_BACK_LUGARES_INDEX_ZONAS = "backoffice/pages/lugares/index-zonas.jsp";
+	public static final String VIEW_BACK_LUGARES_INDEX_SECTORES = "backoffice/pages/lugares/index-sectores.jsp";
+	public static final String VIEW_BACK_LUGARES_INDEX_VIAS = "backoffice/pages/lugares/index-vias.jsp";
 	public static final String VIEW_BACK_LUGARES_DETALLE = "backoffice/pages/lugares/detalle.jsp";
 	
 	

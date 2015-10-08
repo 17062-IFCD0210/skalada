@@ -353,6 +353,16 @@ table.dataTable thead .sorting:after {
     color: #df8a13;
 }
 
+.panel-warning a {
+    color: #a9a325;
+}
+
+.panel-warning a:hover {
+    color: #e0de7c;
+}
+
+
+
 .row {
 	    padding-top: 15px;
 }
