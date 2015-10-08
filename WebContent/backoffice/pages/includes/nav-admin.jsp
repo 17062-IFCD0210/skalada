@@ -39,6 +39,9 @@
                         <li> 
                           <a href="<%=Constantes.CONTROLLER_ROLES%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Roles</a> 
                         </li>
+                         <li> 
+                          <a href="<%=Constantes.CONTROLLER_OFERTAS%>?accion=<%=Constantes.ACCION_LISTAR%>"><i class="fa fa-picture-o fa-fw"></i> Ofertas</a> 
+                        </li>
                        
                          <li> 
                           <a href="../backoffice/pages/error.jsp"><i class="fa fa-picture-o fa-fw"></i>Error</a> 

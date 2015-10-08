@@ -18,9 +18,10 @@ public final class Constantes {
 
 	}
 
-	public static final String SERVER = "http://localhost:8080";
-	public static final String ROOT_APP = "/skalada/";
-	public static final String APP_NAME = "skalada";
+	/* public static final String SERVER = "http://localhost:8080"; */
+	public static final String SERVER = "192.168.1.75:8080";
+	public static final String ROOT_APP = "/skaladaAnder/";
+	public static final String APP_NAME = "skaladaAnder";
 
 	// vistas publicas
 	public static final String VIEW_PUBLIC_INDEX = "index.jsp";
@@ -55,6 +56,9 @@ public final class Constantes {
 	public static final String VIEW_BACK_ROLES_INDEX = "backoffice/pages/roles/index.jsp";
 	public static final String VIEW_BACK_ROLES_FORM = "backoffice/pages/roles/form.jsp";
 
+	public static final String VIEW_BACK_OFERTAS_INDEX = "backoffice/pages/ofertas/index.jsp";
+	public static final String VIEW_BACK_OFERTAS_FORM = "backoffice/pages/ofertas/form.jsp";
+
 	public static final String VIEW_BACK_USUARIOS_INDEX = "backoffice/pages/usuarios/index.jsp";
 	public static final String VIEW_BACK_USUARIOS_FORM = "backoffice/pages/usuarios/form.jsp";
 
@@ -72,6 +76,7 @@ public final class Constantes {
 	public static final String CONTROLLER_ROLES = ROOT_APP + "roles";
 	public static final String CONTROLLER_USUARIOS = ROOT_APP + "usuarios";
 	public static final String CONTROLLER_SIGNUP = ROOT_APP + "signup";
+	public static final String CONTROLLER_OFERTAS = ROOT_APP + "ofertas";
 	public static final String CONTROLLER_FORGOT_PASS = ROOT_APP
 			+ "forgot-pass";
 	public static final String CONTROLLER_INDEXBACK = "indexBack";

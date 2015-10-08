@@ -152,7 +152,7 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("grados", this.modeloGrado.getAll());
 		request.setAttribute("tipoEscaladas", this.modeloTipoEscalada.getAll());
 		request.setAttribute("sectores", this.modeloSector.getAll());
-		request.setAttribute("sectores", this.modeloZona.getAll());
+		request.setAttribute("zonas", this.modeloZona.getAll());
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 
@@ -201,7 +201,7 @@ public class ViasController extends HttpServlet {
 			if (this.modeloVia.update(this.via)) {
 				this.msg = new Mensaje(Mensaje.MSG_SUCCESS,
 						"Modificado correctamente el registro [id(" + this.pID
-						+ ")]");
+								+ ")]");
 			} else {
 				this.msg = new Mensaje(Mensaje.MSG_DANGER,
 						"Error al modificar el registro [id(" + this.pID + ")]");

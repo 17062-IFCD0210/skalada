@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
 	private final static Logger LOG = Logger.getLogger(LoginController.class);
 
 	// Key oara guardar el usuario en la session
-	public static final String KEY_SESSION_USER = "ss_user";
+	/* public static final String KEY_SESSION_USER = "ss_user"; */
 
 	private RequestDispatcher dispatcher = null;
 	private HttpSession session = null;
@@ -52,7 +52,7 @@ public class LoginController extends HttpServlet {
 		 * Properties();
 		 * props.load(this.getClass().getResourceAsStream("/log4j.properties"));
 		 * PropertyConfigurator.configure(props);
-		 *
+		 * 
 		 * } catch (IOException e) { e.printStackTrace(); }
 		 */
 
@@ -95,7 +95,8 @@ public class LoginController extends HttpServlet {
 		LOG.info("Entrando....");
 		// recoger la sesion
 		this.session = request.getSession();
-		this.usuario = (Usuario) this.session.getAttribute(KEY_SESSION_USER);
+		this.usuario = (Usuario) this.session
+				.getAttribute(Constantes.KEY_SESSION_USER);
 		// Usuario logeado
 		if (this.usuario != null) {
 
@@ -114,7 +115,7 @@ public class LoginController extends HttpServlet {
 			// comprobamos con la BBDD
 			if (this.pPassword.equals(user.getPassword())) {
 				// salvar session
-				this.session.setAttribute(KEY_SESSION_USER, user);
+				this.session.setAttribute(Constantes.KEY_SESSION_USER, user);
 				// Ir a => index_back.jsp
 				// tenemos que pasar por un nuevo controlador para cargar el
 				// numero de sectores

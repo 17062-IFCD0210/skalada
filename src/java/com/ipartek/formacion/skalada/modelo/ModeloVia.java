@@ -23,11 +23,14 @@ import com.ipartek.formacion.skalada.bean.Zona;
 public class ModeloVia implements Persistable<Via> {
 
 	private static final String TABLA_VIA = "via";
-	private static final String COL_ID = "id";
-	private static final String TABLA_GRADO = "grado";
-	private static final String TABLA_TIPO_ESCALADA = "tipo_escalada";
 
-	private static final String TABLA_SECTOR = "sector";
+	private static final String COL_ID = "id";
+	private static final String COL_NOMBRE = "nombre";
+	private static final String COL_LONGITUD = "longitud";
+	private static final String COL_DESCRIPCION = "descripcion";
+	private static final String COL_GRADO_ID = "id_grado";
+	private static final String COL_TIPO_ESCALADA_ID = "id_tipo_escalada";
+	private static final String COL_SECTOR_ID = "id_sector";
 
 	private static final String SQL_INSERT = "INSERT INTO `via` (`nombre`, `longitud`, `descripcion`, `id_grado`, `id_tipo_escalada`, `id_sector`) VALUES (?, ?, ?, ?, ?, ?);";
 	private static final String SQL_GETALL = "SELECT v.id, v.nombre, v.longitud, v.descripcion, v.id_grado, g.nombre AS nombre_grado, "
@@ -43,29 +46,31 @@ public class ModeloVia implements Persistable<Via> {
 	private static final String SQL_UPDATE = "UPDATE `via` SET `nombre`=?, `longitud`=?, `descripcion`=?, `id_grado`=?, `id_tipo_escalada`=?, `id_sector`=? WHERE  `id`=?;";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_VIA
 			+ "` WHERE `" + COL_ID + "`= ?;";
-
 	private static final String SQL_VIAS_PUBLICADAS = "SELECT COUNT(`id`) as `vias` FROM `VIA`;";
 
-	@Override()
-	public int save(Via v) {
+	@Override
+	public int save(Via via) {
 		int resul = -1;
-
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if (v != null) {
+		if (via != null) {
 			try {
-
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT,
 						Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, v.getNombre());
+				pst.setString(1, via.getNombre());
+				pst.setInt(2, via.getLongitud());
+				pst.setString(3, via.getDescripcion());
+				pst.setInt(4, via.getGrado().getId());
+				pst.setInt(5, via.getTipoEscalada().getId());
+				pst.setInt(6, via.getSector().getId());
 				if (pst.executeUpdate() != 1) {
 					throw new Exception("No se ha realizado la insercion");
 				} else {
 					rsKeys = pst.getGeneratedKeys();
 					if (rsKeys.next()) {
 						resul = rsKeys.getInt(1);
-						v.setId(resul);
+						via.setId(resul);
 					} else {
 						throw new Exception("No se ha podido generar ID");
 					}
@@ -89,7 +94,7 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;
 	}
 
-	@Override()
+	@Override
 	public Via getById(int id) {
 		Via resul = null;
 		PreparedStatement pst = null;
@@ -120,7 +125,7 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;
 	}
 
-	@Override()
+	@Override
 	public ArrayList<Via> getAll() {
 		ArrayList<Via> resul = new ArrayList<Via>();
 		PreparedStatement pst = null;
@@ -150,19 +155,22 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;
 	}
 
-	@Override()
-	public boolean update(Via v) {
+	@Override
+	public boolean update(Via via) {
 		boolean resul = false;
-
 		PreparedStatement pst = null;
-		if (v != null) {
+		if (via != null) {
 			try {
-
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
-				pst.setString(1, v.getNombre());
-				pst.setInt(2, v.getId());
+				pst.setString(1, via.getNombre());
+				pst.setInt(2, via.getLongitud());
+				pst.setString(3, via.getDescripcion());
+				pst.setInt(4, via.getGrado().getId());
+				pst.setInt(5, via.getTipoEscalada().getId());
+				pst.setInt(6, via.getSector().getId());
+				pst.setInt(7, via.getId());
 				if (pst.executeUpdate() == 1) {
 					resul = true;
 				}
@@ -182,7 +190,7 @@ public class ModeloVia implements Persistable<Via> {
 		return resul;
 	}
 
-	@Override()
+	@Override
 	public boolean delete(int id) {
 		boolean resul = false;
 		PreparedStatement pst = null;
@@ -219,44 +227,32 @@ public class ModeloVia implements Persistable<Via> {
 	private Via mapeo(ResultSet rs) throws SQLException {
 		Via resul = null;
 
-		// Tipo Escalada
+		Grado grado = new Grado(rs.getString("nombre_grado"));
+		grado.setId(rs.getInt(COL_GRADO_ID));
+
 		TipoEscalada tipoEscalada = new TipoEscalada(
 				rs.getString("nombre_tipo_escalada"));
-		tipoEscalada.setId(rs.getInt("id_tipo_escalada"));
+		tipoEscalada.setId(rs.getInt(COL_TIPO_ESCALADA_ID));
 
-		// Zona
 		Zona zona = new Zona(rs.getString("nombre_zona"));
 		zona.setId(rs.getInt("id_zona"));
 
-		// Sector
 		Sector sector = new Sector(rs.getString("nombre_sector"), zona);
-		sector.setId(rs.getInt("id_sector"));
+		sector.setId(rs.getInt(COL_SECTOR_ID));
 
-		// Grado
-		Grado grado = new Grado(rs.getString("nombre_grado"));
-		grado.setId(rs.getInt("id_grado"));
+		String nombre = rs.getString(COL_NOMBRE);
+		int longitud = rs.getInt(COL_LONGITUD);
 
-		// nombre
-		String nombre = rs.getString("nombre");
-
-		// longitud
-		int longitud = rs.getInt("longitud");
-
-		// descripcion
-		String descripcion = rs.getString("descripcion");
-
-		// creamos la Via
 		resul = new Via(nombre, longitud, grado, tipoEscalada, sector);
-		resul.setId(rs.getInt("id"));
-		resul.setDescripcion(descripcion);
+		resul.setId(rs.getInt(COL_ID));
+		resul.setDescripcion(rs.getString(COL_DESCRIPCION));
 
 		// inicializar a null
+		grado = null;
 		tipoEscalada = null;
 		zona = null;
 		sector = null;
-		grado = null;
 		nombre = null;
-		descripcion = null;
 
 		return resul;
 	}
@@ -289,4 +285,5 @@ public class ModeloVia implements Persistable<Via> {
 		}
 		return resul;
 	}
+
 }

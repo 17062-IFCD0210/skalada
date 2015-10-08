@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         5.6.12-log - MySQL Community Server (GPL)
+-- Versi�n del servidor:         5.6.17 - MySQL Community Server (GPL)
 -- SO del servidor:              Win64
--- HeidiSQL Versión:             9.1.0.4867
+-- HeidiSQL Versi�n:             9.1.0.4867
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,22 +10,22 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Volcando estructura de base de datos para eskalada
-DROP DATABASE IF EXISTS `eskalada`;
-CREATE DATABASE IF NOT EXISTS `eskalada` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `eskalada`;
+-- Volcando estructura de base de datos para eskalada_ander
+DROP DATABASE IF EXISTS `eskalada_ander`;
+CREATE DATABASE IF NOT EXISTS `eskalada_ander` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `eskalada_ander`;
 
 
--- Volcando estructura para tabla eskalada.grado
+-- Volcando estructura para tabla eskalada_ander.grado
 DROP TABLE IF EXISTS `grado`;
 CREATE TABLE IF NOT EXISTS `grado` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(10) NOT NULL COMMENT 'Grado de dificultad de la via de escalada, por ejemplo: ',
   `descripcion` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.grado: ~40 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_ander.grado: ~40 rows (aproximadamente)
 /*!40000 ALTER TABLE `grado` DISABLE KEYS */;
 INSERT INTO `grado` (`id`, `nombre`, `descripcion`) VALUES
 	(1, 'I', 'Trepada sencilla'),
@@ -71,44 +71,96 @@ INSERT INTO `grado` (`id`, `nombre`, `descripcion`) VALUES
 /*!40000 ALTER TABLE `grado` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.sector
+-- Volcando estructura para tabla eskalada_ander.oferta
+DROP TABLE IF EXISTS `oferta`;
+CREATE TABLE IF NOT EXISTS `oferta` (
+  `id` int(11) NOT NULL COMMENT 'identificador de las ofertas',
+  `titulo` varchar(100) NOT NULL COMMENT 'titulo de las ofertas',
+  `descripcion` varchar(300) DEFAULT NULL COMMENT 'descripcion de las ofertas',
+  `precio` float NOT NULL COMMENT 'precio de las ofertas',
+  `fecha_alta` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'fecha de inicio de la oferta',
+  `fecha_baja` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'fecha de fin de oferta'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla eskalada_ander.oferta: ~1 rows (aproximadamente)
+/*!40000 ALTER TABLE `oferta` DISABLE KEYS */;
+INSERT INTO `oferta` (`id`, `titulo`, `descripcion`, `precio`, `fecha_alta`, `fecha_baja`) VALUES
+	(0, 'dfd', 'df', 3, '2015-10-07 12:37:46', '2015-10-07 12:37:46');
+/*!40000 ALTER TABLE `oferta` ENABLE KEYS */;
+
+
+-- Volcando estructura para tabla eskalada_ander.producto
+DROP TABLE IF EXISTS `producto`;
+CREATE TABLE IF NOT EXISTS `producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL DEFAULT '0',
+  `descripcion` varchar(250) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla eskalada_ander.producto: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` (`id`, `nombre`, `descripcion`) VALUES
+	(1, 'Bebidas', 'Bebida que ofrecemos'),
+	(2, 'Comida', 'Comida estandar');
+/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+
+
+-- Volcando estructura para tabla eskalada_ander.rol
+DROP TABLE IF EXISTS `rol`;
+CREATE TABLE IF NOT EXISTS `rol` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL DEFAULT '0',
+  `descripcion` varchar(250) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla eskalada_ander.rol: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
+INSERT INTO `rol` (`id`, `nombre`, `descripcion`) VALUES
+	(1, 'Administrador', 'Administrador del sistema'),
+	(2, 'Usuario', 'Usuario estandar');
+/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
+
+
+-- Volcando estructura para tabla eskalada_ander.sector
 DROP TABLE IF EXISTS `sector`;
 CREATE TABLE IF NOT EXISTS `sector` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `id_zona` int(11) NOT NULL,
-   `imagen` varchar(250),
+  `imagen` varchar(250) DEFAULT 'default_sector.jpg' COMMENT 'imagen',
   PRIMARY KEY (`id`,`id_zona`),
   KEY `fk_sector_zona1_idx` (`id_zona`),
   CONSTRAINT `fk_sector_zona1` FOREIGN KEY (`id_zona`) REFERENCES `zona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.sector: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_ander.sector: ~10 rows (aproximadamente)
 /*!40000 ALTER TABLE `sector` DISABLE KEYS */;
-INSERT INTO `sector` (`id`, `nombre`, `id_zona`) VALUES
-	(1, 'Primer espolón', 1),
-	(2, 'Tercer espolón', 1),
-	(3, 'Alluitz', 1),
-	(4, 'Labargorri', 1),
-	(5, 'Urrestei', 1),
-	(6, 'Elosuko Harrobia', 2),
-	(7, 'Lauretazpe', 2),
-	(8, 'Ogoño', 3),
-	(9, 'Cara Sur', 4),
-	(10, 'Cara Oeste', 4);
+INSERT INTO `sector` (`id`, `nombre`, `id_zona`, `imagen`) VALUES
+	(1, 'Primer espolón', 1, 'default_sector.jpg'),
+	(2, 'Tercer espolón', 1, 'default_sector.jpg'),
+	(3, 'Alluitz', 1, 'default_sector.jpg'),
+	(4, 'Labargorri', 1, 'default_sector.jpg'),
+	(5, 'Urrestei', 1, 'default_sector.jpg'),
+	(6, 'Elosuko Harrobia', 2, 'default_sector.jpg'),
+	(7, 'Lauretazpe', 2, 'default_sector.jpg'),
+	(8, 'Ogoño', 3, 'default_sector.jpg'),
+	(9, 'Cara Sur', 4, 'default_sector.jpg'),
+	(10, 'Cara Oeste', 4, 'default_sector.jpg');
 /*!40000 ALTER TABLE `sector` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.tipo_escalada
+-- Volcando estructura para tabla eskalada_ander.tipo_escalada
 DROP TABLE IF EXISTS `tipo_escalada`;
 CREATE TABLE IF NOT EXISTS `tipo_escalada` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `descripcion` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.tipo_escalada: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_ander.tipo_escalada: ~11 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_escalada` DISABLE KEYS */;
 INSERT INTO `tipo_escalada` (`id`, `nombre`, `descripcion`) VALUES
 	(1, 'Libre, solo integral o natural', 'En este tipo de escalada sï¿½lo se utilizan los pies y las manos para progresar, sin fijar ningï¿½n medio de seguridad para evitar accidentes. Se suelen usar pies de gato para una mayor fijaciï¿½n.'),
@@ -121,11 +173,38 @@ INSERT INTO `tipo_escalada` (`id`, `nombre`, `descripcion`) VALUES
 	(8, 'Deportiva', 'Este tipo de escalada se caracteriza por que en la pared podemos encontrar anclajes fijos colocados estratégicamente para asegurar nuestros pasos. Podemos encontrar anclajes basados en sistemas mecánicos -de expansión- o químicos -resinas-. Por lo general, estas vías al equiparse, se limpian de maleza y de piedras sueltas o susceptibles de romperse, para ganar en la seguridad del escalador deportivo.'),
 	(9, 'Bloque o búlder', 'Es una escalada de solo integral en la que el escalador nunca sube suficientemente lejos como para que una caída pueda suponerle una caida grave, estando ésta asegurada con una colchoneta (crash pad) que evite golpes o un compañero atento a la caída.'),
 	(10, 'Psicobloc', 'Es como la escalada en bloque, pero cuando la pared es un acantilado y la caída se hace directamente en el agua. No se utiliza cuerda.'),
-	(11, 'Urbana', 'Se realiza en cualquier estructura que se encuentre en la ciudad. Mucha afición en Holanda.');
+	(11, 'Urbana', 'Se realiza en cualquier estructura que se encuentre en la ciudad. Mucha afición en Holanda.'),
+	(12, 'hhhh', 'null');
 /*!40000 ALTER TABLE `tipo_escalada` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.via
+-- Volcando estructura para tabla eskalada_ander.usuario
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL DEFAULT '0',
+  `nombre` varchar(100) NOT NULL DEFAULT '0',
+  `password` varchar(30) NOT NULL DEFAULT '0',
+  `id_rol` int(11) NOT NULL DEFAULT '0',
+  `token` varchar(250) DEFAULT '0',
+  `validado` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 no validado, 1 validado',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`,`nombre`),
+  KEY `fk_usuario_rol` (`id_rol`),
+  CONSTRAINT `fk_usuario_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla eskalada_ander.usuario: ~3 rows (aproximadamente)
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` (`id`, `email`, `nombre`, `password`, `id_rol`, `token`, `validado`) VALUES
+	(1, 'aaa@aaa.com', 'AAA', '1234', 2, '0', 0),
+	(2, 'admin@admin.com', 'ander', '123456', 1, '0', 1),
+	(3, 'pepe@pepe.com', 'pepe', '1234', 1, '0', 0),
+	(4, 'user@user.com', 'usuario', '123456', 2, '0', 1);
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+
+
+-- Volcando estructura para tabla eskalada_ander.via
 DROP TABLE IF EXISTS `via`;
 CREATE TABLE IF NOT EXISTS `via` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -142,9 +221,9 @@ CREATE TABLE IF NOT EXISTS `via` (
   CONSTRAINT `fk_via_grado` FOREIGN KEY (`id_grado`) REFERENCES `grado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_via_sector1` FOREIGN KEY (`id_sector`) REFERENCES `sector` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_via_tipo_escalada1` FOREIGN KEY (`id_tipo_escalada`) REFERENCES `tipo_escalada` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.via: ~14 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_ander.via: ~14 rows (aproximadamente)
 /*!40000 ALTER TABLE `via` DISABLE KEYS */;
 INSERT INTO `via` (`id`, `nombre`, `longitud`, `descripcion`, `id_grado`, `id_tipo_escalada`, `id_sector`) VALUES
 	(1, 'Irentxo', 30, 'Mantenida', 10, 8, 1),
@@ -160,111 +239,28 @@ INSERT INTO `via` (`id`, `nombre`, `longitud`, `descripcion`, `id_grado`, `id_ti
 	(11, 'Gaviotas', 1300, 'Escalar a partir de Septiembre por nidificación de aves\r\n', 9, 8, 8),
 	(12, 'Directa de los Martínez\r\n', 160, 'Material necesario: 8 cintas exprés, juego completo de friends desde el 0,3 de los camalot hasta el n2 (nº3 y empotradores opcionales) casco imprescindible\r\n', 8, 2, 9),
 	(13, 'Orbayu\r\n', 500, 'La vía clásica más dificil del mundo\r\n', 28, 3, 10),
-	(14, 'Murciana 78\r\n', 600, 'Dominar el 6b+ a vista. Pasos difíciles: A1\r\n', 21, 8, 10);
+	(14, 'Murciana 78\r\n', 600, 'Dominar el 6b+ a vista. Pasos difíciles: A1\r\n', 21, 8, 10),
+	(15, 'hola', 1, 'null', 1, 1, 9);
 /*!40000 ALTER TABLE `via` ENABLE KEYS */;
 
 
--- Volcando estructura para tabla eskalada.zona
+-- Volcando estructura para tabla eskalada_ander.zona
 DROP TABLE IF EXISTS `zona`;
 CREATE TABLE IF NOT EXISTS `zona` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Volcando datos para la tabla eskalada.zona: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla eskalada_ander.zona: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `zona` DISABLE KEYS */;
 INSERT INTO `zona` (`id`, `nombre`) VALUES
 	(1, 'Atxarte'),
 	(3, 'Cabo Ogoño'),
-	(4, 'Naranjo de Bulnes'),	
+	(4, 'Naranjo de Bulnes'),
 	(2, 'Untzillaitz Sur');
 /*!40000 ALTER TABLE `zona` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Volcando estructura para tabla eskalada.rol
-DROP TABLE IF EXISTS `rol`;
-CREATE TABLE IF NOT EXISTS `rol` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL DEFAULT '0',
-  `descripcion` varchar(250) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- Volcando datos para la tabla eskalada.rol: ~2 rows (aproximadamente)
-DELETE FROM `rol`;
-/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
-INSERT INTO `rol` (`id`, `nombre`, `descripcion`) VALUES
-	(1, 'Administrador', 'Administrador del sistema'),
-	(2, 'Usuario', 'Usuario estandar');
-/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
-
-
--- Volcando estructura para tabla eskalada.usuario
-DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) NOT NULL DEFAULT '0',
-  `nombre` varchar(100) NOT NULL DEFAULT '0',
-  `password` varchar(30) NOT NULL DEFAULT '0',
-  `id_rol` int(11) NOT NULL DEFAULT '0',
-  `validado` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 no validado, 1 validado',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`,`nombre`),
-  KEY `fk_usuario_rol` (`id_rol`),
-  CONSTRAINT `fk_usuario_rol` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- Volcando datos para la tabla eskalada.usuario: ~1 rows (aproximadamente)
-DELETE FROM `usuario`;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` (`id`, `email`, `nombre`, `password`, `id_rol`, `validado`) VALUES
-	(1, 'aaa@aaa.com', 'AAA', '1234', 1, 0);
-INSERT INTO `usuario` (`id`, `email`, `nombre`, `password`, `id_rol`, `validado`) VALUES
-	(2, 'admin@admin.com', 'admin', 'admin', 1, 1);
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Versi�n del servidor:         5.6.17 - MySQL Community Server (GPL)
--- SO del servidor:              Win64
--- HeidiSQL Versi�n:             9.1.0.4867
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Volcando estructura para tabla eskalada.oferta
-DROP TABLE IF EXISTS `oferta`;
-CREATE TABLE IF NOT EXISTS `oferta` (
-  `id` int(11) NOT NULL COMMENT 'identificador de las ofertas',
-  `titulo` varchar(100) NOT NULL COMMENT 'titulo de las ofertas',
-  `descripcion` varchar(300) DEFAULT NULL COMMENT 'descripcion de las ofertas',
-  `precio` float NOT NULL COMMENT 'precio de las ofertas',
-  `fecha_alta` datetime NOT NULL COMMENT 'fecha de inicio de la oferta',
-  `fecha_baja` datetime NOT NULL COMMENT 'fecha de fin de oferta'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Volcando datos para la tabla eskalada.oferta: ~1 rows (aproximadamente)
-/*!40000 ALTER TABLE `oferta` DISABLE KEYS */;
-INSERT INTO `oferta` (`id`, `titulo`, `descripcion`, `precio`, `fecha_alta`, `fecha_baja`) VALUES
-	(1, 'superoferta', 'la mejor', 100, '2015-10-07 08:42:58', '0000-00-00 00:00:00');
-/*!40000 ALTER TABLE `oferta` ENABLE KEYS */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-

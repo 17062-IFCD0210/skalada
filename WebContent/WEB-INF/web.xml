@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>skalada</display-name>
+  <display-name>skaladaAnder</display-name>
   <welcome-file-list>
     <welcome-file>home</welcome-file>
   </welcome-file-list>
@@ -169,4 +169,14 @@
   <listener>
     <listener-class>com.ipartek.formacion.skalada.listener.SessionListener</listener-class>
   </listener>
+  <servlet>
+    <description>Controlador para las oferas</description>
+    <display-name>OfertasController</display-name>
+    <servlet-name>OfertasController</servlet-name>
+    <servlet-class>com.ipartek.formacion.skalada.controladores.OfertasController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OfertasController</servlet-name>
+    <url-pattern>/ofertas</url-pattern>
+  </servlet-mapping>
 </web-app>
