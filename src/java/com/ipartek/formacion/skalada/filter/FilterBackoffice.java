@@ -1,6 +1,8 @@
 package com.ipartek.formacion.skalada.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -8,8 +10,14 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+
+import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
+import com.ipartek.formacion.skalada.bean.Usuario;
 
 /**
  * Servlet Filter implementation class FilterBackoffice
@@ -18,7 +26,12 @@ public class FilterBackoffice implements Filter {
 
 	private static final Logger LOG = Logger.getLogger(FilterBackoffice.class);
 	private FilterConfig config;
-
+	private ArrayList<String> excludePages = new ArrayList<String>(
+			Arrays.asList(Constantes.VIEW_BACK_LOGIN,
+						  Constantes.VIEW_BACK_SIGNUP,
+						  Constantes.VIEW_BACK_RECUPERAR_PASS)
+			);
+	
 	/**
 	 * @see Filter#destroy()
 	 */
@@ -32,9 +45,28 @@ public class FilterBackoffice implements Filter {
 	 */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-		LOG.trace("Filtrando...");
+
+		// Casteamos la request de tipo ServletRequest a tipo HttpRequest como antes para tratar la request como tal
+		if (request instanceof HttpServletRequest) {
+
+			HttpServletRequest httpRequest = (HttpServletRequest) request;
+
+			String url = httpRequest.getRequestURL().toString();
+			LOG.trace("Filtrando " + url);
+
+			// Comprobar si hay que exluir páginas
+			if (!excludePages.contains(url)) {
+
+				// Comprobar si está logeado
+				HttpSession session = httpRequest.getSession(true);
+				Usuario user = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER); // Crea una sesión si es nula
+				if (user == null) // si es diferente de null el usuario está logeado
+					// Enviar al login, usuario no logeado
+					httpRequest.setAttribute("msg", new Mensaje(Mensaje.MSG_WARNING, " no estás logeado por favor inicia sesión"));
+					request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN).forward(request, response);
+			}
+
+		}
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
