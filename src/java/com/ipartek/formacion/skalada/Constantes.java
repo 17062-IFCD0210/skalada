@@ -17,8 +17,14 @@ public final class Constantes {
 	private Constantes() {
 		super();
 	}
-
-	public static final String SERVER = "http://192.168.1.75:8080";
+	
+	/*
+	 * TODO PARA EXPORTAR: DESCOMENTAR ESTA LINEA Y COMENTAR LA DE ABAJO
+	 */
+//	public static final String SERVER = "http://192.168.1.75:8080";
+	public static final String SERVER = "http://localhost:8080";
+	
+	
 	public static final String ROOT_APP = "/skalada/";
 	public static final String APP_NAME = "skalada";
 
