@@ -42,8 +42,7 @@ public class ListenerSession implements HttpSessionAttributeListener {
 			if (se.getValue().getClass() == Usuario.class) {
 				if (!ListenerSession.session_users.contains(se.getValue())) {
 					synchronized (this) {
-						ListenerSession.session_users.add((Usuario) se
-								.getValue());
+						ListenerSession.session_users.add((Usuario) se.getValue());
 					}
 				}
 			}

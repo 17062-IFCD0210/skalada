@@ -9,15 +9,13 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.ipartek.formacion.skalada.controladores.LoginController;
-
 /**
  * Application Lifecycle Listener implementation class ListenerInit
  *
  */
 public class ListenerInit implements ServletContextListener {
 
-	private static final Logger LOG = Logger.getLogger(LoginController.class);
+	private static final Logger LOG = Logger.getLogger(ListenerInit.class);
 	Properties props = null;
 
 	/**
@@ -27,10 +25,9 @@ public class ListenerInit implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		// Fichero configuracion de Log4j
 		try {
-			this.props = new Properties();
-			this.props.load(this.getClass().getResourceAsStream(
-					"/log4j.properties"));
-			PropertyConfigurator.configure(this.props);
+			props = new Properties();
+			props.load(this.getClass().getResourceAsStream("/log4j.properties"));
+			PropertyConfigurator.configure(props);
 			LOG.info("Log4j cargado con exito");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,7 +40,7 @@ public class ListenerInit implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		LOG.info("Destruyendo contexto aplicacion");
-		this.props = null;
+		props = null;
 	}
 
 }

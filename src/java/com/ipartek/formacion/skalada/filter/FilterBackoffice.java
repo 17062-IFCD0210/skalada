@@ -1,8 +1,6 @@
 package com.ipartek.formacion.skalada.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -26,11 +25,10 @@ public class FilterBackoffice implements Filter {
 
 	private static final Logger LOG = Logger.getLogger(FilterBackoffice.class);
 	private FilterConfig config;
-	private ArrayList<String> excludePages = new ArrayList<String>(
-			Arrays.asList(Constantes.VIEW_BACK_LOGIN,
-						  Constantes.VIEW_BACK_SIGNUP,
-						  Constantes.VIEW_BACK_RECUPERAR_PASS)
-			);
+	/*
+	 * private ArrayList<String> excludePages = new ArrayList<String>( Arrays.asList(Constantes.VIEW_BACK_LOGIN, Constantes.VIEW_BACK_SIGNUP,
+	 * Constantes.VIEW_BACK_RECUPERAR_PASS) );
+	 */
 	
 	/**
 	 * @see Filter#destroy()
@@ -55,20 +53,25 @@ public class FilterBackoffice implements Filter {
 			LOG.trace("Filtrando " + url);
 
 			// Comprobar si hay que exluir páginas
-			if (!excludePages.contains(url)) {
+			// if (!excludePages.contains(url)) {
 
-				// Comprobar si está logeado
-				HttpSession session = httpRequest.getSession(true);
-				Usuario user = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER); // Crea una sesión si es nula
-				if (user == null) // si es diferente de null el usuario está logeado
-					// Enviar al login, usuario no logeado
-					httpRequest.setAttribute("msg", new Mensaje(Mensaje.MSG_WARNING, " no estás logeado por favor inicia sesión"));
-					request.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN).forward(request, response);
+			// Comprobar si está logeado
+			HttpSession session = httpRequest.getSession(true);
+			Usuario user = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER); // Crea una sesión si es nula
+			if (user == null) { // si es diferente de null el usuario está logeado
+
+				Mensaje msg = new Mensaje(Mensaje.MSG_WARNING, "No estás logeado, por favor inicia sesion");
+				session.setAttribute("msg", msg);
+				// Redireccionamos
+				((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				((HttpServletResponse) response).sendRedirect(Constantes.SERVER + Constantes.ROOT_APP + Constantes.VIEW_LOGIN); // URL absoluta
+				// No hacer doChain si direccionamos
+			} else {
+				// pass the request along the filter chain
+				chain.doFilter(request, response);
 			}
-
 		}
-		// pass the request along the filter chain
-		chain.doFilter(request, response);
+
 	}
 
 	/**
