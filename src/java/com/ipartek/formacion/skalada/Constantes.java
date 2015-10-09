@@ -31,15 +31,17 @@ public final class Constantes {
 	// vistas publicas
 	public static final String VIEW_PUBLIC_INDEX = "index.jsp";
 	public static final String VIEW_PUBLIC_VIA = "/pages/via_detalle.jsp";
+	
+	public static final String VIEW_LOGIN = "login.jsp";
+	public static final String VIEW_SIGNUP = "signup.jsp";
+	public static final String VIEW_RECUPERAR_PASS = "recupera-pass.jsp";
 
 	// vistas backoffice
 	public static final String ROOT_BACK = ROOT_APP + "backoffice/";
 
 	public static final String VIEW_BACK_CONTENT_LOGS = "pages/log-content.jsp";
 	public static final String VIEW_BACK_LOGS = "/logs/trazas.jsp";
-
-	public static final String VIEW_BACK_LOGIN = "backoffice/pages/login.jsp";
-	public static final String VIEW_BACK_SIGNUP = "backoffice/pages/signup.jsp";
+	
 	public static final String VIEW_BACK_INDEX = "backoffice/pages/index_back.jsp";
 	public static final String VIEW_BACK_DASHBOARD = "pages/index_back.jsp";
 
@@ -64,7 +66,7 @@ public final class Constantes {
 	public static final String VIEW_BACK_USUARIOS_INDEX = "backoffice/pages/usuarios/index.jsp";
 	public static final String VIEW_BACK_USUARIOS_FORM = "backoffice/pages/usuarios/form.jsp";
 
-	public static final String VIEW_BACK_RECUPERAR_PASS = "backoffice/pages/recupera-pass.jsp";
+	
 
 	// controladores
 	public static final String CONTROLLER_LOGIN = ROOT_APP + "login";
@@ -73,8 +75,7 @@ public final class Constantes {
 	public static final String CONTROLLER_VIAS = ROOT_APP + "vias";
 	public static final String CONTROLLER_HOME = ROOT_APP + "home";
 	public static final String CONTROLLER_GRADOS = ROOT_APP + "grados";
-	public static final String CONTROLLER_TIPO_ESCALADA = ROOT_APP
-			+ "tipo-escalada";
+	public static final String CONTROLLER_TIPO_ESCALADA = ROOT_APP + "tipo-escalada";
 	public static final String CONTROLLER_ZONAS = ROOT_APP + "zonas";
 	public static final String CONTROLLER_ZONAS_JSON = ROOT_APP + "zonas-json";
 	public static final String CONTROLLER_SECTORES = ROOT_APP + "sectores";

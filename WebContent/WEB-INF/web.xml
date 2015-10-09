@@ -4,6 +4,16 @@
   <welcome-file-list>
     <welcome-file>home</welcome-file>
   </welcome-file-list>
+  
+<!-- Data Source -->  
+  <resource-ref>
+    <description>Datasource para la BBDD</description>
+    <res-ref-name>jdbc/skaladaDB</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+  
+ <!-- Servlet --> 
   <servlet>
     <description>Login para entrar la backoffice</description>
     <display-name>LoginController</display-name>
@@ -144,6 +154,8 @@
     <servlet-name>ValidarController</servlet-name>
     <url-pattern>/validar</url-pattern>
   </servlet-mapping>
+  
+<!-- Listeners -->
   <session-config>
     <session-timeout>5</session-timeout>
   </session-config>
@@ -153,11 +165,17 @@
   <listener>
     <listener-class>com.ipartek.formacion.skalada.listener.ListenerSession</listener-class>
   </listener>
-  <!-- REFERENCIAS A RESOURCES -->
-	<resource-ref>
-		<description>Datasource para la BBDD</description>
-		<res-ref-name>jdbc/skaladaDB</res-ref-name>
-		<res-type>javax.sql.DataSource</res-type>
-		<res-auth>Container</res-auth>
-	</resource-ref>
+
+<!-- Filters -->
+  <filter>
+    <display-name>FilterBackoffice</display-name>
+    <filter-name>FilterBackoffice</filter-name>
+    <filter-class>com.ipartek.formacion.skalada.filter.FilterBackoffice</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>FilterBackoffice</filter-name>
+    <url-pattern>/backoffice/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+  
 </web-app>

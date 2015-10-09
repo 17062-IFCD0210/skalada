@@ -41,7 +41,7 @@ public class Controller extends HttpServlet {
 		request.getRequestURL().toString();
 
 		this.dispatcher = request
-				.getRequestDispatcher(Constantes.VIEW_BACK_LOGIN);
+				.getRequestDispatcher(Constantes.VIEW_LOGIN);
 
 		this.dispatcher.forward(request, response);
 	}

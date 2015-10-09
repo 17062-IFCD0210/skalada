@@ -35,6 +35,8 @@ public class ListenerInit implements ServletContextListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		//TODO Comprbvar DDBB arrancada?
 	}
 
 	/**

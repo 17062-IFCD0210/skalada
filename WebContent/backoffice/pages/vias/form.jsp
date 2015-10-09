@@ -14,7 +14,6 @@
 <%
 	//recojer atributos de la request
 	String titulo = request.getAttribute("titulo").toString();
-
 	Via via = (Via)request.getAttribute("via");
 	ArrayList<Grado> grados = (ArrayList<Grado>)request.getAttribute("grados");
 	ArrayList<TipoEscalada> tipoEscaladas = (ArrayList<TipoEscalada>)request.getAttribute("tipoEscaladas");
