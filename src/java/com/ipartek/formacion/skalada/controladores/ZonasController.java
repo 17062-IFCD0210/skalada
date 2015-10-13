@@ -41,7 +41,7 @@ public class ZonasController extends HttpServlet {
 	@Override()
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		this.modelo = new ModeloZona();
+		modelo = new ModeloZona();
 	}
 
 	/**
@@ -52,38 +52,38 @@ public class ZonasController extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros
-		this.getParameters(request, response);
+		getParameters(request, response);
 
 		// realizar accion solicitada
-		switch (this.pAccion) {
+		switch (pAccion) {
 		case Constantes.ACCION_NUEVO:
-			this.nuevo(request, response);
+			nuevo(request, response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			this.detalle(request, response);
+			detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			this.eliminar(request, response);
+			eliminar(request, response);
 			break;
 		default:
-			this.listar(request, response);
+			listar(request, response);
 			break;
 		}
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 
 	private void getParameters(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
-			this.usuario = (Usuario) request.getSession().getAttribute(
+			usuario = (Usuario) request.getSession().getAttribute(
 					Constantes.KEY_SESSION_USER);
 			request.setCharacterEncoding("UTF-8");
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));
+			pAccion = Integer.parseInt(request.getParameter("accion"));
 			if ((request.getParameter("id") != null)
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {
-				this.pID = Integer.parseInt(request.getParameter("id"));
+				pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,40 +99,40 @@ public class ZonasController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("zonas", this.modelo.getAll());
-		this.dispatcher = request
+		request.setAttribute("zonas", modelo.getAll(null));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_INDEX);
 	}
 
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
-		if (this.modelo.delete(this.pID)) {
+		if (modelo.delete(pID)) {
 			request.setAttribute("msg-danger",
 					"Registro eliminado correctamente");
 		} else {
 			request.setAttribute("msg-warning",
-					"Error al eliminar el registro [id(" + this.pID + ")]");
+					"Error al eliminar el registro [id(" + pID + ")]");
 		}
-		this.listar(request, response);
+		listar(request, response);
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		this.zona = new Zona("", this.usuario);
-		request.setAttribute("zona", this.zona);
+		zona = new Zona("", usuario);
+		request.setAttribute("zona", zona);
 		request.setAttribute("titulo", "Crear nuevo Zona");
 		request.setAttribute("metodo", "Guardar");
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_FORM);
 
 	}
 
 	private void detalle(HttpServletRequest request,
 			HttpServletResponse response) {
-		this.zona = (Zona) this.modelo.getById(this.pID);
-		request.setAttribute("zona", this.zona);
-		request.setAttribute("titulo", this.zona.getNombre().toUpperCase());
+		zona = (Zona) modelo.getById(pID);
+		request.setAttribute("zona", zona);
+		request.setAttribute("titulo", zona.getNombre().toUpperCase());
 		request.setAttribute("metodo", "Modificar");
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_FORM);
 	}
 
@@ -144,33 +144,33 @@ public class ZonasController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros del formulario
-		this.getParametersForm(request);
+		getParametersForm(request);
 
 		// Crear Objeto Zona
-		this.crearObjeto();
+		crearObjeto();
 
 		// Guardar/Modificar Objeto Via
-		if (this.pID == -1) {
-			if (this.modelo.save(this.zona) != -1) {
+		if (pID == -1) {
+			if (modelo.save(zona) != -1) {
 				request.setAttribute("msg-success", "Registro creado con exito");
 			} else {
 				request.setAttribute("msg-danger",
 						"Error al guardar el nuevo registro");
 			}
 		} else {
-			if (this.modelo.update(this.zona)) {
+			if (modelo.update(zona)) {
 				request.setAttribute("msg-success",
-						"Modificado correctamente el registro [id(" + this.pID
+						"Modificado correctamente el registro [id(" + pID
 						+ ")]");
 			} else {
 				request.setAttribute("msg-danger",
-						"Error al modificar el registro [id(" + this.pID + ")]");
+						"Error al modificar el registro [id(" + pID + ")]");
 			}
 		}
 
-		this.listar(request, response);
+		listar(request, response);
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 
 	}
 
@@ -178,14 +178,14 @@ public class ZonasController extends HttpServlet {
 	 * Crea un Objeto {@code Zona} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
-		this.zona = new Zona(this.pNombre, this.usuario);
-		this.zona.setId(this.pID);
-		this.zona.setFechaCreado();
-		this.zona.setFechaModificado();
-		if (this.publicado > 0) {
-			this.zona.setPublicado(true);
+		zona = new Zona(pNombre, usuario);
+		zona.setId(pID);
+		zona.setFechaCreado();
+		zona.setFechaModificado();
+		if (publicado > 0) {
+			zona.setPublicado(true);
 		} else {
-			this.zona.setPublicado(false);
+			zona.setPublicado(false);
 		}
 
 	}
@@ -200,9 +200,9 @@ public class ZonasController extends HttpServlet {
 	private void getParametersForm(HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		this.pID = Integer.parseInt(request.getParameter("id"));
-		this.pNombre = request.getParameter("nombre");
-		this.publicado = Integer.parseInt(request.getParameter("publicado"));
+		pID = Integer.parseInt(request.getParameter("id"));
+		pNombre = request.getParameter("nombre");
+		publicado = Integer.parseInt(request.getParameter("publicado"));
 	}
 
 }

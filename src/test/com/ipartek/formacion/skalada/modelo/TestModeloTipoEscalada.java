@@ -35,25 +35,25 @@ public class TestModeloTipoEscalada {
 	@BeforeClass()
 	public static void setUpBeforeClass() throws Exception {
 		modelo = new ModeloTipoEscalada();
-		total = modelo.getAll().size();
+		total = modelo.getAll(null).size();
 	}
 
 	@AfterClass()
 	public static void tearDownAfterClass() throws Exception {
-		assertTrue(total == modelo.getAll().size());
+		assertTrue(total == modelo.getAll(null).size());
 		modelo = null;
 	}
 
 	@Before()
 	public void setUp() throws Exception {
-		this.teInsert = new TipoEscalada(NOMBRETIPOESCALADA);
-		this.teInsert.setDescripcion(DESCRIPCIONTIPOESCALADA);
-		id = modelo.save(this.teInsert);
+		teInsert = new TipoEscalada(NOMBRETIPOESCALADA);
+		teInsert.setDescripcion(DESCRIPCIONTIPOESCALADA);
+		id = modelo.save(teInsert);
 	}
 
 	@After()
 	public void tearDown() throws Exception {
-		this.teInsert = null;
+		teInsert = null;
 		modelo.delete(id);
 	}
 
@@ -65,7 +65,7 @@ public class TestModeloTipoEscalada {
 	@Test()
 	public void testInsertar() {
 		// Test para comprobar que al insertar un nuevo registro aumenta el ID
-		totalDespues = modelo.getAll().size(); // total = total_despues + 1
+		totalDespues = modelo.getAll(null).size(); // total = total_despues + 1
 
 		assertTrue("al insertar un nuevo registro aumenta el ID" + total
 				+ totalDespues, total == (totalDespues - 1));
@@ -102,13 +102,13 @@ public class TestModeloTipoEscalada {
 	@Test()
 	public void testUpdate() {
 		// Test para comprobar que actualiza el registro indentificado por su ID
-		this.teUpdate = new TipoEscalada(NOMBRETIPOESCALADA_UPDATED);
-		this.teUpdate.setDescripcion(DESCRIPCIONTIPOESCALADA_UPDATED);
-		this.teUpdate.setId(id);
+		teUpdate = new TipoEscalada(NOMBRETIPOESCALADA_UPDATED);
+		teUpdate.setDescripcion(DESCRIPCIONTIPOESCALADA_UPDATED);
+		teUpdate.setId(id);
 
-		assertTrue(modelo.update(this.teUpdate));
+		assertTrue(modelo.update(teUpdate));
 
-		teGet = (TipoEscalada) modelo.getById(this.teUpdate.getId());
+		teGet = (TipoEscalada) modelo.getById(teUpdate.getId());
 		assertTrue(id == teGet.getId());
 		assertEquals(NOMBRETIPOESCALADA_UPDATED, teGet.getNombre());
 		assertEquals(DESCRIPCIONTIPOESCALADA_UPDATED, teGet.getDescripcion());
@@ -127,7 +127,7 @@ public class TestModeloTipoEscalada {
 		TipoEscalada te_2 = new TipoEscalada(NOMBRETIPOESCALADA);
 		assertTrue(modelo.delete(modelo.save(te_2)));
 
-		assertTrue((total + 1) == modelo.getAll().size()); // (total + 1) Porque
+		assertTrue((total + 1) == modelo.getAll(null).size()); // (total + 1) Porque
 															// en el set app se
 															// inserta un
 															// registro

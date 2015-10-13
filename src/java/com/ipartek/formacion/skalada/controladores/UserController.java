@@ -47,8 +47,8 @@ public class UserController extends HttpServlet {
 	@Override()
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		this.modeloUsuario = new ModeloUsuario();
-		this.modeloRol = new ModeloRol();
+		modeloUsuario = new ModeloUsuario();
+		modeloRol = new ModeloRol();
 	}
 
 	/**
@@ -59,41 +59,41 @@ public class UserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros
-		this.getParameters(request, response);
+		getParameters(request, response);
 
 		// realizar accion solicitada
-		switch (this.pAccion) {
+		switch (pAccion) {
 		case Constantes.ACCION_NUEVO:
-			this.nuevo(request, response);
+			nuevo(request, response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			this.detalle(request, response);
+			detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			this.eliminar(request, response);
+			eliminar(request, response);
 			break;
 		case Constantes.ACCION_NO_VALIDADOS:
-			this.noValidados(request, response);
+			noValidados(request, response);
 			break;
 		case Constantes.ACCION_CONECTADOS:
-			this.conectados(request, response);
+			conectados(request, response);
 			break;
 		default:
-			this.listar(request, response);
+			listar(request, response);
 			break;
 		}
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 
 	private void getParameters(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));
+			pAccion = Integer.parseInt(request.getParameter("accion"));
 			if ((request.getParameter("id") != null)
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {
-				this.pID = Integer.parseInt(request.getParameter("id"));
+				pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,60 +109,60 @@ public class UserController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("usuarios", this.modeloUsuario.getAll());
-		this.dispatcher = request
+		request.setAttribute("usuarios", modeloUsuario.getAll(null));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_USUARIOS_INDEX);
 	}
 
 	private void noValidados(HttpServletRequest request,
 			HttpServletResponse response) {
-		request.setAttribute("usuarios", this.modeloUsuario.getNoValidados());
-		this.dispatcher = request
+		request.setAttribute("usuarios", modeloUsuario.getNoValidados());
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_USUARIOS_INDEX);
 	}
 
 	private void conectados(HttpServletRequest request,
 			HttpServletResponse response) {
 		request.setAttribute("usuarios", ListenerSession.session_users);
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_USUARIOS_INDEX);
 	}
 
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
 		Mensaje msg = new Mensaje(Mensaje.MSG_DANGER, "Error sin determinar");
-		if (this.modeloUsuario.delete(this.pID)) {
+		if (modeloUsuario.delete(pID)) {
 			msg.setTipo(Mensaje.MSG_SUCCESS);
 			msg.setTexto("Registro eliminado correctamente");
 		} else {
-			msg.setTexto("Error al eliminar el registro [id(" + this.pID + ")]");
+			msg.setTexto("Error al eliminar el registro [id(" + pID + ")]");
 		}
 		request.setAttribute("msg", msg);
-		this.listar(request, response);
+		listar(request, response);
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
 
 		Rol rol = new Rol(Constantes.ROLE_USER);
-		this.usuario = new Usuario(this.pNombre, this.pEmail, this.pPassword,
+		usuario = new Usuario(pNombre, pEmail, pPassword,
 				rol);
-		request.setAttribute("usuario", this.usuario);
+		request.setAttribute("usuario", usuario);
 		request.setAttribute("titulo", "Crear nuevo Usuario");
 
-		request.setAttribute("roles", this.modeloRol.getAll());
-		this.dispatcher = request
+		request.setAttribute("roles", modeloRol.getAll(null));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_USUARIOS_FORM);
 
 	}
 
 	private void detalle(HttpServletRequest request,
 			HttpServletResponse response) {
-		this.usuario = (Usuario) this.modeloUsuario.getById(this.pID);
-		request.setAttribute("usuario", this.usuario);
-		request.setAttribute("titulo", this.usuario.getNombre().toUpperCase());
+		usuario = (Usuario) modeloUsuario.getById(pID);
+		request.setAttribute("usuario", usuario);
+		request.setAttribute("titulo", usuario.getNombre().toUpperCase());
 
-		request.setAttribute("roles", this.modeloRol.getAll());
-		this.dispatcher = request
+		request.setAttribute("roles", modeloRol.getAll(null));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_USUARIOS_FORM);
 	}
 
@@ -174,34 +174,34 @@ public class UserController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros del formulario
-		this.getParametersForm(request);
+		getParametersForm(request);
 
 		// Crear Objeto Grado
-		this.crearObjeto();
+		crearObjeto();
 
 		// Guardar/Modificar Objeto Via
 		Mensaje msg = new Mensaje(Mensaje.MSG_DANGER, "Erro sibn determinar");
-		if (this.pID == -1) {
-			if (this.modeloUsuario.save(this.usuario) != -1) {
+		if (pID == -1) {
+			if (modeloUsuario.save(usuario) != -1) {
 				msg.setTipo(Mensaje.MSG_SUCCESS);
 				msg.setTexto("Registro creado con exito");
 			} else {
 				msg.setTexto("Error al guardar el nuevo registro");
 			}
 		} else {
-			if (this.modeloUsuario.update(this.usuario)) {
+			if (modeloUsuario.update(usuario)) {
 				msg.setTipo(Mensaje.MSG_SUCCESS);
 				msg.setTexto("Modificado correctamente el registro [id("
-						+ this.pID + ")]");
+						+ pID + ")]");
 			} else {
-				msg.setTexto("Error al modificar el registro [id(" + this.pID
+				msg.setTexto("Error al modificar el registro [id(" + pID
 						+ ")]");
 			}
 		}
 		request.setAttribute("msg", msg);
-		this.listar(request, response);
+		listar(request, response);
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 
 	}
 
@@ -210,11 +210,11 @@ public class UserController extends HttpServlet {
 	 */
 	private void crearObjeto() {
 
-		Rol rol = (Rol) this.modeloRol.getById(this.pRolId);
-		this.usuario = new Usuario(this.pNombre, this.pEmail, this.pPassword,
+		Rol rol = (Rol) modeloRol.getById(pRolId);
+		usuario = new Usuario(pNombre, pEmail, pPassword,
 				rol);
-		this.usuario.setValidado(this.pValidado);
-		this.usuario.setId(this.pID);
+		usuario.setValidado(pValidado);
+		usuario.setId(pID);
 	}
 
 	/**
@@ -227,18 +227,18 @@ public class UserController extends HttpServlet {
 	private void getParametersForm(HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		this.pID = Integer.parseInt(request.getParameter("id"));
-		this.pNombre = request.getParameter("nombre");
-		this.pRolId = Integer.parseInt(request.getParameter("rol"));
+		pID = Integer.parseInt(request.getParameter("id"));
+		pNombre = request.getParameter("nombre");
+		pRolId = Integer.parseInt(request.getParameter("rol"));
 
 		if (request.getParameter("validado") != null) {
-			this.pValidado = Integer.parseInt(request.getParameter("validado"));
+			pValidado = Integer.parseInt(request.getParameter("validado"));
 		} else {
-			this.pValidado = Constantes.USER_NO_VALIDATE;
+			pValidado = Constantes.USER_NO_VALIDATE;
 		}
 
-		this.pEmail = request.getParameter("email");
-		this.pPassword = request.getParameter("password");
+		pEmail = request.getParameter("email");
+		pPassword = request.getParameter("password");
 
 	}
 }

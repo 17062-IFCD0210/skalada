@@ -89,7 +89,7 @@ public class ModeloUsuario implements Persistable {
 			pst.setInt(1, id);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				resul = this.mapeo(rs);
+				resul = mapeo(rs);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,7 +119,7 @@ public class ModeloUsuario implements Persistable {
 			pst.setString(1, email);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				resul = this.mapeo(rs);
+				resul = mapeo(rs);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,7 +140,7 @@ public class ModeloUsuario implements Persistable {
 	}
 
 	@Override()
-	public ArrayList<Object> getAll() {
+	public ArrayList<Object> getAll(Usuario usuario) {
 		ArrayList<Object> resul = new ArrayList<Object>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -149,7 +149,7 @@ public class ModeloUsuario implements Persistable {
 			pst = con.prepareStatement(SQL_GETALL);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				resul.add(this.mapeo(rs));
+				resul.add(mapeo(rs));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -178,7 +178,7 @@ public class ModeloUsuario implements Persistable {
 			pst = con.prepareStatement(SQL_GETNOVALIDADOS);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				resul.add(this.mapeo(rs));
+				resul.add(mapeo(rs));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

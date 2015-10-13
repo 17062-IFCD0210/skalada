@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.Rol;
+import com.ipartek.formacion.skalada.bean.Usuario;
 
 public class ModeloRol implements Persistable{
 	
@@ -76,7 +77,7 @@ public class ModeloRol implements Persistable{
 			pst.setInt(1, id);
 	    	rs = pst.executeQuery();	      	   	
 	    	while(rs.next()){
-	    		resul = this.mapeo(rs);
+	    		resul = mapeo(rs);
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();
@@ -97,7 +98,7 @@ public class ModeloRol implements Persistable{
 	}
 
 	@Override()
-	public ArrayList<Object> getAll() {
+	public ArrayList<Object> getAll(Usuario usuario) {
 		ArrayList<Object> resul = new ArrayList<Object>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -106,7 +107,7 @@ public class ModeloRol implements Persistable{
 			pst = con.prepareStatement(SQL_GETALL);
 	    	rs = pst.executeQuery();   	   	
 	    	while(rs.next()){
-	    		resul.add(this.mapeo(rs));
+	    		resul.add(mapeo(rs));
 	    	}	
 		} catch (Exception e){
 			e.printStackTrace();

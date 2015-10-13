@@ -37,7 +37,7 @@
 		      role="form">
 			
 				<div class="form-group">			
-					<!-- Mostramon el input text, pero se submita el hidden -->
+					<!-- Mostramos el input text, pero se submita el hidden -->
 					<label for="id">ID</label>
 					<input type="hidden" name="id" value="<%=sector.getId()%>">
 					<input type="text"  class="form-control" value="<%=sector.getId()%>" disabled >
@@ -108,11 +108,19 @@
 						    }   
 						}//end showFileSize
 						
-						
-						
-						
-				</script>		
+				</script>
 		      	</div>
+		      	
+				<div class="form-group">
+	           		<label for="validado">Validado</label>
+	           		<%
+	           			if(sector.isValidado()){
+	           				out.print("<input type='checkbox' name='validado' value='1' checked>");
+	           			}else{
+	           				out.print("<input type='checkbox' name='validado' value='0'>");
+	           			}
+	           		%>
+	          	</div>
 		      
 	        </div>
 	        

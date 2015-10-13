@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import com.ipartek.formacion.skalada.bean.Grado;
 import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
+import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.bean.Via;
 import com.ipartek.formacion.skalada.bean.Zona;
 
@@ -104,7 +105,7 @@ public class ModeloVia implements Persistable<Via> {
 			pst.setInt(1, id);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				resul = this.mapeo(rs);
+				resul = mapeo(rs);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,7 +126,7 @@ public class ModeloVia implements Persistable<Via> {
 	}
 
 	@Override
-	public ArrayList<Via> getAll() {
+	public ArrayList<Via> getAll(Usuario usuario) {
 		ArrayList<Via> resul = new ArrayList<Via>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -134,7 +135,7 @@ public class ModeloVia implements Persistable<Via> {
 			pst = con.prepareStatement(SQL_GETALL);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				resul.add(this.mapeo(rs));
+				resul.add(mapeo(rs));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

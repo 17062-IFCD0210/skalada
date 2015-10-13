@@ -50,46 +50,46 @@ public class TestModeloZona {
 		// Test para comprobar que al insertar un nuevo registro aumenta el ID
 		Zona z_insert = new Zona(NOMBREZONA);
 
-		total = modelo.getAll().size();
-		this.id = modelo.save(z_insert);
-		total_despues = modelo.getAll().size(); // total = total_despues + 1
+		total = modelo.getAll(null).size();
+		id = modelo.save(z_insert);
+		total_despues = modelo.getAll(null).size(); // total = total_despues + 1
 
 		assertTrue(total == (total_despues - 1));
-		assertTrue((this.id != -1) && (this.id > 0));
+		assertTrue((id != -1) && (id > 0));
 
 		// Test para comprobar que al obtener un registro por su ID lo devuelve
 		// correctamente
 		Zona z_get;
-		z_get = (Zona) modelo.getById(this.id);
-		assertTrue(this.id == z_get.getId());
+		z_get = (Zona) modelo.getById(id);
+		assertTrue(id == z_get.getId());
 		assertEquals(NOMBREZONA, z_get.getNombre());
 
 		// Test para comprobar que actualiza el registro indentificado por su ID
 		Zona z_update = new Zona(NOMBREZONA_UPDATED);
-		z_update.setId(this.id);
+		z_update.setId(id);
 
 		assertTrue(modelo.update(z_update));
 
 		z_get = (Zona) modelo.getById(z_update.getId());
-		assertTrue(this.id == z_get.getId());
+		assertTrue(id == z_get.getId());
 		assertEquals(NOMBREZONA_UPDATED, z_get.getNombre());
 
 		// Test para comprobar que elimina el registro
-		assertTrue(modelo.delete(this.id));
-		assertTrue(total == modelo.getAll().size());
+		assertTrue(modelo.delete(id));
+		assertTrue(total == modelo.getAll(null).size());
 	}
 
 	@Test()
 	public void testCasosError() {
 		// Intentar obtener un grado cuyo identificador no exista en la base de
 		// datos
-		this.id = -1;
-		assertNull(modelo.getById(this.id));
+		id = -1;
+		assertNull(modelo.getById(id));
 		assertNull(modelo.getById(0));
 
 		// Intentar actualizar un grado inexistente en la base de datos
 		Zona g = new Zona(NOMBREZONA);
-		g.setId(this.id);
+		g.setId(id);
 		assertTrue(!modelo.update(g));
 
 		// Intentar actualizar un null
@@ -99,18 +99,18 @@ public class TestModeloZona {
 		assertTrue(-1 == modelo.save(null));
 
 		// Intentar eliminar un grado con un id inexistente
-		assertTrue(!modelo.delete(this.id));
+		assertTrue(!modelo.delete(id));
 
 		// Intentar insertar un grado con un id existente
 		Zona z_1 = new Zona(NOMBREZONA);
-		this.id = modelo.save(z_1);
+		id = modelo.save(z_1);
 		Zona z_2 = new Zona(NOMBREZONA);
-		z_2.setId(this.id);
+		z_2.setId(id);
 
-		assertTrue((this.id + 1) == modelo.save(z_2));
+		assertTrue((id + 1) == modelo.save(z_2));
 
-		assertTrue(modelo.delete(this.id));
-		assertTrue(modelo.delete(this.id + 1));
+		assertTrue(modelo.delete(id));
+		assertTrue(modelo.delete(id + 1));
 
 	}
 

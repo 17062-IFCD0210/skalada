@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
@@ -33,6 +34,7 @@ import com.ipartek.formacion.skalada.modelo.ModeloZona;
 public class SectoresController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private Usuario usuario = null;
 	private RequestDispatcher dispatcher = null;
 	private ModeloSector modeloSector = null;
 	private Sector sector = null;
@@ -44,6 +46,7 @@ public class SectoresController extends HttpServlet {
 	private int pID = -1; // ID no valido
 	private String pNombre;
 	private int pIDZona;
+	private int pValidado;
 
 	//Imagen File	
 	private File file;
@@ -55,36 +58,46 @@ public class SectoresController extends HttpServlet {
 	@Override()
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		this.modeloSector = new ModeloSector();
-		this.modeloZona = new ModeloZona();
+		modeloSector = new ModeloSector();
+		modeloZona = new ModeloZona();
+	}
+
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		// Recuperamos para cualquier petición doPost y doGet el usuario logeado
+		usuario = (Usuario) request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
+
+		super.service(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros
-		this.getParameters(request, response);
+		getParameters(request, response);
 
 		// realizar accion solicitada
-		switch (this.pAccion) {
+		switch (pAccion) {
 		case Constantes.ACCION_NUEVO:
-			this.nuevo(request, response);
+			nuevo(request, response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			this.detalle(request, response);
+			detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			this.eliminar(request, response);
+			eliminar(request, response);
 			break;
 		default:
-			this.listar(request, response);
+			listar(request, response);
 			break;
 		}
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 
 	private void getParameters(HttpServletRequest request,
@@ -92,10 +105,10 @@ public class SectoresController extends HttpServlet {
 
 		try {
 			request.setCharacterEncoding("UTF-8");
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));
+			pAccion = Integer.parseInt(request.getParameter("accion"));
 			if (request.getParameter("id") != null
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {
-				this.pID = Integer.parseInt(request.getParameter("id"));
+				pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,42 +125,42 @@ public class SectoresController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("sectores", this.modeloSector.getAll());
-		this.dispatcher = request
+		request.setAttribute("sectores", modeloSector.getAll(usuario));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_INDEX);
 	}
 
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
-		if (this.modeloSector.delete(this.pID)) {
+		if (modeloSector.delete(pID)) {
 			request.setAttribute("msg-danger",
 					"Registro eliminado correctamente");
 		} else {
 			request.setAttribute("msg-warning",
-					"Error al eliminar el registro [id(" + this.pID + ")]");
+					"Error al eliminar el registro [id(" + pID + ")]");
 		}
-		this.listar(request, response);
+		listar(request, response);
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		this.zona = new Zona("");
-		this.sector = new Sector("", this.zona);
-		request.setAttribute("sector", this.sector);
+		zona = new Zona("");
+		sector = new Sector("", zona);
+		request.setAttribute("sector", sector);
 		request.setAttribute("titulo", "Crear nuevo Sector");
-		request.setAttribute("zonas", this.modeloZona.getAll());
-		this.dispatcher = request
+		request.setAttribute("zonas", modeloZona.getAll(null));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 
 	}
 
 	private void detalle(HttpServletRequest request,
 			HttpServletResponse response) {
-		this.sector = (Sector) this.modeloSector.getById(this.pID);
-		request.setAttribute("sector", this.sector);
-		request.setAttribute("titulo", this.sector.getNombre().toUpperCase());
-		request.setAttribute("zonas", this.modeloZona.getAll());
+		sector = (Sector) modeloSector.getById(pID);
+		request.setAttribute("sector", sector);
+		request.setAttribute("titulo", sector.getNombre().toUpperCase());
+		request.setAttribute("zonas", modeloZona.getAll(null));
 
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 	}
 
@@ -155,6 +168,7 @@ public class SectoresController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
@@ -162,14 +176,14 @@ public class SectoresController extends HttpServlet {
 		
 		try{
 				// recoger parametros del formulario
-				this.getParametersForm(request);
+				getParametersForm(request);
 		
 				// Crear Objeto Sector
-				this.crearObjeto();
+				crearObjeto();
 		
 				// Guardar/Modificar Objeto Via
-				if (this.pID == -1) {
-					if (this.modeloSector.save(this.sector) != -1) {
+				if (pID == -1) {
+					if (modeloSector.save(sector) != -1) {
 						msg.setTipo(Mensaje.MSG_SUCCESS);
 						msg.setTexto("Registro creado con exito");
 						
@@ -178,13 +192,13 @@ public class SectoresController extends HttpServlet {
 						msg.setTexto("Error al guardar el nuevo registro");														
 					}
 				} else {
-					if (this.modeloSector.update(this.sector)) {
+					if (modeloSector.update(sector)) {
 						msg.setTipo(Mensaje.MSG_SUCCESS);
-						msg.setTexto("Modificado correctamente el registro [id(" + this.pID
+						msg.setTexto("Modificado correctamente el registro [id(" + pID
 								+ ")]");						
 					} else {
 						msg.setTipo(Mensaje.MSG_DANGER);
-						msg.setTexto("Error al modificar el registro [id(" + this.pID + ")]");			
+						msg.setTexto("Error al modificar el registro [id(" + pID + ")]");			
 					}
 				}
 				
@@ -192,7 +206,7 @@ public class SectoresController extends HttpServlet {
 
 		}catch( FileSizeLimitExceededException e){		
 			e.printStackTrace();
-			msg = new Mensaje( Mensaje.MSG_DANGER , "La imagen excede del tama�o maximo permitido " + Constantes.MAX_FILE_SIZE + " bytes" );
+			msg = new Mensaje(Mensaje.MSG_DANGER, "La imagen excede del tama�o maximo permitido " + Constantes.MAX_FILE_SIZE + " bytes");
 			request.setAttribute("msg", msg);	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -200,8 +214,8 @@ public class SectoresController extends HttpServlet {
 			request.setAttribute("msg", msg);
 		}	
 		
-		this.listar(request, response);
-		this.dispatcher.forward(request, response);
+		listar(request, response);
+		dispatcher.forward(request, response);
 
 	}
 
@@ -221,26 +235,26 @@ public class SectoresController extends HttpServlet {
 
 		// zona = new Zona("");
 		// zona.setId(pIDZona);
-		this.zona = (Zona) this.modeloZona.getById(this.pIDZona);
+		zona = (Zona) modeloZona.getById(pIDZona);
 
 		//TODO controlar si cambiamos el sector pero no la imagen
 		
 		// existe sector
-		if (this.pID != -1) {
+		if (pID != -1) {
 
-			this.sector = (Sector) this.modeloSector.getById(this.pID);
-			this.sector.setNombre(this.pNombre);
-			this.sector.setZona(this.zona);
-			if ( this.file != null ){
-				this.sector.setImagen(this.file.getName());
+			sector = (Sector) modeloSector.getById(pID);
+			sector.setNombre(pNombre);
+			sector.setZona(zona);
+			if ( file != null ){
+				sector.setImagen(file.getName());
 			}	
 
 			// nuevo sector
 		} else {
-			this.sector = new Sector(this.pNombre, this.zona);
-			this.sector.setId(this.pID);
-			if ( this.file != null ){
-				this.sector.setImagen(this.file.getName());
+			sector = new Sector(pNombre, zona);
+			sector.setId(pID);
+			if ( file != null ){
+				sector.setImagen(file.getName());
 			}	
 		}
 
@@ -292,20 +306,21 @@ public class SectoresController extends HttpServlet {
 				            
 				            //TODO No repetir nombres imagenes
 				            
-				            this.file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName );
-				            item.write( this.file ) ;
+				            file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName );
+				            item.write( file ) ;
 			            }else{
-			            	throw new Exception( "[" + fileContentType + "] extensi�n de imagen no permitida");
+						throw new Exception("[" + fileContentType + "] extensi�n de imagen no permitida");
 			            }//end: content-type no permitido    
 		    		}else{
-		    			this.file = null;
+		    			file = null;
 		    		}   
 		    	}	
 		    }//End: for List<FileItem>
 		    
-		   	this.pID = Integer.parseInt( dataParameters.get("id"));
-			this.pNombre = dataParameters.get("nombre");
-			this.pIDZona = Integer.parseInt(dataParameters.get("zona"));
+		   	pID = Integer.parseInt( dataParameters.get("id"));
+			pNombre = dataParameters.get("nombre");
+			pIDZona = Integer.parseInt(dataParameters.get("zona"));
+		pValidado = Integer.parseInt((dataParameters.get("validado")));
 		
 	}
 

@@ -39,7 +39,7 @@ public class GradosController extends HttpServlet {
 	@Override()
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		this.modelo = new ModeloGrado();
+		modelo = new ModeloGrado();
 	}
 
 	/**
@@ -50,25 +50,25 @@ public class GradosController extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros
-		this.getParameters(request, response);
+		getParameters(request, response);
 
 		// realizar accion solicitada
-		switch (this.pAccion) {
+		switch (pAccion) {
 		case Constantes.ACCION_NUEVO:
-			this.nuevo(request, response);
+			nuevo(request, response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			this.detalle(request, response);
+			detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			this.eliminar(request, response);
+			eliminar(request, response);
 			break;
 		default:
-			this.listar(request, response);
+			listar(request, response);
 			break;
 		}
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 
 	/**
@@ -81,10 +81,10 @@ public class GradosController extends HttpServlet {
 			HttpServletResponse response) {
 
 		try {
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));
+			pAccion = Integer.parseInt(request.getParameter("accion"));
 			if ((request.getParameter("id") != null)
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {
-				this.pID = Integer.parseInt(request.getParameter("id"));
+				pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,8 +100,8 @@ public class GradosController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("grados", this.modelo.getAll());
-		this.dispatcher = request
+		request.setAttribute("grados", modelo.getAll(null));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_INDEX);
 	}
 
@@ -113,14 +113,14 @@ public class GradosController extends HttpServlet {
 	 */
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
-		if (this.modelo.delete(this.pID)) {
+		if (modelo.delete(pID)) {
 			request.setAttribute("msg-danger",
 					"Registro eliminado correctamente");
 		} else {
 			request.setAttribute("msg-warning",
-					"Error al eliminar el registro [id(" + this.pID + ")]");
+					"Error al eliminar el registro [id(" + pID + ")]");
 		}
-		this.listar(request, response);
+		listar(request, response);
 	}
 
 	/**
@@ -130,11 +130,11 @@ public class GradosController extends HttpServlet {
 	 * @param response
 	 */
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		this.grado = new Grado("");
-		request.setAttribute("grado", this.grado);
+		grado = new Grado("");
+		request.setAttribute("grado", grado);
 		request.setAttribute("titulo", "Crear nuevo Grado");
 		request.setAttribute("metodo", "Guardar");
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_FORM);
 
 	}
@@ -147,11 +147,11 @@ public class GradosController extends HttpServlet {
 	 */
 	private void detalle(HttpServletRequest request,
 			HttpServletResponse response) {
-		this.grado = (Grado) this.modelo.getById(this.pID);
-		request.setAttribute("grado", this.grado);
-		request.setAttribute("titulo", this.grado.getNombre().toUpperCase());
+		grado = (Grado) modelo.getById(pID);
+		request.setAttribute("grado", grado);
+		request.setAttribute("titulo", grado.getNombre().toUpperCase());
 		request.setAttribute("metodo", "Modificar");
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_FORM);
 	}
 
@@ -163,33 +163,33 @@ public class GradosController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros del formulario
-		this.getParametersForm(request);
+		getParametersForm(request);
 
 		// Crear Objeto Grado
-		this.crearObjeto();
+		crearObjeto();
 
 		// Guardar/Modificar Objeto Via
-		if (this.pID == -1) {
-			if (this.modelo.save(this.grado) != -1) {
+		if (pID == -1) {
+			if (modelo.save(grado) != -1) {
 				request.setAttribute("msg-success", "Registro creado con exito");
 			} else {
 				request.setAttribute("msg-danger",
 						"Error al guardar el nuevo registro");
 			}
 		} else {
-			if (this.modelo.update(this.grado)) {
+			if (modelo.update(grado)) {
 				request.setAttribute("msg-success",
-						"Modificado correctamente el registro [id(" + this.pID
+						"Modificado correctamente el registro [id(" + pID
 						+ ")]");
 			} else {
 				request.setAttribute("msg-danger",
-						"Error al modificar el registro [id(" + this.pID + ")]");
+						"Error al modificar el registro [id(" + pID + ")]");
 			}
 		}
 
-		this.listar(request, response);
+		listar(request, response);
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 
 	}
 
@@ -197,9 +197,9 @@ public class GradosController extends HttpServlet {
 	 * Crea un Objeto {@code Grado} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
-		this.grado = new Grado(this.pNombre);
-		this.grado.setId(this.pID);
-		this.grado.setDescripcion(this.pDescripcion);
+		grado = new Grado(pNombre);
+		grado.setId(pID);
+		grado.setDescripcion(pDescripcion);
 	}
 
 	/**
@@ -212,9 +212,9 @@ public class GradosController extends HttpServlet {
 	private void getParametersForm(HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		this.pID = Integer.parseInt(request.getParameter("id"));
-		this.pNombre = request.getParameter("nombre");
-		this.pDescripcion = request.getParameter("descripcion");
+		pID = Integer.parseInt(request.getParameter("id"));
+		pNombre = request.getParameter("nombre");
+		pDescripcion = request.getParameter("descripcion");
 	}
 
 }

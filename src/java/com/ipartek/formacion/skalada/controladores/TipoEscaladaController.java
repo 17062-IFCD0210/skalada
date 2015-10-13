@@ -39,7 +39,7 @@ public class TipoEscaladaController extends HttpServlet {
 	@Override()
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		this.modelo = new ModeloTipoEscalada();
+		modelo = new ModeloTipoEscalada();
 	}
 
 	/**
@@ -50,35 +50,35 @@ public class TipoEscaladaController extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros
-		this.getParameters(request, response);
+		getParameters(request, response);
 
 		// realizar accion solicitada
-		switch (this.pAccion) {
+		switch (pAccion) {
 		case Constantes.ACCION_NUEVO:
-			this.nuevo(request, response);
+			nuevo(request, response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			this.detalle(request, response);
+			detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			this.eliminar(request, response);
+			eliminar(request, response);
 			break;
 		default:
-			this.listar(request, response);
+			listar(request, response);
 			break;
 		}
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 
 	private void getParameters(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
-			this.pAccion = Integer.parseInt(request.getParameter("accion"));
+			pAccion = Integer.parseInt(request.getParameter("accion"));
 			if ((request.getParameter("id") != null)
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {
-				this.pID = Integer.parseInt(request.getParameter("id"));
+				pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,41 +94,41 @@ public class TipoEscaladaController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("tipo_escalada", this.modelo.getAll());
-		this.dispatcher = request
+		request.setAttribute("tipo_escalada", modelo.getAll(null));
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_TIPO_ESCALADA_INDEX);
 	}
 
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
-		if (this.modelo.delete(this.pID)) {
+		if (modelo.delete(pID)) {
 			request.setAttribute("msg-danger",
 					"Registro eliminado correctamente");
 		} else {
 			request.setAttribute("msg-warning",
-					"Error al eliminar el registro [id(" + this.pID + ")]");
+					"Error al eliminar el registro [id(" + pID + ")]");
 		}
-		this.listar(request, response);
+		listar(request, response);
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		this.tipoEscalada = new TipoEscalada("");
-		request.setAttribute("tipo_escalada", this.tipoEscalada);
+		tipoEscalada = new TipoEscalada("");
+		request.setAttribute("tipo_escalada", tipoEscalada);
 		request.setAttribute("titulo", "Crear nuevo Tipo de Escalada");
 		request.setAttribute("metodo", "Guardar");
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_TIPO_ESCALADA_FORM);
 
 	}
 
 	private void detalle(HttpServletRequest request,
 			HttpServletResponse response) {
-		this.tipoEscalada = (TipoEscalada) this.modelo.getById(this.pID);
-		request.setAttribute("tipo_escalada", this.tipoEscalada);
-		request.setAttribute("titulo", this.tipoEscalada.getNombre()
+		tipoEscalada = (TipoEscalada) modelo.getById(pID);
+		request.setAttribute("tipo_escalada", tipoEscalada);
+		request.setAttribute("titulo", tipoEscalada.getNombre()
 				.toUpperCase());
 		request.setAttribute("metodo", "Modificar");
-		this.dispatcher = request
+		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_TIPO_ESCALADA_FORM);
 	}
 
@@ -140,33 +140,33 @@ public class TipoEscaladaController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros del formulario
-		this.getParametersForm(request);
+		getParametersForm(request);
 
 		// Crear Objeto Grado
-		this.crearObjeto();
+		crearObjeto();
 
 		// Guardar/Modificar Objeto Via
-		if (this.pID == -1) {
-			if (this.modelo.save(this.tipoEscalada) != -1) {
+		if (pID == -1) {
+			if (modelo.save(tipoEscalada) != -1) {
 				request.setAttribute("msg-success", "Registro creado con exito");
 			} else {
 				request.setAttribute("msg-danger",
 						"Error al guardar el nuevo registro");
 			}
 		} else {
-			if (this.modelo.update(this.tipoEscalada)) {
+			if (modelo.update(tipoEscalada)) {
 				request.setAttribute("msg-success",
-						"Modificado correctamente el registro [id(" + this.pID
+						"Modificado correctamente el registro [id(" + pID
 								+ ")]");
 			} else {
 				request.setAttribute("msg-danger",
-						"Error al modificar el registro [id(" + this.pID + ")]");
+						"Error al modificar el registro [id(" + pID + ")]");
 			}
 		}
 
-		this.listar(request, response);
+		listar(request, response);
 
-		this.dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 
 	}
 
@@ -174,9 +174,9 @@ public class TipoEscaladaController extends HttpServlet {
 	 * Crea un Objeto {@code Grado} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
-		this.tipoEscalada = new TipoEscalada(this.pNombre);
-		this.tipoEscalada.setId(this.pID);
-		this.tipoEscalada.setDescripcion(this.pDescripcion);
+		tipoEscalada = new TipoEscalada(pNombre);
+		tipoEscalada.setId(pID);
+		tipoEscalada.setDescripcion(pDescripcion);
 	}
 
 	/**
@@ -189,9 +189,9 @@ public class TipoEscaladaController extends HttpServlet {
 	private void getParametersForm(HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		this.pID = Integer.parseInt(request.getParameter("id"));
-		this.pNombre = request.getParameter("nombre");
-		this.pDescripcion = request.getParameter("descripcion");
+		pID = Integer.parseInt(request.getParameter("id"));
+		pNombre = request.getParameter("nombre");
+		pDescripcion = request.getParameter("descripcion");
 	}
 
 }

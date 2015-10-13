@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
@@ -8,6 +9,15 @@
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
+
+<%
+	Usuario usuario = null;
+	usuario = (Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
+	int rol = 0;
+	if (usuario != null) {
+		rol = usuario.getRol().getId();
+	}
+%>
 
 <div id="page-wrapper">
 
@@ -47,27 +57,48 @@
 	                <th>ID</th>
 	                <th>Nombre</th>
 	                <th>Zona</th>
+	                
+	                <%
+		               	if (rol == Constantes.ROLE_ID_ADMIN){
+	                		out.print("<th>Usuario</th>");
+	                	}
+	                %>
+	                <th>Validado</th>
 	            </tr>
 	        </thead> 
 	        	 
-	        <tbody>	           
-	           <%
+	        <tbody>	 
+		        <%
 	           		// recoger el atributo "sectores" que nos llegara del Servlet con una coleccion de sectores(ArrayList<Sector>)
 	           		ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("sectores");
 	           		
 	           		Sector s = null;
 	           		for(int i = 0 ; i < sectores.size() ; i++){
 	           			s = sectores.get(i);
-   	           %>
-   	                <tr>
-		                <td><%=s.getId()%></td>
-		                <td>
-		                	<a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=s.getId()%>">
-		                		<%=s.getNombre()%>
-		                	</a>
-		                </td>
-		                <td><%=s.getZona().getNombre()%></td>
-		            </tr>	            
+   	            %>          
+				<tr>
+	                <td><%=s.getId()%></td>
+	                <td>
+	                	<a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=s.getId()%>">
+	                		<%=s.getNombre()%>
+	                	</a>
+	                </td>
+	                <td><%=s.getZona().getNombre()%></td>
+	                <%
+	                	if (rol == Constantes.ROLE_ID_ADMIN){
+	                		out.print("<td>" + s.getUsuario().getNombre() + "</td>");
+	                	}
+	                
+	                	String vLabel = " label-warning";
+	                	String vTexto = "Sin validar";
+	                	if (s.isValidado()){
+	                		vLabel = " label-success";
+	                		vTexto = "Validado";
+	                	}
+	                %>
+	                
+	                <td><span class="label<%=vLabel%>"><%=vTexto%></span></td>
+				</tr>
 	           <%
 	           		} //end for
 	           %>	            

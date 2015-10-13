@@ -51,49 +51,49 @@ public class TestModeloGrado {
 		Grado g_insert = new Grado(NOMBREGRADO);
 		g_insert.setDescripcion(DESCRIPCIONGRADO);
 
-		total = modelo.getAll().size();
-		this.id = modelo.save(g_insert);
-		total_despues = modelo.getAll().size(); // total = total_despues + 1
+		total = modelo.getAll(null).size();
+		id = modelo.save(g_insert);
+		total_despues = modelo.getAll(null).size(); // total = total_despues + 1
 
 		assertTrue(total == (total_despues - 1));
-		assertTrue((this.id != -1) && (this.id > 0));
+		assertTrue((id != -1) && (id > 0));
 
 		// Test para comprobar que al obtener un registro por su ID lo devuelve
 		// correctamente
 		Grado g_get;
-		g_get = (Grado) modelo.getById(this.id);
-		assertTrue(this.id == g_get.getId());
+		g_get = (Grado) modelo.getById(id);
+		assertTrue(id == g_get.getId());
 		assertEquals(NOMBREGRADO, g_get.getNombre());
 		assertEquals(DESCRIPCIONGRADO, g_get.getDescripcion());
 
 		// Test para comprobar que actualiza el registro indentificado por su ID
 		Grado g_update = new Grado(NOMBREGRADO_UPDATED);
 		g_update.setDescripcion(DESCRIPCIONGRADO_UPDATED);
-		g_update.setId(this.id);
+		g_update.setId(id);
 
 		assertTrue(modelo.update(g_update));
 
 		g_get = (Grado) modelo.getById(g_update.getId());
-		assertTrue(this.id == g_get.getId());
+		assertTrue(id == g_get.getId());
 		assertEquals(NOMBREGRADO_UPDATED, g_get.getNombre());
 		assertEquals(DESCRIPCIONGRADO_UPDATED, g_get.getDescripcion());
 
 		// Test para comprobar que elimina el registro
-		assertTrue(modelo.delete(this.id));
-		assertTrue(total == modelo.getAll().size());
+		assertTrue(modelo.delete(id));
+		assertTrue(total == modelo.getAll(null).size());
 	}
 
 	@Test()
 	public void testCasosError() {
 		// Intentar obtener un grado cuyo identificador no exista en la base de
 		// datos
-		this.id = -1;
-		assertNull(modelo.getById(this.id));
+		id = -1;
+		assertNull(modelo.getById(id));
 		assertNull(modelo.getById(0));
 
 		// Intentar actualizar un grado inexistente en la base de datos
 		Grado g = new Grado(NOMBREGRADO);
-		g.setId(this.id);
+		g.setId(id);
 		assertTrue(!modelo.update(g));
 
 		// Intentar actualizar un null
@@ -103,18 +103,18 @@ public class TestModeloGrado {
 		assertTrue(-1 == modelo.save(null));
 
 		// Intentar eliminar un grado con un id inexistente
-		assertTrue(!modelo.delete(this.id));
+		assertTrue(!modelo.delete(id));
 
 		// Intentar insertar un grado con un id existente
 		Grado g_1 = new Grado(NOMBREGRADO);
-		this.id = modelo.save(g_1);
+		id = modelo.save(g_1);
 		Grado g_2 = new Grado(NOMBREGRADO);
-		g_2.setId(this.id);
+		g_2.setId(id);
 
-		assertTrue((this.id + 1) == modelo.save(g_2));
+		assertTrue((id + 1) == modelo.save(g_2));
 
-		assertTrue(modelo.delete(this.id));
-		assertTrue(modelo.delete(this.id + 1));
+		assertTrue(modelo.delete(id));
+		assertTrue(modelo.delete(id + 1));
 
 	}
 
