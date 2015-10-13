@@ -111,9 +111,11 @@
 						}//end showFileSize
 					</script>
 				</div>
-						
+					
+					
+				<% if(usuario.getRol().getId() == Constantes.ROLE_ID_ADMIN) {%>	
 				<div class="form-group">
-	           		<label for="validado">Validar?</label>
+	           		<label for="validado">Validar</label>
 	           		<% if( sector.isValidado() ){ %> 
 	           			<input type="checkbox" class="form-control" name="validado" checked 
 	           					data-on-text="SI" data-on-color="success"
@@ -123,7 +125,8 @@
 								data-on-text="SI" data-on-color="success"
 	           					data-off-text="NO" data-off-color="danger">
 	           		<% } %>
-	          	 </div>         	
+	          	 </div>  
+	          	 <% } %>       	
 			
 			<!-- Botonera -->
 			<div class="form-group">

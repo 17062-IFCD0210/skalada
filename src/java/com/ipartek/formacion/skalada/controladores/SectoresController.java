@@ -240,7 +240,6 @@ public class SectoresController extends HttpServlet {
 				this.sector.setImagen(this.file.getName());
 			}
 			this.sector.setValidado(this.pValidado);
-			this.sector.setUsuario(this.usuario);
 
 			// nuevo sector
 		} else {
