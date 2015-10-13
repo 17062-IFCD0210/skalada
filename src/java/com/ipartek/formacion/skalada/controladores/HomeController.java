@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
 
 /**
@@ -47,9 +48,9 @@ public class HomeController extends HttpServlet {
 		
 		//recuperar las ultimas 6 sectores del modelo
 		//TODO usar LIMIT en la select y order bu id desc
-		ArrayList<Object> sectores = this.modeloSector.getAll();
+		ArrayList<Sector> sectores = this.modeloSector.getAll(null);
 		if ( sectores.size() > 6 ){
-			sectores = new ArrayList<Object>(sectores.subList(0, 6));
+			sectores = new ArrayList<Sector>(sectores.subList(0, 6));
 		}
 		
 		//enviarlas como atributo en la request

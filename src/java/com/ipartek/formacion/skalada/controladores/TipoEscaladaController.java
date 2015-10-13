@@ -94,7 +94,7 @@ public class TipoEscaladaController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("tipo_escalada", this.modelo.getAll());
+		request.setAttribute("tipo_escalada", this.modelo.getAll(null));
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_TIPO_ESCALADA_INDEX);
 	}

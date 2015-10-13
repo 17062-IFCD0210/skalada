@@ -47,6 +47,8 @@
 	                <th>ID</th>
 	                <th>Nombre</th>
 	                <th>Zona</th>
+	                <th>Autor</th>
+	                <th>Publicado</th>
 	            </tr>
 	        </thead> 
 	        	 
@@ -67,6 +69,12 @@
 		                	</a>
 		                </td>
 		                <td><%=s.getZona().getNombre()%></td>
+		                <td><%=s.getUsuario().getNombre()%></td>
+		                <% if(s.isValidado()){ %>
+		                	<td><span class="label label-success">Publicado</span></td>
+		                <% } else { %>
+		                	<td><span class="label label-danger">No Publicado</span></td>
+		                <% } %>
 		            </tr>	            
 	           <%
 	           		} //end for

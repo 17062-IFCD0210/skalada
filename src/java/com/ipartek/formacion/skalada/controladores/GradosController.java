@@ -100,9 +100,8 @@ public class GradosController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("grados", this.modelo.getAll());
-		this.dispatcher = request
-				.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_INDEX);
+		request.setAttribute("grados", this.modelo.getAll(null));
+		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_GRADOS_INDEX);
 	}
 
 	/**

@@ -53,9 +53,9 @@ public class TestModeloGrado {
 		Grado g_insert = new Grado(NOMBREGRADO);
 		g_insert.setDescripcion(DESCRIPCIONGRADO);
 
-		total = modeloGrado.getAll().size();
+		total = modeloGrado.getAll(null).size();
 		this.id = modeloGrado.save(g_insert);
-		total_despues = modeloGrado.getAll().size(); // total = total_despues + 1
+		total_despues = modeloGrado.getAll(null).size(); // total = total_despues + 1
 
 		assertTrue(total == (total_despues - 1));
 		assertTrue((this.id != -1) && (this.id > 0));
@@ -81,7 +81,7 @@ public class TestModeloGrado {
 
 		// Test para comprobar que elimina el registro
 		assertTrue(modeloGrado.delete(this.id));
-		assertTrue(total == modeloGrado.getAll().size());
+		assertTrue(total == modeloGrado.getAll(null).size());
 	}
 
 	@Test()

@@ -104,8 +104,7 @@ public final class Constantes {
 	public static final int MAX_FILE_SIZE = 1000 * 1024;
 	public static final int MAX_MEM_SIZE = 40 * 1024;
 	public static final String IMG_DEFAULT_SECTOR = "default_sector.jpg";
-	public static final ArrayList<String> CONTENT_TYPES = new ArrayList<String>(
-			Arrays.asList("image/jpeg", "image/png"));
+	public static final ArrayList<String> CONTENT_TYPES = new ArrayList<String>( Arrays.asList("image/jpeg", "image/png"));
 
 	// ROLES
 	public static final String ROLE_USER = "usuario";
@@ -124,5 +123,9 @@ public final class Constantes {
 	public static final String RECUPERACION = "recuperacion";
 
 	public static final String KEY_SESSION_USER = "ss_user";
+	
+	//Sectores
+	public static final int VALIDADO = 1;
+	public static final int NO_VALIDADO = 0;
 
 }

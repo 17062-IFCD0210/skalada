@@ -7,62 +7,64 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
+import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.bean.Zona;
 
-public class ModeloSector implements Persistable {
+public class ModeloSector implements Persistable<Sector> {
+	
+	private static final Logger LOG = Logger.getLogger(ModeloSector.class);
 
-	private static final String TABLA_SECTOR = "sector";
-	private static final String TABLA_ZONA = "zona";
-	private static final String COL_ID = "id";
-	private static final String COL_NOMBRE = "nombre";
-	private static final String COL_ZONA_ID = "id_zona";
-	private static final String COL_ZONA_NOMBRE = "nombre_zona";
-	private static final String COL_IMAGEN = "imagen";
+	private static final String SQL_INSERT = "INSERT INTO `sector` (`nombre`, `id_zona` , `imagen`, `validado`, `id_usuario`) VALUES (?,?,?,?,?);";
+	private static final String SQL_DELETE = "DELETE FROM `sector` WHERE `id`= ?;";
+	private static final String SQL_GETALL = "SELECT  s.id, s.nombre, s.imagen, s.validado, "
+									+ "s.id_zona AS zona_id, z.nombre AS zona_nombre, "
+									+ "s.id_usuario AS usuario_id, u.nombre AS usuario_nombre, u.email AS usuario_email, u.password AS usuario_password, "
+									+ "r.id AS rol_id, r.nombre AS rol_nombre "
+									+ "FROM sector AS s "
+									+ "INNER JOIN zona AS z ON (s.id_zona = z.id) "
+									+ "INNER JOIN usuario AS u ON (s.id_usuario = u.id) "
+									+ "INNER JOIN rol AS r ON (u.id_rol = r.id)";
+	private static final String SQL_GETONE = SQL_GETALL + " WHERE s.id = ?";
+	private static final String SQL_UPDATE = "UPDATE `sector` SET `nombre`= ? , `id_zona`= ? , `imagen`= ? , `validado`= ? , `id_usuario` = ? WHERE `id`= ? ;";
 
-	private static final String SQL_INSERT = "INSERT INTO `" + TABLA_SECTOR
-			+ "` (`" + COL_NOMBRE + "`, `" + COL_ZONA_ID + "` , `" + COL_IMAGEN
-			+ "`) VALUES (?,?,?);";
-	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_SECTOR
-			+ "` WHERE `" + COL_ID + "`= ?;";
-
-	private static final String SQL_GETONE = "SELECT  s.id, s.imagen, s.nombre, id_zona, z.nombre AS nombre_zona FROM sector AS s INNER JOIN zona AS z ON (s.id_zona = z.id) WHERE s.id = ?";
-
-	private static final String SQL_GETALL = "SELECT  s." + COL_ID + ", s."
-			+ COL_IMAGEN + " , s." + COL_NOMBRE + ", " + COL_ZONA_ID + ", z."
-			+ COL_NOMBRE + " AS " + COL_ZONA_NOMBRE + " FROM " + TABLA_SECTOR
-			+ " AS s, " + TABLA_ZONA + " AS z WHERE s." + COL_ZONA_ID + "= z."
-			+ COL_ID;
-	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR
-			+ "` SET `" + COL_NOMBRE + "`= ? , `" + COL_ZONA_ID + "`= ? , `"
-			+ COL_IMAGEN + "`= ? WHERE `" + COL_ID + "`= ? ;";
-
-	private static final String SQL_GETALL_BY_ZONA = "select `id`,`nombre`,`imagen` from `sector` where `id_zona` = ?";
-
+	private static final String SQL_GETALL_BY_USER = SQL_GETALL + " AND s.id_usuario = ?";
+	
+	private static final String SQL_GETALL_BY_ZONA = SQL_GETALL + " WHERE `id_zona` = ?";
 	private static final String SQL_SECTORES_PUBLICADOS = "SELECT COUNT(`id`) as `sectores` FROM `SECTOR`;";
 
+	
+	
 	@Override()
-	public int save(Object o) {
+	public int save(Sector sector) {
 		int resul = -1;
-		Sector g = null;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if (o != null) {
+		if (sector != null) {
 			try {
-				g = (Sector) o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT,
 						Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, g.getNombre());
-				pst.setInt(2, g.getZona().getId());
-				pst.setString(3, g.getImagen());
+				pst.setString(1, sector.getNombre());
+				pst.setInt(2, sector.getZona().getId());
+				pst.setString(3, sector.getImagen());
+				if(sector.isValidado()){
+					pst.setInt(4, Constantes.VALIDADO);
+				} else {
+					pst.setInt(4, Constantes.NO_VALIDADO);
+				}
+				pst.setInt(5, sector.getUsuario().getId());
 				if (pst.executeUpdate() != 1) {
 					throw new Exception("No se ha realizado la insercion");
 				} else {
 					rsKeys = pst.getGeneratedKeys();
 					if (rsKeys.next()) {
 						resul = rsKeys.getInt(1);
-						g.setId(resul);
+						sector.setId(resul);
 					} else {
 						throw new Exception("No se ha podido generar ID");
 					}
@@ -118,18 +120,28 @@ public class ModeloSector implements Persistable {
 	}
 
 	@Override()
-	public ArrayList<Object> getAll() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Sector> getAll(Usuario usuario) {
+		ArrayList<Sector> resul = new ArrayList<Sector>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
 			Connection con = DataBaseHelper.getConnection();
-			pst = con.prepareStatement(SQL_GETALL);
+			if(usuario != null){
+				if (Constantes.ROLE_ID_ADMIN == usuario.getRol().getId()){
+					pst = con.prepareStatement(SQL_GETALL);
+				} else{
+					pst = con.prepareStatement(SQL_GETALL_BY_USER);
+					pst.setInt(1, usuario.getId());
+				}
+			}else{
+				throw new Exception("Peticion sin autorizacion: Usuario nulo");
+			}
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				resul.add(this.mapeo(rs));
 			}
 		} catch (Exception e) {
+			LOG.error("Peticion sin autorizacion: Usuario nulo");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -141,6 +153,7 @@ public class ModeloSector implements Persistable {
 				}
 				DataBaseHelper.closeConnection();
 			} catch (Exception e) {
+				LOG.error("Excepcion cerrando recursos");
 				e.printStackTrace();
 			}
 		}
@@ -148,20 +161,24 @@ public class ModeloSector implements Persistable {
 	}
 
 	@Override()
-	public boolean update(Object o) {
+	public boolean update(Sector sector) {
 		boolean resul = false;
-		Sector s = null;
 		PreparedStatement pst = null;
-		if (o != null) {
+		if (sector != null) {
 			try {
-				s = (Sector) o;
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
-				pst.setString(1, s.getNombre());
-				pst.setInt(2, s.getZona().getId());
-				pst.setString(3, s.getImagen());
-				pst.setInt(4, s.getId());
+				pst.setString(1, sector.getNombre());
+				pst.setInt(2, sector.getZona().getId());
+				pst.setString(3, sector.getImagen());
+				if(sector.isValidado()){
+					pst.setInt(4, Constantes.VALIDADO);
+				} else {
+					pst.setInt(4, Constantes.NO_VALIDADO);
+				}
+				pst.setInt(5, sector.getUsuario().getId());
+				pst.setInt(6, sector.getId());				
 				if (pst.executeUpdate() == 1) {
 					resul = true;
 				}
@@ -218,12 +235,27 @@ public class ModeloSector implements Persistable {
 	private Sector mapeo(ResultSet rs) throws SQLException {
 		Sector resul = null;
 
-		Zona zona = new Zona(rs.getString(COL_ZONA_NOMBRE));
-		zona.setId(rs.getInt(COL_ZONA_ID));
+		Zona zona = new Zona(rs.getString("zona_nombre"));
+		zona.setId(rs.getInt("zona_id"));
+		
+		Rol rol = new Rol(rs.getString("rol_nombre"));
+		rol.setId(rs.getInt("rol_id"));
+		Usuario user = new Usuario(
+							rs.getString("usuario_nombre"),
+							rs.getString("usuario_email"),
+							rs.getString("usuario_password"),
+							rol);
+		user.setId(rs.getInt("usuario_id"));
 
-		resul = new Sector(rs.getString(COL_NOMBRE), zona);
-		resul.setId(rs.getInt(COL_ID));
-		resul.setImagen(rs.getString(COL_IMAGEN));
+		resul = new Sector(rs.getString("nombre"), zona);
+		resul.setId(rs.getInt("id"));
+		resul.setImagen(rs.getString("imagen"));
+		
+		if(rs.getInt("validado") == Constantes.VALIDADO){
+			resul.setValidado(true);
+		}
+		
+		resul.setUsuario(user);
 
 		return resul;
 	}
@@ -248,13 +280,8 @@ public class ModeloSector implements Persistable {
 			pst.setInt(1, id_zona);
 			rs = pst.executeQuery();
 
-			Sector sector = null;
 			while (rs.next()) {
-				sector = new Sector(rs.getString("nombre"), null);
-				sector.setId(rs.getInt("id"));
-				sector.setImagen(rs.getString("imagen"));
-				resul.add(sector);
-				sector = null;
+				resul.add(this.mapeo(rs));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

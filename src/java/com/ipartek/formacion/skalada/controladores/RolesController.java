@@ -87,7 +87,7 @@ public class RolesController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("roles", this.modelo.getAll());
+		request.setAttribute("roles", this.modelo.getAll(null));
 		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_ROLES_INDEX);		
 	}
 

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.ipartek.formacion.skalada.bean.TipoEscalada;
+import com.ipartek.formacion.skalada.bean.Usuario;
 
 public class ModeloTipoEscalada implements Persistable{
 	
@@ -97,7 +98,7 @@ public class ModeloTipoEscalada implements Persistable{
 	}
 
 	@Override()
-	public ArrayList<Object> getAll() {
+	public ArrayList<Object> getAll(Usuario usuario) {
 		ArrayList<Object> resul = new ArrayList<Object>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;		

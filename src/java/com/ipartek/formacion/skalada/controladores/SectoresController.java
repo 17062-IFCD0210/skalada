@@ -22,8 +22,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Sector;
+import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
@@ -38,12 +40,17 @@ public class SectoresController extends HttpServlet {
 	private Sector sector = null;
 	private ModeloZona modeloZona = null;
 	private Zona zona = null;
+	
+	private ModeloUsuario modeloUsuario = null;
+	private Usuario usuario = null;
 
 	// parametros
 	private int pAccion = Constantes.ACCION_LISTAR; // Accion por defecto
 	private int pID = -1; // ID no valido
 	private String pNombre;
 	private int pIDZona;
+	private int pIDUsuario;
+	private boolean pValidado;
 
 	//Imagen File	
 	private File file;
@@ -57,14 +64,25 @@ public class SectoresController extends HttpServlet {
 		super.init(config);
 		this.modeloSector = new ModeloSector();
 		this.modeloZona = new ModeloZona();
+		this.modeloUsuario = new ModeloUsuario();
 	}
 
+	/**
+	 * Este metodo se ejecuta cada vez que hay una peticion doGet o doPost. se usa para recoger el usuario
+	 * de la sesion.
+	 */
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.usuario = (Usuario)request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
+		super.service(request, response);
+	}
+	
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros
 		this.getParameters(request, response);
 
@@ -112,19 +130,16 @@ public class SectoresController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("sectores", this.modeloSector.getAll());
-		this.dispatcher = request
-				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_INDEX);
+		request.setAttribute("sectores", this.modeloSector.getAll(usuario));
+		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_INDEX);
 	}
 
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
 		if (this.modeloSector.delete(this.pID)) {
-			request.setAttribute("msg-danger",
-					"Registro eliminado correctamente");
+			request.setAttribute("msg-danger", "Registro eliminado correctamente");
 		} else {
-			request.setAttribute("msg-warning",
-					"Error al eliminar el registro [id(" + this.pID + ")]");
+			request.setAttribute("msg-warning", "Error al eliminar el registro [id(" + this.pID + ")]");
 		}
 		this.listar(request, response);
 	}
@@ -134,29 +149,26 @@ public class SectoresController extends HttpServlet {
 		this.sector = new Sector("", this.zona);
 		request.setAttribute("sector", this.sector);
 		request.setAttribute("titulo", "Crear nuevo Sector");
-		request.setAttribute("zonas", this.modeloZona.getAll());
+		request.setAttribute("zonas", this.modeloZona.getAll(null));
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 
 	}
 
-	private void detalle(HttpServletRequest request,
-			HttpServletResponse response) {
+	private void detalle(HttpServletRequest request,HttpServletResponse response) {
 		this.sector = (Sector) this.modeloSector.getById(this.pID);
 		request.setAttribute("sector", this.sector);
 		request.setAttribute("titulo", this.sector.getNombre().toUpperCase());
-		request.setAttribute("zonas", this.modeloZona.getAll());
+		request.setAttribute("zonas", this.modeloZona.getAll(null));
 
-		this.dispatcher = request
-				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
+		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Mensaje msg = new Mensaje( Mensaje.MSG_DANGER , "Error sin identificar");
 		
@@ -213,6 +225,8 @@ public class SectoresController extends HttpServlet {
 		// zona = new Zona("");
 		// zona.setId(pIDZona);
 		this.zona = (Zona) this.modeloZona.getById(this.pIDZona);
+		
+		this.usuario = (Usuario) this.modeloUsuario.getById(this.pIDUsuario);
 
 		//TODO controlar si cambiamos el sector pero no la imagen
 		
@@ -224,7 +238,9 @@ public class SectoresController extends HttpServlet {
 			this.sector.setZona(this.zona);
 			if ( this.file != null ){
 				this.sector.setImagen(this.file.getName());
-			}	
+			}
+			this.sector.setValidado(this.pValidado);
+			this.sector.setUsuario(this.usuario);
 
 			// nuevo sector
 		} else {
@@ -233,6 +249,8 @@ public class SectoresController extends HttpServlet {
 			if ( this.file != null ){
 				this.sector.setImagen(this.file.getName());
 			}	
+			this.sector.setValidado(this.pValidado);
+			this.sector.setUsuario(this.usuario);
 		}
 
 	}
@@ -297,6 +315,13 @@ public class SectoresController extends HttpServlet {
 		   	this.pID = Integer.parseInt( dataParameters.get("id"));
 			this.pNombre = dataParameters.get("nombre");
 			this.pIDZona = Integer.parseInt(dataParameters.get("zona"));
+			this.pIDUsuario = Integer.parseInt(dataParameters.get("autor"));
+			
+			if (dataParameters.get("validado") != null) {
+				this.pValidado = true; 		//Constantes.VALIDADO;
+			} else {
+				this.pValidado = false; 	//Constantes.NO_VALIDADO;
+			}
 		
 	}
 

@@ -99,7 +99,7 @@ public class ZonasController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("zonas", this.modelo.getAll());
+		request.setAttribute("zonas", this.modelo.getAll(null));
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_INDEX);
 	}

@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
 <%@page import="java.awt.Image"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
@@ -11,17 +12,16 @@
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
 <%
-
 	Sector sector = (Sector)request.getAttribute("sector");
 	ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
-	String titulo = request.getAttribute("titulo").toString();
+	Usuario usuario = (Usuario)request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
 %>
 
 <div id="page-wrapper">
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><%=titulo%></h1>
+            <h1 class="page-header"><%=sector.getNombre().toUpperCase()%></h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -40,6 +40,7 @@
 					<!-- Mostramon el input text, pero se submita el hidden -->
 					<label for="id">ID</label>
 					<input type="hidden" name="id" value="<%=sector.getId()%>">
+					<input type="hidden" name="autor" value="<%=usuario.getId()%>">
 					<input type="text"  class="form-control" value="<%=sector.getId()%>" disabled >
 				</div>
 				
@@ -63,6 +64,7 @@
   					}//end for
 					%>
 					</select>
+				</div>
 		      
 		      <!-- Imagen -->
 		      	<div class="form-group">
@@ -107,16 +109,17 @@
 						    	}						    	
 						    }   
 						}//end showFileSize
+					</script>
+				</div>
 						
-						
-						
-						
-				</script>		
-		      	</div>
-		      
-	        </div>
-	        
-
+				<div class="form-group">
+	           		<label for="validado">Validado</label>
+	           		<% if( sector.isValidado() ){ %> 
+	           			<input type="checkbox" checked class="form-control" name="validado" value="<%=Constantes.VALIDADO%>">
+	           		<% }else{ %>
+	           			<input type="checkbox" class="form-control" name="validado" value="<%=Constantes.NO_VALIDADO%>">
+	           		<% } %>
+	          	 </div>         	
 			
 			<!-- Botonera -->
 			<div class="form-group">

@@ -35,12 +35,12 @@ public class TestModeloTipoEscalada {
 	@BeforeClass()
 	public static void setUpBeforeClass() throws Exception {
 		modelo = new ModeloTipoEscalada();
-		total = modelo.getAll().size();
+		total = modelo.getAll(null).size();
 	}
 
 	@AfterClass()
 	public static void tearDownAfterClass() throws Exception {
-		assertTrue(total == modelo.getAll().size());
+		assertTrue(total == modelo.getAll(null).size());
 		modelo = null;
 	}
 
@@ -65,7 +65,7 @@ public class TestModeloTipoEscalada {
 	@Test()
 	public void testInsertar() {
 		// Test para comprobar que al insertar un nuevo registro aumenta el ID
-		totalDespues = modelo.getAll().size(); // total = total_despues + 1
+		totalDespues = modelo.getAll(null).size(); // total = total_despues + 1
 
 		assertTrue("al insertar un nuevo registro aumenta el ID" + total
 				+ totalDespues, total == (totalDespues - 1));
@@ -127,7 +127,7 @@ public class TestModeloTipoEscalada {
 		TipoEscalada te_2 = new TipoEscalada(NOMBRETIPOESCALADA);
 		assertTrue(modelo.delete(modelo.save(te_2)));
 
-		assertTrue((total + 1) == modelo.getAll().size()); // (total + 1) Porque
+		assertTrue((total + 1) == modelo.getAll(null).size()); // (total + 1) Porque
 															// en el set app se
 															// inserta un
 															// registro

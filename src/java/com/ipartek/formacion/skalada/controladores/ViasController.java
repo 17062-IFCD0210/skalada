@@ -123,7 +123,7 @@ public class ViasController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("vias", this.modeloVia.getAll());
+		request.setAttribute("vias", this.modeloVia.getAll(null));
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_INDEX);
 	}
@@ -149,10 +149,10 @@ public class ViasController extends HttpServlet {
 		request.setAttribute("via", this.via);
 		request.setAttribute("titulo", "Crear nueva Via");
 		request.setAttribute("metodo", "Guardar");
-		request.setAttribute("grados", this.modeloGrado.getAll());
-		request.setAttribute("tipoEscaladas", this.modeloTipoEscalada.getAll());
-		request.setAttribute("sectores", this.modeloSector.getAll());
-		request.setAttribute("zonas", this.modeloZona.getAll());
+		request.setAttribute("grados", this.modeloGrado.getAll(null));
+		request.setAttribute("tipoEscaladas", this.modeloTipoEscalada.getAll(null));
+		request.setAttribute("sectores", this.modeloSector.getAll(null));
+		request.setAttribute("zonas", this.modeloZona.getAll(null));
 		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_VIAS_FORM);
 
@@ -163,9 +163,9 @@ public class ViasController extends HttpServlet {
 		this.via = (Via) this.modeloVia.getById(this.pID);
 		request.setAttribute("via", this.via);
 		request.setAttribute("titulo", this.via.getNombre().toUpperCase());
-		request.setAttribute("grados", this.modeloGrado.getAll());
-		request.setAttribute("tipoEscaladas", this.modeloTipoEscalada.getAll());
-		request.setAttribute("zonas", this.modeloZona.getAll());
+		request.setAttribute("grados", this.modeloGrado.getAll(null));
+		request.setAttribute("tipoEscaladas", this.modeloTipoEscalada.getAll(null));
+		request.setAttribute("zonas", this.modeloZona.getAll(null));
 		request.setAttribute(
 				"sectores",
 				this.modeloSector.getAllByZona(this.via.getSector().getZona()
