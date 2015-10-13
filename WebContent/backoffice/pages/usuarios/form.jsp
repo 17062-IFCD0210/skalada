@@ -64,9 +64,13 @@
 	       		 <div class="form-group">
 	           		<label for="validado">Validado</label>
 	           		<% if( usuario.getValidado() == Constantes.USER_VALIDATE ){ %> 
-	           			<input type="checkbox" checked class="form-control" name="validado" value="<%=Constantes.USER_VALIDATE%>">
+	           			<input type="checkbox" checked class="form-control" name="validado" value="<%=Constantes.USER_VALIDATE%>"	           			 
+	           					data-on-text="SI" data-on-color="success"
+	           					data-off-text="NO" data-off-color="warning">
 	           		<% }else{ %>
-	           			<input type="checkbox" class="form-control" name="validado" value="<%=Constantes.USER_VALIDATE%>">
+	           			<input type="checkbox" class="form-control" name="validado" value="<%=Constantes.USER_VALIDATE%>" 
+	           					data-on-text="SI" data-on-color="success"
+	           					data-off-text="NO" data-off-color="warning">
 	           		<% } %>
 	          	 </div>
 	        

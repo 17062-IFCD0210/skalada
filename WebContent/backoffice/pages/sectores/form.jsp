@@ -113,11 +113,15 @@
 				</div>
 						
 				<div class="form-group">
-	           		<label for="validado">Validado</label>
+	           		<label for="validado">Validar?</label>
 	           		<% if( sector.isValidado() ){ %> 
-	           			<input type="checkbox" checked class="form-control" name="validado" value="<%=Constantes.VALIDADO%>">
+	           			<input type="checkbox" class="form-control" name="validado" checked 
+	           					data-on-text="SI" data-on-color="success"
+	           					data-off-text="NO" data-off-color="danger">
 	           		<% }else{ %>
-	           			<input type="checkbox" class="form-control" name="validado" value="<%=Constantes.NO_VALIDADO%>">
+	           			<input type="checkbox" class="form-control" name="validado"
+								data-on-text="SI" data-on-color="success"
+	           					data-off-text="NO" data-off-color="danger">
 	           		<% } %>
 	          	 </div>         	
 			

@@ -10,7 +10,9 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
+        <!-- Bootstrap-Switch JavaScript -->
+    <script src="bower_components/bootstrap-switch/bootstrap-switch.min.js"></script>
+    
     <!-- Metis Menu Plugin JavaScript -->
     <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
@@ -30,9 +32,17 @@
     <script>
 	    $(document).ready(function() {
 	    	
+	    	//Habilitar Bootstrap-switch
+	    	$(":checkbox").bootstrapSwitch();	    	
+	    	
 	    	//Habilitar DataTable
 	        $('#tabla').DataTable({
-	                responsive: true
+	        	aLengthMenu: [
+	    		              [10, 25, 50, -1],
+	    		              [10, 25, 50,"All"]
+	    		          ],
+	    		iDisplayLength: 25,
+	            responsive: true
 	        });
 	    	
 	    	//llamada Controlador Ajax Sectores	 

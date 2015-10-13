@@ -35,7 +35,7 @@ public class ModeloSector implements Persistable<Sector> {
 	private static final String SQL_GETALL_BY_USER = SQL_GETALL + " AND s.id_usuario = ?";
 	
 	private static final String SQL_GETALL_BY_ZONA = SQL_GETALL + " WHERE `id_zona` = ?";
-	private static final String SQL_SECTORES_PUBLICADOS = "SELECT COUNT(`id`) as `sectores` FROM `SECTOR`;";
+	private static final String SQL_CANT_SECTORES_PUBLICADOS = "SELECT COUNT(`id`) as `sectores` FROM `SECTOR`;";
 
 	
 	
@@ -301,13 +301,13 @@ public class ModeloSector implements Persistable<Sector> {
 		return resul;
 	}
 
-	public static int sectoresPublicados() {
+	public static int cantSectoresPublicados() {
 		int resul = 0;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
 			Connection con = DataBaseHelper.getConnection();
-			pst = con.prepareStatement(SQL_SECTORES_PUBLICADOS);
+			pst = con.prepareStatement(SQL_CANT_SECTORES_PUBLICADOS);
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				resul = rs.getInt("sectores");

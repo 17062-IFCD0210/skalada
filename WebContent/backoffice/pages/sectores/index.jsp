@@ -71,9 +71,9 @@
 		                <td><%=s.getZona().getNombre()%></td>
 		                <td><%=s.getUsuario().getNombre()%></td>
 		                <% if(s.isValidado()){ %>
-		                	<td><span class="label label-success">Publicado</span></td>
+		                	<td><span class="label label-success">Validado</span></td>
 		                <% } else { %>
-		                	<td><span class="label label-danger">No Publicado</span></td>
+		                	<td><span class="label label-danger">No Validado</span></td>
 		                <% } %>
 		            </tr>	            
 	           <%

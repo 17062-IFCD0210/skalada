@@ -70,7 +70,13 @@
 		                	</a>
 		                </td>
 		                <td><%=u.getEmail()%></td>
-		                <td><%=u.getValidado()%></td>
+		                
+		                <% if(u.getValidado() == Constantes.USER_VALIDATE){ %>
+		                	<td><span class="label label-success">Validado</span></td>
+		                <% } else { %>
+		                	<td><span class="label label-danger">No Validado</span></td>
+		                <% } %>		                	                
+		                
 		               	<td><%=u.getRol().getNombre()%></td>
 		            </tr>           
 	           <%
