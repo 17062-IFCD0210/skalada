@@ -2,17 +2,15 @@
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-<%@page
-	import="com.ipartek.formacion.skalada.controladores.LoginController"%>
+<%@page import="com.ipartek.formacion.skalada.controladores.LoginController"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
-<%	
-	Usuario usuario = null;
-	usuario = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER);
-	int rol = 0;
-	if (usuario!=null){
-		rol = usuario.getRol().getId();	
-	}
+	<%
+		Usuario usuario = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER);
+		int rol = 0;
+		if (usuario!=null){
+			rol = usuario.getRol().getId();	
+		}
 	%>
 
 <!-- Navigation -->
@@ -64,9 +62,9 @@
 					</div> <!-- /input-group -->
 				</li>
 				<%	if (rol == Constantes.ROLE_ID_ADMIN) {	%>
-				<jsp:include page="nav-admin.jsp"></jsp:include>
+				<%@include file="nav-admin.jsp" %>
 				<%	} else { %>
-				<jsp:include page="nav-user.jsp"></jsp:include>
+				<%@include file="nav-user.jsp" %>
 				<%} %>
 			</ul>
 		</div>

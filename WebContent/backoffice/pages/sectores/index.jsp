@@ -1,16 +1,16 @@
-<%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
-
-<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
-<jsp:include page="../includes/head.jsp"></jsp:include>
-<jsp:include page="../includes/nav.jsp"></jsp:include>
+<%@page import="com.ipartek.formacion.skalada.bean.Usuario"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
+<%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
+
+<%@include file="../includes/head.jsp" %>
+<%@include file="../includes/nav.jsp" %>
 
 <div id="page-wrapper">
-
     
 	<div class="row">
         <div class="col-lg-12">
@@ -47,8 +47,10 @@
 	                <th>ID</th>
 	                <th>Nombre</th>
 	                <th>Zona</th>
+	                <% if(usuario.isAdmin()) { %>
 	                <th>Autor</th>
-	                <th>Publicado</th>
+	                <% } %>
+	                <th>Validado</th>
 	            </tr>
 	        </thead> 
 	        	 
@@ -69,12 +71,20 @@
 		                	</a>
 		                </td>
 		                <td><%=s.getZona().getNombre()%></td>
-		                <td><%=s.getUsuario().getNombre()%></td>
-		                <% if(s.isValidado()){ %>
-		                	<td><span class="label label-success">Validado</span></td>
-		                <% } else { %>
-		                	<td><span class="label label-danger">No Validado</span></td>
-		                <% } %>
+		                
+		           	<% if(usuario.isAdmin()) { %>
+		                <td>
+		                	<a href="<%=Constantes.CONTROLLER_USUARIOS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=s.getUsuario().getId()%>">
+		                		<%=s.getUsuario().getNombre()%>
+		                	</a>
+		                </td>
+		            <% } %>
+		                
+		           	<% if(s.isValidado()){ %>
+		            	<td><span class="label label-success">Validado</span></td>
+		        	<% } else { %>
+		           		<td><span class="label label-danger">Sin Validar</span></td>
+		         	<% } %>
 		            </tr>	            
 	           <%
 	           		} //end for
