@@ -120,5 +120,17 @@ public class Usuario implements Serializable {
 				+ ", email=" + this.email + ", password=" + this.password
 				+ ", validado=" + this.validado + ", rol=" + this.rol + "]";
 	}
+	
+	
+	
+	
+	public boolean isAdmin(){
+		boolean resul = false;
+		if (this.rol != null && Constantes.ROLE_ID_ADMIN == this.rol.getId()) {
+			resul = true;
+		}
+		return resul;
+	}
+	
 
 }
