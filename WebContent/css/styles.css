@@ -12,3 +12,7 @@
 .center-text{
 	text-align: center;
 }
+
+tr:hover{
+	background-color: #c7cdc7;
+}
