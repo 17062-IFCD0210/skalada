@@ -15,22 +15,17 @@ public class ModeloZona implements Persistable {
 	private static final String TABLA = "zona";
 	private static final String COL_ID = "id";
 	private static final String COL_NOMBRE = "nombre";
-	private static final String COL_CREADOR = "creado_por";
-	private static final String COL_PUBLICADO = "publicado";
-	private static final String COL_FECHA_CREADO = "fecha_creado";
-	private static final String COL_FECHA_MODIFICADO = "fecha_modificado";
 
 	private static final String SQL_INSERT = "INSERT INTO `" + TABLA + "` (`"
-			+ COL_NOMBRE + "`,`" + COL_CREADOR + "`) VALUES (?,?);";
+			+ COL_NOMBRE + "`) VALUES (?);";
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA
 			+ "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETONE = "SELECT `id`, `nombre`, `creado_por`, `publicado`, `fecha_creado`, `fecha_modificado` FROM `"
+	private static final String SQL_GETONE = "SELECT `id`, `nombre` FROM `"
 			+ TABLA + "` WHERE `" + COL_ID + "`= ?;";
-	private static final String SQL_GETALL = "SELECT `id`, `nombre`, `creado_por`, `publicado`, `fecha_creado`, `fecha_modificado` FROM "
+	private static final String SQL_GETALL = "SELECT `id`, `nombre` FROM "
 			+ TABLA;
 	private static final String SQL_UPDATE = "UPDATE `" + TABLA + "` SET `"
-			+ COL_NOMBRE + "`= ?, `" + COL_CREADOR + "`=?, `" + COL_PUBLICADO
-			+ "`=?, `" + COL_FECHA_MODIFICADO + "`=? WHERE `" + COL_ID
+			+ COL_NOMBRE + "`= ? WHERE `" + COL_ID
 			+ "`= ? ;";
 
 	@Override()
@@ -46,7 +41,6 @@ public class ModeloZona implements Persistable {
 				pst = con.prepareStatement(SQL_INSERT,
 						Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, z.getNombre());
-				pst.setInt(2, z.getCreador().getId());
 				if (pst.executeUpdate() != 1) {
 					throw new Exception("No se ha realizado la insercion");
 				} else {
@@ -150,10 +144,7 @@ public class ModeloZona implements Persistable {
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
 				pst.setString(1, z.getNombre());
-				pst.setInt(2, z.getCreador().getId());
-				pst.setBoolean(3, z.isPublicado());
-				pst.setTimestamp(4, z.getFechaModificado());
-				pst.setInt(5, z.getId());
+				pst.setInt(2, z.getId());
 				if (pst.executeUpdate() == 1) {
 					resul = true;
 				}
@@ -209,15 +200,8 @@ public class ModeloZona implements Persistable {
 	 */
 	private Zona mapeo(ResultSet rs) throws SQLException {
 		Zona resul = null;
-		Usuario creador = null;
-		ModeloUsuario mu = new ModeloUsuario();
-		creador = (Usuario) mu.getById(rs.getInt(COL_CREADOR));
 		resul = new Zona(rs.getString(COL_NOMBRE));
 		resul.setId(rs.getInt(COL_ID));
-		resul.setCreador(creador);
-		resul.setPublicado(rs.getBoolean(COL_PUBLICADO));
-		resul.setFechaCreado(rs.getTimestamp(COL_FECHA_CREADO));
-		resul.setFechaModificado(rs.getTimestamp(COL_FECHA_MODIFICADO));
 		return resul;
 	}
 

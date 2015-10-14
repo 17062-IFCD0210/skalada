@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.skalada.Constantes;
+import com.ipartek.formacion.skalada.bean.Mensaje;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
@@ -150,26 +151,28 @@ public class ZonasController extends HttpServlet {
 		this.crearObjeto();
 
 		// Guardar/Modificar Objeto Via
+		Mensaje msg = new Mensaje( Mensaje.MSG_DANGER , "Error sin identificar");
 		if (this.pID == -1) {
 			if (this.modelo.save(this.zona) != -1) {
-				request.setAttribute("msg-success", "Registro creado con exito");
+				msg.setTipo(Mensaje.MSG_SUCCESS);
+				msg.setTexto("Registro creado con exito");
 			} else {
-				request.setAttribute("msg-danger",
-						"Error al guardar el nuevo registro");
+				msg.setTipo(Mensaje.MSG_DANGER);
+				msg.setTexto("Error al guardar el nuevo registro");	
 			}
 		} else {
 			if (this.modelo.update(this.zona)) {
-				request.setAttribute("msg-success",
-						"Modificado correctamente el registro [id(" + this.pID
-						+ ")]");
+				msg.setTipo(Mensaje.MSG_SUCCESS);
+				msg.setTexto("Modificado correctamente el registro [id(" + this.pID
+						+ ")]");						
 			} else {
-				request.setAttribute("msg-danger",
-						"Error al modificar el registro [id(" + this.pID + ")]");
+				msg.setTipo(Mensaje.MSG_DANGER);
+				msg.setTexto("Error al modificar el registro [id(" + this.pID + ")]");		
 			}
 		}
-
+		request.setAttribute("msg", msg);
+		
 		this.listar(request, response);
-
 		this.dispatcher.forward(request, response);
 
 	}
@@ -180,14 +183,6 @@ public class ZonasController extends HttpServlet {
 	private void crearObjeto() {
 		this.zona = new Zona(this.pNombre, this.usuario);
 		this.zona.setId(this.pID);
-		this.zona.setFechaCreado();
-		this.zona.setFechaModificado();
-		if (this.publicado > 0) {
-			this.zona.setPublicado(true);
-		} else {
-			this.zona.setPublicado(false);
-		}
-
 	}
 
 	/**
@@ -202,7 +197,6 @@ public class ZonasController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		this.pID = Integer.parseInt(request.getParameter("id"));
 		this.pNombre = request.getParameter("nombre");
-		this.publicado = Integer.parseInt(request.getParameter("publicado"));
 	}
 
 }

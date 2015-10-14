@@ -8,13 +8,13 @@
 <%@page import="com.ipartek.formacion.skalada.bean.Sector"%>
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
-<jsp:include page="../includes/head.jsp"></jsp:include>
-<jsp:include page="../includes/nav.jsp"></jsp:include>
+<%@include file="../includes/head.jsp" %>
+<%@include file="../includes/nav.jsp" %>
 
 <%
 	Sector sector = (Sector)request.getAttribute("sector");
 	ArrayList<Zona> zonas = (ArrayList<Zona>)request.getAttribute("zonas");
-	Usuario usuario = (Usuario)request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
+	ArrayList<Usuario> usuarios = (ArrayList<Usuario>)request.getAttribute("usuarios");
 %>
 
 <div id="page-wrapper">
@@ -31,48 +31,72 @@
 	<!-- Formulario -->
 	<!-- @see: http://www.tutorialspoint.com/servlets/servlets-file-uploading.htm -->
 	
-		<form action="<%=Constantes.CONTROLLER_SECTORES%>"
-		      enctype="multipart/form-data" 
-		      method="post" 
-		      role="form">
-			
-				<div class="form-group">			
+		<form action="<%=Constantes.CONTROLLER_SECTORES%>" enctype="multipart/form-data" method="post" role="form">
+		    <div class="row">
+				<div class="form-group col-md-1">			
 					<!-- Mostramon el input text, pero se submita el hidden -->
 					<label for="id">ID</label>
 					<input type="hidden" name="id" value="<%=sector.getId()%>">
-					<input type="hidden" name="autor" value="<%=usuario.getId()%>">
 					<input type="text"  class="form-control" value="<%=sector.getId()%>" disabled >
 				</div>
 				
-				<div class="form-group">
+				<div class="form-group col-md-3">
 	           		<label for="nombre">Nombre</label>
 	           		<input type="text" class="form-control" name="nombre" value="<%=sector.getNombre()%>">
 	          	</div>
 
-	          	<div class="form-group">
+	          	<div class="form-group col-md-3">
 		            <label for="zona">Zona</label>
 		            <select class="form-control" name="zona">
   					<%
   					for (int i = 0 ; i < zonas.size() ; i++){
-  					%>
-  						
-  						    <% if( zonas.get(i).getId() == sector.getZona().getId() ){ %>
-  						    	<option selected value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
-  						    <%}else{ %>
-  								<option value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
-  							<%}//end else  						
+  						if( zonas.get(i).getId() == sector.getZona().getId() ){ %>
+					    	<option selected value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
+					    <%}else{ %>
+							<option value="<%=zonas.get(i).getId()%>"><%=zonas.get(i).getNombre()%></option>
+						<%}//end else  						
   					}//end for
 					%>
 					</select>
 				</div>
+			
+			<% if(usuario.isAdmin()) {%>
+			<div class="form-group col-md-3">
+		            <label for="autor">Autor</label>
+		            <select class="form-control" name="autor">
+  					<% for (int i = 0 ; i < usuarios.size() ; i++){
+  					   	if( usuarios.get(i).getId() == sector.getUsuario().getId() ){ %>
+					    	<option selected value="<%=usuarios.get(i).getId()%>"><%=usuarios.get(i).getNombre()%></option>
+					<% 	} else { %>
+							<option value="<%=usuarios.get(i).getId()%>"><%=usuarios.get(i).getNombre()%></option>
+					<%	}//end else  						
+  					}//end for
+					%>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="validado">Validado</label><br>
+					<%
+						String validado = "";
+						if(sector.isValidado()){
+							validado = "checked";
+						}
+					%>					
+					<input type="checkbox" name="validado" data-toggle="toggle" data-on="Validado" data-onstyle="success"
+							<%=validado%> data-width="100%" data-height="34" data-off="No Validado" data-offstyle="danger">
+				</div>	
+			<% } else { %>
+				<input type="hidden" name="autor" value="<%=usuario.getId()%>">
+			<% } %>
+
 		      
-		      <!-- Imagen -->
-		      	<div class="form-group">
+			</div>
+			
+			<!-- Imagen -->
+			<div class="row">		      
+		      	<div class="form-group col-md-12">
 		      		<label for="imagen">Imagen</label>
-	           		<input type="file" id="imagen" 
-	           		       class="form-control" name="imagen"
-	           		       onchange="showFileSize();"
-	           		       >
+	           		<input type="file" id="imagen"  class="form-control" name="imagen" onchange="showFileSize();">
 	           		
 	           		<%
 	           			String img_path = Constantes.IMG_DEFAULT_SECTOR;
@@ -111,23 +135,8 @@
 						}//end showFileSize
 					</script>
 				</div>
-					
-					
-				<% if(usuario.getRol().getId() == Constantes.ROLE_ID_ADMIN) {%>	
-				<div class="form-group">
-	           		<label for="validado">Validar</label>
-	           		<% if( sector.isValidado() ){ %> 
-	           			<input type="checkbox" class="form-control" name="validado" checked 
-	           					data-on-text="SI" data-on-color="success"
-	           					data-off-text="NO" data-off-color="danger">
-	           		<% }else{ %>
-	           			<input type="checkbox" class="form-control" name="validado"
-								data-on-text="SI" data-on-color="success"
-	           					data-off-text="NO" data-off-color="danger">
-	           		<% } %>
-	          	 </div>  
-	          	 <% } %>       	
-			
+			</div>		
+
 			<!-- Botonera -->
 			<div class="form-group">
 								

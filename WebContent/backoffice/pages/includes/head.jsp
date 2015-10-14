@@ -26,8 +26,8 @@
     <!-- Bootstrap Core CSS -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Bootstrap-Switch CSS -->
-    <link href="bower_components/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
+    <!-- Bootstrap-toggle CSS -->
+    <link href="dist/css/bootstrap2-toggle.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">

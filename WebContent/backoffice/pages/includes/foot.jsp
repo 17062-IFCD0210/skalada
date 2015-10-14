@@ -10,8 +10,8 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- Bootstrap-Switch JavaScript -->
-    <script src="bower_components/bootstrap-switch/bootstrap-switch.min.js"></script>
+    <!-- Bootstrap-toggle JavaScript -->
+    <script src="dist/js/bootstrap2-toggle.min.js"></script>
     
     <!-- Metis Menu Plugin JavaScript -->
     <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
@@ -30,10 +30,7 @@
     
         
     <script>
-	    $(document).ready(function() {
-	    	
-	    	//Habilitar Bootstrap-switch
-	    	$(":checkbox").bootstrapSwitch();	    	
+	    $(document).ready(function() {	    	 	
 	    	
 	    	//Habilitar DataTable
 	        $('#tabla').DataTable({

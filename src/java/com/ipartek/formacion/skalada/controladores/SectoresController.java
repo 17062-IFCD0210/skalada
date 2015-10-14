@@ -147,11 +147,13 @@ public class SectoresController extends HttpServlet {
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
 		this.zona = new Zona("");
 		this.sector = new Sector("", this.zona);
+		this.sector.setUsuario( usuario );		
+		
 		request.setAttribute("sector", this.sector);
 		request.setAttribute("titulo", "Crear nuevo Sector");
 		request.setAttribute("zonas", this.modeloZona.getAll(null));
-		this.dispatcher = request
-				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
+		request.setAttribute("usuarios", this.modeloUsuario.getAll(null));
+		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 
 	}
 
@@ -160,7 +162,7 @@ public class SectoresController extends HttpServlet {
 		request.setAttribute("sector", this.sector);
 		request.setAttribute("titulo", this.sector.getNombre().toUpperCase());
 		request.setAttribute("zonas", this.modeloZona.getAll(null));
-
+		request.setAttribute("usuarios", this.modeloUsuario.getAll(null));
 		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 	}
 
