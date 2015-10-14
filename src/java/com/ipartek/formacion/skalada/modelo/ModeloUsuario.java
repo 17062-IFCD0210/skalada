@@ -11,7 +11,7 @@ import java.util.HashMap;
 import com.ipartek.formacion.skalada.bean.Rol;
 import com.ipartek.formacion.skalada.bean.Usuario;
 
-public class ModeloUsuario implements Persistable {
+public class ModeloUsuario implements Persistable<Usuario> {
 
 	private static final String SQL_INSERT = "INSERT INTO `usuario` (`email`, `nombre`, `password`, `id_rol`,`token`) VALUES (?, ?, ?, ?,?);";
 	private static final String SQL_DELETE = "DELETE FROM `usuario` WHERE `id`= ? ;";
@@ -32,14 +32,12 @@ public class ModeloUsuario implements Persistable {
 	private static final String SQL_USUARIOS_NO_VALIDADOS = "SELECT COUNT(`id`) AS `noValidados` FROM `usuario` WHERE `validado`=0;";
 
 	@Override()
-	public int save(Object o) {
+	public int save(Usuario usuario) {
 		int resul = -1;
-		Usuario usuario = null;
 		PreparedStatement pst = null;
 		ResultSet rsKeys = null;
-		if (o != null) {
+		if (usuario != null) {
 			try {
-				usuario = (Usuario) o;
 				Connection con = DataBaseHelper.getConnection();
 				pst = con.prepareStatement(SQL_INSERT,
 						Statement.RETURN_GENERATED_KEYS);
@@ -79,8 +77,8 @@ public class ModeloUsuario implements Persistable {
 	}
 
 	@Override()
-	public Object getById(int id) {
-		Object resul = null;
+	public Usuario getById(int id) {
+		Usuario resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
@@ -109,8 +107,8 @@ public class ModeloUsuario implements Persistable {
 		return resul;
 	}
 
-	public Object getByEmail(String email) {
-		Object resul = null;
+	public Usuario getByEmail(String email) {
+		Usuario resul = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
@@ -140,8 +138,8 @@ public class ModeloUsuario implements Persistable {
 	}
 
 	@Override()
-	public ArrayList<Object> getAll(Usuario usuario) {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Usuario> getAll(Usuario usuario) {
+		ArrayList<Usuario> resul = new ArrayList<Usuario>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
@@ -169,8 +167,8 @@ public class ModeloUsuario implements Persistable {
 		return resul;
 	}
 
-	public ArrayList<Object> getNoValidados() {
-		ArrayList<Object> resul = new ArrayList<Object>();
+	public ArrayList<Usuario> getNoValidados() {
+		ArrayList<Usuario> resul = new ArrayList<Usuario>();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		try {
@@ -199,13 +197,11 @@ public class ModeloUsuario implements Persistable {
 	}
 
 	@Override()
-	public boolean update(Object o) {
+	public boolean update(Usuario usuario) {
 		boolean resul = false;
-		Usuario usuario = null;
 		PreparedStatement pst = null;
-		if (o != null) {
+		if (usuario != null) {
 			try {
-				usuario = (Usuario) o;
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);

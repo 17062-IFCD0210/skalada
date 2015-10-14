@@ -40,7 +40,10 @@
 
     <!-- Custom CSS -->
     <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-
+	
+	<!-- Toogle checkbuttons Bootstrap -->
+	<link href="dist/css/bootstrap-toggle.min.css" rel="stylesheet">
+    
     <!-- Morris Charts CSS -->
 <!--     <link href="bower_components/morrisjs/morris.css" rel="stylesheet"> -->
 

@@ -56,8 +56,8 @@ public class FilterBackoffice implements Filter {
 			// if (!excludePages.contains(url)) {
 
 			// Comprobar si está logeado
-			HttpSession session = httpRequest.getSession(true);
-			Usuario user = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER); // Crea una sesión si es nula
+			HttpSession session = httpRequest.getSession(true); // Crea una sesión si es nula y puede cascar con el getAttribute
+			Usuario user = (Usuario) session.getAttribute(Constantes.KEY_SESSION_USER);
 			if (user == null) { // si es diferente de null el usuario está logeado
 
 				Mensaje msg = new Mensaje(Mensaje.MSG_WARNING, "No estás logeado, por favor inicia sesion");

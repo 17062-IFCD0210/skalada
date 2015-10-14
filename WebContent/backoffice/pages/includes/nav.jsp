@@ -13,7 +13,7 @@
 	if (usuario!=null){
 		rol = usuario.getRol().getId();	
 	}
-	%>
+%>
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation"

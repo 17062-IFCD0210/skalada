@@ -54,9 +54,8 @@ public class ModeloSector implements Persistable<Sector> {
 	// "SELECT  s.id, s.imagen, s.nombre, s.id_zona as zona_id, z.nombre AS zona_nombre FROM sector AS s INNER JOIN zona AS z ON (s.id_zona = z.id) WHERE s.id = ?";
 
 	private static final String SQL_GETALL_BY_USER = SQL_GETALL + " AND s.id_usuario = ?;";
-	private static final String SQL_UPDATE = "UPDATE `validado`, `id_usuario`, `" + TABLA_SECTOR + "` SET `validado`= ? , `id_usuario`= ? , `"
-			+ COL_NOMBRE + "`= ? , `" + COL_ZONA_ID + "`= ? , `"
-			+ COL_IMAGEN + "`= ? WHERE `" + COL_ID + "`= ? ;";
+	private static final String SQL_UPDATE = "UPDATE `" + TABLA_SECTOR + "` SET `validado`= ? , `id_usuario`= ? , `" + COL_NOMBRE
+			+ "`= ? , `id_zona` = ? , `" + COL_IMAGEN + "`= ? WHERE `" + COL_ID + "`= ?;";
 
 	private static final String SQL_GETALL_BY_ZONA = "select `id`,`nombre`,`imagen` from `sector` where `id_zona` = ?";
 
@@ -191,10 +190,16 @@ public class ModeloSector implements Persistable<Sector> {
 				Connection con = DataBaseHelper.getConnection();
 				String sql = SQL_UPDATE;
 				pst = con.prepareStatement(sql);
-				pst.setString(1, s.getNombre());
-				pst.setInt(2, s.getZona().getId());
-				pst.setString(3, s.getImagen());
-				pst.setInt(4, s.getId());
+				if (s.isValidado()) {
+					pst.setInt(1, 0);
+				} else {
+					pst.setInt(1, 1);
+				}
+				pst.setInt(2, s.getUsuario().getId());
+				pst.setString(3, s.getNombre());
+				pst.setInt(4, s.getZona().getId());
+				pst.setString(5, s.getImagen());
+				pst.setInt(6, s.getId());
 				if (pst.executeUpdate() == 1) {
 					resul = true;
 				}

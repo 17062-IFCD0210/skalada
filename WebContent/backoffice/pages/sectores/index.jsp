@@ -10,14 +10,7 @@
 <jsp:include page="../includes/head.jsp"></jsp:include>
 <jsp:include page="../includes/nav.jsp"></jsp:include>
 
-<%
-	Usuario usuario = null;
-	usuario = (Usuario)session.getAttribute(Constantes.KEY_SESSION_USER);
-	int rol = 0;
-	if (usuario != null) {
-		rol = usuario.getRol().getId();
-	}
-%>
+<%Usuario usuario = (Usuario)session.getAttribute(Constantes.KEY_SESSION_USER); %>
 
 <div id="page-wrapper">
 
@@ -57,48 +50,50 @@
 	                <th>ID</th>
 	                <th>Nombre</th>
 	                <th>Zona</th>
-	                
 	                <%
-		               	if (rol == Constantes.ROLE_ID_ADMIN){
-	                		out.print("<th>Usuario</th>");
-	                	}
+	                if (usuario.getRol().getId()==Constantes.ROLE_ID_ADMIN){
+	                	out.print("<th>Creado por</th>");
+	                }
 	                %>
 	                <th>Validado</th>
 	            </tr>
 	        </thead> 
 	        	 
-	        <tbody>	 
-		        <%
+	        <tbody>	           
+	           <%
 	           		// recoger el atributo "sectores" que nos llegara del Servlet con una coleccion de sectores(ArrayList<Sector>)
 	           		ArrayList<Sector> sectores = (ArrayList<Sector>)request.getAttribute("sectores");
 	           		
 	           		Sector s = null;
 	           		for(int i = 0 ; i < sectores.size() ; i++){
 	           			s = sectores.get(i);
-   	            %>          
-				<tr>
-	                <td><%=s.getId()%></td>
-	                <td>
-	                	<a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=s.getId()%>">
-	                		<%=s.getNombre()%>
-	                	</a>
-	                </td>
-	                <td><%=s.getZona().getNombre()%></td>
-	                <%
-	                	if (rol == Constantes.ROLE_ID_ADMIN){
-	                		out.print("<td>" + s.getUsuario().getNombre() + "</td>");
-	                	}
-	                
-	                	String vLabel = " label-warning";
-	                	String vTexto = "Sin validar";
-	                	if (s.isValidado()){
-	                		vLabel = " label-success";
-	                		vTexto = "Validado";
-	                	}
-	                %>
-	                
-	                <td><span class="label<%=vLabel%>"><%=vTexto%></span></td>
-				</tr>
+   	           %>
+   	                <tr>
+		                <td><%=s.getId()%></td>
+		                <td>
+		                	<a href="<%=Constantes.CONTROLLER_SECTORES%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=s.getId()%>">
+		                		<%=s.getNombre()%>
+		                	</a>
+		                </td>
+		                <td><a href="<%=Constantes.CONTROLLER_ZONAS%>?accion=<%=Constantes.ACCION_DETALLE%>&id=<%=s.getZona().getId()%>"><%=s.getZona().getNombre()%></a></td>
+		                <%
+		                if (usuario.getRol().getId()==Constantes.ROLE_ID_ADMIN){
+		                	out.print("<td><a href='"+Constantes.CONTROLLER_USUARIOS+"?accion="+Constantes.ACCION_DETALLE+"&id="+s.getUsuario().getId()+"'>"+s.getUsuario().getNombre()+"</a></td>");
+		                }
+		                %>
+		                <%
+		                String validado = "";
+		                String val_class ="";
+		                if (s.isValidado()){
+		                	validado="Validado";
+		                	val_class="success";
+		                }else{
+		                	validado="No Validado";
+		                	val_class="danger";
+		                }
+		                %>
+		                <td><span class="label label-<%=val_class%>"><%=validado %></span></td>
+		            </tr>	            
 	           <%
 	           		} //end for
 	           %>	            

@@ -25,6 +25,7 @@ import com.ipartek.formacion.skalada.bean.Sector;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.bean.Zona;
 import com.ipartek.formacion.skalada.modelo.ModeloSector;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
@@ -37,6 +38,7 @@ public class SectoresController extends HttpServlet {
 	private Usuario usuario = null;
 	private RequestDispatcher dispatcher = null;
 	private ModeloSector modeloSector = null;
+	private ModeloUsuario modeloUsuario = null;
 	private Sector sector = null;
 	private ModeloZona modeloZona = null;
 	private Zona zona = null;
@@ -46,6 +48,7 @@ public class SectoresController extends HttpServlet {
 	private int pID = -1; // ID no valido
 	private String pNombre;
 	private int pIDZona;
+	private int pIdUsuario;
 	private int pValidado;
 
 	//Imagen File	
@@ -60,6 +63,7 @@ public class SectoresController extends HttpServlet {
 		super.init(config);
 		modeloSector = new ModeloSector();
 		modeloZona = new ModeloZona();
+		modeloUsuario = new ModeloUsuario();
 	}
 
 	@Override
@@ -148,6 +152,8 @@ public class SectoresController extends HttpServlet {
 		request.setAttribute("sector", sector);
 		request.setAttribute("titulo", "Crear nuevo Sector");
 		request.setAttribute("zonas", modeloZona.getAll(null));
+		request.setAttribute("usuarios", modeloUsuario.getAll(null));
+
 		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
 
@@ -159,6 +165,7 @@ public class SectoresController extends HttpServlet {
 		request.setAttribute("sector", sector);
 		request.setAttribute("titulo", sector.getNombre().toUpperCase());
 		request.setAttribute("zonas", modeloZona.getAll(null));
+		request.setAttribute("usuarios", modeloUsuario.getAll(null));
 
 		dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
@@ -270,57 +277,68 @@ public class SectoresController extends HttpServlet {
 	 */
 	private void getParametersForm(HttpServletRequest request) throws Exception {
 	
-			request.setCharacterEncoding("UTF-8");		
-			
-			DiskFileItemFactory factory = new DiskFileItemFactory();
-			// maximum size that will be stored in memory
-			//TODO cambiar este valor para que falle
-			factory.setSizeThreshold( Constantes.MAX_MEM_SIZE );
-			// Location to save data that is larger than maxMemSize.
-			//TODO comprobar si no existe carpeta
-			factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));
-			
-			// Create a new file upload handler
-		    ServletFileUpload upload = new ServletFileUpload(factory);
-		    // maximum file size to be uploaded.
-		    //TODO cambiar valor no dejar subir mas 1Mb
-		    upload.setSizeMax( Constantes.MAX_FILE_SIZE );
-		    
-		    //Parametros de la request del formulario, NO la imagen
-		    HashMap<String, String> dataParameters = new HashMap<String, String>();
-			// Parse the request to get file items.		   
-		    List<FileItem> items = upload.parseRequest(request);		   
-		    for (FileItem item : items) {		    	
-		    	//parametro formulario
-		    	if ( item.isFormField() ){		    		
-		    		dataParameters.put( item.getFieldName(), item.getString("UTF-8") );
-		    	//Imagen	
-		    	}else{		    		
-		    		String fileName     = item.getName();		    		
-		    		if ( !"".equals(fileName)){		    		
-			            String fileContentType  = item.getContentType();
+		request.setCharacterEncoding("UTF-8");
+
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		// maximum size that will be stored in memory
+		// TODO cambiar este valor para que falle
+		factory.setSizeThreshold(Constantes.MAX_MEM_SIZE);
+		// Location to save data that is larger than maxMemSize.
+		// TODO comprobar si no existe carpeta
+		factory.setRepository(new File(Constantes.IMG_UPLOAD_TEMP_FOLDER));
+
+		// Create a new file upload handler
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		// maximum file size to be uploaded.
+		// TODO cambiar valor no dejar subir mas 1Mb
+		upload.setSizeMax(Constantes.MAX_FILE_SIZE);
+
+		// Parametros de la request del formulario, NO la imagen
+		HashMap<String, String> dataParameters = new HashMap<String, String>();
+		// Parse the request to get file items.
+		List<FileItem> items = upload.parseRequest(request);
+		for (FileItem item : items) {
+			// parametro formulario
+			if (item.isFormField()) {
+				dataParameters.put(item.getFieldName(), item.getString("UTF-8"));
+				// Imagen
+			} else {
+				String fileName = item.getName();
+				if (!"".equals(fileName)) {
+					String fileContentType = item.getContentType();
+
+					if (Constantes.CONTENT_TYPES.contains(fileContentType)) {
+
+						item.getSize();
+
+						// TODO No repetir nombres imagenes
 			            
-			            if ( Constantes.CONTENT_TYPES.contains(fileContentType)){
-			             		            
-				            item.getSize();				            
-				            
-				            //TODO No repetir nombres imagenes
-				            
-				            file = new File( Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName );
-				            item.write( file ) ;
-			            }else{
+						file = new File(Constantes.IMG_UPLOAD_FOLDER + "\\" + fileName);
+						item.write(file);
+					} else {
 						throw new Exception("[" + fileContentType + "] extensi�n de imagen no permitida");
-			            }//end: content-type no permitido    
-		    		}else{
-		    			file = null;
-		    		}   
-		    	}	
-		    }//End: for List<FileItem>
-		    
-		   	pID = Integer.parseInt( dataParameters.get("id"));
-			pNombre = dataParameters.get("nombre");
-			pIDZona = Integer.parseInt(dataParameters.get("zona"));
-		pValidado = Integer.parseInt((dataParameters.get("validado")));
+					}// end: content-type no permitido
+				} else {
+					file = null;
+				}
+			}
+		}// End: for List<FileItem>
+
+		pID = Integer.parseInt(dataParameters.get("id"));
+		pNombre = dataParameters.get("nombre");
+		pIDZona = Integer.parseInt(dataParameters.get("zona"));
+
+		if (dataParameters.get("creador") != null){
+			pIdUsuario = Integer.parseInt(dataParameters.get("creador"));
+		}else{
+			pIdUsuario = usuario.getId();
+		}
+
+		if (dataParameters.get("validado") == null) {
+			pValidado = 0;
+		} else {
+			pValidado = 1;
+		}
 		
 	}
 

@@ -110,6 +110,13 @@ public class Usuario implements Serializable {
 		SecureRandom random = new SecureRandom();
 		this.token = new BigInteger(130, random).toString(32);
 	}
+	public final boolean isAdmin() {
+		boolean resul = false;
+		if (this.rol != null && Constantes.ROLE_ID_ADMIN == this.rol.getId()) {
+			resul = true;
+		}
+		return resul;
+	}
 
 	// **********************************
 	// **** ToString() ****

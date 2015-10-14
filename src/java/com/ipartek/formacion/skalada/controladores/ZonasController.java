@@ -2,6 +2,7 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.ipartek.formacion.skalada.Constantes;
 import com.ipartek.formacion.skalada.bean.Usuario;
 import com.ipartek.formacion.skalada.bean.Zona;
+import com.ipartek.formacion.skalada.modelo.ModeloUsuario;
 import com.ipartek.formacion.skalada.modelo.ModeloZona;
 
 /**
@@ -25,14 +27,18 @@ public class ZonasController extends HttpServlet {
 
 	private RequestDispatcher dispatcher = null;
 	private ModeloZona modelo = null;
+	private ModeloUsuario mu = null;
 	private Zona zona = null;
 	private Usuario usuario = null;
+	private Usuario admin = null;
+	private ArrayList<Usuario> usuarios = null;
+	private Usuario creador = null;
 
 	// parametros
 	private int pAccion = Constantes.ACCION_LISTAR; // Accion por defecto
 	private int pID = -1; // ID no valido
 	private String pNombre;
-	private int publicado;
+	private int validado;
 
 	/**
 	 * Este metodo se ejecuta solo la primera vez que se llama al servlet Se usa
@@ -41,7 +47,10 @@ public class ZonasController extends HttpServlet {
 	@Override()
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		modelo = new ModeloZona();
+		this.modelo = new ModeloZona();
+		this.mu = new ModeloUsuario();
+		this.admin = (Usuario) this.mu.getById(Constantes.ROLE_ID_ADMIN);
+		this.usuarios = this.mu.getAll(this.admin);
 	}
 
 	/**
@@ -52,38 +61,38 @@ public class ZonasController extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros
-		getParameters(request, response);
+		this.getParameters(request, response);
 
 		// realizar accion solicitada
-		switch (pAccion) {
+		switch (this.pAccion) {
 		case Constantes.ACCION_NUEVO:
-			nuevo(request, response);
+				this.nuevo(request, response);
 			break;
 		case Constantes.ACCION_DETALLE:
-			detalle(request, response);
+				this.detalle(request, response);
 			break;
 		case Constantes.ACCION_ELIMINAR:
-			eliminar(request, response);
+				this.eliminar(request, response);
 			break;
 		default:
-			listar(request, response);
+				this.listar(request, response);
 			break;
 		}
 
-		dispatcher.forward(request, response);
+		this.dispatcher.forward(request, response);
 	}
 
 	private void getParameters(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
-			usuario = (Usuario) request.getSession().getAttribute(
-					Constantes.KEY_SESSION_USER);
 			request.setCharacterEncoding("UTF-8");
-			pAccion = Integer.parseInt(request.getParameter("accion"));
+			this.usuario = (Usuario) request.getSession().getAttribute(
+					Constantes.KEY_SESSION_USER);
+			this.pAccion = Integer.parseInt(request.getParameter("accion"));
 			if ((request.getParameter("id") != null)
 					&& !"".equalsIgnoreCase(request.getParameter("id"))) {
-				pID = Integer.parseInt(request.getParameter("id"));
+				this.pID = Integer.parseInt(request.getParameter("id"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,40 +108,43 @@ public class ZonasController extends HttpServlet {
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("zonas", modelo.getAll(null));
-		dispatcher = request
+		request.setAttribute("zonas", this.modelo.getAll(this.usuario));
+		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_INDEX);
 	}
 
 	private void eliminar(HttpServletRequest request,
 			HttpServletResponse response) {
-		if (modelo.delete(pID)) {
-			request.setAttribute("msg-danger",
+		if (this.modelo.delete(this.pID)) {
+			request.setAttribute("msg-success",
 					"Registro eliminado correctamente");
 		} else {
-			request.setAttribute("msg-warning",
-					"Error al eliminar el registro [id(" + pID + ")]");
+			request.setAttribute("msg-danger", "Error al eliminar el registro [id(" + this.pID + ")]");
 		}
-		listar(request, response);
+		this.listar(request, response);
 	}
 
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
-		zona = new Zona("", usuario);
-		request.setAttribute("zona", zona);
+		this.zona = new Zona("", this.usuario);
+		this.zona.setFechaCreado();
+		this.zona.setFechaModificado();
+		request.setAttribute("zona", this.zona);
 		request.setAttribute("titulo", "Crear nuevo Zona");
 		request.setAttribute("metodo", "Guardar");
-		dispatcher = request
+		request.setAttribute("usuarios", this.usuarios);
+		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_FORM);
 
 	}
 
 	private void detalle(HttpServletRequest request,
 			HttpServletResponse response) {
-		zona = (Zona) modelo.getById(pID);
-		request.setAttribute("zona", zona);
-		request.setAttribute("titulo", zona.getNombre().toUpperCase());
+		this.zona = (Zona) this.modelo.getById(this.pID);
+		request.setAttribute("zona", this.zona);
+		request.setAttribute("titulo", this.zona.getNombre().toUpperCase());
 		request.setAttribute("metodo", "Modificar");
-		dispatcher = request
+		request.setAttribute("usuarios", this.usuarios);
+		this.dispatcher = request
 				.getRequestDispatcher(Constantes.VIEW_BACK_ZONAS_FORM);
 	}
 
@@ -144,33 +156,32 @@ public class ZonasController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// recoger parametros del formulario
-		getParametersForm(request);
+		this.getParametersForm(request);
 
 		// Crear Objeto Zona
-		crearObjeto();
+		this.crearObjeto();
 
 		// Guardar/Modificar Objeto Via
-		if (pID == -1) {
-			if (modelo.save(zona) != -1) {
+		if (this.pID == -1) {
+			if (this.modelo.save(this.zona) != -1) {
 				request.setAttribute("msg-success", "Registro creado con exito");
 			} else {
 				request.setAttribute("msg-danger",
 						"Error al guardar el nuevo registro");
 			}
 		} else {
-			if (modelo.update(zona)) {
+			if (this.modelo.update(this.zona)) {
 				request.setAttribute("msg-success",
-						"Modificado correctamente el registro [id(" + pID
-						+ ")]");
+ "Modificado correctamente el registro [id(" + this.pID + ")]");
 			} else {
 				request.setAttribute("msg-danger",
-						"Error al modificar el registro [id(" + pID + ")]");
+ "Error al modificar el registro [id(" + this.pID + ")]");
 			}
 		}
 
-		listar(request, response);
+		this.listar(request, response);
 
-		dispatcher.forward(request, response);
+		this.dispatcher.forward(request, response);
 
 	}
 
@@ -178,14 +189,18 @@ public class ZonasController extends HttpServlet {
 	 * Crea un Objeto {@code Zona} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
-		zona = new Zona(pNombre, usuario);
-		zona.setId(pID);
-		zona.setFechaCreado();
-		zona.setFechaModificado();
-		if (publicado > 0) {
-			zona.setPublicado(true);
+		if (this.creador != null) {
+			this.zona = new Zona(this.pNombre, this.creador);
 		} else {
-			zona.setPublicado(false);
+			this.zona = new Zona(this.pNombre, this.usuario);
+		}
+		this.zona.setId(this.pID);
+		this.zona.setFechaCreado();
+		this.zona.setFechaModificado();
+		if (this.validado > 0) {
+			this.zona.setValidado(true);
+		} else {
+			this.zona.setValidado(false);
 		}
 
 	}
@@ -200,9 +215,17 @@ public class ZonasController extends HttpServlet {
 	private void getParametersForm(HttpServletRequest request)
 			throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
-		pID = Integer.parseInt(request.getParameter("id"));
-		pNombre = request.getParameter("nombre");
-		publicado = Integer.parseInt(request.getParameter("publicado"));
+		this.usuario = (Usuario) request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
+		this.pID = Integer.parseInt(request.getParameter("id"));
+		this.pNombre = request.getParameter("nombre");
+		if (request.getParameter("creador") != "") {
+			this.creador = ((Usuario) this.mu.getById(Integer.parseInt(request.getParameter("creador"))));
+		}
+		if (request.getParameter("validado") != null) {
+			this.validado = 1;
+		} else {
+			this.validado = 0;
+		}
 	}
 
 }
