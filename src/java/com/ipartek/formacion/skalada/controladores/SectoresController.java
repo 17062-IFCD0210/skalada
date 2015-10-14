@@ -239,7 +239,11 @@ public class SectoresController extends HttpServlet {
 			if ( this.file != null ){
 				this.sector.setImagen(this.file.getName());
 			}
-			this.sector.setValidado(this.pValidado);
+			if(this.usuario.getId() == Constantes.ROLE_ID_ADMIN){
+				this.sector.setValidado(this.pValidado);
+			} else {
+				this.sector.setValidado(false);
+			}
 
 			// nuevo sector
 		} else {
