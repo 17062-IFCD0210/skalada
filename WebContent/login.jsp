@@ -1,18 +1,35 @@
+<%@page import="org.apache.tomcat.util.http.Cookies"%>
 <%@page import="com.ipartek.formacion.skalada.bean.Mensaje"%>
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
-
 <jsp:include page="includes/head.jsp"></jsp:include>
+
 
 <div class="container">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Entrar</h3>
+					<h3 class="panel-title">
+						<!-- Colocamos el texto que nos interesa en el idioma del navegador -->
+						<fmt:message key="navmenu.op1"/>
+					</h3>
+					<p>Ultima visita: ${cookie.ultima_visita.value}</p>
+					
+					<!-- < %
+						//Tenemos que recorrer el array de cookies que existen
+						Cookie[] cookies = request.getCookies();
+						for (int i=0; i<cookies.length; i++){
+							Cookie c = cookies[i];
+							if ("last_visit".equals(c.getName())){
+								out.print("<p>Ultima visita: " + c.getValue() +"</p>");
+							}
+						}
+					
+					%> -->
 				</div>
 				<div class="panel-body">
 

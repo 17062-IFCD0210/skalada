@@ -1,10 +1,29 @@
+<%@page import="java.util.Locale"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
+<!-- MULTIIDIOMA -->
+<%
+	Locale locale = (Locale)request.getLocale();
+
+	out.print("Locale: " + locale.getLocale());
+%>
+
+
+<!-- Recuperar language del usuario -->
+<c:set var="language" value="eu_ES" scope="session" />
+<!-- Setear el locale para el TagLib de FMT -->
+<fmt:setLocale value="${language}" />
+<!-- Ruta del fichero properties, solo el nombre sin postfijos ni .properties -->
+<fmt:setBundle basename="com.ipartek.formacion.skalada.idioma" />
+
 <!DOCTYPE html>
-<html lang="es">
+<!-- Indicar el idioma que usamos al HMLT -->
+<html lang="${language}"> <!-- <html lang="es"> -->
 
 <head>
 

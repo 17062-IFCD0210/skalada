@@ -2,10 +2,13 @@ package com.ipartek.formacion.skalada.controladores;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +31,10 @@ public class LoginController extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(LoginController.class);
 
 	private static final long serialVersionUID = 1L;
+
+	// Cookie
+	private Cookie cookieLastVisit = null;
+	private final static String COOKIE_NAME = "ultima_visita";
 
 	// Key oara guardar el usuario en la session
 	private static final ModeloUsuario MODELOUSUARIO = new ModeloUsuario();
@@ -92,31 +99,26 @@ public class LoginController extends HttpServlet {
 			// validar los datos
 			// comprobamos con la BBDD
 
-			usuario = (Usuario) MODELOUSUARIO.getByEmail(pEmail);
+			usuario = MODELOUSUARIO.getByEmail(pEmail);
 			if (usuario != null) {
-				if (usuario.getEmail().equals(pEmail)
-						&& usuario.getPassword().equals(pPassword)) {
+				if (usuario.getEmail().equals(pEmail) && usuario.getPassword().equals(pPassword)) {
 					if (usuario.getValidado() != 0) {
 						// salvar session
-						session.setAttribute(Constantes.KEY_SESSION_USER,
-								usuario);
+						session.setAttribute(Constantes.KEY_SESSION_USER, usuario);
+						crearCookie(response);
 						// Ir a => index_back.jsp
-						dispatcher = request
-								.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+						dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 					} else {
-						msg = new Mensaje(
-Mensaje.MSG_WARNING, "El usuario no ha sido validado todavia, por favor revise su correo electronico");
+						msg = new Mensaje(Mensaje.MSG_WARNING, "El usuario no ha sido validado todavia, por favor revise su correo electronico");
 						dispatcher = request.getRequestDispatcher(Constantes.VIEW_LOGIN);
 					}
 				} else {
 					// Ir a => login.jsp
-					msg = new Mensaje(Mensaje.MSG_WARNING,
- "El email o la contraseña proporcionados no son validos.");
+					msg = new Mensaje(Mensaje.MSG_WARNING, "El email o la contraseña proporcionados no son validos.");
 					dispatcher = request.getRequestDispatcher(Constantes.VIEW_LOGIN);
 				}
 			} else {
-				msg = new Mensaje(Mensaje.MSG_WARNING,
-						"El usuario no existe, si lo desea registrese.");
+				msg = new Mensaje(Mensaje.MSG_WARNING, "El usuario no existe, si lo desea registrese.");
 				dispatcher = request.getRequestDispatcher(Constantes.VIEW_SIGNUP);
 			}
 
@@ -127,6 +129,16 @@ Mensaje.MSG_WARNING, "El usuario no ha sido validado todavia, por favor revise s
 		request.setAttribute("msg", msg);
 		dispatcher.forward(request, response);
 
+	}
+
+	private void crearCookie(HttpServletResponse response) {
+		// Se guarda la cookie cuando te logeas
+		long milisegundos = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+		Date resulDate = new Date(milisegundos);
+
+		Cookie cookie = new Cookie(COOKIE_NAME, sdf.format(resulDate));
+		response.addCookie(cookie);
 	}
 
 	/**
