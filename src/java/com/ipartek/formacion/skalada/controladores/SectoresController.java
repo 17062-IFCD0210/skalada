@@ -42,7 +42,8 @@ public class SectoresController extends HttpServlet {
 	private Zona zona = null;
 	
 	private ModeloUsuario modeloUsuario = null;
-	private Usuario usuario = null;
+	private Usuario uSector = null;
+	private Usuario sessionUsuario = null;
 
 	// parametros
 	private int pAccion = Constantes.ACCION_LISTAR; // Accion por defecto
@@ -51,6 +52,8 @@ public class SectoresController extends HttpServlet {
 	private int pIDZona;
 	private int pIDUsuario;
 	private boolean pValidado;
+	
+	private Mensaje msg = null;
 
 	//Imagen File	
 	private File file;
@@ -73,7 +76,7 @@ public class SectoresController extends HttpServlet {
 	 */
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.usuario = (Usuario)request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
+		this.sessionUsuario = (Usuario)request.getSession().getAttribute(Constantes.KEY_SESSION_USER);
 		super.service(request, response);
 	}
 	
@@ -105,9 +108,7 @@ public class SectoresController extends HttpServlet {
 		this.dispatcher.forward(request, response);
 	}
 
-	private void getParameters(HttpServletRequest request,
-			HttpServletResponse response) {
-
+	private void getParameters(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			this.pAccion = Integer.parseInt(request.getParameter("accion"));
@@ -118,28 +119,32 @@ public class SectoresController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
-	 * Obtiene todas los sectores del modeloSector y carga dispatch con
-	 * index.jsp
+	 * Obtiene todas los sectores del modeloSector y carga dispatch con index.jsp
 	 * 
 	 * @see backoffice/pages/sectores/index.jsp
 	 * @param request
 	 * @param response
 	 */
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute("sectores", this.modeloSector.getAll(usuario));
+		request.setAttribute("sectores", this.modeloSector.getAll(sessionUsuario));
+		request.setAttribute("msg", msg);
 		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_INDEX);
 	}
 
-	private void eliminar(HttpServletRequest request,
-			HttpServletResponse response) {
-		if (this.modeloSector.delete(this.pID)) {
-			request.setAttribute("msg-danger", "Registro eliminado correctamente");
+	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
+		this.sector = (Sector) this.modeloSector.getById(this.pID);
+		//Check autorizacion
+		if(sessionUsuario.isAdmin() || this.sector.getUsuario().getId() == sessionUsuario.getId()){
+			if (this.modeloSector.delete(this.pID)) {
+				msg = new Mensaje( Mensaje.MSG_DANGER , "Registro eliminado correctamente" );
+			} else {
+				msg = new Mensaje( Mensaje.MSG_WARNING , "Error al eliminar el registro [id(" + this.pID + ")]");
+			}
 		} else {
-			request.setAttribute("msg-warning", "Error al eliminar el registro [id(" + this.pID + ")]");
+			msg = new Mensaje( Mensaje.MSG_DANGER , "No tienes permisos para eliminar el sector solicitado" );
 		}
 		this.listar(request, response);
 	}
@@ -147,23 +152,28 @@ public class SectoresController extends HttpServlet {
 	private void nuevo(HttpServletRequest request, HttpServletResponse response) {
 		this.zona = new Zona("");
 		this.sector = new Sector("", this.zona);
-		this.sector.setUsuario( usuario );		
+		this.sector.setUsuario( sessionUsuario );		
 		
 		request.setAttribute("sector", this.sector);
 		request.setAttribute("titulo", "Crear nuevo Sector");
 		request.setAttribute("zonas", this.modeloZona.getAll(null));
 		request.setAttribute("usuarios", this.modeloUsuario.getAll(null));
 		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
-
 	}
 
 	private void detalle(HttpServletRequest request,HttpServletResponse response) {
 		this.sector = (Sector) this.modeloSector.getById(this.pID);
-		request.setAttribute("sector", this.sector);
-		request.setAttribute("titulo", this.sector.getNombre().toUpperCase());
-		request.setAttribute("zonas", this.modeloZona.getAll(null));
-		request.setAttribute("usuarios", this.modeloUsuario.getAll(null));
-		this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
+		//Check autorizacion
+		if(sessionUsuario.isAdmin() || this.sector.getUsuario().getId() == sessionUsuario.getId()){
+			request.setAttribute("sector", this.sector);
+			request.setAttribute("titulo", this.sector.getNombre().toUpperCase());
+			request.setAttribute("zonas", this.modeloZona.getAll(null));
+			request.setAttribute("usuarios", this.modeloUsuario.getAll(null));
+			this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_SECTORES_FORM);
+		} else {
+			msg = new Mensaje( Mensaje.MSG_DANGER , "No tienes permisos para obtener el sector solicitado" );
+			listar(request, response);
+		}		
 	}
 
 	/**
@@ -171,44 +181,34 @@ public class SectoresController extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		Mensaje msg = new Mensaje( Mensaje.MSG_DANGER , "Error sin identificar");
-		
+		msg = new Mensaje( Mensaje.MSG_DANGER , "Error sin identificar");		
 		try{
-				// recoger parametros del formulario
-				this.getParametersForm(request);
-		
-				// Crear Objeto Sector
-				this.crearObjeto();
-		
-				// Guardar/Modificar Objeto Via
-				if (this.pID == -1) {
-					if (this.modeloSector.save(this.sector) != -1) {
-						msg.setTipo(Mensaje.MSG_SUCCESS);
-						msg.setTexto("Registro creado con exito");
-						
-					} else {
-						msg.setTipo(Mensaje.MSG_DANGER);
-						msg.setTexto("Error al guardar el nuevo registro");														
-					}
+			// recoger parametros del formulario
+			this.getParametersForm(request);
+	
+			// Crear Objeto Sector
+			this.crearObjeto();
+	
+			// Guardar/Modificar Objeto Via
+			if (this.pID == -1) {
+				if (this.modeloSector.save(this.sector) != -1) {
+					msg = new Mensaje( Mensaje.MSG_SUCCESS , "Registro creado con exito");
+					
 				} else {
-					if (this.modeloSector.update(this.sector)) {
-						msg.setTipo(Mensaje.MSG_SUCCESS);
-						msg.setTexto("Modificado correctamente el registro [id(" + this.pID
-								+ ")]");						
-					} else {
-						msg.setTipo(Mensaje.MSG_DANGER);
-						msg.setTexto("Error al modificar el registro [id(" + this.pID + ")]");			
-					}
+					msg = new Mensaje( Mensaje.MSG_DANGER , "Error al guardar el nuevo registro");														
 				}
-				
-				request.setAttribute("msg", msg);
-
-		}catch( FileSizeLimitExceededException e){		
+			} else {
+				if (this.modeloSector.update(this.sector, sessionUsuario)) {
+					msg = new Mensaje( Mensaje.MSG_SUCCESS , "Modificado correctamente el registro [id(" + this.pID + ")]");						
+				} else {
+					msg = new Mensaje( Mensaje.MSG_DANGER , "Error al modificar el registro [id(" + this.pID + ")]");			
+				}
+			}
+		} catch( FileSizeLimitExceededException e){		
 			e.printStackTrace();
 			msg = new Mensaje( Mensaje.MSG_DANGER , "La imagen excede del tama�o maximo permitido " + Constantes.MAX_FILE_SIZE + " bytes" );
 			request.setAttribute("msg", msg);	
-		}catch(Exception e){
+		} catch(Exception e){
 			e.printStackTrace();
 			msg = new Mensaje( Mensaje.MSG_DANGER , e.getMessage() );
 			request.setAttribute("msg", msg);
@@ -223,41 +223,27 @@ public class SectoresController extends HttpServlet {
 	 * Crea un Objeto {@code Sector} Con los parametros recibidos
 	 */
 	private void crearObjeto() {
-
-		// zona = new Zona("");
-		// zona.setId(pIDZona);
 		this.zona = (Zona) this.modeloZona.getById(this.pIDZona);
-		
-		this.usuario = (Usuario) this.modeloUsuario.getById(this.pIDUsuario);
+		this.uSector = (Usuario) this.modeloUsuario.getById(this.pIDUsuario);
 
 		//TODO controlar si cambiamos el sector pero no la imagen
 		
 		// existe sector
 		if (this.pID != -1) {
-
 			this.sector = (Sector) this.modeloSector.getById(this.pID);
 			this.sector.setNombre(this.pNombre);
-			this.sector.setZona(this.zona);
-			if ( this.file != null ){
-				this.sector.setImagen(this.file.getName());
-			}
-			if(this.usuario.getId() == Constantes.ROLE_ID_ADMIN){
-				this.sector.setValidado(this.pValidado);
-			} else {
-				this.sector.setValidado(false);
-			}
-
-			// nuevo sector
+			this.sector.setZona(this.zona);			
+		// nuevo sector
 		} else {
 			this.sector = new Sector(this.pNombre, this.zona);
 			this.sector.setId(this.pID);
-			if ( this.file != null ){
-				this.sector.setImagen(this.file.getName());
-			}	
-			this.sector.setValidado(this.pValidado);
-			this.sector.setUsuario(this.usuario);
-		}
-
+		}		
+		//Siempre
+		if ( this.file != null ){
+			this.sector.setImagen(this.file.getName());
+		}	
+		this.sector.setValidado(this.pValidado);
+		this.sector.setUsuario(this.uSector);			
 	}
 
 	/**
@@ -320,13 +306,16 @@ public class SectoresController extends HttpServlet {
 		   	this.pID = Integer.parseInt( dataParameters.get("id"));
 			this.pNombre = dataParameters.get("nombre");
 			this.pIDZona = Integer.parseInt(dataParameters.get("zona"));
-			this.pIDUsuario = Integer.parseInt(dataParameters.get("autor"));
 			
-			if (dataParameters.get("validado") != null) {
-				this.pValidado = true; 		//Constantes.VALIDADO;
+			//si es null, es un "usuario" (No es admin!)
+			//puesto que el formulario no existe el parametro autor
+			if (dataParameters.get("autor") != null) {
+				this.pIDUsuario = Integer.parseInt(dataParameters.get("autor"));
 			} else {
-				this.pValidado = false; 	//Constantes.NO_VALIDADO;
-			}
+				this.pIDUsuario = this.sessionUsuario.getId();
+			}			
+			
+			this.pValidado = (dataParameters.get("validado") != null) ? true : false ;	
 		
 	}
 

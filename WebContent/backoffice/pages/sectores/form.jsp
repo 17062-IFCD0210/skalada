@@ -85,8 +85,6 @@
 					<input type="checkbox" name="validado" data-toggle="toggle" data-on="Validado" data-onstyle="success"
 							<%=validado%> data-width="100%" data-height="34" data-off="No Validado" data-offstyle="danger">
 				</div>	
-			<% } else { %>
-				<input type="hidden" name="autor" value="<%=usuario.getId()%>">
 			<% } %>
 
 		      

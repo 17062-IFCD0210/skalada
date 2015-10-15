@@ -30,8 +30,10 @@ public class ModeloSector implements Persistable<Sector> {
 									+ "INNER JOIN usuario AS u ON (s.id_usuario = u.id) "
 									+ "INNER JOIN rol AS r ON (u.id_rol = r.id)";
 	private static final String SQL_GETONE = SQL_GETALL + " WHERE s.id = ?";
-	private static final String SQL_UPDATE = "UPDATE `sector` SET `nombre`= ? , `id_zona`= ? , `imagen`= ? , `validado`= ? , `id_usuario` = ? WHERE `id`= ? ;";
-
+	private static final String SQL_UPDATE = "UPDATE `sector` SET `nombre`= ? , `id_zona`= ? , `imagen`= ? , `validado`= ? , `id_usuario` = ? WHERE `id`= ? ";
+	
+	private static final String SQL_UPDATE_AUTORIZACION = SQL_UPDATE + " AND `id_usuario` = ? ;";
+	
 	private static final String SQL_GETALL_BY_USER = SQL_GETALL + " AND s.id_usuario = ?";
 	
 	private static final String SQL_GETALL_BY_ZONA = SQL_GETALL + " WHERE `id_zona` = ?";
@@ -179,6 +181,56 @@ public class ModeloSector implements Persistable<Sector> {
 				}
 				pst.setInt(5, sector.getUsuario().getId());
 				pst.setInt(6, sector.getId());				
+				if (pst.executeUpdate() == 1) {
+					resul = true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (pst != null) {
+						pst.close();
+					}
+					DataBaseHelper.closeConnection();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return resul;
+	}
+	
+	/**
+	 * Modificar Sectro comprobando autorizacion del Usuario
+	 * @param sector {@code Sector} a modificar
+	 * @param usuario {@code Usuario} logueado en session
+	 * @return true si modifica, false en caso contrario
+	 */
+	public boolean update(Sector sector, Usuario usuario) {
+		boolean resul = false;
+		PreparedStatement pst = null;
+		if (sector != null) {
+			try {
+				Connection con = DataBaseHelper.getConnection();
+				String sql = SQL_UPDATE;
+				if(!usuario.isAdmin()){
+					sql = SQL_UPDATE_AUTORIZACION;
+				}
+				pst = con.prepareStatement(sql);
+				pst.setString(1, sector.getNombre());
+				pst.setInt(2, sector.getZona().getId());
+				pst.setString(3, sector.getImagen());
+				if(sector.isValidado()){
+					pst.setInt(4, Constantes.VALIDADO);
+				} else {
+					pst.setInt(4, Constantes.NO_VALIDADO);
+				}
+				pst.setInt(5, sector.getUsuario().getId());
+				pst.setInt(6, sector.getId());
+				//Comprobar que le pertenezca el Sector al usuario
+				if(!usuario.isAdmin()){
+					pst.setInt(7, usuario.getId());;
+				}
 				if (pst.executeUpdate() == 1) {
 					resul = true;
 				}
