@@ -11,6 +11,21 @@
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Entrar</h3>
+					<p>Ultima visita: ${cookie.last_visit.value}</p>
+					<%
+						/**
+						//Recuperar ultima visita
+						Cookie[] cookies = request.getCookies();
+						Cookie cookie = null;
+						for (int i = 0 ; i < cookies.length ; i++ ){
+							cookie = cookies[i];
+							if ("last_visit".equals(cookie.getName())){
+								out.print("<p>Ultima visita: " + cookie.getValue() + "</p>");
+							}
+						}
+						/*
+						*/
+					%>
 				</div>
 				<div class="panel-body">
 
