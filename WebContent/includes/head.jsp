@@ -8,9 +8,9 @@
 
 <!-- MULTIIDIOMA -->
 <%
-	Locale locale = (Locale)request.getLocale();
+	//Locale locale = (Locale)request.getLocale();
 
-	out.print("Locale: " + locale.getLocale());
+	//out.print("Locale: " + locale.getLocale());
 %>
 
 
@@ -19,6 +19,7 @@
 <!-- Setear el locale para el TagLib de FMT -->
 <fmt:setLocale value="${language}" />
 <!-- Ruta del fichero properties, solo el nombre sin postfijos ni .properties -->
+<!--<fmt:setBundle basename="i18n.idiomas" />--> 
 <fmt:setBundle basename="com.ipartek.formacion.skalada.idioma" />
 
 <!DOCTYPE html>

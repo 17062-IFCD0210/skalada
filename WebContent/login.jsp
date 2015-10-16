@@ -15,7 +15,7 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">
 						<!-- Colocamos el texto que nos interesa en el idioma del navegador -->
-						<fmt:message key="navmenu.op1"/>
+						<fmt:message key="login.titulo"></fmt:message>
 					</h3>
 					<p>Ultima visita: ${cookie.ultima_visita.value}</p>
 					
