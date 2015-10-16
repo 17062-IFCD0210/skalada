@@ -3,11 +3,23 @@
 
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
+<!-- PASOS MULTI-IDIOMAS -->
+	<!-- Librerias Para MultiIdioma -->
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+	<!-- Variable language en Session -->
+	<c:set var="language" value="${pageContext.request.locale}" scope="session" />
+	<!-- Asignar Idioma al Locale-->
+	<fmt:setLocale value="${language}" />
+	<!-- Cargar fichero de Idioma, ruta -->
+	<fmt:setBundle basename="com.ipartek.formacion.skalada.idioma" />
+	<!-- asignar lenguaje al html en el HEAD -->
+
+
+
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="${language}">
 <head>
-
 	<base href="<%=Constantes.ROOT_APP%>">
 
     <meta charset="utf-8">

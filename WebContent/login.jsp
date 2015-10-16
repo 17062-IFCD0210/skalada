@@ -1,18 +1,16 @@
-<%@page contentType="text/html"%>
-<%@page pageEncoding="UTF-8"%>
+<%@page contentType="text/html"%> 
+<%@page pageEncoding="UTF-8"%> 
 
-<%@page import="com.ipartek.formacion.skalada.Constantes"%>
-
-<jsp:include page="includes/head.jsp"></jsp:include>
+<%@include file="includes/head.jsp" %>
 
 <div class="container">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Entrar</h3>
+					<h3 class="panel-title"><fmt:message key="navmenu.op1"/> ${pageContext.request.locale}</h3>
 					<p>Ultima visita: ${cookie.last_visit.value}</p>
-					<%
+					<%					
 						/**
 						//Recuperar ultima visita
 						Cookie[] cookies = request.getCookies();
