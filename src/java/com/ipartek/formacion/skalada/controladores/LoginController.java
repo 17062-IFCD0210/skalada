@@ -7,6 +7,7 @@ import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,9 +39,12 @@ public class LoginController extends HttpServlet {
 
 	private String pEmail = "";
 	private String pPassword = "";
+	private String pIdioma = "";
 
 	private Usuario usuario = null;
 	private Mensaje msg = null;
+	
+	private Cookie cookieIdioma = null;	
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -70,29 +74,24 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Locale locale = (Locale) request.getLocale();
-		System.out.println(locale);
-		
 		LOG.info("Entrando....");
 
 		// recoger la sesion
 		this.session = request.getSession(true);
-		Usuario user_session = (Usuario) this.session
-				.getAttribute(Constantes.KEY_SESSION_USER);
+		Usuario user_session = (Usuario) this.session.getAttribute(Constantes.KEY_SESSION_USER);
 
 		// Usuario logeado
 		if ((user_session != null) && "".equals(user_session.getNombre())) {
 			// Ir a => index_back.jsp
-			this.dispatcher = request
-					.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+			this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 
 			// Usuario No logeado o caducada session
 		} else {
 			// recoger parametros del formulario
 			this.getParameters(request);
 
-			// validar los datos
-			// comprobamos con la BBDD
+			this.cookieIdioma = new Cookie("idioma", pIdioma);
+			response.addCookie(cookieIdioma);
 
 			this.usuario = (Usuario) MODELOUSUARIO.getByEmail(this.pEmail);
 			if (this.usuario != null) {
@@ -100,30 +99,21 @@ public class LoginController extends HttpServlet {
 						&& this.usuario.getPassword().equals(this.pPassword)) {
 					if (this.usuario.getValidado() != 0) {
 						// salvar session
-						this.session.setAttribute(Constantes.KEY_SESSION_USER,
-								this.usuario);
+						this.session.setAttribute(Constantes.KEY_SESSION_USER, this.usuario);
 						// Ir a => index_back.jsp
-						this.dispatcher = request
-								.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
+						this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_BACK_INDEX);
 					} else {
-						this.msg = new Mensaje(
-								Mensaje.MSG_WARNING,
-								"El usuario no ha sido validado todavia, por favor revise su correo electronico");
-						this.dispatcher = request
-								.getRequestDispatcher(Constantes.VIEW_LOGIN);
+						this.msg = new Mensaje( Mensaje.MSG_WARNING, "El usuario no ha sido validado todavia, por favor revise su correo electronico");
+						this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_LOGIN);
 					}
 				} else {
 					// Ir a => login
-					this.msg = new Mensaje(Mensaje.MSG_WARNING,
-							"El email o la contraseña proporcionados no son validos.");
-					this.dispatcher = request
-							.getRequestDispatcher(Constantes.VIEW_LOGIN);
+					this.msg = new Mensaje(Mensaje.MSG_WARNING, "El email o la contraseña proporcionados no son validos.");
+					this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_LOGIN);
 				}
 			} else {
-				this.msg = new Mensaje(Mensaje.MSG_WARNING,
-						"El usuario no existe, si lo desea registrese.");
-				this.dispatcher = request
-						.getRequestDispatcher(Constantes.VIEW_SIGNUP);
+				this.msg = new Mensaje(Mensaje.MSG_WARNING, "El usuario no existe, si lo desea registrese.");
+				this.dispatcher = request.getRequestDispatcher(Constantes.VIEW_SIGNUP);
 			}
 
 		}
@@ -146,6 +136,7 @@ public class LoginController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		this.pEmail = request.getParameter("email");
 		this.pPassword = request.getParameter("password");
+		this.pIdioma = request.getParameter("idioma");
 
 	}
 

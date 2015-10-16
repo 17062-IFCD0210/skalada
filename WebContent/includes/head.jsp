@@ -1,4 +1,4 @@
-<%@page contentType="text/html"%> 
+<%@page contentType="text/html" %> 
 <%@page pageEncoding="UTF-8"%> 
 
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
@@ -8,11 +8,11 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 	<!-- Variable language en Session -->
-	<c:set var="language" value="${pageContext.request.locale}" scope="session" />
+	<c:set var="language" value="${cookie.idioma.value}" scope="session" />
 	<!-- Asignar Idioma al Locale-->
 	<fmt:setLocale value="${language}" />
 	<!-- Cargar fichero de Idioma, ruta -->
-	<fmt:setBundle basename="com.ipartek.formacion.skalada.idioma" />
+	<fmt:setBundle basename="i18n.idioma" />
 	<!-- asignar lenguaje al html en el HEAD -->
 
 

@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page contentType="text/html"%> 
 <%@page pageEncoding="UTF-8"%> 
 
@@ -8,8 +9,8 @@
 		<div class="col-md-4 col-md-offset-4">
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title"><fmt:message key="navmenu.op1"/> ${pageContext.request.locale}</h3>
-					<p>Ultima visita: ${cookie.last_visit.value}</p>
+					<h2 class="panel-title"><fmt:message key="navmenu.op1"/></h2>
+					<span>Ultima visita: ${cookie.last_visit.value}</span>
 					<%					
 						/**
 						//Recuperar ultima visita
@@ -29,8 +30,19 @@
 
 					<jsp:include page="includes/mensaje.jsp"></jsp:include>
 
-					<form role="form" action="<%=Constantes.CONTROLLER_LOGIN%>"
-						method="post">
+					<form role="form" action="<%=Constantes.CONTROLLER_LOGIN%>" method="post">
+						<div class="form-group col-md-offset-8">
+						
+						<%
+							HashMap<String, String> idiomas = new HashMap();
+							idiomas.put("es_ES", "Español");
+							idiomas.put("eu_ES", "Euskera");
+						%>
+							<select class="form-control" name="idioma">  								
+  								<option value="es_ES">Español</option>
+  								<option value="eu_ES">Euskera</option>
+							</select>
+						</div>					
 						<fieldset>
 							<div class="form-group">
 								<input class="form-control" placeholder="E-mail" name="email"
