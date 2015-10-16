@@ -4,6 +4,7 @@
 
 <%@page import="com.ipartek.formacion.skalada.Constantes"%>
 
+<link rel="stylesheet" href="css/styles.css" type="text/css"></link>
 
 <jsp:include page="includes/head.jsp"></jsp:include>
 
@@ -20,6 +21,7 @@
 
 					<form role="form" action="<%=Constantes.CONTROLLER_LOGIN%>"
 						method="post">
+						
 						<fieldset>
 							<div class="form-group">
 								<input class="form-control" placeholder="E-mail" name="email"
@@ -31,12 +33,15 @@
 							</div>
 							<div class="checkbox">
 								<label> <input name="remember" type="checkbox"
-									value="Remember Me">Recordar
-								</label> <a class="btn btn-l btn-info align-right" id="btn-olvidado" data-toggle="modal" data-target="#modal-olvidado">¿Ha
-									olvidado su contraseña?</a>
+									value="Remember Me">Recordar mis datos
+								</label> 
 							</div>
 							<input class="btn btn-lg btn-block btn-success" type="submit"
-								value="login">
+								value="Login">
+								<a id="btn-olvidado" data-toggle="modal" data-target="#modal-olvidado">¿Has
+									olvidado tu contraseña?</a>
+									<br>
+									<br>
 							<a href="<%=Constantes.VIEW_SIGNUP%>" class="btn btn-lg btn-block btn-primary">¿No estás registrado?</a>
 						</fieldset>
 					</form>

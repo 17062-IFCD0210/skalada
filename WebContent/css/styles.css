@@ -14,3 +14,18 @@
 }
 
 tr:hover{ background-color: pink;}
+
+body{
+ 	background-image: url("../img/spider.jpg");
+ }
+ 
+.panel-default {
+ margin-top: 50px;
+ }
+ 
+.panel-title {
+	text-align: center;
+}
+div.checkbox, .radio {
+	margin-bottom: 30px;
+}

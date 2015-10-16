@@ -33,10 +33,10 @@ public class ModeloSector implements Persistable<Sector> {
 	private static final String SQL_DELETE = "DELETE FROM `" + TABLA_SECTOR
 			+ "` WHERE `" + COL_ID + "`= ?;";
 
-	private static final String SQL_GETALL = "SELECT s.nombre, s.id, s.imagen, s.validado, z.nombre as zona_nombre, z.id as zona_id, r.nombre as rol_nombre, r.id as rol_id, u.nombre as usuario_nombre, u.password as usuario_pass, u.email as usuario_email, u.id as usuario_id FROM sector as s INNER JOIN zona as z ON s.id_zona = z.id INNER JOIN usuario as u ON s.id_usuario = u.id INNER JOIN rol as r ON u.id_rol = r.id";
+	private static final String SQL_GETALL = "SELECT `s.nombre`, `s.id`, `s.imagen`, `s.validado`, `z.nombre` as `zona_nombre`, `z.id` as `zona_id`, `r.nombre` as `rol_nombre`, `r.id` as `rol_id`, `u.nombre` as `usuario_nombre`, `u.password` as `usuario_pass`, `u.email` as `usuario_email`, `u.id` as `usuario_id` FROM `sector` as `s` INNER JOIN `zona` as `z` ON `s.id_zona` = `z.id` INNER JOIN `usuario` as `u` ON `s.id_usuario` = `u.id` INNER JOIN `rol` as `r` ON `u.id_rol` = `r.id`";
 
 	private static final String SQL_GETALL_BY_USER = SQL_GETALL
-			+ " AND s.id_usuario = ? ";
+			+ " AND `s.id_usuario`=? ";
 
 	private static final String SQL_GETONE = SQL_GETALL + " WHERE s.id = ?";
 
@@ -46,14 +46,14 @@ public class ModeloSector implements Persistable<Sector> {
 			+ COL_ID + "`= ? ";
 
 	private static final String SQL_UPDATE_AUTORIZACION = SQL_UPDATE
-			+ " and id_usuario = ?";
+			+ " and `id_usuario` = ?";
 
 	private static final String SQL_GETALL_BY_ZONA = "select `id`,`nombre`,`imagen` from `sector` where `id_zona` = ?";
 
 	private static final String SQL_SECTORES_PUBLICADOS = "SELECT COUNT(`id`) as `sectores` FROM `SECTOR`;";
 
 	private static final String SQL_GET_NO_VALIDADOS = SQL_GETALL
-			+ " where s.validado=0 and s.id_usuario like ?";
+			+ " where `s.validado=0` and `s.id_usuario` = ?";
 
 	@Override()
 	public int save(Sector s) {
@@ -68,11 +68,7 @@ public class ModeloSector implements Persistable<Sector> {
 				pst.setString(1, s.getNombre());
 				pst.setInt(2, s.getZona().getId());
 				pst.setString(3, s.getImagen());
-				if (s.isValidado()) {
-					pst.setInt(4, Constantes.VALIDADO);
-				} else {
-					pst.setInt(4, 0);
-				}
+				pst.setBoolean(4, s.isValidado());
 				pst.setInt(5, s.getUsuario().getId());
 				if (pst.executeUpdate() != 1) {
 					throw new Exception("No se ha realizado la insercion");
@@ -189,13 +185,14 @@ public class ModeloSector implements Persistable<Sector> {
 				pst.setString(1, s.getNombre());
 				pst.setInt(2, s.getZona().getId());
 				pst.setString(3, s.getImagen());
+				pst.setInt(4, s.getId());
 				if (s.isValidado()) {
-					pst.setInt(4, Constantes.VALIDADO);
+					pst.setInt(5, Constantes.USER_VALIDATE);
 				} else {
-					pst.setInt(4, 0);
+					pst.setInt(5, Constantes.USER_NO_VALIDATE);
 				}
-				pst.setInt(5, s.getUsuario().getId());
-				pst.setInt(6, s.getId());
+				pst.setInt(6, s.getUsuario().getId());
+
 				if (pst.executeUpdate() == 1) {
 					resul = true;
 				}
@@ -208,6 +205,7 @@ public class ModeloSector implements Persistable<Sector> {
 					}
 					DataBaseHelper.closeConnection();
 				} catch (Exception e) {
+					LOG.error("Excepcion cerrando recursos Update");
 					e.printStackTrace();
 				}
 			}
