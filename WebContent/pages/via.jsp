@@ -16,28 +16,25 @@
 <%
 	//recojer atributos de la request
 	String titulo = request.getAttribute("titulo").toString();
-
 	Via via = (Via)request.getAttribute("via");
 
 %>
 
     <!-- Detalle via
     ========================================== -->
-    <div id="tf-home" class="text-left">
+    <div id="tf-detallevia" class="text-left">
         <div class="overlay">
-            <div class="content">
-                 <div class="row">
-	                <div class="col-md-4">
-	                    
-	                </div>
-	                <div class="col-md-8">
+            <div class="contentvia">
+                 <div class="containervia">
+
 	                    <div class="about-text">
-	                        <div class="section-title">
-	                            <h1 class="letra_naranja"><strong class="letra_blanca"><%=titulo%></strong></h1>
-	                            <h5 class="letra_naranja">Zona <strong><%=via.getSector().getZona().getNombre() %></strong></h5>
-	                            <hr>
-	                            <div class="clearfix"></div>
-	                        </div>
+		                     <div class="section-title">
+		                            <h1 class="letra_naranja"><strong class="letra_blanca"><%=titulo%></strong></h1>
+		                            <h5 class="letra_naranja">Zona <strong><%=via.getSector().getZona().getNombre()%></strong></h5>
+		                            <hr>
+			                      <div class="clearfix">
+			                      </div>
+	                         </div>
 	                        
 	                         <ul class="about-list">
 	                            <li>
@@ -74,8 +71,8 @@
 	                                <strong class="letra_naranja">Descripción</strong> - <em class="letra_blanca"><%=via.getDescripcion()%></em>
 	                            </li>
 	                        </ul>
-	                </div>
-	            </div>
+	        
+	            		</div>
             </div>
         </div>
    	 </div>
