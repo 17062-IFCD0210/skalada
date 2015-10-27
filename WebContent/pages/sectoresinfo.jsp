@@ -37,13 +37,30 @@
     </nav>
     
   	<link rel="stylesheet" type="text/css" href="css/sectores.css" media="screen" />  
+
+    	
     <!-- Home Page
     ========================================== -->
     <div id="tf-home" class="text-left">
         <div class="overlay">
             <div class="content">
-                 
+               
+                <div class="container">
+	            	<style>
+	            		#meteo {
+	            			width: 800px;
+	            			margin: 0 auto;
+	            			padding: 50px;
+	            			background-color: white;
+	            		}
+	            	</style>
+	            	<div id="meteo">
+	            		
+	            	</div>
+            	</div>
+            	  
                <div class="container">
+               
 
       <div class="row row-offcanvas row-offcanvas-right">
 
@@ -309,5 +326,44 @@
 	google.maps.event.addDomListener(window, 'load', geolocalizarme);
 	
 </script>
+
+	
+<jsp:include page="../includes/foot.jsp"></jsp:include>   
+ 
+<script type="text/javascript">
+	/* Cargar el tiempo de Yahoo para nuestras coordenadas (lat, long) */
+	
+	$( document ).ready(function() {
+		console.debug('Cargar tiempo Yahoo');
 		
-<jsp:include page="../includes/foot.jsp"></jsp:include>    
+		
+   		//llamada Ajax al controlador
+   		var url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.placefinder%20WHERE%20text%3D%22<%=zona.getLatitud()%>%2C<%=zona.getLongitud()%>%22%20and%20gflags%3D%22R%22)%20and%20u%3D%22c%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+   		$.ajax( url , {
+   			"type": "GET", 
+   			"success": function(result){
+   				console.info("Consulta con éxito " + result);
+   				pintarResultados(result.query.results.channel);
+   				
+   			},
+   			"error": function(result) {
+   				console.error("Error ajax", result);
+   			}
+   		});
+   		
+   		function pintarResultados(result) {
+   			$("#meteo").html("");
+			console.debug("inyectar clima");
+
+			$("#meteo").append('Lugar: ' + result.location.city + '<br>'
+					 + 'Temperatura: ' + result.item.condition.temp + result.units.temperature + '<br>'
+					 + 'Amanece: ' + result.astronomy.sunrise + ', Anochece: '+ result.astronomy.sunset + '<br>'
+					 + 'Previsión: ' + result.item.description + '<br>'
+					 );
+			$("#meteo").append('<img src='+result.image.url+'/>');
+
+   		}
+	});
+	
+	
+</script>
