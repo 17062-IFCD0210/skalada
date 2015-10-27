@@ -42,10 +42,21 @@
     <div id="tf-home" class="text-left">
         <div class="overlay">
             <div class="content">
-                 
-               <div class="container">
-
-      <div class="row row-offcanvas row-offcanvas-right">
+            	<div class="container">
+	            	<style>
+	            		#meteo {
+	            			width: 400px;
+	            			margin: 0 auto;
+	            			padding: 50px;
+	            			background-color: white;
+	            		}
+	            	</style>
+	            	<div id="meteo">
+	            		
+	            	</div>
+            	</div>
+               	<div class="container">
+      				<div class="row row-offcanvas row-offcanvas-right">
 
         <div width="100%">
           <p class="pull-right visible-xs">
@@ -309,5 +320,43 @@
 	google.maps.event.addDomListener(window, 'load', geolocalizarme);
 	
 </script>
+
 		
-<jsp:include page="../includes/foot.jsp"></jsp:include>    
+<jsp:include page="../includes/foot.jsp"></jsp:include>  
+
+ 
+<script type="text/javascript">
+	/* Cargar el tiempo de yahoo para nuestras coordenadas (lat,lng) */
+	
+	$( document ).ready(function() {
+		console.debug('Cargar tiempo Yahoo');
+		
+		//llamada Ajax al controlador
+		var url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.placefinder%20WHERE%20text%3D%22<%=zona.getLatitud()%>%2C<%=zona.getLongitud()%>%22%20and%20gflags%3D%22R%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";	    		
+		$.ajax( url , {
+			"type": "GET", 
+			"success": function(result){
+				//console.info("consulta con exito " + result);
+				pintarDatosMeteorologicos(result.query.results.channel);	    				
+			},
+			"error": function(result) {
+				console.error("Error ajax", result);
+			},
+		});	 
+		
+		function pintarDatosMeteorologicos( result ){
+			console.debug("vaciar div");
+			$("#meteo").html("");
+			console.debug("inyectar datos");
+			$("#meteo").append('Lugar: ' + result.location.city + '<br>'
+							 + 'Temperatura: ' + result.item.condition.temp + 'F' + '<br>'
+							 + 'Previsión: ' + result.item.description + '<br>'
+							 );
+			
+			
+		}//End: pintarDatosMeteorologicos
+	
+	});
+
+
+</script> 
