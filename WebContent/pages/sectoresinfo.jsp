@@ -311,3 +311,26 @@
 </script>
 		
 <jsp:include page="../includes/foot.jsp"></jsp:include>    
+
+<script>
+	/* Cargar el tiempo de Yahoo para nuestras coordenadas (lat,lng) */
+	
+	$( document ).ready(function() {
+		console.debug('Cargar tiempo Yahoo');	
+		
+		
+		//llamada Ajax al controlador
+		var url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.placefinder%20WHERE%20text%3D%22<%=zona.getLatitud()%>%2C<%=zona.getLongitud()%>%22%20and%20gflags%3D%22R%22)&format=json&diagnostics=true&callback=";	    		
+		$.ajax( url , {
+			"type": "GET", 
+			"success": function(result){
+				console.info("consulta con exito " + result );	    				
+			},
+			"error": function(result) {
+				console.error("Error ajax", result);
+			}			
+		});	    
+		
+	});
+	
+</script>
